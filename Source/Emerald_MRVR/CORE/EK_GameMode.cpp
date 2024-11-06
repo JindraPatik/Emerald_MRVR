@@ -3,6 +3,11 @@
 #include "EngineUtils.h"
 #include "Engine/TargetPoint.h"
 
+void AEK_GameMode::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 {
 	TArray<ATargetPoint*> TargetPoints;

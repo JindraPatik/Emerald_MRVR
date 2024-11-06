@@ -16,6 +16,7 @@ class EMERALD_MRVR_API AEK_GameMode : public AGameMode
 	GENERATED_BODY()
 
 public:
+	void BeginPlay() override;
 
 	UFUNCTION()
 	TArray<ATargetPoint*> GetAllTargetpoints();
