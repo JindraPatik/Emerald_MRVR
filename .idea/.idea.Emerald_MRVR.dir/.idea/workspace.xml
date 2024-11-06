@@ -15,41 +15,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Config/DefaultEngine.ini" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/EpicGames.Horde.xml" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/EpicGames.Oodle.xml" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/EpicGames.Perforce.xml" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/EpicGames.UBA.xml" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/EpicGames.UHT.xml" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/ICVFX.Automation.deps.json" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/Magick.NET-Q16-HDRI-AnyCPU.xml" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/Magick.NET.Core.xml" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/UnrealBuildTool.deps.json" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/UnrealBuildTool.runtimeconfig.json" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/VirtualProduction/ICVFXTesting/Binaries/DotNET/AutomationScripts/UnrealBuildTool.xml" afterDir="false" />
-      <change afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Source/Programs/Shared/EpicGames.Perforce/EpicGames.Perforce.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/BP/MilitaryBase/BP_MilitaryBase.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/CORE/BP_EK_GameMode.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/CORE/BP_MR_General.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Materials/M_BaseColor.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Materials/M_Yellow.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/EK_GameMode.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/EK_GameMode.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" afterDir="false" />
-      <change beforePath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/Runtime/OculusXR/OculusXR/Source/OculusXRInput/Private/OculusXRHandComponent.cpp" beforeDir="false" afterPath="C:/UE_Oculus_Build/UnrealEngine/Engine/Plugins/Runtime/OculusXR/OculusXR/Source/OculusXRInput/Private/OculusXRHandComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Emerald_MRVR.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/Emerald_MRVR.uproject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Emerald_MRVR.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Emerald_MRVR.Build.cs" afterDir="false" />
-    </list>
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +23,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -1138,16 +1106,59 @@
       <option name="presentableId" value="Default" />
       <updated>1730886574423</updated>
       <workItem from="1730886575523" duration="3643000" />
-      <workItem from="1730897369132" duration="5568000" />
+      <workItem from="1730897369132" duration="5742000" />
     </task>
+    <task id="LOCAL-00001" summary="JP::Spawn Military base added">
+      <option name="closed" value="true" />
+      <created>1730903099889</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1730903099889</updated>
+    </task>
+    <task id="LOCAL-00002" summary="JP::Spawn Military base added">
+      <option name="closed" value="true" />
+      <created>1730903120843</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730903120843</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="JP::Spawn Military base added" />
+    <option name="LAST_COMMIT_MESSAGE" value="JP::Spawn Military base added" />
   </component>
 </project>

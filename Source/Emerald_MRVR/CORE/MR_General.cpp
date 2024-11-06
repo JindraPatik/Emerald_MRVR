@@ -34,8 +34,8 @@ void AMR_General::BeginPlay()
 	if (GameMode)
 	{
 		// Picks first element in array and destroy it
-		ATargetPoint* TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
-		GameMode->TargetPoints.RemoveAt(0);
+		ATargetPoint* TargetPoint = GameMode->GetAllTargetpoints().IsValidIndex(0) ? GameMode->GetAllTargetpoints()[0] : nullptr;
+		GameMode->GetAllTargetpoints().RemoveAt(0);
 		if (TargetPoint)
 		{
 			FVector SpawnLocation = TargetPoint->GetActorLocation();
