@@ -8,6 +8,7 @@
 AMilitaryBase::AMilitaryBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
 
 	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");

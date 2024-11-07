@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,6 +5,7 @@
 #include "EK_GameMode.generated.h"
 
 class ATargetPoint;
+class APlayerStart;
 /**
  * 
  */
@@ -16,9 +15,16 @@ class EMERALD_MRVR_API AEK_GameMode : public AGameMode
 	GENERATED_BODY()
 
 public:
+	AEK_GameMode();
 	void BeginPlay() override;
-
-	UFUNCTION()
-	TArray<ATargetPoint*> GetAllTargetpoints();
+	virtual void PostInitializeComponents() override;
 	
+	
+	UFUNCTION(BlueprintCallable)
+	TArray<ATargetPoint*> GetAllTargetpoints();
+
+	TArray<ATargetPoint*> TargetPoints;
+	
+	UPROPERTY(BlueprintReadWrite)
+	TArray<APlayerStart*> PlayerStarts;
 };

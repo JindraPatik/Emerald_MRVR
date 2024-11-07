@@ -9,7 +9,8 @@ class AMilitaryBase;
 class UOculusXRControllerComponent;
 class UCameraComponent;
 class UMotionControllerComponent;
-
+class UStaticMeshComponent;
+class ATargetPoint;
 
 UCLASS()
 class EMERALD_MRVR_API AMR_General : public APawn
@@ -26,7 +27,7 @@ protected:
 	TObjectPtr<UCameraComponent> Camera;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
-	TObjectPtr<UStaticMesh> SM_Body;
+	TObjectPtr<UStaticMeshComponent> GeneralBody;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TObjectPtr<USceneComponent> Hands;
@@ -43,15 +44,16 @@ protected:
 	UPROPERTY()
 	AMilitaryBase* BaseInstance;
 
-	
-
+	UPROPERTY(BlueprintReadOnly)
+	ATargetPoint* TargetPoint;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void PostInitializeComponents() override;
 
-	UFUNCTION(BlueprintCallable)
-	AActor* SpawnMilitarybase(TSubclassOf<AMilitaryBase> Base, FVector Location, FRotator Rotation);
-	
+	UFUNCTION(Server, Reliable)
+	void Server_SpawnMilitaryBase(TSubclassOf<AMilitaryBase> Base);
+
 };
