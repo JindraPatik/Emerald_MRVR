@@ -28,7 +28,7 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
-	if (PlayerStarts.Num() < 2)
+	if (PlayerStarts.Num() < 1)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Not enough player starts"));
 		return;
