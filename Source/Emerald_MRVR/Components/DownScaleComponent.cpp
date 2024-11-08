@@ -3,15 +3,15 @@
 
 UDownScaleComponent::UDownScaleComponent()
 {
-
+	DownscaleFactor = 1.f;
 }
 
 
 void UDownScaleComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
 	DownscaleOwner();
+
 }
 
 

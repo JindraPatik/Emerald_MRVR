@@ -28,16 +28,21 @@ AMR_General::AMR_General()
 
 }
 
-void AMR_General::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void AMR_General::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	Server_SpawnMilitaryBase(MilitaryBase);
 }
+
+void AMR_General::BeginPlay()
+{
+	Super::BeginPlay();
+	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	{
+		Server_SpawnMilitaryBase(MilitaryBase);
+	}
+	
+}
+
 void AMR_General::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -52,11 +57,10 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryBase> Base)
 {
-
 	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
 	if (GameMode && (GameMode->TargetPoints.Num() > 0))
 	{
-		
 		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
 		GameMode->TargetPoints.RemoveAt(0);
 
@@ -71,7 +75,6 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 		}
 		
 	}
-	
-	
+
 }
 

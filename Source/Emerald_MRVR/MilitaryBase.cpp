@@ -11,7 +11,9 @@ AMilitaryBase::AMilitaryBase()
 	bReplicates = true;
 
 	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
+	SetRootComponent(BaseBody);
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
+	BaseBox->SetupAttachment(RootComponent);
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 }
 
