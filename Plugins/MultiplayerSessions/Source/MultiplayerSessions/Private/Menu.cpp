@@ -154,6 +154,7 @@ void UMenu::HostButtonClicked()
 	{
 		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
 	}
+	GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Magenta, FString::Printf(TEXT("HostClicked")));
 }
 
 void UMenu::JoinButtonClicked()

@@ -9,6 +9,7 @@
 #include "Components/StaticMeshComponent.h"
 
 
+
 AMR_General::AMR_General()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -26,6 +27,9 @@ AMR_General::AMR_General()
 	MotionController_R = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_R");
 	MotionController_R->SetupAttachment(Hands);
 
+	ImpactPointer = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointer");
+	ImpactPointer->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 }
 
 void AMR_General::PostInitializeComponents()
@@ -36,7 +40,8 @@ void AMR_General::PostInitializeComponents()
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
-	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	// kvuli lobby
+	if (AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode()))
 	{
 		Server_SpawnMilitaryBase(MilitaryBase);
 	}
@@ -52,6 +57,7 @@ void AMR_General::Tick(float DeltaTime)
 void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
 
 }
 

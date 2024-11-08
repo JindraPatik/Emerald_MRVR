@@ -32,12 +32,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TObjectPtr<USceneComponent> Hands;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	TObjectPtr<UMotionControllerComponent> MotionController_L;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	TObjectPtr<UMotionControllerComponent> MotionController_R;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UStaticMeshComponent* ImpactPointer;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
 
@@ -50,7 +53,9 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
 	virtual void PostInitializeComponents() override;
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
