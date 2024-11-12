@@ -5,6 +5,8 @@
 #include "GameFramework/Pawn.h"
 #include "MR_General.generated.h"
 
+class UResourcesComponent;
+class UHealthComponent;
 class UCharacterMovementComponent;
 class AMilitaryBase;
 class UOculusXRControllerComponent;
@@ -24,7 +26,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
@@ -56,6 +58,12 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	ATargetPoint* TargetPoint;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UHealthComponent> HealthComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UResourcesComponent> ResourcesComponent;
 
 public:	
 	virtual void Tick(float DeltaTime) override;

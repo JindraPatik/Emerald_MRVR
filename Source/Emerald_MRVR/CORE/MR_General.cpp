@@ -7,6 +7,8 @@
 #include "Engine/TargetPoint.h"
 #include "GameFramework/GameMode.h"
 #include "Components/StaticMeshComponent.h"
+#include "Emerald_MRVR/Components/HealthComponent.h"
+#include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Net/UnrealNetwork.h"
 
@@ -34,6 +36,9 @@ AMR_General::AMR_General()
 
 	ImpactPointer_R = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerR");
 	ImpactPointer_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
+	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
 
 	// ?? Je na neco??
 	CharacterMovementComponent = CreateDefaultSubobject<UCharacterMovementComponent>("CharacterMovementComponent");
@@ -68,8 +73,6 @@ void AMR_General::Tick(float DeltaTime)
 void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-
 }
 
 void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryBase> Base)

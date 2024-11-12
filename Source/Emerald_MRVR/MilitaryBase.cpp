@@ -17,6 +17,7 @@ AMilitaryBase::AMilitaryBase()
 	BaseBox->SetupAttachment(RootComponent);
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	BuildingsModuleComponent = CreateDefaultSubobject<UBuildingsModuleComponent>("BuildingsModuleComponent");
+	
 }
 
 void AMilitaryBase::BeginPlay()

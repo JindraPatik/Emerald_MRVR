@@ -16,13 +16,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Data/BuildingDataAsset.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Data/BuildingDataAsset.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Data/UnitDataAsset.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Data/UnitDataAsset.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Input/Actions/SpawnUnitDebug.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Widgets/BP_BaseStatsWidget.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Widgets/WBP_MilitaryBaseStats.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HealthComponent.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HealthComponent.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/MilitaryBase/BP_MilitaryBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/MilitaryBase/BP_MilitaryBase.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/CORE/BP_MR_General.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/BP_MR_General.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/Lobby.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/Lobby.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Input/IMC_EK.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Input/IMC_EK.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.h" afterDir="false" />
     </list>
@@ -1122,7 +1127,8 @@
       <workItem from="1730997155059" duration="2180000" />
       <workItem from="1730999629991" duration="3010000" />
       <workItem from="1731060915809" duration="1106000" />
-      <workItem from="1731415302824" duration="1083000" />
+      <workItem from="1731415302824" duration="2599000" />
+      <workItem from="1731418105470" duration="2160000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
