@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "MilitaryBase.generated.h"
 
+class UBuildingsModuleComponent;
 class UDownScaleComponent;
 class UBoxComponent;
 
@@ -27,6 +28,8 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, Category="BaseBody")
 	UDownScaleComponent* DownScaleComponent;
+
+	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
 
 public:	
 	// Called every frame

@@ -2,6 +2,7 @@
 
 #include "MilitaryBase.h"
 #include "BoxComponent.h"
+#include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
 
 
@@ -15,6 +16,7 @@ AMilitaryBase::AMilitaryBase()
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
 	BaseBox->SetupAttachment(RootComponent);
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
+	BuildingsModuleComponent = CreateDefaultSubobject<UBuildingsModuleComponent>("BuildingsModuleComponent");
 }
 
 void AMilitaryBase::BeginPlay()
