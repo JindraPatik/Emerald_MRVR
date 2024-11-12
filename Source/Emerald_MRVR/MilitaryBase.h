@@ -21,15 +21,16 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "BaseBody")
+	UPROPERTY(EditAnywhere, Category = "Visuals")
 	TObjectPtr<UStaticMeshComponent> BaseBody;
 
 	UPROPERTY(EditAnywhere, Category = "BaseBody")
 	TObjectPtr<UBoxComponent> BaseBox;
 
-	UPROPERTY(VisibleDefaultsOnly, Category="BaseBody")
+	UPROPERTY(VisibleDefaultsOnly, Category="Visuals")
 	UDownScaleComponent* DownScaleComponent;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
 	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
 
 
