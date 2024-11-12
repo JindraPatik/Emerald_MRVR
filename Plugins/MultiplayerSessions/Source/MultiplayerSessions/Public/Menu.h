@@ -35,14 +35,14 @@ protected:
 	UFUNCTION()
 	void OnStartSession(bool bWasSuccessful);
 
-private:
-
+public:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* HostButton;
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* JoinButton;
 
+private:
 	UFUNCTION()
 	void HostButtonClicked();
 

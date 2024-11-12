@@ -12,9 +12,9 @@ void UMenu::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FStr
 	PathToLobby = FString::Printf(TEXT("%s?listen"), *LobbyPath);
 	NumPublicConnections = NumberOfPublicConnections;
 	MatchType = TypeOfMatch;
-	AddToViewport();
+	// AddToViewport();
 	SetVisibility(ESlateVisibility::Visible);
-	bIsFocusable = true;
+	// bIsFocusable = true;
 
 	/*UWorld* World = GetWorld();
 	if (World)
@@ -67,7 +67,7 @@ bool UMenu::Initialize()
 
 void UMenu::NativeDestruct()
 {
-	MenuTearDown();
+	// MenuTearDown();
 	Super::NativeDestruct();
 }
 
@@ -149,12 +149,12 @@ void UMenu::OnStartSession(bool bWasSuccessful)
 
 void UMenu::HostButtonClicked()
 {
-	HostButton->SetIsEnabled(false);
+	// HostButton->SetIsEnabled(false);
+	GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Magenta, FString::Printf(TEXT("HostClicked")));
 	if (MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
 	}
-	GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Magenta, FString::Printf(TEXT("HostClicked")));
 }
 
 void UMenu::JoinButtonClicked()

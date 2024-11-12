@@ -7,12 +7,14 @@
 #include "Engine/TargetPoint.h"
 #include "GameFramework/GameMode.h"
 #include "Components/StaticMeshComponent.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Net/UnrealNetwork.h"
 
 
 AMR_General::AMR_General()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	RootComponent = Camera;
@@ -27,15 +29,24 @@ AMR_General::AMR_General()
 	MotionController_R = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_R");
 	MotionController_R->SetupAttachment(Hands);
 
-	ImpactPointer = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointer");
-	ImpactPointer->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	ImpactPointer_L = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerL");
+	ImpactPointer_L->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	ImpactPointer_R = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerR");
+	ImpactPointer_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	// ?? Je na neco??
+	CharacterMovementComponent = CreateDefaultSubobject<UCharacterMovementComponent>("CharacterMovementComponent");
 
 }
 
-void AMR_General::PostInitializeComponents()
+void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	Super::PostInitializeComponents();
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	// ?? replikuje se ??
+	DOREPLIFETIME(AMR_General, GeneralBody);
 }
+
 
 void AMR_General::BeginPlay()
 {

@@ -20,8 +20,6 @@ protected:
 public:
 	AEK_GameMode();
 	void BeginPlay() override;
-	virtual void PostInitializeComponents() override;
-	virtual void PreInitializeComponents() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	

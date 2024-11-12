@@ -5,6 +5,7 @@
 #include "GameFramework/Pawn.h"
 #include "MR_General.generated.h"
 
+class UCharacterMovementComponent;
 class AMilitaryBase;
 class UOculusXRControllerComponent;
 class UCameraComponent;
@@ -26,7 +27,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
 	TObjectPtr<UStaticMeshComponent> GeneralBody;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
@@ -39,7 +40,13 @@ protected:
 	TObjectPtr<UMotionControllerComponent> MotionController_R;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	UStaticMeshComponent* ImpactPointer;
+	UStaticMeshComponent* ImpactPointer_L;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UStaticMeshComponent* ImpactPointer_R;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UCharacterMovementComponent* CharacterMovementComponent;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
@@ -55,8 +62,7 @@ public:
 
 	UFUNCTION()
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
-	virtual void PostInitializeComponents() override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
 	void Server_SpawnMilitaryBase(TSubclassOf<AMilitaryBase> Base);

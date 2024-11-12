@@ -14,16 +14,6 @@ AEK_GameMode::AEK_GameMode()
 	PawnToSpawn = AMR_General::StaticClass();
 }
 
-void AEK_GameMode::PreInitializeComponents()
-{
-	Super::PreInitializeComponents();
-}
-
-void AEK_GameMode::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-}
-
 void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
@@ -36,7 +26,6 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 
 	int32 PlayerIndex = GameState->PlayerArray.Num() - 1;
 	AActor* SelectedPlayerStart = (PlayerIndex == 0) ? PlayerStarts[0] : PlayerStarts[1];
-
 	
 	
 	if (SelectedPlayerStart)
