@@ -17,6 +17,7 @@ class EMERALD_MRVR_API AEK_GameMode : public AGameMode
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
 	TSubclassOf<AMR_General> PawnToSpawn;
+	
 public:
 	AEK_GameMode();
 	void BeginPlay() override;
@@ -36,5 +37,8 @@ public:
 	UCrystalSpawnerComp* CrystalSpawner;
 
 	UPROPERTY()
-	TArray<APlayerStart*> PlayerStarts;
+	TArray<AActor*> PlayerStarts;
+
+	UPROPERTY()
+	AActor* SelectedPlayerStart;
 };

@@ -23,17 +23,7 @@ public:
 	int32 Strength;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-	TObjectPtr<UStaticMesh> SM_Body;
+	UStaticMesh* SM_Body;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="SFX")
-	TObjectPtr<USoundCue> SpawnSound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="SFX")
-	TObjectPtr<USoundCue> DeathSound;
-
-
-	
-
-		
 	
 };

@@ -9,14 +9,15 @@
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
 
 
 AMR_General::AMR_General()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
+	bAlwaysRelevant = true;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	RootComponent = Camera;
@@ -40,9 +41,6 @@ AMR_General::AMR_General()
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
 
-	// ?? Je na neco??
-	CharacterMovementComponent = CreateDefaultSubobject<UCharacterMovementComponent>("CharacterMovementComponent");
-
 }
 
 void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -52,7 +50,6 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, GeneralBody);
 }
 
-
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
@@ -60,19 +57,44 @@ void AMR_General::BeginPlay()
 	if (AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode()))
 	{
 		Server_SpawnMilitaryBase(MilitaryBase);
+
+		SetInitialPawnPosition(GameMode);
 	}
-	
 }
 
 void AMR_General::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (IsLocallyControlled())
+	{
+		FVector HMDPosition;
+		FRotator HMDOrientation;
+		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
+		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
+	}
 }
 
 void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void AMR_General::SetInitialPawnPosition(AEK_GameMode* GameMode)
+{
+	if (IsLocallyControlled())
+	{
+		FVector HMDPosition = GameMode->SelectedPlayerStart->GetActorLocation();
+		FRotator HMDOrientation = GameMode->SelectedPlayerStart->GetActorRotation();
+			
+		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
+	}
+}
+
+void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)
+{
+	ReplicatedPosition = NewPosition;
+	ReplicatedRotation = NewRotation;
 }
 
 void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryBase> Base)

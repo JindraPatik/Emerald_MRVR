@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EK_GameMode.h"
 #include "GameFramework/Pawn.h"
 #include "MR_General.generated.h"
 
@@ -47,9 +48,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
 	UStaticMeshComponent* ImpactPointer_R;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	UCharacterMovementComponent* CharacterMovementComponent;
-	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
 
@@ -65,12 +63,30 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UResourcesComponent> ResourcesComponent;
 
+	UPROPERTY(ReplicatedUsing=OnRepPosition)
+	FVector ReplicatedPosition;
+
+	UPROPERTY(ReplicatedUsing=OnRepRotation)
+	FRotator ReplicatedRotation;
+
+	UFUNCTION()
+	void OnRepPosition () const {RootComponent->SetWorldLocation(ReplicatedPosition);}
+
+	UFUNCTION()
+	void OnRepRotation() const {RootComponent->SetWorldRotation(ReplicatedRotation);}
+
 public:	
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION()
+	void SetInitialPawnPosition(AEK_GameMode* GameMode);
+
+	UFUNCTION(Server, Unreliable, Category="Position")
+	void Server_UpdatePawnPosition(const FVector& NewPosition, const FRotator& NewRotation);
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
 	void Server_SpawnMilitaryBase(TSubclassOf<AMilitaryBase> Base);

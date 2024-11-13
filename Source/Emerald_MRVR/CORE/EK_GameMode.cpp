@@ -6,6 +6,7 @@
 #include "Engine/TargetPoint.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerStart.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 AEK_GameMode::AEK_GameMode()
@@ -25,22 +26,24 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 	}
 
 	int32 PlayerIndex = GameState->PlayerArray.Num() - 1;
-	AActor* SelectedPlayerStart = (PlayerIndex == 0) ? PlayerStarts[0] : PlayerStarts[1];
+	SelectedPlayerStart = (PlayerIndex == 0) ? PlayerStarts[0] : PlayerStarts[1];
 	
 	
 	if (SelectedPlayerStart)
 	{
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.Owner = NewPlayer;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 		FVector SpawnLoc = SelectedPlayerStart->GetActorLocation();
 		FRotator SpawnRot = SelectedPlayerStart->GetActorRotation();
 
-		AMR_General* NewPlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, SpawnLoc, SpawnRot);
+		AMR_General* NewPlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, SpawnLoc, SpawnRot, SpawnParameters);
 
 		if (NewPlayerPawn)
 		{
 			NewPlayer->Possess(NewPlayerPawn);
+			
 		}
 	}
 }
