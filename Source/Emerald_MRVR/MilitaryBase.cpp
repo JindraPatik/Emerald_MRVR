@@ -2,9 +2,11 @@
 
 #include "MilitaryBase.h"
 #include "BoxComponent.h"
+#include "DebugMacros.h"
 #include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
 
+#define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()
 
 AMilitaryBase::AMilitaryBase()
 {
@@ -17,13 +19,12 @@ AMilitaryBase::AMilitaryBase()
 	BaseBox->SetupAttachment(RootComponent);
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	BuildingsModuleComponent = CreateDefaultSubobject<UBuildingsModuleComponent>("BuildingsModuleComponent");
-	
+
 }
 
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AMilitaryBase::Tick(float DeltaTime)

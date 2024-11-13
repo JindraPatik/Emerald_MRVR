@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -30,7 +29,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
+	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TObjectPtr<UStaticMeshComponent> GeneralBody;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
