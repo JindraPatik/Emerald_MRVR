@@ -2,6 +2,7 @@
 
 #include "MilitaryBase.h"
 #include "BoxComponent.h"
+#include "DebugMacros.h"
 #include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
 
@@ -23,7 +24,6 @@ AMilitaryBase::AMilitaryBase()
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AMilitaryBase::Tick(float DeltaTime)
