@@ -23,22 +23,21 @@ public:
 	void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 	
 	UFUNCTION(BlueprintCallable)
 	TArray<ATargetPoint*> GetAllTargetpoints();
-
-	UFUNCTION()
-	void GetAllPlayerStarts();
 	
 	UPROPERTY(Replicated)
 	TArray<ATargetPoint*> TargetPoints;
 
+	UFUNCTION(BlueprintCallable)
+	TArray<AActor*> GetAllPlayerStarts();
+
 	UPROPERTY(EditAnywhere)
 	UCrystalSpawnerComp* CrystalSpawner;
 
-	UPROPERTY()
-	TArray<AActor*> PlayerStarts;
+	UPROPERTY(Replicated)
+	TArray<AActor*> FindedPlayerStarts;
 
-	UPROPERTY()
-	AActor* SelectedPlayerStart;
 };

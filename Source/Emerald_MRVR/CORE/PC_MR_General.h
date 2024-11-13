@@ -16,5 +16,4 @@ class EMERALD_MRVR_API APC_MR_General : public APlayerController
 	
 	
 	
-	
 };

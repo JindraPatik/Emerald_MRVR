@@ -82,9 +82,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UFUNCTION()
-	void SetInitialPawnPosition(AEK_GameMode* GameMode);
-
 	UFUNCTION(Server, Unreliable, Category="Position")
 	void Server_UpdatePawnPosition(const FVector& NewPosition, const FRotator& NewRotation);
 

@@ -57,8 +57,6 @@ void AMR_General::BeginPlay()
 	if (AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode()))
 	{
 		Server_SpawnMilitaryBase(MilitaryBase);
-
-		SetInitialPawnPosition(GameMode);
 	}
 }
 
@@ -80,16 +78,6 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AMR_General::SetInitialPawnPosition(AEK_GameMode* GameMode)
-{
-	if (IsLocallyControlled())
-	{
-		FVector HMDPosition = GameMode->SelectedPlayerStart->GetActorLocation();
-		FRotator HMDOrientation = GameMode->SelectedPlayerStart->GetActorRotation();
-			
-		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-	}
-}
 
 void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)
 {
@@ -106,7 +94,6 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
 		GameMode->TargetPoints.RemoveAt(0);
 
-		//
 		if (TargetPoint)
 		{
 			FVector SpawnLocation = TargetPoint->GetActorLocation();
