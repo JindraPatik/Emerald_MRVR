@@ -14,6 +14,10 @@ class EMERALD_MRVR_API APC_MR_General : public APlayerController
 {
 	GENERATED_BODY()
 	
-	
+	virtual void BeginPlay() override;
+
+public:
+	UFUNCTION(Server, Reliable, Category="Spawning")
+	void Server_SpawnPlayer();
 	
 };

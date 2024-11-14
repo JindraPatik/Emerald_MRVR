@@ -3,6 +3,25 @@
 
 #include "PC_MR_General.h"
 
+#include "EK_GameMode.h"
+#include "Kismet/GameplayStatics.h"
 
 
+void APC_MR_General::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	if (IsLocalController())
+	{
+		Server_SpawnPlayer();
+	}
+}
 
+void APC_MR_General::Server_SpawnPlayer_Implementation()
+{
+	AEK_GameMode* GameMode = Cast<AEK_GameMode>(UGameplayStatics::GetGameMode(this));
+	if (GameMode)
+	{
+		GameMode->SpawnPlayer(this);
+	}
+}

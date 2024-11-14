@@ -17,27 +17,42 @@ class EMERALD_MRVR_API AEK_GameMode : public AGameMode
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
 	TSubclassOf<AMR_General> PawnToSpawn;
+
+	UPROPERTY(BlueprintReadOnly, Category="Networkong")
+	TArray<APlayerController*> AllPCs;
 	
 public:
 	AEK_GameMode();
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
-	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+	virtual void SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC) override;
+	virtual void Logout(AController* Exiting) override;
 	
-	UFUNCTION(BlueprintCallable)
-	TArray<ATargetPoint*> GetAllTargetpoints();
-	
-	UPROPERTY(Replicated)
-	TArray<ATargetPoint*> TargetPoints;
+	UFUNCTION(Category="Spawning")
+	FTransform FindMyPlayerStart();
+
+	UFUNCTION(Category="Spawning")
+	void SpawnPlayer(APlayerController* PlayerController);
 
 	UFUNCTION(BlueprintCallable)
-	TArray<AActor*> GetAllPlayerStarts();
+	TArray<ATargetPoint*> GetAllTargetpoints();
+
+	UFUNCTION()
+	void FindAllPlayerStarts();
+	
+	UPROPERTY(BlueprintReadOnly, Category="Spawning")
+	TArray<ATargetPoint*> TargetPoints;
+
+	UPROPERTY(BlueprintReadOnly, Category="Spawning")
+	TArray<APlayerStart*> AllPlayerStarts;
+
+	UPROPERTY(BlueprintReadOnly, Category="Spawning")
+	AMR_General* PlayerPawn;
 
 	UPROPERTY(EditAnywhere)
 	UCrystalSpawnerComp* CrystalSpawner;
 
-	UPROPERTY(Replicated)
-	TArray<AActor*> FindedPlayerStarts;
+
 
 };

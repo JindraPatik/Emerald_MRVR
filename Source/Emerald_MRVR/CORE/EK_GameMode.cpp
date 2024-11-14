@@ -2,6 +2,7 @@
 
 #include "EngineUtils.h"
 #include "MR_General.h"
+#include "PC_MR_General.h"
 #include "Emerald_MRVR/Components/CrystalSpawnerComp.h"
 #include "Engine/TargetPoint.h"
 #include "GameFramework/GameStateBase.h"
@@ -18,36 +19,67 @@ AEK_GameMode::AEK_GameMode()
 void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
+
+	AllPCs.Add(NewPlayer);
 }
 
+void AEK_GameMode::SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC)
+{
+	Super::SwapPlayerControllers(OldPC, NewPC);
+
+	AllPCs.Add(NewPC);
+}
+
+void AEK_GameMode::Logout(AController* Exiting)
+{
+	Super::Logout(Exiting);
+
+	AllPCs.Remove(Cast<APC_MR_General>(Exiting));
+}
 
 void AEK_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	FindedPlayerStarts = GetAllPlayerStarts();
-
-	if (CrystalSpawner)
-	{
-		CrystalSpawner->StartSpawning();
-	}
+	FindAllPlayerStarts();
 }
 
 void AEK_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AEK_GameMode, TargetPoints);
-	DOREPLIFETIME(AEK_GameMode, FindedPlayerStarts);
 }
 
-AActor* AEK_GameMode::ChoosePlayerStart_Implementation(AController* Player)
+// Iterate all Player starts and return FTransform
+FTransform AEK_GameMode::FindMyPlayerStart()
 {
-	if (FindedPlayerStarts.Num() > 1)
-	{
-		AActor* SelectedPlayerStart = FindedPlayerStarts.Pop();
-		return SelectedPlayerStart;
-	}
-	return Super::ChoosePlayerStart_Implementation(Player);
+	FTransform Transform;
+	if (AllPlayerStarts.Num() < 0) { return Transform; }
+
+	APlayerStart* SelectedPlayerStart = AllPlayerStarts[0];
+	AllPlayerStarts.Remove(SelectedPlayerStart);
+	return SelectedPlayerStart->GetTransform();
+
 }
+
+void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
+{
+	if (PlayerController)
+	{
+		FActorSpawnParameters PawnSpawnParameters;
+		
+		APawn* Pawn = PlayerController->GetPawn();
+		if (Pawn)
+		{
+			Pawn->Destroy();
+			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters); 
+		}
+		else
+		{
+			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters); 
+		}
+		PlayerPawn->PossessedBy(PlayerController);
+	}	
+}
+
 
 TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 {
@@ -59,17 +91,15 @@ TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 	return TPs;
 }
 
-TArray<AActor*> AEK_GameMode::GetAllPlayerStarts()
+void AEK_GameMode::FindAllPlayerStarts()
 {
-	TArray<AActor*> PlayerStarts;
-    
 	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
 	{
-		PlayerStarts.Add(*It);
+		AllPlayerStarts.Add(*It);
 	}
-
-	return PlayerStarts;
 }
+
+
 
 
 
