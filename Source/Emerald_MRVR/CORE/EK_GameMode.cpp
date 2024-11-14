@@ -37,12 +37,14 @@ void AEK_GameMode::Logout(AController* Exiting)
 	AllPCs.Remove(Cast<APC_MR_General>(Exiting));
 }
 
+// Begin Play
 void AEK_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	FindAllPlayerStarts();
 }
 
+// REPLICATION
 void AEK_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -60,6 +62,7 @@ FTransform AEK_GameMode::FindMyPlayerStart()
 
 }
 
+// Spawn player at custom player start
 void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 {
 	if (PlayerController)
@@ -70,13 +73,16 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 		if (Pawn)
 		{
 			Pawn->Destroy();
-			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters); 
+			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
+			PlayerController->Possess(PlayerPawn);
 		}
 		else
 		{
-			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters); 
+			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
+			PlayerController->Possess(PlayerPawn);
 		}
 		PlayerPawn->PossessedBy(PlayerController);
+		
 	}	
 }
 
