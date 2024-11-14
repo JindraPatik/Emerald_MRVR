@@ -10,11 +10,15 @@ class EMERALD_MRVR_API UResourcesComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	UResourcesComponent();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Resources")
+	UPROPERTY(ReplicatedUsing=OnRep_ResourcesChanged, EditAnywhere, BlueprintReadWrite, Category="Resources")
 	float AvailableResources;
+
+	UFUNCTION()
+	void OnRep_ResourcesChanged();
 
 protected:
 	virtual void BeginPlay() override;

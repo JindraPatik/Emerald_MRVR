@@ -1,5 +1,15 @@
 #include "ResourcesComponent.h"
 
+#include "Components/TextBlock.h"
+#include "Emerald_MRVR/Widgets/ResourcesWidget.h"
+#include "Net/UnrealNetwork.h"
+
+
+void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UResourcesComponent,AvailableResources);
+}
 
 UResourcesComponent::UResourcesComponent()
 {
@@ -7,6 +17,12 @@ UResourcesComponent::UResourcesComponent()
 	AvailableResources = 100.f;
 }
 
+
+void UResourcesComponent::OnRep_ResourcesChanged()
+{
+	/*UResourcesWidget* ResourcesWidget;
+	ResourcesWidget->TXT_Resources->SetText(FText::AsNumber(AvailableResources));*/
+}
 
 void UResourcesComponent::BeginPlay()
 {

@@ -46,13 +46,16 @@ AMR_General::AMR_General()
 void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AMR_General, ReplicatedPosition);
+	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 }
 
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	// kvuli lobby
-	if (AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode()))
+	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	if (GameMode)
 	{
 		Server_SpawnMilitaryBase(MilitaryBase);
 	}

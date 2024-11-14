@@ -56,11 +56,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	ATargetPoint* TargetPoint;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UHealthComponent> HealthComponent;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UResourcesComponent> ResourcesComponent;
 
 	UPROPERTY(ReplicatedUsing=OnRepPosition)
 	FVector ReplicatedPosition;
@@ -87,4 +82,13 @@ public:
 	UFUNCTION(Server, Reliable, BlueprintCallable)
 	void Server_SpawnMilitaryBase(TSubclassOf<AMilitaryBase> Base);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UHealthComponent> HealthComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UResourcesComponent> ResourcesComponent;
+
+	UFUNCTION(BlueprintCallable, Category="Base")
+	FORCEINLINE AMilitaryBase* GetBaseInstance() const { return BaseInstance; }
 };
+
