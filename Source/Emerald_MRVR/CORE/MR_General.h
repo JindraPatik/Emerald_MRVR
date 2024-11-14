@@ -56,7 +56,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	ATargetPoint* TargetPoint;
 
-
 	UPROPERTY(ReplicatedUsing=OnRepPosition)
 	FVector ReplicatedPosition;
 
