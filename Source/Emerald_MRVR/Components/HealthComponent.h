@@ -13,11 +13,21 @@ class EMERALD_MRVR_API UHealthComponent : public UActorComponent
 public:	
 	UHealthComponent();
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Health")
+
+	UPROPERTY(ReplicatedUsing=OnRep_OnHealthChanged, EditDefaultsOnly, BlueprintReadWrite, Category="Health")
 	float Health;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Health")
+	float MaxHealth;
+
+	UFUNCTION()
+	void OnRep_OnHealthChanged();
+
+	
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
