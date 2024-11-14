@@ -32,11 +32,12 @@ void UCrystalSpawnerComp::SpawnCrystal()
 	{
 		Targets.Add(*It);
 	}
-	
 	FVector Target1_Pos = Targets[0]->GetActorLocation();
 	FVector Target2_Pos = Targets[1]->GetActorLocation();
+	
     // Generates num between 0 and 1
     float RandomAlpha = FMath::FRand();
+	
     FVector RandomCrystalLocation = FMath::Lerp(Target1_Pos, Target2_Pos, RandomAlpha);
     FRotator SpawnRotation = FRotator(0.f,FMath::RandRange(0.f, 360.f), 0.f);
     FActorSpawnParameters SpawnParameters;

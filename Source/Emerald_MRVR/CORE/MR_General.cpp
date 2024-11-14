@@ -11,7 +11,7 @@
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
-
+#include "Emerald_MRVR/DebugMacros.h"
 
 AMR_General::AMR_General()
 {
@@ -46,8 +46,6 @@ AMR_General::AMR_General()
 void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	// ?? replikuje se ??
-	DOREPLIFETIME(AMR_General, GeneralBody);
 }
 
 void AMR_General::BeginPlay()
