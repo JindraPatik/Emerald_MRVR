@@ -4,6 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "ResourcesComponent.generated.h"
 
+class UResourcesWidget;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UResourcesComponent : public UActorComponent
@@ -18,7 +19,10 @@ public:
 	float AvailableResources;
 
 	UFUNCTION()
-	void OnRep_ResourcesChanged();
+	void OnRep_ResourcesChanged() const;
+
+	UPROPERTY(BlueprintReadWrite, Category="Widget")
+	UResourcesWidget* ResourcesWidget;
 
 protected:
 	virtual void BeginPlay() override;

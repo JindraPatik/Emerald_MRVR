@@ -19,3 +19,9 @@ void UResourcesWidget::NativeConstruct()
 	}
 	
 }
+
+void UResourcesWidget::UpdateResourcesWidget(float Resources)
+{
+	TXT_Resources->SetText(FText::AsNumber(Resources));
+}
+

@@ -17,7 +17,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Widget")
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category="Widget")
 	UWidgetComponent* Widget;
 
 public:	

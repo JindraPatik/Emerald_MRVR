@@ -1,5 +1,4 @@
 #include "ResourcesComponent.h"
-
 #include "Components/TextBlock.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
 #include "Net/UnrealNetwork.h"
@@ -18,10 +17,9 @@ UResourcesComponent::UResourcesComponent()
 }
 
 
-void UResourcesComponent::OnRep_ResourcesChanged()
+void UResourcesComponent::OnRep_ResourcesChanged() const
 {
-	/*UResourcesWidget* ResourcesWidget;
-	ResourcesWidget->TXT_Resources->SetText(FText::AsNumber(AvailableResources));*/
+	ResourcesWidget->UpdateResourcesWidget(AvailableResources);
 }
 
 void UResourcesComponent::BeginPlay()
