@@ -3,6 +3,7 @@
 #include "MilitaryBase.h"
 #include "BoxComponent.h"
 #include "DebugMacros.h"
+#include "Unit.h"
 #include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
 #include "Net/UnrealNetwork.h"
@@ -14,8 +15,6 @@ AMilitaryBase::AMilitaryBase()
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
 
-	SpawnPoint_Ground = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
-	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
 
 	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
 	RootComponent = BaseBody;
@@ -23,7 +22,11 @@ AMilitaryBase::AMilitaryBase()
 	BaseBox->SetupAttachment(RootComponent);
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	BuildingsModuleComponent = CreateDefaultSubobject<UBuildingsModuleComponent>("BuildingsModuleComponent");
-
+	
+	SpawnPoint_Ground = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
+	SpawnPoint_Ground->SetupAttachment(RootComponent);
+	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
+	SpawnPoint_Air->SetupAttachment(RootComponent);
 }
 
 void AMilitaryBase::BeginPlay()
@@ -44,3 +47,17 @@ void AMilitaryBase::Tick(float DeltaTime)
 
 }
 
+void AMilitaryBase::Server_SpawnUnit_Implementation(TSubclassOf<AUnit> UnitToSpawn)
+{
+	Multi_SpawnUnit(UnitToSpawn);
+}
+
+void AMilitaryBase::Multi_SpawnUnit_Implementation(TSubclassOf<AUnit> UnitToSpawn)
+{
+	FVector Location = SpawnPoint_Ground->GetComponentLocation();
+	FRotator Rotation = SpawnPoint_Ground->GetComponentRotation();
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = GetOwner();
+	SpawnParams.Instigator = GetInstigator();
+	GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+}

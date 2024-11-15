@@ -68,9 +68,6 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-	AMilitaryBase* BaseInstance;
-	
 	UFUNCTION()
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -89,7 +86,10 @@ public:
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="spawning")
 	FTransform SpawnPoint;
-
+	
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
+	AMilitaryBase* BaseInstance;
+	
 	UFUNCTION(BlueprintCallable, Category="Base")
 	FORCEINLINE AMilitaryBase* GetBaseInstance() const { return BaseInstance; }
 
