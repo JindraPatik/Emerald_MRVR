@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "MilitaryBase.generated.h"
 
+class AUnit;
 class UHealthComponent;
 class UBuildingsModuleComponent;
 class UDownScaleComponent;
@@ -35,11 +36,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
 	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Ground;
 	
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Air;
+
 
 
 
@@ -50,6 +52,12 @@ public:
 	FORCEINLINE FTransform GetSpawnpointGround() const { return SpawnPoint_Ground->GetComponentTransform(); }
 	
 	FORCEINLINE FTransform GetSpawnpointAir() const { return SpawnPoint_Air->GetComponentTransform();}
+
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
+	void Server_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
+
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
+	void Multi_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
 	
 
 	

@@ -11,6 +11,7 @@
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
+#include "PC_MR_General.h"
 #include "Emerald_MRVR/DebugMacros.h"
 
 AMR_General::AMR_General()
@@ -48,7 +49,6 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMR_General, ReplicatedPosition);
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
-	DOREPLIFETIME(AMR_General, SpawnPoint);
 	DOREPLIFETIME(AMR_General, BaseInstance);
 }
 
@@ -56,7 +56,8 @@ void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	// kvuli lobby
-	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	PC = Cast<APC_MR_General>(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController()) ; 
+	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	if (GameMode && HasAuthority())
 	{
 		Server_SpawnMilitaryBase(MilitaryBase);
@@ -90,7 +91,7 @@ void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPos
 
 void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryBase> Base)
 {
-	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	// GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
 	if (GameMode && (GameMode->TargetPoints.Num() > 0))
 	{
@@ -103,7 +104,7 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 			FVector SpawnLocation = TargetPoint->GetActorLocation();
 			FRotator SpawnRotation = TargetPoint->GetActorRotation();
 			FActorSpawnParameters SpawnParameters;
-			SpawnParameters.Instigator = GetInstigator();
+			SpawnParameters.Instigator = this;
 			SpawnParameters.Owner = GetInstigator();
 			BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(Base, SpawnLocation, SpawnRotation, SpawnParameters);
 		}

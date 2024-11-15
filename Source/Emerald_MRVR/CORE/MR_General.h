@@ -5,6 +5,7 @@
 #include "GameFramework/Pawn.h"
 #include "MR_General.generated.h"
 
+class APC_MR_General;
 class UResourcesComponent;
 class UHealthComponent;
 class UCharacterMovementComponent;
@@ -25,6 +26,12 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
+	AEK_GameMode* GameMode;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
+	APC_MR_General* PC;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
@@ -68,9 +75,6 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-	AMilitaryBase* BaseInstance;
-	
 	UFUNCTION()
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -87,9 +91,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UResourcesComponent> ResourcesComponent;
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="spawning")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
 	FTransform SpawnPoint;
-
+	
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
+	AMilitaryBase* BaseInstance;
+	
 	UFUNCTION(BlueprintCallable, Category="Base")
 	FORCEINLINE AMilitaryBase* GetBaseInstance() const { return BaseInstance; }
 
