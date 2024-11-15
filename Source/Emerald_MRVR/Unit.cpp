@@ -6,6 +6,7 @@ AUnit::AUnit()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
+	RootComponent = Body;
 	
 }
 

@@ -10,6 +10,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
+
+
 AEK_GameMode::AEK_GameMode()
 {
 	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
@@ -42,6 +44,7 @@ void AEK_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	FindAllPlayerStarts();
+	CrystalSpawner->StartSpawning();
 }
 
 // REPLICATION
@@ -74,11 +77,13 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 		{
 			Pawn->Destroy();
 			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
+			// PlayerPawn->SetOwner(PlayerController);
 			PlayerController->Possess(PlayerPawn);
 		}
 		else
 		{
 			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
+			// PlayerPawn->SetOwner(PlayerController);
 			PlayerController->Possess(PlayerPawn);
 		}
 		PlayerPawn->PossessedBy(PlayerController);

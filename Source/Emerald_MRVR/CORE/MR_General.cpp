@@ -48,6 +48,8 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMR_General, ReplicatedPosition);
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
+	DOREPLIFETIME(AMR_General, SpawnPoint);
+	DOREPLIFETIME(AMR_General, BaseInstance);
 }
 
 void AMR_General::BeginPlay()
@@ -55,7 +57,7 @@ void AMR_General::BeginPlay()
 	Super::BeginPlay();
 	// kvuli lobby
 	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
-	if (GameMode)
+	if (GameMode && HasAuthority())
 	{
 		Server_SpawnMilitaryBase(MilitaryBase);
 	}
@@ -93,6 +95,7 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 	if (GameMode && (GameMode->TargetPoints.Num() > 0))
 	{
 		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
+		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
 		GameMode->TargetPoints.RemoveAt(0);
 
 		if (TargetPoint)
@@ -101,6 +104,7 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 			FRotator SpawnRotation = TargetPoint->GetActorRotation();
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.Instigator = GetInstigator();
+			SpawnParameters.Owner = GetInstigator();
 			BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(Base, SpawnLocation, SpawnRotation, SpawnParameters);
 		}
 		

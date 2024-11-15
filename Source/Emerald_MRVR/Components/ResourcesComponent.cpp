@@ -3,6 +3,7 @@
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
 #include "Net/UnrealNetwork.h"
 
+static TAutoConsoleVariable<float> CVarAddResources(TEXT("EKG.AddResources"), 5.f,TEXT("AddedResourcesToPlayer"), ECVF_Cheat);
 
 void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -19,14 +20,19 @@ UResourcesComponent::UResourcesComponent()
 
 void UResourcesComponent::OnRep_ResourcesChanged() const
 {
-	ResourcesWidget->UpdateResourcesWidget(AvailableResources);
+	if (ResourcesWidget)
+	{
+		ResourcesWidget->UpdateResourcesWidget(FMath::Clamp(AvailableResources, 0.f, MaxResources));
+		UE_LOG(LogTemp, Warning, TEXT("ResourcesChanged"));
+	}
 }
 
 void UResourcesComponent::BeginPlay()
 {
 	Super::BeginPlay();
-}
 
+	
+}
 
 void UResourcesComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -34,3 +40,11 @@ void UResourcesComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 }
 
+void UResourcesComponent::UpdateResources(float ResourcesDelta)
+{
+	AvailableResources -= ResourcesDelta;
+
+	float AddResources = CVarAddResources.GetValueOnGameThread();
+	AvailableResources -= AddResources;
+	UE_LOG(LogTemp, Warning, TEXT("ResourcesUpdated"));
+}

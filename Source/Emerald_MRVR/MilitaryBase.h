@@ -21,6 +21,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 	UPROPERTY(EditAnywhere, Category = "Visuals")
 	TObjectPtr<UStaticMeshComponent> BaseBody;
 
@@ -33,10 +35,22 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
 	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
 
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	USceneComponent* SpawnPoint_Ground;
+	
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	USceneComponent* SpawnPoint_Air;
+
+
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	FORCEINLINE FTransform GetSpawnpointGround() const { return SpawnPoint_Ground->GetComponentTransform(); }
+	
+	FORCEINLINE FTransform GetSpawnpointAir() const { return SpawnPoint_Air->GetComponentTransform();}
+	
 
 	
 	

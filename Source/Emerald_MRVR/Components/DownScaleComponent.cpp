@@ -11,7 +11,6 @@ void UDownScaleComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	DownscaleOwner();
-
 }
 
 

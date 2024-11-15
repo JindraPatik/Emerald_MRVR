@@ -50,9 +50,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
 
-	UPROPERTY()
-	AMilitaryBase* BaseInstance;
-
 	UPROPERTY(BlueprintReadOnly)
 	ATargetPoint* TargetPoint;
 
@@ -71,6 +68,9 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
+	AMilitaryBase* BaseInstance;
+	
 	UFUNCTION()
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -87,7 +87,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UResourcesComponent> ResourcesComponent;
 
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="spawning")
+	FTransform SpawnPoint;
+
 	UFUNCTION(BlueprintCallable, Category="Base")
 	FORCEINLINE AMilitaryBase* GetBaseInstance() const { return BaseInstance; }
+
+	
 };
 
