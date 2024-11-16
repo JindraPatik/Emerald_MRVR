@@ -5,6 +5,7 @@
 #include "UnitMovementComponent.generated.h"
 
 class AMilitaryBase;
+class APC_MR_General;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UUnitMovementComponent : public UActorComponent
@@ -20,8 +21,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Moving", meta=(AllowPrivateAccess))
 	FVector TargetLoc;
-	
+
+	UPROPERTY()
 	AMilitaryBase* MilitaryBase;
+	
+	UPROPERTY()
+	APC_MR_General* PC;
 
 	void SetTargetLoc();
 	
