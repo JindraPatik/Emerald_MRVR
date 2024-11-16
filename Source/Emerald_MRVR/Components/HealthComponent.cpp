@@ -6,6 +6,7 @@
 UHealthComponent::UHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	SetIsReplicatedByDefault(true);
 
 	Health = MaxHealth;
 }

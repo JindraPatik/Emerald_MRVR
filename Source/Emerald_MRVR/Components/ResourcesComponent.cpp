@@ -14,6 +14,7 @@ void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 UResourcesComponent::UResourcesComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	SetIsReplicatedByDefault(true);
 	AvailableResources = 100.f;
 }
 

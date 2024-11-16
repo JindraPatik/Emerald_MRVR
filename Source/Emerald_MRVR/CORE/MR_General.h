@@ -3,8 +3,10 @@
 #include "CoreMinimal.h"
 #include "EK_GameMode.h"
 #include "GameFramework/Pawn.h"
+#include "EnhancedInputSubsystems.h"
 #include "MR_General.generated.h"
 
+class AUnit;
 class APC_MR_General;
 class UResourcesComponent;
 class UHealthComponent;
@@ -15,6 +17,8 @@ class UCameraComponent;
 class UMotionControllerComponent;
 class UStaticMeshComponent;
 class ATargetPoint;
+class UInputMappingContext;
+class UInputAction;
 
 UCLASS()
 class EMERALD_MRVR_API AMR_General : public APawn
@@ -27,12 +31,22 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	// CORE
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 	AEK_GameMode* GameMode;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 	APC_MR_General* PC;
 
+	// INPUT
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
+	UInputMappingContext* InputMapping;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UInputAction* DebugSpawnUnit;
+	// ~INPUT
+
+	// Character Body
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
 
@@ -54,12 +68,20 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
 	UStaticMeshComponent* ImpactPointer_R;
 
+
+	// MILITARY BASE
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
 
 	UPROPERTY(BlueprintReadOnly)
 	ATargetPoint* TargetPoint;
 
+	TSubclassOf<AUnit> UnitToSpawn;
+
+	UFUNCTION(BlueprintCallable, Category="Spawning")
+	void SpawnUnit();
+
+	// Character Movement
 	UPROPERTY(ReplicatedUsing=OnRepPosition)
 	FVector ReplicatedPosition;
 
@@ -92,7 +114,7 @@ public:
 	TObjectPtr<UResourcesComponent> ResourcesComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
-	FTransform SpawnPoint;
+	FTransform SpawnPoint; // Military Base spawn point
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	AMilitaryBase* BaseInstance;

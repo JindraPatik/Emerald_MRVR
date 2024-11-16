@@ -1,5 +1,6 @@
 #include "MR_General.h"
-
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 #include "EK_GameMode.h"
 #include "MotionControllerComponent.h"
 #include "Camera/CameraComponent.h"
@@ -52,12 +53,28 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, BaseInstance);
 }
 
+void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(InputMapping, 0);
+	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	// Bindings
+	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Triggered, this, &AMR_General::SpawnUnit);
+	
+}
+
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
-	// kvuli lobby
+	
 	PC = Cast<APC_MR_General>(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController()) ; 
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	
 	if (GameMode && HasAuthority())
 	{
 		Server_SpawnMilitaryBase(MilitaryBase);
@@ -76,12 +93,6 @@ void AMR_General::Tick(float DeltaTime)
 		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
 	}
 }
-
-void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
 
 void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)
 {
@@ -108,8 +119,19 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 			SpawnParameters.Owner = GetInstigator();
 			BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(Base, SpawnLocation, SpawnRotation, SpawnParameters);
 		}
-		
 	}
-
 }
 
+void AMR_General::SpawnUnit()
+{
+	if (HasAuthority())
+	{
+		BaseInstance->Server_SpawnUnit(UnitToSpawn);
+		
+		if (GEngine)
+        	{
+        		GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Emerald, TEXT("Unit Spawned"));
+        	}
+	}
+	
+}

@@ -10,6 +10,7 @@
 UCrystalSpawnerComp::UCrystalSpawnerComp()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	SetIsReplicatedByDefault(true);
 }
 
 
