@@ -4,6 +4,8 @@
 #include "GameFramework/Pawn.h"
 #include "Unit.generated.h"
 
+class UUnitMovementComponent;
+
 UCLASS()
 class EMERALD_MRVR_API AUnit : public APawn
 {
@@ -17,6 +19,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 	TObjectPtr<UStaticMeshComponent> Body;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
 	float Speed;

@@ -1,5 +1,7 @@
 #include "Unit.h"
 
+#include "Components/UnitMovementComponent.h"
+
 
 AUnit::AUnit()
 {
@@ -7,7 +9,8 @@ AUnit::AUnit()
 
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
 	RootComponent = Body;
-	
+
+	UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
 }
 
 void AUnit::BeginPlay()
