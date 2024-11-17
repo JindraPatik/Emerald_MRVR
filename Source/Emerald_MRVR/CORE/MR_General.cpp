@@ -116,7 +116,7 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 			FRotator SpawnRotation = TargetPoint->GetActorRotation();
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.Instigator = this;
-			SpawnParameters.Owner = GetInstigator();
+			SpawnParameters.Owner = this;
 			BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(Base, SpawnLocation, SpawnRotation, SpawnParameters);
 		}
 	}

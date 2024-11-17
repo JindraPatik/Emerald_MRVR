@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "PC_MR_General.generated.h"
 
+class AMR_General;
 /**
  * 
  */
@@ -19,5 +20,11 @@ class EMERALD_MRVR_API APC_MR_General : public APlayerController
 public:
 	UFUNCTION(Server, Reliable, Category="Spawning")
 	void Server_SpawnPlayer();
+
+	UFUNCTION(BlueprintCallable, Category="Core")
+	APC_MR_General* GetOtherPlayerPC() const;
+
+	UFUNCTION(BlueprintCallable, Category="Core")
+	AMR_General* GetOtherPlayerPawn() const;
 	
 };

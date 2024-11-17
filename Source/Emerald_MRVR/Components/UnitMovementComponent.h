@@ -6,6 +6,7 @@
 
 class AMilitaryBase;
 class APC_MR_General;
+class AMR_General;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UUnitMovementComponent : public UActorComponent
@@ -23,17 +24,12 @@ protected:
 	FVector TargetLoc;
 
 	UPROPERTY()
-	AMilitaryBase* MilitaryBase;
+	APC_MR_General* PC_This;
 	
-	UPROPERTY()
-	APC_MR_General* PC;
-
 	void SetTargetLoc();
 	
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 	
 };

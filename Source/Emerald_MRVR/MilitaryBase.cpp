@@ -57,5 +57,8 @@ void AMilitaryBase::Multi_SpawnUnit_Implementation(TSubclassOf<AUnit> UnitToSpaw
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = GetOwner();
 	SpawnParams.Instigator = GetInstigator();
-	GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+	if (UnitToSpawn)
+	{
+		GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+	}
 }
