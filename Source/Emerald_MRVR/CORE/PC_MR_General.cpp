@@ -9,6 +9,7 @@
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerState.h"
 #include "Kismet/GameplayStatics.h"
+#include "Emerald_MRVR/DebugMacros.h"
 
 
 void APC_MR_General::BeginPlay()
@@ -24,22 +25,22 @@ void APC_MR_General::BeginPlay()
 APC_MR_General* APC_MR_General::GetOtherPlayerPC() const
 {
 	UWorld* World = GetWorld();
-	if (World)
-	{
-		AGameStateBase* GameState = World->GetGameState();
-		if (GameState)
-		{
-			for (APlayerState* PlayerStateInst : GameState->PlayerArray)
-			{
-				APC_MR_General* PlayerControler = Cast<APC_MR_General>(PlayerState->GetOwner());
-				if (PlayerControler && PlayerControler != this)
-				{
-					APC_MR_General* OtherPlayerPC = PlayerControler;
-					return OtherPlayerPC;
-				}
-			}
-		}
-	}
+        	if (World)
+        	{
+        		AGameStateBase* GameState = World->GetGameState();
+        		if (GameState)
+        		{
+        			for (APlayerState* PlayerStateInst : GameState->PlayerArray)
+        			{
+        				APC_MR_General* PlayerControler = Cast<APC_MR_General>(PlayerStateInst->GetOwner());
+        				if (PlayerControler && PlayerControler != this)
+        				{
+        					APC_MR_General* OtherPlayerPC = PlayerControler;
+        					return OtherPlayerPC;
+        				}
+        			}
+        		}
+        	}
 	return nullptr;
 }
 

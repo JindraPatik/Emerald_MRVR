@@ -35,22 +35,22 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UUnitMovementComponent::SetTargetLoc()
 {
-	/*UWorld* World = GetWorld();
+	UWorld* World = GetWorld();
 	if (World)
 	{
-		APC_MR_General* PC_MR_General = Cast<APC_MR_General>(World->GetGameInstance()->GetFirstLocalPlayerController());
-		if (PC_MR_General)
+		APC_MR_General* PC = Cast<APC_MR_General>(World->GetGameInstance()->GetFirstLocalPlayerController()) ;
+		if (PC)
 		{
-			APC_MR_General* Other_PC = PC_MR_General->GetOtherPlayerPC();
-			if (Other_PC)
+			AMR_General* OtherPawn = PC->GetOtherPlayerPawn();
+			if (OtherPawn)
 			{
-				AMR_General* OtherPawn = Cast<AMR_General>(Other_PC->GetPawn());
-				if (OtherPawn)
-				{
-					TargetLoc = OtherPawn->BaseInstance->GetSpawnpointGround().GetLocation();
-				}
+				TargetLoc = OtherPawn->BaseInstance->GetSpawnpointGround().GetLocation();
+				// UE_LOG() doplnit
 			}
 		}
-	}*/
+	}
+	
+	
+			
 	
 }
