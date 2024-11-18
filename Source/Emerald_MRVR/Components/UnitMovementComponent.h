@@ -18,21 +18,9 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 	bool bMovementEnabled = true;
-	
-	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
-	void Server_SetTargetLoc();
-
-	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category="Spawning")
-	void Multi_SetTargetLoc();
-    
-	UFUNCTION(Server, Unreliable)
-	void Server_MoveTo(FVector TargetLocation) const;
-    
-	UFUNCTION(Server, Unreliable)
-	void Multi_MoveTo(FVector TargetLocation) const;
-	
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Moving", meta=(AllowPrivateAccess))
-	FVector TargetLoc;
+	   
+	UFUNCTION(BlueprintCallable, Category="Moving")
+	void MoveTo(float DeltaTime) const;
 	
 protected:
 	virtual void BeginPlay() override;

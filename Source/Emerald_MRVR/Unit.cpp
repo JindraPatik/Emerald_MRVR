@@ -11,7 +11,7 @@ AUnit::AUnit()
 	PrimaryActorTick.bCanEverTick = true;
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
 	RootComponent = Body;
-	UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
+	// UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
 	SetReplicates(true);
 }
 
@@ -20,15 +20,6 @@ void AUnit::BeginPlay()
 	Super::BeginPlay();
 	
 	SetOwner(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController());
-	
-	if (HasAuthority())
-	{
-		UnitMovementComponent->Multi_SetTargetLoc();
-	}
-	else
-	{
-		UnitMovementComponent->Server_SetTargetLoc();
-	}
 }
 
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

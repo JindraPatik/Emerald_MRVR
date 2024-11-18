@@ -55,6 +55,12 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 	DOREPLIFETIME(AMR_General, BaseInstance);
 	DOREPLIFETIME(AMR_General, PC);
+	DOREPLIFETIME(AMR_General, UnitTargetLoc);
+}
+
+void AMR_General::SetUnitTargetLoc()
+{
+	UnitTargetLoc = BaseInstance->SpawnPoint_Ground->GetComponentLocation();
 }
 
 void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -122,7 +128,7 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 			FRotator SpawnRotation = TargetPoint->GetActorRotation();
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.Instigator = this;
-			//SpawnParameters.Owner = GetWorld()->GetGameInstance()->GetFirstLocalPlayerController();
+			SpawnParameters.Owner = this;
 			BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(Base, SpawnLocation, SpawnRotation, SpawnParameters);
 		}
 	}
@@ -132,7 +138,7 @@ void AMR_General::SpawnUnit()
 {
 	if (HasAuthority())
 	{
-		Multi_SpawnUnit(UnitToSpawnClass);
+		Server_SpawnUnit(UnitToSpawnClass);
 	}
 	else
 	{

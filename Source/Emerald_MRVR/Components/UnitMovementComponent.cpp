@@ -23,7 +23,6 @@ UUnitMovementComponent::UUnitMovementComponent()
 void UUnitMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UUnitMovementComponent, TargetLoc);
 }
 
 
@@ -38,55 +37,28 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	if (bMovementEnabled)
 	{
-		if (GetOwner()->HasAuthority())
-		{
-			Server_MoveTo(TargetLoc);
-		}
-		else
-		{
-			Server_MoveTo(TargetLoc);
-		}
+		// MoveTo(DeltaTime);
 	}
 }
 
-void UUnitMovementComponent::Server_SetTargetLoc_Implementation()
-{
-	Multi_SetTargetLoc();
-}
 
-void UUnitMovementComponent::Multi_SetTargetLoc_Implementation()
-{
-	UWorld* World = GetWorld();
-	if (World)
-	{
-		APC_MR_General* MyPC = Cast<APC_MR_General>(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController());
-		if (MyPC)
-		{
-			AMR_General* General = Cast<AMR_General>(MyPC->GetPawn());
-			if (General)
-			{
-				TargetLoc = General->BaseInstance->GetSpawnpointGround().GetLocation();
-			}
-		}
-	}
-}
-
-void UUnitMovementComponent::Server_MoveTo_Implementation(FVector TargetLocation) const
-{
-	Multi_MoveTo(TargetLocation);
-}
-
-void UUnitMovementComponent::Multi_MoveTo_Implementation(FVector TargetLocation) const
+void UUnitMovementComponent::MoveTo(float DeltaTime) const
 {
 	AUnit* Unit = Cast<AUnit>(GetOwner());
 	if (!Unit)
 	{
 		return;
 	}
-	FVector CurrentLoc =  Unit->GetActorLocation();
-	FVector Direction = (TargetLocation - CurrentLoc).GetSafeNormal();
-	float Speed = Unit->Speed;
-	FVector NewLocation = CurrentLoc + Direction * Speed;
-	Unit->SetActorLocation(NewLocation);
+	
+	FVector MovementDirection = FVector(1.f,0.f,0.f);
+	FVector DeltaLocation = MovementDirection.GetSafeNormal() * (Unit->Speed * DeltaTime);
+	Unit->GetRootComponent()->SetWorldLocation(DeltaLocation);
+
+	// Až budu vědět jak získat lokaci druhé základny.
+	/*FVector CurrentLoc =  Unit->GetActorLocation();
+    	FVector Direction = (TargetLocation - CurrentLoc).GetSafeNormal();
+    	float Speed = Unit->Speed;
+    	FVector NewLocation = CurrentLoc + Direction * (Speed * DeltaTime);
+    	Unit->SetActorLocation(NewLocation);*/
 }
 

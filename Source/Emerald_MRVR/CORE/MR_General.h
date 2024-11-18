@@ -125,6 +125,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
 	FTransform SpawnPoint; // Military Base spawn point
+
+	UPROPERTY(Replicated, VisibleAnywhere)
+	FVector UnitTargetLoc;
+	
+	UFUNCTION()
+	void SetUnitTargetLoc();
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	AMilitaryBase* BaseInstance;

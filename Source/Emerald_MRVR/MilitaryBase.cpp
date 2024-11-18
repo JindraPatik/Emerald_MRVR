@@ -30,6 +30,7 @@ AMilitaryBase::AMilitaryBase()
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	SetOwner(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController());
 }
 
