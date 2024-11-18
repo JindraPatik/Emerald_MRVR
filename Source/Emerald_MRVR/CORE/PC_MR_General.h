@@ -17,24 +17,13 @@ class EMERALD_MRVR_API APC_MR_General : public APlayerController
 	
 protected:
 	virtual void BeginPlay() override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 public:
 	UFUNCTION(Server, Reliable, Category="Spawning")
 	void Server_SpawnPlayer();
 
-	UFUNCTION(BlueprintCallable, Category="Core")
-	void SetOtherPlayerPC();
-	
-	UFUNCTION(BlueprintCallable, Category="Core")
-	void SetOtherPlayerPawn();
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Core")
+	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere, Category = "CORE")
 	APC_MR_General* OtherPlayerPC;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Core")
-	AMR_General* OtherPlayerPawn;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Core")
-	bool bIsReferencesSet = false;
 	
 };

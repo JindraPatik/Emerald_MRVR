@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "MilitaryBase.generated.h"
 
+class APC_MR_General;
 class AUnit;
 class UHealthComponent;
 class UBuildingsModuleComponent;
@@ -36,30 +37,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
 	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	USceneComponent* SpawnPoint_Ground;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	USceneComponent* SpawnPoint_Air;
-
-
-
-
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	FORCEINLINE FTransform GetSpawnpointGround() const { return SpawnPoint_Ground->GetComponentTransform(); }
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	USceneComponent* SpawnPoint_Ground;
 	
-	FORCEINLINE FTransform GetSpawnpointAir() const { return SpawnPoint_Air->GetComponentTransform();}
-
-	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
-	void Server_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
-
-	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
-	void Multi_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
-	
-
-	
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	USceneComponent* SpawnPoint_Air;
 	
 };

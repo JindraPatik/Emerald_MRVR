@@ -9,13 +9,8 @@
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "Emerald_MRVR/DebugMacros.h"
 
-void AEK_GameMode::InitializePCRefs(APC_MR_General* PC_MR)
-{
-	PC_MR->SetOtherPlayerPC();
-	// PC_MR->SetOtherPlayerPawn();
-	PC_MR->bIsReferencesSet = true;
-}
 
 AEK_GameMode::AEK_GameMode()
 {
@@ -28,9 +23,27 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 
 	AllPCs.Add(NewPlayer);
-	
-	
+
+	APC_MR_General* NewPC = Cast<APC_MR_General>(NewPlayer);
+	if (!NewPC)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PostLogin: New PlayerController is not of type APC_MR_General."));
+		return;
+	}
+
+	// Iterate over all PCs
+	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+	{
+		APC_MR_General* ExistingPC = Cast<APC_MR_General>(It->Get());
+		if (ExistingPC && ExistingPC != NewPC) // Najdeme jiného hráče
+		{
+			// Set references to others PCs
+			NewPC->OtherPlayerPC = ExistingPC;
+			ExistingPC->OtherPlayerPC = NewPC;
+		}
+	}
 }
+
 
 void AEK_GameMode::SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC)
 {
@@ -86,13 +99,11 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 			Pawn->Destroy();
 			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
 			PlayerController->Possess(PlayerPawn);
-			InitializePCRefs(Cast<APC_MR_General>(PlayerController));
 		}
 		else
 		{
 			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
 			PlayerController->Possess(PlayerPawn);
-			InitializePCRefs(Cast<APC_MR_General>(PlayerController));
 		}
 		PlayerPawn->PossessedBy(PlayerController);
 		

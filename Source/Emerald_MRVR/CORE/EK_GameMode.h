@@ -21,8 +21,6 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category="Networkong")
 	TArray<APlayerController*> AllPCs;
-
-	void InitializePCRefs(APC_MR_General* PC_MR);
 	
 public:
 	AEK_GameMode();

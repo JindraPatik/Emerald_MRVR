@@ -14,12 +14,15 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "PC_MR_General.h"
 #include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/Unit.h"
+#include "GameFramework/GameStateBase.h"
+#include "GameFramework/PlayerState.h"
 
 AMR_General::AMR_General()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
-	bAlwaysRelevant = true;
+	// bAlwaysRelevant = true;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	RootComponent = Camera;
@@ -51,6 +54,7 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, ReplicatedPosition);
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 	DOREPLIFETIME(AMR_General, BaseInstance);
+	DOREPLIFETIME(AMR_General, PC);
 }
 
 void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -67,11 +71,14 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::SpawnUnit);
 	
 }
+void AMR_General::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+}
 
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
-	
 	PC = Cast<APC_MR_General>(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController()) ; 
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	
@@ -102,7 +109,6 @@ void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPos
 
 void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryBase> Base)
 {
-	// GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
 	if (GameMode && (GameMode->TargetPoints.Num() > 0))
 	{
@@ -116,7 +122,7 @@ void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryB
 			FRotator SpawnRotation = TargetPoint->GetActorRotation();
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.Instigator = this;
-			SpawnParameters.Owner = this;
+			//SpawnParameters.Owner = GetWorld()->GetGameInstance()->GetFirstLocalPlayerController();
 			BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(Base, SpawnLocation, SpawnRotation, SpawnParameters);
 		}
 	}
@@ -126,12 +132,28 @@ void AMR_General::SpawnUnit()
 {
 	if (HasAuthority())
 	{
-		BaseInstance->Server_SpawnUnit(UnitToSpawn);
-		
-		if (GEngine)
-        	{
-        		GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Emerald, TEXT("Unit Spawned"));
-        	}
+		Multi_SpawnUnit(UnitToSpawnClass);
 	}
-	
+	else
+	{
+		Server_SpawnUnit(UnitToSpawnClass);
+	}
+}
+
+void AMR_General::Server_SpawnUnit_Implementation(TSubclassOf<AUnit> UnitToSpawn)
+{
+	Multi_SpawnUnit(UnitToSpawn);
+}
+
+void AMR_General::Multi_SpawnUnit_Implementation(TSubclassOf<AUnit> UnitToSpawn)
+{
+	FVector Location = BaseInstance->SpawnPoint_Ground->GetComponentLocation();
+	FRotator Rotation = BaseInstance->SpawnPoint_Ground->GetComponentRotation();
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+
+	if (UnitToSpawn)
+	{
+		GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+	}
 }

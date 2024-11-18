@@ -16,19 +16,28 @@ class EMERALD_MRVR_API UUnitMovementComponent : public UActorComponent
 public:	
 	UUnitMovementComponent();
 	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+	bool bMovementEnabled = true;
+	
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
+	void Server_SetTargetLoc();
+
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category="Spawning")
+	void Multi_SetTargetLoc();
+    
+	UFUNCTION(Server, Unreliable)
+	void Server_MoveTo(FVector TargetLocation) const;
+    
+	UFUNCTION(Server, Unreliable)
+	void Multi_MoveTo(FVector TargetLocation) const;
+	
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Moving", meta=(AllowPrivateAccess))
+	FVector TargetLoc;
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Moving", meta=(AllowPrivateAccess))
-	FVector TargetLoc;
-
-	UPROPERTY()
-	APC_MR_General* PC_This;
-
-	UFUNCTION(BlueprintCallable, Category="Spawning")
-	void SetTargetLoc();
-	
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

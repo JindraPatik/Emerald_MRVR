@@ -30,13 +30,15 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
+	virtual void PostInitializeComponents() override;
+public:
 	// CORE
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 	AEK_GameMode* GameMode;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 	APC_MR_General* PC;
+
 
 	// INPUT
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
@@ -68,7 +70,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
 	UStaticMeshComponent* ImpactPointer_R;
 
-
 	// MILITARY BASE
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
@@ -76,10 +77,19 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	ATargetPoint* TargetPoint;
 
-	TSubclassOf<AUnit> UnitToSpawn;
+	UPROPERTY(EditAnywhere, Category="Spawning")
+	TSubclassOf<AUnit> UnitToSpawnClass;
 
+
+	// Spawning Unit
 	UFUNCTION(BlueprintCallable, Category="Spawning")
 	void SpawnUnit();
+
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
+	void Server_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
+
+	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
+	void Multi_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
 
 	// Character Movement
 	UPROPERTY(ReplicatedUsing=OnRepPosition)

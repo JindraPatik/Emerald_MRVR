@@ -10,11 +10,13 @@
 #include "GameFramework/PlayerState.h"
 #include "Kismet/GameplayStatics.h"
 #include "Emerald_MRVR/DebugMacros.h"
+#include "Net/UnrealNetwork.h"
 
 
 void APC_MR_General::BeginPlay()
 {
 	Super::BeginPlay();
+	SetReplicates(true);
 	
 	if (IsLocalController())
 	{
@@ -22,52 +24,10 @@ void APC_MR_General::BeginPlay()
 	}
 }
 
-
-void APC_MR_General::SetOtherPlayerPC()
+void APC_MR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	UWorld* World = GetWorld();
-        	if (World)
-        	{
-        		AGameStateBase* GameState = World->GetGameState();
-        		if (GameState)
-        		{
-        			for (APlayerState* PlayerStateInst : GameState->PlayerArray)
-        			{
-        				APC_MR_General* PlayerControler = Cast<APC_MR_General>(PlayerStateInst->GetOwner());
-        				if (PlayerControler && PlayerControler != this)
-        				{
-        					OtherPlayerPC = PlayerControler;
-        				}
-        			}
-        		}
-        	}
-}
-
-void APC_MR_General::SetOtherPlayerPawn()
-{
-	/*AMR_General* OtherPawn = Cast<AMR_General>(OtherPlayerPC->GetPawn());
-	if (OtherPawn)
-	{
-		OtherPlayerPawn = OtherPawn;
-	}
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(2, 20.f, FColor::Green, FString::Printf(TEXT("No OtherPlayer")));*/
-	if (OtherPlayerPC)
-	{
-		AMR_General* OtherPawn = Cast<AMR_General>(OtherPlayerPC->GetPawn());
-		if (OtherPawn)
-		{
-			OtherPlayerPawn = OtherPawn;
-		}
-		else
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Red, TEXT("OtherPlayerPC does not have a Pawn"));
-		}
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Red, TEXT("OtherPlayerPC is nullptr"));
-	}
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(APC_MR_General, OtherPlayerPC);
 }
 
 void APC_MR_General::Server_SpawnPlayer_Implementation()
@@ -78,3 +38,5 @@ void APC_MR_General::Server_SpawnPlayer_Implementation()
 		GameMode->SpawnPlayer(this);
 	}
 }
+
+
