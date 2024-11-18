@@ -17,7 +17,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category="Resize")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resize")
 	float DownscaleFactor;
 	
 	void DownscaleOwner();

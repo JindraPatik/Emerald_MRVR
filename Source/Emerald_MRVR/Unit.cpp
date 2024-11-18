@@ -25,7 +25,7 @@ void AUnit::BeginPlay()
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AUnit, UnitMovementComponent)
+	// DOREPLIFETIME(AUnit, UnitMovementComponent)
 	DOREPLIFETIME(AUnit, Speed)
 	DOREPLIFETIME(AUnit, Body)
 }
