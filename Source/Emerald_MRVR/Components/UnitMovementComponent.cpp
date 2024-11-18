@@ -1,56 +1,50 @@
 #include "UnitMovementComponent.h"
-
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/CORE/PC_MR_General.h"
 #include "GameFramework/GameState.h"
-#include "GameFramework/PlayerState.h"
+#include "Net/UnrealNetwork.h"
 
 
 UUnitMovementComponent::UUnitMovementComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
-
-	SetTargetLoc();
+	bAutoActivate = true;
 }
 
 void UUnitMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UUnitMovementComponent, TargetLoc);
 }
 
 void UUnitMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
-		
+	SetTargetLoc();
 }
 
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	// SetTargetLoc();
 }
 
 void UUnitMovementComponent::SetTargetLoc()
 {
-	UWorld* World = GetWorld();
-	if (World)
+	if (UWorld* World = GetWorld())
 	{
 		APC_MR_General* PC = Cast<APC_MR_General>(World->GetGameInstance()->GetFirstLocalPlayerController()) ;
-		if (PC)
+		if (PC && PC->bIsReferencesSet)
 		{
-			AMR_General* OtherPawn = PC->GetOtherPlayerPawn();
-			if (OtherPawn)
+			// Sem dojde
+			if (AMR_General* OtherPawn = PC->OtherPlayerPawn)
 			{
+				DBG_5S("OtherPawn")
 				TargetLoc = OtherPawn->BaseInstance->GetSpawnpointGround().GetLocation();
-				// UE_LOG() doplnit
+				TargetLoc = FVector(0.f, 0.f, 100.f);
 			}
 		}
 	}
-	
-	
-			
-	
 }

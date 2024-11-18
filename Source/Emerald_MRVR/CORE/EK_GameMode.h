@@ -4,6 +4,7 @@
 #include "GameFramework/GameMode.h"
 #include "EK_GameMode.generated.h"
 
+class APC_MR_General;
 class ATargetPoint;
 class APlayerStart;
 class UCrystalSpawnerComp;
@@ -20,6 +21,8 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category="Networkong")
 	TArray<APlayerController*> AllPCs;
+
+	void InitializePCRefs(APC_MR_General* PC_MR);
 	
 public:
 	AEK_GameMode();

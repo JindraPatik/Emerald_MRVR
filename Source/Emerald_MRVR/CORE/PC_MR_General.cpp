@@ -22,7 +22,8 @@ void APC_MR_General::BeginPlay()
 	}
 }
 
-APC_MR_General* APC_MR_General::GetOtherPlayerPC() const
+
+void APC_MR_General::SetOtherPlayerPC()
 {
 	UWorld* World = GetWorld();
         	if (World)
@@ -35,23 +36,38 @@ APC_MR_General* APC_MR_General::GetOtherPlayerPC() const
         				APC_MR_General* PlayerControler = Cast<APC_MR_General>(PlayerStateInst->GetOwner());
         				if (PlayerControler && PlayerControler != this)
         				{
-        					APC_MR_General* OtherPlayerPC = PlayerControler;
-        					return OtherPlayerPC;
+        					OtherPlayerPC = PlayerControler;
         				}
         			}
         		}
         	}
-	return nullptr;
 }
 
-AMR_General* APC_MR_General::GetOtherPlayerPawn() const
+void APC_MR_General::SetOtherPlayerPawn()
 {
-	AMR_General* OtherPawn = Cast<AMR_General>(GetOtherPlayerPC()->GetPawn());
+	/*AMR_General* OtherPawn = Cast<AMR_General>(OtherPlayerPC->GetPawn());
 	if (OtherPawn)
 	{
-		return OtherPawn;
+		OtherPlayerPawn = OtherPawn;
 	}
-	return nullptr;
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(2, 20.f, FColor::Green, FString::Printf(TEXT("No OtherPlayer")));*/
+	if (OtherPlayerPC)
+	{
+		AMR_General* OtherPawn = Cast<AMR_General>(OtherPlayerPC->GetPawn());
+		if (OtherPawn)
+		{
+			OtherPlayerPawn = OtherPawn;
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Red, TEXT("OtherPlayerPC does not have a Pawn"));
+		}
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Red, TEXT("OtherPlayerPC is nullptr"));
+	}
 }
 
 void APC_MR_General::Server_SpawnPlayer_Implementation()

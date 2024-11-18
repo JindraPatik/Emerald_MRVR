@@ -20,12 +20,13 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Moving", meta=(AllowPrivateAccess))
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Moving", meta=(AllowPrivateAccess))
 	FVector TargetLoc;
 
 	UPROPERTY()
 	APC_MR_General* PC_This;
-	
+
+	UFUNCTION(BlueprintCallable, Category="Spawning")
 	void SetTargetLoc();
 	
 

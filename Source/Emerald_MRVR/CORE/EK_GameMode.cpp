@@ -10,6 +10,13 @@
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
+void AEK_GameMode::InitializePCRefs(APC_MR_General* PC_MR)
+{
+	PC_MR->SetOtherPlayerPC();
+	// PC_MR->SetOtherPlayerPawn();
+	PC_MR->bIsReferencesSet = true;
+}
+
 AEK_GameMode::AEK_GameMode()
 {
 	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
@@ -21,6 +28,8 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 
 	AllPCs.Add(NewPlayer);
+	
+	
 }
 
 void AEK_GameMode::SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC)
@@ -77,11 +86,13 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 			Pawn->Destroy();
 			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
 			PlayerController->Possess(PlayerPawn);
+			InitializePCRefs(Cast<APC_MR_General>(PlayerController));
 		}
 		else
 		{
 			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
 			PlayerController->Possess(PlayerPawn);
+			InitializePCRefs(Cast<APC_MR_General>(PlayerController));
 		}
 		PlayerPawn->PossessedBy(PlayerController);
 		

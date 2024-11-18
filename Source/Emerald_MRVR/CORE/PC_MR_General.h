@@ -15,6 +15,7 @@ class EMERALD_MRVR_API APC_MR_General : public APlayerController
 {
 	GENERATED_BODY()
 	
+protected:
 	virtual void BeginPlay() override;
 
 public:
@@ -22,9 +23,18 @@ public:
 	void Server_SpawnPlayer();
 
 	UFUNCTION(BlueprintCallable, Category="Core")
-	APC_MR_General* GetOtherPlayerPC() const;
-
+	void SetOtherPlayerPC();
+	
 	UFUNCTION(BlueprintCallable, Category="Core")
-	AMR_General* GetOtherPlayerPawn() const;
+	void SetOtherPlayerPawn();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Core")
+	APC_MR_General* OtherPlayerPC;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Core")
+	AMR_General* OtherPlayerPawn;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Core")
+	bool bIsReferencesSet = false;
 	
 };

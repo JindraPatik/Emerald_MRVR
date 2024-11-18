@@ -64,7 +64,7 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	// Bindings
-	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Triggered, this, &AMR_General::SpawnUnit);
+	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::SpawnUnit);
 	
 }
 
