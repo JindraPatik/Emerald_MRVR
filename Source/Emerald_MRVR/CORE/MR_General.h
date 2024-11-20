@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "MR_General.generated.h"
 
+class UMilitaryBaseComp;
 class AUnit;
 class APC_MR_General;
 class UResourcesComponent;
@@ -30,7 +31,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void PostInitializeComponents() override;
+	
 public:
 	// CORE
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
@@ -38,7 +39,7 @@ public:
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 	APC_MR_General* PC;
-
+	// ~CORE
 
 	// INPUT
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
@@ -72,24 +73,19 @@ public:
 
 	// MILITARY BASE
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
-	TSubclassOf<AMilitaryBase> MilitaryBase;
+	UMilitaryBaseComp* MilitaryBaseComp;
 
-	UPROPERTY(BlueprintReadOnly)
-	ATargetPoint* TargetPoint;
-
-	UPROPERTY(EditAnywhere, Category="Spawning")
-	TSubclassOf<AUnit> UnitToSpawnClass;
 
 
 	// Spawning Unit
-	UFUNCTION(BlueprintCallable, Category="Spawning")
+	/*UFUNCTION(BlueprintCallable, Category="Spawning")
 	void SpawnUnit();
 
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
 	void Server_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
 
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
-	void Multi_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
+	void Multi_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);*/
 
 	// Character Movement
 	UPROPERTY(ReplicatedUsing=OnRepPosition)
@@ -106,6 +102,7 @@ public:
 
 public:	
 	virtual void Tick(float DeltaTime) override;
+	virtual void PostInitializeComponents() override;
 
 	UFUNCTION()
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -114,29 +111,14 @@ public:
 	UFUNCTION(Server, Unreliable, Category="Position")
 	void Server_UpdatePawnPosition(const FVector& NewPosition, const FRotator& NewRotation);
 
-	UFUNCTION(Server, Reliable, BlueprintCallable)
-	void Server_SpawnMilitaryBase(TSubclassOf<AMilitaryBase> Base);
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UHealthComponent> HealthComponent;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UResourcesComponent> ResourcesComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
-	FTransform SpawnPoint; // Military Base spawn point
-
-	UPROPERTY(Replicated, VisibleAnywhere)
-	FVector UnitTargetLoc;
-	
-	UFUNCTION()
-	void SetUnitTargetLoc();
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	AMilitaryBase* BaseInstance;
-	
-	UFUNCTION(BlueprintCallable, Category="Base")
-	FORCEINLINE AMilitaryBase* GetBaseInstance() const { return BaseInstance; }
 
 	
 };

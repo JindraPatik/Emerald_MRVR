@@ -25,5 +25,4 @@ public:
 
 	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere, Category = "CORE")
 	APC_MR_General* OtherPlayerPC;
-	
 };

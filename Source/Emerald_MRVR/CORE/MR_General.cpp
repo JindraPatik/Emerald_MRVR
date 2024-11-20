@@ -14,6 +14,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "PC_MR_General.h"
 #include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Unit.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerState.h"
@@ -22,7 +23,6 @@ AMR_General::AMR_General()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
-	// bAlwaysRelevant = true;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	RootComponent = Camera;
@@ -43,11 +43,15 @@ AMR_General::AMR_General()
 	ImpactPointer_R = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerR");
 	ImpactPointer_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+	// COMPONENTS
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
+	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
+	// ~COMPONENTS
 
 }
 
+// REPLICATED PROPS
 void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -57,12 +61,10 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, PC);
 	DOREPLIFETIME(AMR_General, UnitTargetLoc);
 }
+// ~REPLICATED PROPS
 
-void AMR_General::SetUnitTargetLoc()
-{
-	UnitTargetLoc = BaseInstance->SpawnPoint_Ground->GetComponentLocation();
-}
 
+// PLAYER INPUT
 void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -74,26 +76,23 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	// Bindings
-	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::SpawnUnit);
+	// Povolit az opravim Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::SpawnUnit);
 	
 }
-void AMR_General::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-}
+// ~PLAYER INPUT
 
+
+// BEGIN PLAY
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	PC = Cast<APC_MR_General>(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController()) ; 
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
-	
-	if (GameMode && HasAuthority())
-	{
-		Server_SpawnMilitaryBase(MilitaryBase);
-	}
 }
+// ~BEGIN PLAY
 
+
+// TICK
 void AMR_General::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -107,34 +106,28 @@ void AMR_General::Tick(float DeltaTime)
 	}
 }
 
+void AMR_General::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+}
+
+// ~TICK
+
+/*void AMR_General::SetUnitTargetLoc()
+{
+	// UnitTargetLoc = BaseInstance->SpawnPoint_Ground->GetComponentLocation();
+}*/
+
+// UPDATE PAWN MOVEMENT
 void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)
 {
 	ReplicatedPosition = NewPosition;
 	ReplicatedRotation = NewRotation;
 }
+// ~UPDATE PAWN MOVEMENT
 
-void AMR_General::Server_SpawnMilitaryBase_Implementation(TSubclassOf<AMilitaryBase> Base)
-{
-	TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
-	if (GameMode && (GameMode->TargetPoints.Num() > 0))
-	{
-		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
-		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
-		GameMode->TargetPoints.RemoveAt(0);
 
-		if (TargetPoint)
-		{
-			FVector SpawnLocation = TargetPoint->GetActorLocation();
-			FRotator SpawnRotation = TargetPoint->GetActorRotation();
-			FActorSpawnParameters SpawnParameters;
-			SpawnParameters.Instigator = this;
-			SpawnParameters.Owner = this;
-			BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(Base, SpawnLocation, SpawnRotation, SpawnParameters);
-		}
-	}
-}
-
-void AMR_General::SpawnUnit()
+/*void AMR_General::SpawnUnit()
 {
 	if (HasAuthority())
 	{
@@ -162,4 +155,4 @@ void AMR_General::Multi_SpawnUnit_Implementation(TSubclassOf<AUnit> UnitToSpawn)
 	{
 		GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
 	}
-}
+}*/

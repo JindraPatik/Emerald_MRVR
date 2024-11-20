@@ -41,7 +41,8 @@ public:
 	void FindAllPlayerStarts();
 	
 	UFUNCTION(BlueprintCallable)
-	void GetAllTargetpoints();
+	TArray<ATargetPoint*> GetAllTargetpoints();
+
 	
 	UPROPERTY(Replicated, BlueprintReadOnly, Category="Spawning")
 	TArray<ATargetPoint*> TargetPoints;
