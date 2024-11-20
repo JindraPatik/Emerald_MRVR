@@ -79,16 +79,6 @@ public:
 	UFUNCTION()
 	void SpawnMilitaryBase();
 
-	// Spawning Unit
-	/*UFUNCTION(BlueprintCallable, Category="Spawning")
-	void SpawnUnit();
-
-	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
-	void Server_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);
-
-	UFUNCTION(Server, Reliable, BlueprintCallable, Category="Spawning")
-	void Multi_SpawnUnit(TSubclassOf<AUnit> UnitToSpawn);*/
-
 	// Character Movement
 	UPROPERTY(ReplicatedUsing=OnRepPosition)
 	FVector ReplicatedPosition;

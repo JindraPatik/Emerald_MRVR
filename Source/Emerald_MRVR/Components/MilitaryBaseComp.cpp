@@ -1,11 +1,11 @@
 #include "MilitaryBaseComp.h"
 
 #include "AsyncTreeDifferences.h"
-#include "DebugMacros.h"
-#include "MilitaryBase.h"
-#include "Unit.h"
-#include "CORE/EK_GameMode.h"
-#include "CORE/MR_General.h"
+#include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/MilitaryBase.h"
+#include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/CORE/EK_GameMode.h"
+#include "Emerald_MRVR/CORE/MR_General.h"
 #include "Engine/TargetPoint.h"
 #include "Net/UnrealNetwork.h"
 
@@ -41,12 +41,10 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 {
 	if (!OwningPawn->HasAuthority())
 	{
-		// Pokud nejsme na serveru, požádej server, aby provedl spawn
 		Server_SpawnMilitaryBase(OwningPawn);
-		return; // Ukonči funkci na klientovi
+		return;
 	}
 
-	// Pokud jsme na serveru, pokračujeme zde
 	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	if (!GameMode)
 	{
@@ -54,7 +52,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 		return;
 	}
 
-	//TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
+	// TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
 	if (GameMode && (GameMode->TargetPoints.Num() > 0))
 	{
 		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
@@ -71,7 +69,6 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 
 			if (General)
 			{
-				// Provádíme spawn pouze na serveru
 				General->BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
 			}
 		}
@@ -95,6 +92,7 @@ void UMilitaryBaseComp::SpawnUnit()
 		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
 		FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
 		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = Cast<AActor>(General);
         
         	if (!UnitToSpawn)
         	{

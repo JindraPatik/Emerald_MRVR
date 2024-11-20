@@ -21,8 +21,8 @@ protected:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 	TObjectPtr<UStaticMeshComponent> Body;
 
-	/*UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="Movement")
-	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
+	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
@@ -37,5 +37,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
 	float Price;
+	
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Movement")
+	FVector TargetLoc;
+
 	
 };

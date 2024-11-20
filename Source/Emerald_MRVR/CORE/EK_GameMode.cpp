@@ -85,7 +85,6 @@ FTransform AEK_GameMode::FindMyPlayerStart()
 	APlayerStart* SelectedPlayerStart = AllPlayerStarts[0];
 	AllPlayerStarts.Remove(SelectedPlayerStart);
 	return SelectedPlayerStart->GetTransform();
-
 }
 
 // Spawn player at custom player start
@@ -112,7 +111,6 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 		
 	}	
 }
-
 
 TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 {

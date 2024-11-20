@@ -14,7 +14,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "PC_MR_General.h"
 #include "Emerald_MRVR/DebugMacros.h"
-#include "Emerald_MRVR/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Unit.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerState.h"

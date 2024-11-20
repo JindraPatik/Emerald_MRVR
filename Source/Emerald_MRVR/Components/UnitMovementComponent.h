@@ -21,6 +21,7 @@ public:
 	   
 	UFUNCTION(BlueprintCallable, Category="Moving")
 	void MoveTo(float DeltaTime) const;
+
 	
 protected:
 	virtual void BeginPlay() override;

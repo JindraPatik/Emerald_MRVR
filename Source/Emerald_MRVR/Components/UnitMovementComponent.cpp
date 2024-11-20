@@ -18,13 +18,10 @@ UUnitMovementComponent::UUnitMovementComponent()
 	SetIsReplicated(true);
 }
 
-
-
 void UUnitMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
-
 
 void UUnitMovementComponent::BeginPlay()
 {
@@ -35,10 +32,7 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (bMovementEnabled)
-	{
-		// MoveTo(DeltaTime);
-	}
+	
 }
 
 
@@ -50,15 +44,15 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 		return;
 	}
 	
-	FVector MovementDirection = FVector(1.f,0.f,0.f);
+	FVector MovementDirection = Unit->GetActorForwardVector();
 	FVector DeltaLocation = MovementDirection.GetSafeNormal() * (Unit->Speed * DeltaTime);
-	Unit->GetRootComponent()->SetWorldLocation(DeltaLocation);
-
+	Unit->AddActorWorldOffset(DeltaLocation);
+	
 	// Až budu vědět jak získat lokaci druhé základny.
 	/*FVector CurrentLoc =  Unit->GetActorLocation();
-    	FVector Direction = (TargetLocation - CurrentLoc).GetSafeNormal();
-    	float Speed = Unit->Speed;
-    	FVector NewLocation = CurrentLoc + Direction * (Speed * DeltaTime);
-    	Unit->SetActorLocation(NewLocation);*/
+	FVector Direction = (TargetLocation - CurrentLoc).GetSafeNormal();
+	float Speed = Unit->Speed;
+	FVector NewLocation = CurrentLoc + Direction * (Speed * DeltaTime);
+	Unit->SetActorLocation(NewLocation);*/
 }
 
