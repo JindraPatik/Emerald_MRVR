@@ -92,7 +92,7 @@ void UMilitaryBaseComp::SpawnUnit()
 		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
 		FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
 		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = Cast<AActor>(General);
+		SpawnParams.Owner = General->GetController();
         
         	if (!UnitToSpawn)
         	{

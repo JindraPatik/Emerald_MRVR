@@ -4,6 +4,7 @@
 #include "GameFramework/Pawn.h"
 #include "Unit.generated.h"
 
+class USphereComponent;
 class UUnitMovementComponent;
 
 UCLASS()
@@ -18,8 +19,11 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 	TObjectPtr<UStaticMeshComponent> Body;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Collision")
+	TObjectPtr<USphereComponent> SphereComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
 	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
@@ -38,8 +42,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
 	float Price;
 	
-	UPROPERTY(Replicated, VisibleAnywhere, Category="Movement")
-	FVector TargetLoc;
+	/*UPROPERTY(Replicated, VisibleAnywhere, Category="Movement")
+	FVector TargetLoc;*/
 
 	
 };

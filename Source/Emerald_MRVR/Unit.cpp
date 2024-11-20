@@ -1,6 +1,7 @@
 #include "Unit.h"
 
 #include "MilitaryBase.h"
+#include "SphereComponent.h"
 #include "Components/UnitMovementComponent.h"
 #include "CORE/MR_General.h"
 #include "CORE/PC_MR_General.h"
@@ -17,12 +18,16 @@ AUnit::AUnit()
 	RootComponent = Body;
 	bReplicates = true;
 	UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
+
+	SphereComponent = CreateDefaultSubobject<USphereComponent>("SphereComponent");
+	SphereComponent->SetupAttachment(Body);
+	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	SphereComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 }
 
 void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
-	TargetLoc = FVector(0.f, 0.f, 0.f);
 
 }
 
@@ -30,8 +35,7 @@ void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimePro
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AUnit, Speed)
-	DOREPLIFETIME(AUnit, Body)
-	DOREPLIFETIME(AUnit, TargetLoc)
+	//DOREPLIFETIME(AUnit, TargetLoc)
 }
 
 void AUnit::Tick(float DeltaTime)
