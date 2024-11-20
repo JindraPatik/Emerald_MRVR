@@ -15,11 +15,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="Custom movement comp, JustForward for now">
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="Provizorni Combat v BP">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Unit/BP_BaseUnit.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Unit/BP_BaseUnit.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Unit.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Unit.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Unit.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Unit.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Data/Units/Harvester.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Data/Units/Harvester.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1122,7 +1127,7 @@
       <workItem from="1731423097202" duration="427000" />
       <workItem from="1731599049920" duration="127000" />
       <workItem from="1731600514365" duration="254000" />
-      <workItem from="1732093412995" duration="14412000" />
+      <workItem from="1732093412995" duration="16442000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1172,7 +1177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732110330460</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Provizorni Combat v BP">
+      <option name="closed" value="true" />
+      <created>1732112184623</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732112184623</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1211,6 +1224,7 @@
     <MESSAGE value="MilitaryBaseComp spawns Unit" />
     <MESSAGE value="Spawning base works" />
     <MESSAGE value="Custom movement comp, JustForward for now" />
-    <option name="LAST_COMMIT_MESSAGE" value="Custom movement comp, JustForward for now" />
+    <MESSAGE value="Provizorni Combat v BP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Provizorni Combat v BP" />
   </component>
 </project>

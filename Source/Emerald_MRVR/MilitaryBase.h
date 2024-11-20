@@ -34,12 +34,13 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, Category="Visuals")
 	UDownScaleComponent* DownScaleComponent;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
-	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
+	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
+	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Ground;
 	

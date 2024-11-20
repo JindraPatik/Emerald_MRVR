@@ -58,7 +58,6 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, ReplicatedPosition);
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 	DOREPLIFETIME(AMR_General, BaseInstance);
-	DOREPLIFETIME(AMR_General, PC);
 }
 // ~REPLICATED PROPS
 
@@ -85,7 +84,6 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
-	PC = Cast<APC_MR_General>(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController()) ; 
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	
 	if (IsLocallyControlled())
@@ -107,6 +105,7 @@ void AMR_General::SpawnMilitaryBase()
 
 void AMR_General::Action_SpawnUnit()
 {
+	
 	MilitaryBaseComp->SpawnUnit();
 }
 

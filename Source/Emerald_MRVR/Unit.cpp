@@ -1,11 +1,14 @@
 #include "Unit.h"
 
+#include "DebugMacros.h"
 #include "MilitaryBase.h"
 #include "SphereComponent.h"
+#include "Components/MilitaryBaseComp.h"
 #include "Components/UnitMovementComponent.h"
 #include "CORE/MR_General.h"
 #include "CORE/PC_MR_General.h"
 #include "CORE/MR_General.h"
+#include "Data/UnitDataAsset.h"
 #include "GameFramework/GameSession.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
@@ -28,6 +31,8 @@ AUnit::AUnit()
 void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
+
+	SetUnitStats();
 
 }
 
@@ -53,5 +58,18 @@ void AUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AUnit::SetUnitStats()
+{
+	AMR_General* General = Cast<AMR_General>(GetOwner());
+	if (General && General->MilitaryBaseComp->SelectedUnit)
+	{
+		UUnitDataAsset* UnitStats = General->MilitaryBaseComp->SelectedUnit;
+		Speed = UnitStats->Speed;
+		Price = UnitStats->Price;
+		Strenght = UnitStats->Strength;
+	}
+	DBG_5S("UNIT::General->MilitaryBaseComp->SelectedUnit NOT VALID")
 }
 

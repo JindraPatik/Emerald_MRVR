@@ -37,9 +37,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 	AEK_GameMode* GameMode;
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="CORE")
-	APC_MR_General* PC;
-	
 	// ~CORE
 
 	// INPUT

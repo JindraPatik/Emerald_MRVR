@@ -1,11 +1,14 @@
 #include "MilitaryBaseComp.h"
 
 #include "AsyncTreeDifferences.h"
+#include "BuildingsModuleComponent.h"
+#include "ResourcesComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Engine/TargetPoint.h"
 #include "Net/UnrealNetwork.h"
 
@@ -30,7 +33,15 @@ void UMilitaryBaseComp::BeginPlay()
 	Super::BeginPlay();
 	SetIsReplicatedByDefault(true);
 	General = Cast<AMR_General>(GetOwner());
+	AvailableModules = General->BaseInstance->BuildingsModuleComponent->AvailableBuildings;
 }
+
+
+void UMilitaryBaseComp::SelectUnitToSpawn(UBuildingDataAsset* SelectedBuilding)
+{
+	SelectedUnit = SelectedBuilding->UnitToSpawn;
+}
+
 
 void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -79,7 +90,6 @@ void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* Own
 	SpawnMilitaryBase(OwningPawn);
 }
 
-
 void UMilitaryBaseComp::SpawnUnit()
 {
 	if (!GetOwner()->HasAuthority())
@@ -110,10 +120,22 @@ void UMilitaryBaseComp::SpawnUnit()
 	
 }
 
+
 void UMilitaryBaseComp::Server_SpawnUnit_Implementation()
 {
 	SpawnUnit();
 }
+
+bool UMilitaryBaseComp::HasEnoughResources() const
+{
+	// Dodelat po nacteni z DataAssetu;
+	if (General && General->ResourcesComponent)
+	{
+		float AvailableResources = General->ResourcesComponent->AvailableResources;
+	}
+	return true;
+}
+
 
 
 

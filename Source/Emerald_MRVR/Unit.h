@@ -36,14 +36,15 @@ public:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
 	float Speed;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 	float Strenght;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 	float Price;
-	
-	/*UPROPERTY(Replicated, VisibleAnywhere, Category="Movement")
-	FVector TargetLoc;*/
+
+	UFUNCTION()
+	void SetUnitStats();
+
 
 	
 };

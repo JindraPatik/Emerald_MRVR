@@ -5,6 +5,8 @@
 #include "MilitaryBaseComp.generated.h"
 
 
+class UUnitDataAsset;
+class UBuildingDataAsset;
 class AMR_General;
 class AMilitaryBase;
 class AUnit;
@@ -43,10 +45,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Units")
 	TSubclassOf<AUnit> UnitToSpawn;
 
+	UFUNCTION()
+	void SelectUnitToSpawn(UBuildingDataAsset* SelectedBuilding);
 
-	
-	/*UFUNCTION()
-	void SetUnitTargetLoc();*/
 
 
 public:	
@@ -61,6 +62,15 @@ public:
 	UFUNCTION()
 	void SpawnUnit();
 
-	UFUNCTION(Server, Reliable)
+	UFUNCTION(Server, Reliable, Category="UnitSpawning")
 	void Server_SpawnUnit();
+
+	UFUNCTION(Category="UnitSpawning")
+	bool HasEnoughResources() const;
+
+	UPROPERTY(VisibleAnywhere, Category="UnitSpawning")
+	TArray<UBuildingDataAsset*> AvailableModules;
+
+	UPROPERTY(VisibleAnywhere, Category="UnitSpawning")
+	UUnitDataAsset* SelectedUnit;
 };
