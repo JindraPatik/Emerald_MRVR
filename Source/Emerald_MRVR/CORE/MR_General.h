@@ -100,6 +100,9 @@ public:
 	UFUNCTION()
 	void OnRepRotation() const {RootComponent->SetWorldRotation(ReplicatedRotation);}
 
+	UFUNCTION()
+	void Action_SpawnUnit();
+
 public:	
 	virtual void Tick(float DeltaTime) override;
 	virtual void PostInitializeComponents() override;

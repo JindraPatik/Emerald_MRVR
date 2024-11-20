@@ -36,12 +36,14 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	ATargetPoint* TargetPoint;
-	
-	UPROPERTY(EditAnywhere, Category="Spawning")
-	TSubclassOf<AUnit> UnitToSpawnClass;
 
 	UPROPERTY(Replicated, VisibleAnywhere)
 	FVector UnitTargetLoc;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Units")
+	TSubclassOf<AUnit> UnitToSpawn;
+
+
 	
 	/*UFUNCTION()
 	void SetUnitTargetLoc();*/
@@ -55,5 +57,10 @@ public:
 	
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
 	void Server_SpawnMilitaryBase(AMR_General* OwningPawn);
-	
+
+	UFUNCTION()
+	void SpawnUnit();
+
+	UFUNCTION(Server, Reliable)
+	void Server_SpawnUnit();
 };

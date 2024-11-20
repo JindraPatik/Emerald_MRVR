@@ -59,7 +59,6 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 	DOREPLIFETIME(AMR_General, BaseInstance);
 	DOREPLIFETIME(AMR_General, PC);
-	DOREPLIFETIME(AMR_General, UnitTargetLoc);
 }
 // ~REPLICATED PROPS
 
@@ -76,7 +75,7 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	// Bindings
-	// Povolit az opravim Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::SpawnUnit);
+	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::Action_SpawnUnit);
 	
 }
 // ~PLAYER INPUT
@@ -91,6 +90,11 @@ void AMR_General::BeginPlay()
 }
 // ~BEGIN PLAY
 
+
+void AMR_General::Action_SpawnUnit()
+{
+	MilitaryBaseComp->SpawnUnit();
+}
 
 // TICK
 void AMR_General::Tick(float DeltaTime)

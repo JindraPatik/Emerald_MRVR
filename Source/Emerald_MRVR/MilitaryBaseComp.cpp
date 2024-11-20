@@ -1,6 +1,8 @@
 #include "MilitaryBaseComp.h"
 
+#include "DebugMacros.h"
 #include "MilitaryBase.h"
+#include "Unit.h"
 #include "CORE/EK_GameMode.h"
 #include "CORE/MR_General.h"
 #include "Engine/TargetPoint.h"
@@ -19,8 +21,9 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 	DOREPLIFETIME(UMilitaryBaseComp, General);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitTargetLoc);
-);
 }
+
+
 void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
@@ -33,8 +36,6 @@ void UMilitaryBaseComp::BeginPlay()
 		Server_SpawnMilitaryBase(General);
 	}
 }
-
-
 
 void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -65,9 +66,39 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 		}
 	}
 }
-
 void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* OwningPawn)
 {
 	SpawnMilitaryBase(OwningPawn);
 }
+
+
+void UMilitaryBaseComp::SpawnUnit()
+{
+	if (!GetOwner()->HasAuthority())
+	{
+		Server_SpawnUnit();
+	}
+	
+	FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
+	FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
+	FActorSpawnParameters SpawnParams;
+
+	if (!UnitToSpawn)
+	{
+		DBG_5S("MBC: No unit set!")
+	}
+	else
+	{
+		GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+	}
+	
+}
+
+void UMilitaryBaseComp::Server_SpawnUnit_Implementation()
+{
+	SpawnUnit();
+}
+
+
+
 
