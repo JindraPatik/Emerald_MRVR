@@ -19,8 +19,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
 	TSubclassOf<AMR_General> PawnToSpawn;
 
-	UPROPERTY(BlueprintReadOnly, Category="Networkong")
-	TArray<APlayerController*> AllPCs;
 	
 public:
 	AEK_GameMode();
@@ -30,19 +28,22 @@ public:
 	virtual void SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC) override;
 	virtual void Logout(AController* Exiting) override;
 	
+	UPROPERTY(BlueprintReadOnly, Category="Networkong")
+	TArray<APlayerController*> AllPCs;
+	 
 	UFUNCTION(Category="Spawning")
 	FTransform FindMyPlayerStart();
 
 	UFUNCTION(Category="Spawning")
 	void SpawnPlayer(APlayerController* PlayerController);
 
-	UFUNCTION(BlueprintCallable)
-	TArray<ATargetPoint*> GetAllTargetpoints();
-
 	UFUNCTION()
 	void FindAllPlayerStarts();
 	
-	UPROPERTY(BlueprintReadOnly, Category="Spawning")
+	UFUNCTION(BlueprintCallable)
+	void GetAllTargetpoints();
+	
+	UPROPERTY(Replicated, BlueprintReadOnly, Category="Spawning")
 	TArray<ATargetPoint*> TargetPoints;
 
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")

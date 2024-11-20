@@ -71,6 +71,8 @@ void AEK_GameMode::BeginPlay()
 void AEK_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AEK_GameMode, TargetPoints);
 }
 
 // Iterate all Player starts and return FTransform
@@ -106,19 +108,16 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 			PlayerController->Possess(PlayerPawn);
 		}
 		PlayerPawn->PossessedBy(PlayerController);
-		
 	}	
 }
 
-
-TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
+void AEK_GameMode::GetAllTargetpoints()
 {
 	TArray<ATargetPoint*> TPs;
 	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
 	{
 		TargetPoints.Add(*It);
 	}
-	return TPs;
 }
 
 void AEK_GameMode::FindAllPlayerStarts()
