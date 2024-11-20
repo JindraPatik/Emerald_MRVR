@@ -1,5 +1,6 @@
 #include "MilitaryBaseComp.h"
 
+#include "AsyncTreeDifferences.h"
 #include "DebugMacros.h"
 #include "MilitaryBase.h"
 #include "Unit.h"
@@ -28,13 +29,7 @@ void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
 	SetIsReplicatedByDefault(true);
-
 	General = Cast<AMR_General>(GetOwner());
-
-	if (General && General->IsLocallyControlled())
-	{
-		Server_SpawnMilitaryBase(General);
-	}
 }
 
 void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -44,8 +39,22 @@ void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 {
+	if (!OwningPawn->HasAuthority())
+	{
+		// Pokud nejsme na serveru, požádej server, aby provedl spawn
+		Server_SpawnMilitaryBase(OwningPawn);
+		return; // Ukonči funkci na klientovi
+	}
+
+	// Pokud jsme na serveru, pokračujeme zde
 	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
-	TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
+	if (!GameMode)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameMode is invalid!"));
+		return;
+	}
+
+	//TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
 	if (GameMode && (GameMode->TargetPoints.Num() > 0))
 	{
 		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
@@ -59,8 +68,10 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.Instigator = OwningPawn;
 			SpawnParameters.Owner = OwningPawn;
+
 			if (General)
 			{
+				// Provádíme spawn pouze na serveru
 				General->BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
 			}
 		}
@@ -78,18 +89,25 @@ void UMilitaryBaseComp::SpawnUnit()
 	{
 		Server_SpawnUnit();
 	}
-	
-	FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
-	FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
-	FActorSpawnParameters SpawnParams;
 
-	if (!UnitToSpawn)
+	if (General && General->BaseInstance && General->BaseInstance->SpawnPoint_Ground)
 	{
-		DBG_5S("MBC: No unit set!")
+		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
+		FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
+		FActorSpawnParameters SpawnParams;
+        
+        	if (!UnitToSpawn)
+        	{
+        		DBG_5S("MBC: No unit set!")
+        	}
+        	else
+        	{
+        		GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+        	}
 	}
 	else
 	{
-		GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+		DBG_5S("MBC: No MB or SpawnPoint!") 
 	}
 	
 }

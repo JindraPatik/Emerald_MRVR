@@ -23,6 +23,7 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 
 	AllPCs.Add(NewPlayer);
+	GetAllTargetpoints();
 
 	APC_MR_General* NewPC = Cast<APC_MR_General>(NewPlayer);
 	if (!NewPC)

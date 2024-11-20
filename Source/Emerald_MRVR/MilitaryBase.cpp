@@ -31,7 +31,7 @@ void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	SetOwner(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController());
+	// SetOwner(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController());
 }
 
 void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

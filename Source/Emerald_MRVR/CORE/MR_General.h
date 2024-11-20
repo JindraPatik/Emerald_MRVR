@@ -39,6 +39,7 @@ public:
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 	APC_MR_General* PC;
+	
 	// ~CORE
 
 	// INPUT
@@ -75,7 +76,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	UMilitaryBaseComp* MilitaryBaseComp;
 
-
+	UFUNCTION()
+	void SpawnMilitaryBase();
 
 	// Spawning Unit
 	/*UFUNCTION(BlueprintCallable, Category="Spawning")
@@ -122,7 +124,6 @@ public:
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	AMilitaryBase* BaseInstance;
-
 	
 };
 

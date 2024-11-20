@@ -30,6 +30,16 @@ void APC_MR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	DOREPLIFETIME(APC_MR_General, OtherPlayerPC);
 }
 
+void APC_MR_General::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+	AMR_General* General = Cast<AMR_General>(InPawn);
+	if (General)
+	{
+		General->SpawnMilitaryBase();
+	}
+}
+
 void APC_MR_General::Server_SpawnPlayer_Implementation()
 {
 	AEK_GameMode* GameMode = Cast<AEK_GameMode>(UGameplayStatics::GetGameMode(GetWorld()));

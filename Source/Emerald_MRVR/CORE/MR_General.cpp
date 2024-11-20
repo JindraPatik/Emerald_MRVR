@@ -87,7 +87,21 @@ void AMR_General::BeginPlay()
 	Super::BeginPlay();
 	PC = Cast<APC_MR_General>(GetWorld()->GetGameInstance()->GetFirstLocalPlayerController()) ; 
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	
+	if (IsLocallyControlled())
+	{
+		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
+	}
 }
+
+void AMR_General::SpawnMilitaryBase()
+{
+	if (IsLocallyControlled())
+	{
+		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
+	}
+}
+
 // ~BEGIN PLAY
 
 
@@ -113,6 +127,7 @@ void AMR_General::Tick(float DeltaTime)
 void AMR_General::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
+
 }
 
 // ~TICK
@@ -131,32 +146,3 @@ void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPos
 // ~UPDATE PAWN MOVEMENT
 
 
-/*void AMR_General::SpawnUnit()
-{
-	if (HasAuthority())
-	{
-		Server_SpawnUnit(UnitToSpawnClass);
-	}
-	else
-	{
-		Server_SpawnUnit(UnitToSpawnClass);
-	}
-}
-
-void AMR_General::Server_SpawnUnit_Implementation(TSubclassOf<AUnit> UnitToSpawn)
-{
-	Multi_SpawnUnit(UnitToSpawn);
-}
-
-void AMR_General::Multi_SpawnUnit_Implementation(TSubclassOf<AUnit> UnitToSpawn)
-{
-	FVector Location = BaseInstance->SpawnPoint_Ground->GetComponentLocation();
-	FRotator Rotation = BaseInstance->SpawnPoint_Ground->GetComponentRotation();
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
-
-	if (UnitToSpawn)
-	{
-		GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
-	}
-}*/
