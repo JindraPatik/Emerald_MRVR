@@ -62,7 +62,17 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, ReplicatedPosition);
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 	DOREPLIFETIME(AMR_General, BaseInstance);
+	DOREPLIFETIME(AMR_General, AvailableBuildings);
 }
+
+void AMR_General::OnRep_BaseInstance()
+{
+	if (IsLocallyControlled())
+	{
+		EnsureInitializeAvailabeBuildings();
+	}
+}
+
 // ~REPLICATED PROPS
 
 
@@ -89,42 +99,51 @@ void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
-	InitializeAvailableBuildings();
 	
+// Jsem Server	
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
+		// EnsureInitializeAvailabeBuildings();
 	}
 }
 
+// Volá PC
 void AMR_General::SpawnMilitaryBase()
 {
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
+		EnsureInitializeAvailabeBuildings();
 	}
+	
 }
 
-void AMR_General::InitializeAvailableBuildings()
+void AMR_General::InitializeAvailableBuildings_Implementation()
 {
-	if (BaseInstance && BaseInstance->BuildingsModuleComponent && BaseInstance->BuildingsModuleComponent->AvailableBuildings.Num() > 0)
+	//if (HasAuthority())
 	{
-		AvailableBuildings = BaseInstance->BuildingsModuleComponent->AvailableBuildings;
+		if (BaseInstance && BaseInstance->BuildingsModuleComponent && BaseInstance->BuildingsModuleComponent->AvailableBuildings.Num() > 0)
+        	{
+        		AvailableBuildings = BaseInstance->BuildingsModuleComponent->AvailableBuildings;
+        		DBG_5S("Available buildings initialized")
+        	}
 	}
+	
+}
 
-	
-	
+void AMR_General::EnsureInitializeAvailabeBuildings()
+{
+	!BaseInstance ? EnsureInitializeAvailabeBuildings() : InitializeAvailableBuildings();
 }
 
 void AMR_General::SelectBuilding()
 {
-	//	BuildingsMap.Add(Building->BuildingName);
 	for (UBuildingDataAsset* Building : AvailableBuildings)
 	{
 		
 	}
 }
-
 // ~BEGIN PLAY
 
 void AMR_General::Action_SpawnUnit()
@@ -145,19 +164,14 @@ void AMR_General::Tick(float DeltaTime)
 		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
 	}
 }
+// ~TICK
 
+// Post initialize comp
 void AMR_General::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-
 }
-
-// ~TICK
-
-/*void AMR_General::SetUnitTargetLoc()
-{
-	// UnitTargetLoc = BaseInstance->SpawnPoint_Ground->GetComponentLocation();
-}*/
+// ~Post initialize comp
 
 // UPDATE PAWN MOVEMENT
 void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)

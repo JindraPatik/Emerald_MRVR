@@ -7,6 +7,7 @@ UBuildingsModuleComponent::UBuildingsModuleComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
+	SetIsReplicated(true);
 }
 
 

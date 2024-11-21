@@ -12,6 +12,8 @@ class UBuildingsModuleComponent;
 class UDownScaleComponent;
 class UBoxComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInitialized_Delegate);
+
 UCLASS()
 class EMERALD_MRVR_API AMilitaryBase : public AActor
 {
@@ -22,6 +24,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
@@ -59,9 +62,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Buildings")
 	TObjectPtr<UBoxComponent> GarageBox;
 
-
 public:	
 	virtual void Tick(float DeltaTime) override;
+	
+	UPROPERTY(BlueprintAssignable, Category="Events")
+	FOnInitialized_Delegate OnInitialized;
+
+	void NotifyInitialized();
+
+	void EnsureInitializationNotify();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
 	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
