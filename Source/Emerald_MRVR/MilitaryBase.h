@@ -34,6 +34,31 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, Category="Visuals")
 	UDownScaleComponent* DownScaleComponent;
 
+	// Building modules
+	UPROPERTY(EditAnywhere, Category = "Buildings")
+	TObjectPtr<USceneComponent> Modules;
+
+	// Mine
+	UPROPERTY(EditAnywhere, Category = "Buildings")
+	TObjectPtr<UStaticMeshComponent> Mine;
+	
+	UPROPERTY(EditAnywhere, Category = "Buildings")
+	TObjectPtr<UBoxComponent> MineBox;
+
+	// Mine
+	UPROPERTY(EditAnywhere, Category = "Buildings")
+	TObjectPtr<UStaticMeshComponent> Barracs;
+	
+	UPROPERTY(EditAnywhere, Category = "Buildings")
+	TObjectPtr<UBoxComponent> BarracsBox;
+
+	// Garage
+	UPROPERTY(EditAnywhere, Category = "Buildings")
+	TObjectPtr<UStaticMeshComponent> Garage;
+	
+	UPROPERTY(EditAnywhere, Category = "Buildings")
+	TObjectPtr<UBoxComponent> GarageBox;
+
 
 public:	
 	virtual void Tick(float DeltaTime) override;

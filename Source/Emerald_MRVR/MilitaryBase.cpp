@@ -16,8 +16,10 @@ AMilitaryBase::AMilitaryBase()
 
 	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
 	RootComponent = BaseBody;
+	
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
-	BaseBox->SetupAttachment(RootComponent);
+	BaseBox->SetupAttachment(BaseBody);
+	
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	BuildingsModuleComponent = CreateDefaultSubobject<UBuildingsModuleComponent>("BuildingsModuleComponent");
 	
@@ -25,6 +27,32 @@ AMilitaryBase::AMilitaryBase()
 	SpawnPoint_Ground->SetupAttachment(RootComponent);
 	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
 	SpawnPoint_Air->SetupAttachment(RootComponent);
+
+	// Modules
+	Modules = CreateDefaultSubobject<USceneComponent>(TEXT("ModulesRoot"));
+	Modules->SetupAttachment(RootComponent);
+
+	// Mine
+	Mine = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mine"));
+	Mine->SetupAttachment(Modules);
+	MineBox = CreateDefaultSubobject<UBoxComponent>(TEXT("MineBox"));
+	MineBox->SetupAttachment(Mine);
+
+	// Barracs
+	Barracs = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Barracs"));
+	Barracs->SetupAttachment(Modules);
+	BarracsBox = CreateDefaultSubobject<UBoxComponent>(TEXT("BarracsBox"));
+	BarracsBox->SetupAttachment(Barracs);
+
+	// Garage
+	Garage = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Garage"));
+	Garage->SetupAttachment(Modules);
+	GarageBox = CreateDefaultSubobject<UBoxComponent>(TEXT("GarageBox"));
+	GarageBox->SetupAttachment(Garage);
+
+	// Postupne doplnit vsechny moduly!!!
+
+	
 }
 
 void AMilitaryBase::BeginPlay()

@@ -16,8 +16,12 @@
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
+#include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerState.h"
+#include "Emerald_MRVR/EKG_Enums.h"
+
 
 AMR_General::AMR_General()
 {
@@ -85,6 +89,7 @@ void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	InitializeAvailableBuildings();
 	
 	if (IsLocallyControlled())
 	{
@@ -100,12 +105,30 @@ void AMR_General::SpawnMilitaryBase()
 	}
 }
 
-// ~BEGIN PLAY
+void AMR_General::InitializeAvailableBuildings()
+{
+	if (BaseInstance && BaseInstance->BuildingsModuleComponent && BaseInstance->BuildingsModuleComponent->AvailableBuildings.Num() > 0)
+	{
+		AvailableBuildings = BaseInstance->BuildingsModuleComponent->AvailableBuildings;
+	}
 
+	
+	
+}
+
+void AMR_General::SelectBuilding()
+{
+	//	BuildingsMap.Add(Building->BuildingName);
+	for (UBuildingDataAsset* Building : AvailableBuildings)
+	{
+		
+	}
+}
+
+// ~BEGIN PLAY
 
 void AMR_General::Action_SpawnUnit()
 {
-	
 	MilitaryBaseComp->SpawnUnit();
 }
 

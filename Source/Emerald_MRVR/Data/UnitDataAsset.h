@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Emerald_MRVR/EKG_Enums.h"
 #include "UnitDataAsset.generated.h"
 
 UCLASS()
@@ -12,6 +13,9 @@ class EMERALD_MRVR_API UUnitDataAsset : public UPrimaryDataAsset
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Info")
 	FName UnitName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Info")
+	EKGUnits UnitType;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Spawning")
 	float Price;

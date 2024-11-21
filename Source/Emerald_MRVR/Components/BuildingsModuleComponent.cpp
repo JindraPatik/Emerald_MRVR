@@ -1,5 +1,7 @@
 #include "BuildingsModuleComponent.h"
 
+#include "BoxComponent.h"
+
 
 UBuildingsModuleComponent::UBuildingsModuleComponent()
 {

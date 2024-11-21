@@ -33,7 +33,8 @@ void UMilitaryBaseComp::BeginPlay()
 	Super::BeginPlay();
 	SetIsReplicatedByDefault(true);
 	General = Cast<AMR_General>(GetOwner());
-	AvailableModules = General->BaseInstance->BuildingsModuleComponent->AvailableBuildings;
+	// UDELAT EVENTABY SE NACETLO PO NASPAWNOVANI BASE
+	// AvailableModules = General->BaseInstance->BuildingsModuleComponent->AvailableBuildings;
 }
 
 
@@ -64,7 +65,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 	}
 
 	// TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
-	if (GameMode && (GameMode->TargetPoints.Num() > 0))
+	if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
 	{
 		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
 		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
@@ -119,7 +120,6 @@ void UMilitaryBaseComp::SpawnUnit()
 	}
 	
 }
-
 
 void UMilitaryBaseComp::Server_SpawnUnit_Implementation()
 {

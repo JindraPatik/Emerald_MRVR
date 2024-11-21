@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "MR_General.generated.h"
 
+class UBuildingDataAsset;
 class UMilitaryBaseComp;
 class AUnit;
 class APC_MR_General;
@@ -75,6 +76,18 @@ public:
 
 	UFUNCTION()
 	void SpawnMilitaryBase();
+
+	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")
+	TArray<UBuildingDataAsset*> AvailableBuildings;
+
+	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")
+	TMap<FName, int32> BuildingsMap;
+	
+	UFUNCTION()
+	void InitializeAvailableBuildings();
+
+	UFUNCTION()
+	void SelectBuilding();
 
 	// Character Movement
 	UPROPERTY(ReplicatedUsing=OnRepPosition)
