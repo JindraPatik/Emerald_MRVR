@@ -81,6 +81,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 
 			if (General)
 			{
+				// Spawn Base Instance
 				General->BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
 			}
 		}

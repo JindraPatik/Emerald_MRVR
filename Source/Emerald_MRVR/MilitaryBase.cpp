@@ -5,9 +5,12 @@
 #include "DebugMacros.h"
 #include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
+#include "CORE/MR_General.h"
 #include "Net/UnrealNetwork.h"
 
 #define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()
+
+
 
 AMilitaryBase::AMilitaryBase()
 {
@@ -51,14 +54,25 @@ AMilitaryBase::AMilitaryBase()
 	GarageBox->SetupAttachment(Garage);
 
 	// Postupne doplnit vsechny moduly!!!
-
-	
+}
+void AMilitaryBase::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
 }
 
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
+	EnsureInitializationNotify();
 }
+
+
+void AMilitaryBase::EnsureInitializationNotify()
+{
+	AMR_General* General = Cast<AMR_General>(GetOwner());
+	!General ? EnsureInitializationNotify() : NotifyInitialized();
+}
+
 
 void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -71,3 +85,10 @@ void AMilitaryBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
+
+void AMilitaryBase::NotifyInitialized()
+{
+		OnInitialized.Broadcast();
+}
+
+
