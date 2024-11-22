@@ -107,6 +107,37 @@ void AMR_General::BeginPlay()
 		// EnsureInitializeAvailabeBuildings();
 	}
 }
+// ~BEGIN PLAY
+
+// TICK
+void AMR_General::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (IsLocallyControlled())
+	{
+		FVector HMDPosition;
+		FRotator HMDOrientation;
+		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
+		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
+	}
+}
+// ~TICK
+
+// Post initialize comp
+void AMR_General::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+}
+// ~Post initialize comp
+
+// UPDATE PAWN MOVEMENT
+void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)
+{
+	ReplicatedPosition = NewPosition;
+	ReplicatedRotation = NewRotation;
+}
+// ~UPDATE PAWN MOVEMENT
 
 // Volá PC
 void AMR_General::SpawnMilitaryBase()
@@ -144,41 +175,13 @@ void AMR_General::SelectBuilding()
 		
 	}
 }
-// ~BEGIN PLAY
+
 
 void AMR_General::Action_SpawnUnit()
 {
 	MilitaryBaseComp->SpawnUnit();
 }
 
-// TICK
-void AMR_General::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
-	if (IsLocallyControlled())
-	{
-		FVector HMDPosition;
-		FRotator HMDOrientation;
-		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
-		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-	}
-}
-// ~TICK
-
-// Post initialize comp
-void AMR_General::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-}
-// ~Post initialize comp
-
-// UPDATE PAWN MOVEMENT
-void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)
-{
-	ReplicatedPosition = NewPosition;
-	ReplicatedRotation = NewRotation;
-}
-// ~UPDATE PAWN MOVEMENT
 
 
