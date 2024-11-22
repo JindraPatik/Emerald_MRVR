@@ -17,6 +17,7 @@ UMilitaryBaseComp::UMilitaryBaseComp()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	TargetPoint = CreateDefaultSubobject<ATargetPoint>("MilitaryBaseTargetPoint");
+	SetIsReplicatedByDefault(true);
 }
 
 void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -31,7 +32,6 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
-	SetIsReplicatedByDefault(true);
 	General = Cast<AMR_General>(GetOwner());
 	// UDELAT EVENTABY SE NACETLO PO NASPAWNOVANI BASE
 	// AvailableModules = General->BaseInstance->BuildingsModuleComponent->AvailableBuildings;
