@@ -136,8 +136,3 @@ bool UMilitaryBaseComp::HasEnoughResources() const
 	}
 	return true;
 }
-
-
-
-
-
