@@ -19,6 +19,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Info")
 	EKGBuildings BuildingType;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
+	UStaticMesh* SM_Building;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Building")
 	TObjectPtr<UUnitDataAsset> UnitToSpawn;
 };

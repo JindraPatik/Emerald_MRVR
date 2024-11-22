@@ -145,6 +145,10 @@ void AMR_General::SpawnMilitaryBase()
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
 		EnsureInitializeAvailabeBuildings();
+		/*if (BaseInstance)
+		{
+			BaseInstance->Server_LoadAvailableModules();
+		}*/
 	}
 	
 }

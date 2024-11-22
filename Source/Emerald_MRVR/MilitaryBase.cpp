@@ -1,15 +1,14 @@
 
-
 #include "MilitaryBase.h"
 #include "BoxComponent.h"
 #include "DebugMacros.h"
 #include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
 #include "CORE/MR_General.h"
+#include "Data/BuildingDataAsset.h"
 #include "Net/UnrealNetwork.h"
 
 #define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()
-
 
 
 AMilitaryBase::AMilitaryBase()
@@ -35,50 +34,34 @@ AMilitaryBase::AMilitaryBase()
 	Modules = CreateDefaultSubobject<USceneComponent>(TEXT("ModulesRoot"));
 	Modules->SetupAttachment(RootComponent);
 
-	// Mine
-	Mine = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mine"));
-	Mine->SetupAttachment(Modules);
-	MineBox = CreateDefaultSubobject<UBoxComponent>(TEXT("MineBox"));
-	MineBox->SetupAttachment(Mine);
-
-	// Barracs
-	Barracs = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Barracs"));
-	Barracs->SetupAttachment(Modules);
-	BarracsBox = CreateDefaultSubobject<UBoxComponent>(TEXT("BarracsBox"));
-	BarracsBox->SetupAttachment(Barracs);
-
-	// Garage
-	Garage = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Garage"));
-	Garage->SetupAttachment(Modules);
-	GarageBox = CreateDefaultSubobject<UBoxComponent>(TEXT("GarageBox"));
-	GarageBox->SetupAttachment(Garage);
-
 	// Postupne doplnit vsechny moduly!!!
-}
-void AMilitaryBase::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
+	
 }
 
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
-	EnsureInitializationNotify();
 }
 
-
-void AMilitaryBase::EnsureInitializationNotify()
+void AMilitaryBase::PostInitializeComponents()
 {
-	AMR_General* General = Cast<AMR_General>(GetOwner());
-	!General ? EnsureInitializationNotify() : NotifyInitialized();
-}
+	Super::PostInitializeComponents();
 
-
-void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
-	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
+	for (UBuildingDataAsset* Building : BuildingsModuleComponent->AvailableBuildings)
+	{
+		BuildingModules.AddUnique(Building);
+		UStaticMeshComponent* BuildingComp = NewObject<UStaticMeshComponent>(this, *Building->BuildingName.ToString());
+		if (BuildingComp)
+		{
+			BuildingComp->SetIsReplicated(true);
+			BuildingComp->SetupAttachment(Modules);
+			BuildingComp->SetStaticMesh(Building->SM_Building);
+			BuildingComp->RegisterComponent();
+			
+			ReplicatedBuildingComponents.AddUnique(BuildingComp);
+			BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
+		}
+	}
 }
 
 void AMilitaryBase::Tick(float DeltaTime)
@@ -86,9 +69,14 @@ void AMilitaryBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AMilitaryBase::NotifyInitialized()
+void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-		OnInitialized.Broadcast();
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
+	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
+	DOREPLIFETIME(AMilitaryBase, ReplicatedBuildingComponents);
 }
+
+
 
 

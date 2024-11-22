@@ -17,7 +17,7 @@ class EMERALD_MRVR_API UBuildingsModuleComponent : public UActorComponent
 public:	
 	UBuildingsModuleComponent();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Buildings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Buildings")
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 
 protected:
