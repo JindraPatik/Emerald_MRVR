@@ -1,6 +1,7 @@
 #include "BuildingsModuleComponent.h"
 
 #include "BoxComponent.h"
+#include "Emerald_MRVR/CORE/MR_General.h"
 
 
 UBuildingsModuleComponent::UBuildingsModuleComponent()
@@ -14,6 +15,11 @@ UBuildingsModuleComponent::UBuildingsModuleComponent()
 void UBuildingsModuleComponent::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void UBuildingsModuleComponent::PostInitProperties()
+{
+	Super::PostInitProperties();
 }
 
 

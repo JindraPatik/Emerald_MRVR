@@ -64,15 +64,6 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, BaseInstance);
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
 }
-
-void AMR_General::OnRep_BaseInstance()
-{
-	if (IsLocallyControlled())
-	{
-		EnsureInitializeAvailabeBuildings();
-	}
-}
-
 // ~REPLICATED PROPS
 
 
@@ -89,7 +80,6 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	// Bindings
 	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::Action_SpawnUnit);
-	
 }
 // ~PLAYER INPUT
 
@@ -144,31 +134,8 @@ void AMR_General::SpawnMilitaryBase()
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
-		EnsureInitializeAvailabeBuildings();
-		/*if (BaseInstance)
-		{
-			BaseInstance->Server_LoadAvailableModules();
-		}*/
+		// EnsureInitializeAvailabeBuildings();}
 	}
-	
-}
-
-void AMR_General::InitializeAvailableBuildings_Implementation()
-{
-	//if (HasAuthority())
-	{
-		if (BaseInstance && BaseInstance->BuildingsModuleComponent && BaseInstance->BuildingsModuleComponent->AvailableBuildings.Num() > 0)
-        	{
-        		AvailableBuildings = BaseInstance->BuildingsModuleComponent->AvailableBuildings;
-        		DBG_5S("Available buildings initialized")
-        	}
-	}
-	
-}
-
-void AMR_General::EnsureInitializeAvailabeBuildings()
-{
-	!BaseInstance ? EnsureInitializeAvailabeBuildings() : InitializeAvailableBuildings();
 }
 
 void AMR_General::SelectBuilding()

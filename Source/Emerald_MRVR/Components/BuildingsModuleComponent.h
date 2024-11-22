@@ -17,11 +17,9 @@ class EMERALD_MRVR_API UBuildingsModuleComponent : public UActorComponent
 public:	
 	UBuildingsModuleComponent();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Buildings")
-	TArray<UBuildingDataAsset*> AvailableBuildings;
-
 protected:
 	virtual void BeginPlay() override;
+	virtual void PostInitProperties() override;
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

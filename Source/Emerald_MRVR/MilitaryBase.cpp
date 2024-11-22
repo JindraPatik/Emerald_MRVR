@@ -47,20 +47,25 @@ void AMilitaryBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	for (UBuildingDataAsset* Building : BuildingsModuleComponent->AvailableBuildings)
+	AMR_General* General = Cast<AMR_General>(GetOwner());
+	if (ensure(General))
 	{
-		BuildingModules.AddUnique(Building);
-		UStaticMeshComponent* BuildingComp = NewObject<UStaticMeshComponent>(this, *Building->BuildingName.ToString());
-		if (BuildingComp)
+		for (UBuildingDataAsset* Building : General->AvailableBuildings)
 		{
-			BuildingComp->SetIsReplicated(true);
-			BuildingComp->SetupAttachment(Modules);
-			BuildingComp->SetStaticMesh(Building->SM_Building);
-			BuildingComp->RegisterComponent();
-			
-			ReplicatedBuildingComponents.AddUnique(BuildingComp);
-			BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
+			BuildingModules.AddUnique(Building);
+			UStaticMeshComponent* BuildingComp = NewObject<UStaticMeshComponent>(this, *Building->BuildingName.ToString());
+			if (BuildingComp)
+			{
+				BuildingComp->SetIsReplicated(true);
+				BuildingComp->SetupAttachment(Modules);
+				BuildingComp->SetStaticMesh(Building->SM_Building);
+				BuildingComp->RegisterComponent();
+				
+				ReplicatedBuildingComponents.AddUnique(BuildingComp);
+				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
+			}
 		}
+		
 	}
 }
 

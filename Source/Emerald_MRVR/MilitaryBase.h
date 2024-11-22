@@ -59,5 +59,8 @@ public:
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Air;
+
+	UPROPERTY(VisibleAnywhere, Category="Buildings")
+	TArray<UBuildingDataAsset*> AvailableBuildings;
 	
 };

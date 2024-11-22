@@ -77,18 +77,12 @@ public:
 	UFUNCTION()
 	void SpawnMilitaryBase();
 
-	UPROPERTY(Replicated, VisibleAnywhere, Category="MilitaryBase")
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 
 	// doplnit nebo smazat
 	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")
 	TMap<FName, int32> BuildingsMap;
-	
-	UFUNCTION(Server, Reliable)
-	void InitializeAvailableBuildings();
-
-	UFUNCTION()
-	void EnsureInitializeAvailabeBuildings();
 	
 	UFUNCTION()
 	void SelectBuilding();
@@ -126,11 +120,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
-	UPROPERTY(ReplicatedUsing=OnRep_BaseInstance, VisibleAnywhere, BlueprintReadOnly, Category="Base")
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	AMilitaryBase* BaseInstance;
-
-	UFUNCTION()
-	void OnRep_BaseInstance();
 	
 };
 
