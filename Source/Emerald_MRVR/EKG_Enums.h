@@ -14,7 +14,7 @@ enum class EKGUnits : uint8
 	E_Brigade		UMETA(DisplayName="Brigade"),
 	E_Tank			UMETA(DisplayName="Tank"),
 	E_ATACSM		UMETA(DisplayName="ATACSM"),
-	E_Mortar		UMETA(DisplayName="ATACSM"),
+	E_Mortar		UMETA(DisplayName="Mortar"),
 
 	// Aircraft
 	E_Helicopter	UMETA(DisplayName="Helicopter"),
@@ -32,7 +32,7 @@ enum class EKGBuildings : uint8
 	// Collectors
 	E_Mine				UMETA(DisplayName="Mine"),
 	E_Prison			UMETA(DisplayName="Prison"),
-	E_Fitness			UMETA(DisplayName="Fitness"),
+	E_Bank				UMETA(DisplayName="Bank"),
 	E_UVKSC				UMETA(DisplayName="UVKSC"),
 	
 	// Ground Units

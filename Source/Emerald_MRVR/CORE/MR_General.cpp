@@ -104,7 +104,6 @@ void AMR_General::BeginPlay()
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
-		// EnsureInitializeAvailabeBuildings();
 	}
 }
 // ~BEGIN PLAY
