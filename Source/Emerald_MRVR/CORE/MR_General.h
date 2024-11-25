@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "MR_General.generated.h"
 
+class UWidgetInteractionComponent;
 class UBuildingDataAsset;
 class UMilitaryBaseComp;
 class AUnit;
@@ -29,9 +30,17 @@ class EMERALD_MRVR_API AMR_General : public APawn
 
 public:
 	AMR_General();
+	virtual void Tick(float DeltaTime) override;
+	virtual void PostInitializeComponents() override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 protected:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditDefaultsOnly, Category="Controller")
+	float PointerDistance;
+	
 	
 public:
 	// CORE
@@ -46,6 +55,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputAction* DebugSpawnUnit;
+
+	UFUNCTION(BlueprintCallable)
+	void SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Distance, UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult);
 	// ~INPUT
 
 	// Character Body
@@ -69,6 +81,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
 	UStaticMeshComponent* ImpactPointer_R;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UWidgetInteractionComponent* WidgetInteraction_L;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UWidgetInteractionComponent* WidgetInteraction_R;
 
 	// MILITARY BASE
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
@@ -104,13 +122,6 @@ public:
 	void Action_SpawnUnit();
 
 public:	
-	virtual void Tick(float DeltaTime) override;
-	virtual void PostInitializeComponents() override;
-
-	UFUNCTION()
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
 	UFUNCTION(Server, Unreliable, Category="Position")
 	void Server_UpdatePawnPosition(const FVector& NewPosition, const FRotator& NewRotation);
 
@@ -122,6 +133,13 @@ public:
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	AMilitaryBase* BaseInstance;
+
+	UPROPERTY()
+	FHitResult HitResultLeft;
 	
+	UPROPERTY()
+	FHitResult HitResultRight;
+
+	void DetectModule(FHitResult HitResult);
 };
 

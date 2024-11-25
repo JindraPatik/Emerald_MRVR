@@ -13,6 +13,7 @@
 #include "Net/UnrealNetwork.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "PC_MR_General.h"
+#include "Components/WidgetInteractionComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Unit.h"
@@ -21,7 +22,8 @@
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerState.h"
 #include "Emerald_MRVR/EKG_Enums.h"
-
+#include "HeadMountedDisplayFunctionLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 AMR_General::AMR_General()
 {
@@ -29,28 +31,47 @@ AMR_General::AMR_General()
 	bReplicates = true;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
+	Camera->SetIsReplicated(true);
+
 	RootComponent = Camera;
+	RootComponent->SetIsReplicated(true);
 
 	GeneralBody = CreateDefaultSubobject<UStaticMeshComponent>("GeneralBody");
 	GeneralBody->SetupAttachment(RootComponent);
+	GeneralBody->SetIsReplicated(true);
 	Hands = CreateDefaultSubobject<USceneComponent>("Hands");
 	
 	MotionController_L = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_L");
+	MotionController_L->SetIsReplicated(true);
 	MotionController_L->SetupAttachment(Hands);
 	
 	MotionController_R = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_R");
+	MotionController_R->SetIsReplicated(true);
 	MotionController_R->SetupAttachment(Hands);
 
+	PointerDistance = 2000.f;
 	ImpactPointer_L = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerL");
 	ImpactPointer_L->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	ImpactPointer_R = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerR");
 	ImpactPointer_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+	WidgetInteraction_L = CreateDefaultSubobject<UWidgetInteractionComponent>("InteractionLeft");
+	WidgetInteraction_L->SetupAttachment(ImpactPointer_L);
+	
+	WidgetInteraction_R = CreateDefaultSubobject<UWidgetInteractionComponent>("InteractionRight");
+	WidgetInteraction_R->SetupAttachment(ImpactPointer_R);
+
+
 	// COMPONENTS
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
+	HealthComponent->SetIsReplicated(true);
+	
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
+	ResourcesComponent->SetIsReplicated(true);
+	
 	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
+	MilitaryBaseComp->SetIsReplicated(true);
 	// ~COMPONENTS
 
 }
@@ -96,6 +117,36 @@ void AMR_General::BeginPlay()
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
 	}
 }
+
+void AMR_General::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
+	UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult)
+{
+	UHeadMountedDisplayFunctionLibrary* HMDLibrary;
+	FXRMotionControllerData FxrMotionControllerData;
+	HMDLibrary->GetMotionControllerData(MotionControllerComponent, Hand, FxrMotionControllerData);
+
+	FVector Start = FxrMotionControllerData.AimPosition;
+	FVector End = FxrMotionControllerData.AimRotation.GetForwardVector() * PointerDistance;
+
+	TObjectPtr<UWorld> World = GetWorld();
+	FCollisionQueryParams QueryParams;
+	QueryParams.bTraceComplex = false;
+	QueryParams.AddIgnoredActor(this);
+	
+	if (ensure(World))
+	{
+		bool bHit = World->SweepSingleByChannel(
+			HitResult,
+			Start,
+			End,
+			FQuat::Identity,
+			ECC_Visibility,
+			FCollisionShape::MakeSphere(5.f),
+			QueryParams);
+	}
+
+	
+}
 // ~BEGIN PLAY
 
 // TICK
@@ -109,6 +160,9 @@ void AMR_General::Tick(float DeltaTime)
 		FRotator HMDOrientation;
 		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
 		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
+		SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
+		SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
+		DetectModule(HitResultRight);
 	}
 }
 // ~TICK
@@ -150,6 +204,11 @@ void AMR_General::SelectBuilding()
 void AMR_General::Action_SpawnUnit()
 {
 	MilitaryBaseComp->SpawnUnit();
+}
+
+void AMR_General::DetectModule(FHitResult HitResult)
+{
+	HitResult.Component->GetName();
 }
 
 
