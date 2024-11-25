@@ -36,23 +36,23 @@ protected:
 	UDownScaleComponent* DownScaleComponent;
 
 	// Building modules
-	UPROPERTY(EditAnywhere, Category = "Buildings")
+	UPROPERTY(Replicated, EditAnywhere, Category = "Buildings")
 	TObjectPtr<USceneComponent> Modules;
 
-	UPROPERTY(EditAnywhere, Category = "Buildings")
+	UPROPERTY(Replicated, EditAnywhere, Category = "Buildings")
 	TArray<UBuildingDataAsset*> BuildingModules;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
 	
-	UPROPERTY(Replicated) 
-	TArray<UStaticMeshComponent*> ReplicatedBuildingComponents;
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite); 
+	TArray<UBuildingsModuleComponent*> ReplicatedBuildingComponents;
 
 	UPROPERTY()
-	TMap<FName, UStaticMeshComponent*> BuildingComponentsMap;
+	TMap<FName, UBuildingsModuleComponent*> BuildingComponentsMap;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
-	TObjectPtr<UBuildingsModuleComponent> BuildingsModuleComponent;
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
+	UBuildingsModuleComponent* BuildingsModuleComponent;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Ground;
@@ -60,7 +60,7 @@ public:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Air;
 
-	UPROPERTY(VisibleAnywhere, Category="Buildings")
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Buildings")
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 	
 };

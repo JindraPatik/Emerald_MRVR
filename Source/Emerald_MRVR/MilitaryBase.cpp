@@ -35,6 +35,7 @@ AMilitaryBase::AMilitaryBase()
 	Modules->SetupAttachment(RootComponent);
 
 	// Postupne doplnit vsechny moduly!!!
+
 	
 }
 
@@ -46,11 +47,30 @@ void AMilitaryBase::BeginPlay()
 void AMilitaryBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-
+	
 	AMR_General* General = Cast<AMR_General>(GetOwner());
+	
 	if (ensure(General))
 	{
 		for (UBuildingDataAsset* Building : General->AvailableBuildings)
+		{
+			BuildingModules.AddUnique(Building);
+			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
+			if (BuildingComp)
+			{
+				BuildingComp->SetIsReplicated(true);
+				BuildingComp->SetupAttachment(Modules);
+				BuildingComp->BuildingDataAsset = Building;
+				// BuildingComp->ModuleBody->SetStaticMesh(Building->SM_Building);
+				
+				ReplicatedBuildingComponents.AddUnique(BuildingComp);
+				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
+				
+				BuildingComp->RegisterComponent();
+			}
+		}
+		
+		/*for (UBuildingDataAsset* Building : General->AvailableBuildings)
 		{
 			BuildingModules.AddUnique(Building);
 			UStaticMeshComponent* BuildingComp = NewObject<UStaticMeshComponent>(this, *Building->BuildingName.ToString());
@@ -61,12 +81,10 @@ void AMilitaryBase::PostInitializeComponents()
 				BuildingComp->SetStaticMesh(Building->SM_Building);
 				BuildingComp->RegisterComponent();
 				
-				ReplicatedBuildingComponents.AddUnique(BuildingComp);
-				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
 			}
-		}
+		}*/
 		
-	}
+	} 
 }
 
 void AMilitaryBase::Tick(float DeltaTime)
@@ -80,6 +98,10 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
 	DOREPLIFETIME(AMilitaryBase, ReplicatedBuildingComponents);
+	DOREPLIFETIME(AMilitaryBase, BuildingsModuleComponent);
+	DOREPLIFETIME(AMilitaryBase, BuildingModules);
+	DOREPLIFETIME(AMilitaryBase, Modules);
+	DOREPLIFETIME(AMilitaryBase, AvailableBuildings);
 }
 
 
