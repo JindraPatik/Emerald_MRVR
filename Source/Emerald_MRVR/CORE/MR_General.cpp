@@ -23,6 +23,7 @@
 #include "GameFramework/PlayerState.h"
 #include "Emerald_MRVR/EKG_Enums.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 AMR_General::AMR_General()
@@ -118,35 +119,6 @@ void AMR_General::BeginPlay()
 	}
 }
 
-void AMR_General::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
-	UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult)
-{
-	UHeadMountedDisplayFunctionLibrary* HMDLibrary;
-	FXRMotionControllerData FxrMotionControllerData;
-	HMDLibrary->GetMotionControllerData(MotionControllerComponent, Hand, FxrMotionControllerData);
-
-	FVector Start = FxrMotionControllerData.AimPosition;
-	FVector End = FxrMotionControllerData.AimRotation.GetForwardVector() * PointerDistance;
-
-	TObjectPtr<UWorld> World = GetWorld();
-	FCollisionQueryParams QueryParams;
-	QueryParams.bTraceComplex = false;
-	QueryParams.AddIgnoredActor(this);
-	
-	if (ensure(World))
-	{
-		bool bHit = World->SweepSingleByChannel(
-			HitResult,
-			Start,
-			End,
-			FQuat::Identity,
-			ECC_Visibility,
-			FCollisionShape::MakeSphere(5.f),
-			QueryParams);
-	}
-
-	
-}
 // ~BEGIN PLAY
 
 // TICK
@@ -160,9 +132,12 @@ void AMR_General::Tick(float DeltaTime)
 		FRotator HMDOrientation;
 		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
 		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-		SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
-		SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
-		DetectModule(HitResultRight);
+		if (MotionController_L && MotionController_R)
+		{
+			SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
+			SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
+		}
+		
 	}
 }
 // ~TICK
@@ -182,6 +157,46 @@ void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPos
 }
 // ~UPDATE PAWN MOVEMENT
 
+// Setup Pointer
+void AMR_General::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
+	UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult)
+{
+	UHeadMountedDisplayFunctionLibrary* HMDLibrary;
+	FXRMotionControllerData FxrMotionControllerData;
+	HMDLibrary->GetMotionControllerData(MotionControllerComponent, Hand, FxrMotionControllerData);
+
+	FVector Start = FxrMotionControllerData.AimPosition;
+	FVector End = FxrMotionControllerData.AimRotation.GetForwardVector() * PointerDistance;
+
+	TObjectPtr<UWorld> World = GetWorld();
+	if (World)
+	{
+		FCollisionQueryParams QueryParams;
+		QueryParams.bTraceComplex = false;
+		QueryParams.AddIgnoredActor(this);
+        
+		bool	bHit = World->SweepSingleByChannel(
+				HitResult,
+				Start,
+				End,
+				FQuat::Identity,
+				ECC_Visibility,
+				FCollisionShape::MakeSphere(5.f),
+				QueryParams);
+        
+		ImpactPointer->SetWorldLocation(HitResult.ImpactPoint);
+		FRotator WidgetinteractionRotation = UKismetMathLibrary::FindLookAtRotation(Camera->GetComponentLocation(), HitResult.ImpactPoint);
+		WidgetInteractionComponent->SetRelativeRotation(WidgetinteractionRotation);
+        
+		if (bHit)
+		{
+			DetectModule(HitResult);
+		}
+	}
+}
+//~Setup Pointer
+
+
 // Volá PC
 void AMR_General::SpawnMilitaryBase()
 {
@@ -192,6 +207,11 @@ void AMR_General::SpawnMilitaryBase()
 	}
 }
 
+void AMR_General::Action_SpawnUnit()
+{
+	MilitaryBaseComp->SpawnUnit();
+}
+
 void AMR_General::SelectBuilding()
 {
 	for (UBuildingDataAsset* Building : AvailableBuildings)
@@ -200,15 +220,15 @@ void AMR_General::SelectBuilding()
 	}
 }
 
-
-void AMR_General::Action_SpawnUnit()
-{
-	MilitaryBaseComp->SpawnUnit();
-}
-
 void AMR_General::DetectModule(FHitResult HitResult)
 {
-	HitResult.Component->GetName();
+	if (GEngine)
+	{
+		//FString Message = FString::Printf(TEXT("Hitted Component: %s"), *HitResult.Component->GetName());
+		FString Message = FString::Printf(TEXT("Hitted Component: %s"), *HitResult.Component->GetReadableName());
+		GEngine->AddOnScreenDebugMessage(0, 1.f, FColor::Orange, Message);
+	}
+	
 }
 
 
