@@ -1,4 +1,6 @@
 #include "MR_General.h"
+
+#include "DelayAction.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "EK_GameMode.h"
@@ -111,6 +113,8 @@ void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+
+	
 	
 // Jsem Server	
 	if (IsLocallyControlled())
@@ -126,13 +130,18 @@ void AMR_General::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (MotionController_L && MotionController_R && BaseInstance)
+	{
+		bGameInitialized = true;
+	}
+
 	if (IsLocallyControlled())
 	{
 		FVector HMDPosition;
 		FRotator HMDOrientation;
 		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
 		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-		if (MotionController_L && MotionController_R)
+		if (bGameInitialized)
 		{
 			SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
 			SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);

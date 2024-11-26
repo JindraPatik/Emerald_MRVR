@@ -134,12 +134,15 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	AMilitaryBase* BaseInstance;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Controller")
 	FHitResult HitResultLeft;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Controller")
 	FHitResult HitResultRight;
 
 	void DetectModule(FHitResult HitResult);
+
+	UPROPERTY(BlueprintReadOnly, Category="CORE")
+	bool bGameInitialized = false; 
 };
 
