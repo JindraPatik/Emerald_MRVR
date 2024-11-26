@@ -24,14 +24,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Building")
 	TObjectPtr<UUnitDataAsset> UnitToSpawn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
-	TObjectPtr<UMaterialInterface> BaseMaterial;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
-	TObjectPtr<UMaterialInterface> HoverMaterial;
-
-	
-
-	
 };

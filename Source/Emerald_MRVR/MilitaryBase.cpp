@@ -50,7 +50,7 @@ void AMilitaryBase::PostInitializeComponents()
 	
 	AMR_General* General = Cast<AMR_General>(GetOwner());
 	
-	if (General)
+	if (ensure(General))
 	{
 		for (UBuildingDataAsset* Building : General->AvailableBuildings)
 		{
@@ -61,16 +61,7 @@ void AMilitaryBase::PostInitializeComponents()
 				BuildingComp->SetIsReplicated(true);
 				BuildingComp->SetupAttachment(Modules);
 				BuildingComp->BuildingDataAsset = Building;
-
-				// Set initial Material, On_Rep in BuildingsModuleComponent
-				if (HasAuthority())
-				{
-					BuildingComp->BaseMaterial = Building->BaseMaterial;
-					if (Building->SM_Building && BuildingComp->BaseMaterial)
-					{
-						Building->SM_Building->SetMaterial(0, BuildingComp->BaseMaterial);
-					}
-				}
+				// BuildingComp->ModuleBody->SetStaticMesh(Building->SM_Building);
 				
 				ReplicatedBuildingComponents.AddUnique(BuildingComp);
 				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);

@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
 #include "BuildingsModuleComponent.generated.h"
 
 
@@ -11,7 +10,7 @@ class UStaticMeshComponent;
 class UBoxComponent; // ?? Uvidime
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class EMERALD_MRVR_API UBuildingsModuleComponent : public USceneComponent, public IBuildingsModuleInterface
+class EMERALD_MRVR_API UBuildingsModuleComponent : public USceneComponent
 {
 	GENERATED_BODY()
 
@@ -30,24 +29,12 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
 	UStaticMeshComponent* ModuleMesh;
 
+	// Box komponenta pro kolize
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Building")
+	UBoxComponent* BoxCollision;
+
 	// Data Asset pro specifické informace o budově
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadOnly, Category="Building")
 	UBuildingDataAsset* BuildingDataAsset;
-
-	UPROPERTY(ReplicatedUsing=OnRep_SetInitialMaterial, VisibleDefaultsOnly, Category="Visuals")
-	UMaterialInterface* BaseMaterial;
-
-	UPROPERTY(ReplicatedUsing=OnRep_OnHoverMaterialChanged, VisibleDefaultsOnly, Category="Visuals")
-	UMaterialInterface* HoverMaterial;
-
-	UFUNCTION()
-	void OnRep_SetInitialMaterial();
-
-	UFUNCTION()
-	void OnRep_OnHoverMaterialChanged();
-
-	virtual void OnModuleHovered() override;
-	virtual void OnModuleUnHovered() override;
-	
 	
 };

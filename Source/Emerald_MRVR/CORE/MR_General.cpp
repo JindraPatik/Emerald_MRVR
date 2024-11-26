@@ -4,19 +4,27 @@
 #include "EK_GameMode.h"
 #include "MotionControllerComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Emerald_MRVR/MilitaryBase.h"
+#include "Engine/TargetPoint.h"
+#include "GameFramework/GameMode.h"
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
+#include "PC_MR_General.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
-#include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
-#include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
 #include "GameFramework/GameStateBase.h"
+#include "GameFramework/PlayerState.h"
+#include "Emerald_MRVR/EKG_Enums.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 AMR_General::AMR_General()
 {
@@ -128,10 +136,8 @@ void AMR_General::Tick(float DeltaTime)
 		{
 			SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
 			SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
-
-			DetectModule(HitResultRight);
-			DetectModule(HitResultLeft);
 		}
+		
 	}
 }
 // ~TICK
@@ -181,6 +187,11 @@ void AMR_General::SetUpPointer(UMotionControllerComponent* MotionControllerCompo
 		ImpactPointer->SetWorldLocation(HitResult.ImpactPoint);
 		FRotator WidgetinteractionRotation = UKismetMathLibrary::FindLookAtRotation(Camera->GetComponentLocation(), HitResult.ImpactPoint);
 		WidgetInteractionComponent->SetRelativeRotation(WidgetinteractionRotation);
+        
+		if (bHit)
+		{
+			DetectModule(HitResult);
+		}
 	}
 }
 //~Setup Pointer
@@ -192,6 +203,7 @@ void AMR_General::SpawnMilitaryBase()
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
+		// EnsureInitializeAvailabeBuildings();}
 	}
 }
 
@@ -210,18 +222,15 @@ void AMR_General::SelectBuilding()
 
 void AMR_General::DetectModule(FHitResult HitResult)
 {
-	if (!HitResult.GetComponent())
+	if (GEngine)
 	{
-		return;
+		//FString Message = FString::Printf(TEXT("Hitted Component: %s"), *HitResult.Component->GetName());
+		FString Message = FString::Printf(TEXT("Hitted Component: %s"), *HitResult.Component->GetReadableName());
+		GEngine->AddOnScreenDebugMessage(0, 1.f, FColor::Orange, Message);
 	}
-
-	IBuildingsModuleInterface* ModuleInterface = Cast<IBuildingsModuleInterface>(HitResult.GetComponent()->GetAttachParent());
-	if (ModuleInterface)
-	{
-		ModuleInterface->OnModuleHovered();
-	}
-	// ModuleInterface->OnModuleUnHovered();
-
+	
 }
+
+
 
 
