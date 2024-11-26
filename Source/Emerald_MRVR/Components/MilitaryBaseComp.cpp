@@ -1,7 +1,5 @@
 #include "MilitaryBaseComp.h"
 
-#include "AsyncTreeDifferences.h"
-#include "BuildingsModuleComponent.h"
 #include "ResourcesComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
@@ -33,8 +31,6 @@ void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
 	General = Cast<AMR_General>(GetOwner());
-	// UDELAT EVENTABY SE NACETLO PO NASPAWNOVANI BASE
-	// AvailableModules = General->BaseInstance->BuildingsModuleComponent->AvailableBuildings;
 }
 
 
@@ -42,7 +38,6 @@ void UMilitaryBaseComp::SelectUnitToSpawn(UBuildingDataAsset* SelectedBuilding)
 {
 	SelectedUnit = SelectedBuilding->UnitToSpawn;
 }
-
 
 void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -64,8 +59,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 		return;
 	}
 
-	// TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
-	if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
+	if (GameMode && (GameMode->TargetPoints.Num() > 0))
 	{
 		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
 		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
