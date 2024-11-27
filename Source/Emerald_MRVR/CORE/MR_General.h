@@ -93,6 +93,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
 	UWidgetInteractionComponent* WidgetInteraction_R;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UStaticMeshComponent* PointerStick_L;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UStaticMeshComponent* PointerStick_R;
+
 	// MILITARY BASE
 	void SpawnMilitaryBase();
 	void SelectBuilding();

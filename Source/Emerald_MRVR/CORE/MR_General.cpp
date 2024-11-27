@@ -65,6 +65,12 @@ AMR_General::AMR_General()
 	WidgetInteraction_R = CreateDefaultSubobject<UWidgetInteractionComponent>("InteractionRight");
 	WidgetInteraction_R->SetupAttachment(ImpactPointer_R);
 
+	PointerStick_L = CreateDefaultSubobject<UStaticMeshComponent>("PointerStick_L");
+	PointerStick_L->SetupAttachment(MotionController_L);
+
+	PointerStick_R = CreateDefaultSubobject<UStaticMeshComponent>("PointerStick_R");
+	PointerStick_L->SetupAttachment(MotionController_R);
+
 
 	// COMPONENTS
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
@@ -177,6 +183,8 @@ void AMR_General::SetPlayerColor() // Set Player Color
 		PlayerDefaultColor = GameMode->PlayersColors.Pop();
 	}
 	GeneralBody->SetMaterial(0, PlayerDefaultColor);
+	PointerStick_L->SetMaterial(0, PlayerDefaultColor);
+	PointerStick_R->SetMaterial(0, PlayerDefaultColor);
 }
 
 // Setup Pointer

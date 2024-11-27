@@ -104,9 +104,9 @@ void UMilitaryBaseComp::SpawnUnit()
         SpawnParams.Owner = General->GetController();
 
 		/// for testing without VR only!!!!
-		UnitToSpawn = General->DefaultUnit;
+		/*UnitToSpawn = General->DefaultUnit;
 		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
-		SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
+		SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);*/
 		/// for testing without VR only!!!!
     
         if (General->CurrentlySelectedModule)
