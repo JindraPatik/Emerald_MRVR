@@ -37,6 +37,7 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	void SetPlayerColor();
 
+
 protected:
 	virtual void BeginPlay() override;
 

@@ -182,7 +182,6 @@ void AMR_General::SetPlayerColor() // Set Player Color
 	{
 		PlayerDefaultColor = GameMode->PlayersColors.Pop();
 	}
-	
 	GeneralBody->SetMaterial(0, PlayerDefaultColor);
 	PointerStick_L->SetMaterial(0, PlayerDefaultColor);
 	PointerStick_R->SetMaterial(0, PlayerDefaultColor);
