@@ -10,10 +10,7 @@ UBuildingsModuleComponent::UBuildingsModuleComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	
 	ModuleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ModuleMesh"));
-	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
-	
 	ModuleMesh->SetIsReplicated(true); 
-	BoxCollision->SetIsReplicated(true);
 	
 }
 
@@ -23,9 +20,11 @@ void UBuildingsModuleComponent::BeginPlay()
 	Super::BeginPlay();
 	if (BuildingDataAsset)
 	{
-		ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building); // Příklad nastavení statického meshe podle Data Assetu
+		ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building);
+		ModuleMesh->SetMaterial(0, BuildingDataAsset->BaseMaterial);
 	}
 	ModuleMesh->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
+	// Adds tag to BuildingsModule comp
 	ModuleMesh->RegisterComponent();
 
 }

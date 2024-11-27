@@ -10,7 +10,7 @@ class UStaticMeshComponent;
 class UBoxComponent; // ?? Uvidime
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class EMERALD_MRVR_API UBuildingsModuleComponent : public USceneComponent
+class EMERALD_MRVR_API UBuildingsModuleComponent : public UPrimitiveComponent
 {
 	GENERATED_BODY()
 
@@ -25,16 +25,12 @@ protected:
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	// Komponenta pro statický mesh
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
 	UStaticMeshComponent* ModuleMesh;
 
-	// Box komponenta pro kolize
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Building")
-	UBoxComponent* BoxCollision;
-
-	// Data Asset pro specifické informace o budově
-	UPROPERTY(Replicated, EditAnywhere, BlueprintReadOnly, Category="Building")
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
 	UBuildingDataAsset* BuildingDataAsset;
+
+
 	
 };

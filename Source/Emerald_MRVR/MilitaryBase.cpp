@@ -65,9 +65,8 @@ void AMilitaryBase::PostInitializeComponents()
 				
 				ReplicatedBuildingComponents.AddUnique(BuildingComp);
 				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
-				
-				BuildingComp->RegisterComponent();
 			}
+		General->bGameInitialized = true;
 		}
 	} 
 }
