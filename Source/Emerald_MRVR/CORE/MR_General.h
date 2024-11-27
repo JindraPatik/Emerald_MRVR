@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "MR_General.generated.h"
 
+class UBuildingsModuleComponent;
 class UWidgetInteractionComponent;
 class UBuildingDataAsset;
 class UMilitaryBaseComp;
@@ -97,6 +98,9 @@ public:
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
 	TArray<UBuildingDataAsset*> AvailableBuildings;
+
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
+	UBuildingsModuleComponent* CurrentlySelectedModule;
 
 	// doplnit nebo smazat
 	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")

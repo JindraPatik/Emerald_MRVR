@@ -87,6 +87,7 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 	DOREPLIFETIME(AMR_General, BaseInstance);
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
+	DOREPLIFETIME(AMR_General, CurrentlySelectedModule);
 }
 // ~REPLICATED PROPS
 
