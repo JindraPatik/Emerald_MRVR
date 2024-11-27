@@ -144,7 +144,7 @@ void AMR_General::Tick(float DeltaTime)
 		FRotator HMDOrientation;
 		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
 		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-		if (bGameInitialized)
+		if (bGameInitialized || bIsNotGameplay)
 		{
 			SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
 			SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);

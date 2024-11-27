@@ -145,6 +145,9 @@ public:
 	FHitResult HitResultRight;
 
 	UPROPERTY(BlueprintReadOnly, Category="CORE")
-	bool bGameInitialized = false; 
+	bool bGameInitialized = false;
+
+	UPROPERTY(BlueprintReadWrite, Category="CORE")
+	bool bIsNotGameplay = false; 
 };
 
