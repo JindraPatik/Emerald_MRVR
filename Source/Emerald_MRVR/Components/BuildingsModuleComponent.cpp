@@ -1,6 +1,7 @@
 #include "BuildingsModuleComponent.h"
 
 #include "BoxComponent.h"
+#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Net/UnrealNetwork.h"
 
@@ -20,6 +21,7 @@ void UBuildingsModuleComponent::BeginPlay()
 	Super::BeginPlay();
 	if (BuildingDataAsset)
 	{
+		
 		ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building);
 		ModuleMesh->SetMaterial(0, BuildingDataAsset->BaseMaterial);
 	}

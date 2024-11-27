@@ -108,7 +108,7 @@ void UMilitaryBaseComp::SpawnUnit()
         
         	if (!UnitToSpawn)
         	{
-        		DBG_5S("MBC: No unit set!")
+        		DBG(5, "MBC: No unit set!")
         	}
         	else
         	{
@@ -117,7 +117,7 @@ void UMilitaryBaseComp::SpawnUnit()
 	}
 	else
 	{
-		DBG_5S("MBC: No MB or SpawnPoint!") 
+		DBG(5, "MBC: No MB or SpawnPoint!") 
 	}
 	
 }

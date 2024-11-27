@@ -70,6 +70,5 @@ void AUnit::SetUnitStats()
 		Price = UnitStats->Price;
 		Strenght = UnitStats->Strength;
 	}
-	DBG_5S("UNIT::General->MilitaryBaseComp->SelectedUnit NOT VALID")
 }
 
