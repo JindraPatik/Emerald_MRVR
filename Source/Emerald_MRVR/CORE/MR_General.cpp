@@ -89,6 +89,7 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
 	DOREPLIFETIME(AMR_General, CurrentlySelectedModule);
 	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
+	DOREPLIFETIME(AMR_General, GeneralBody);
 ;
 }
 // ~REPLICATED PROPS
@@ -208,11 +209,6 @@ void AMR_General::SetUpPointer(UMotionControllerComponent* MotionControllerCompo
 		ImpactPointer->SetWorldLocation(HitResult.ImpactPoint);
 		FRotator WidgetinteractionRotation = UKismetMathLibrary::FindLookAtRotation(Camera->GetComponentLocation(), HitResult.ImpactPoint);
 		WidgetInteractionComponent->SetRelativeRotation(WidgetinteractionRotation);
-        
-		if (bHit)
-		{
-			DetectModule(HitResult);
-		}
 	}
 }
 //~Setup Pointer
@@ -240,16 +236,7 @@ void AMR_General::SelectBuilding()
 	}
 }
 
-void AMR_General::DetectModule(FHitResult HitResult)
-{
-	if (GEngine)
-	{
-		//FString Message = FString::Printf(TEXT("Hitted Component: %s"), *HitResult.Component->GetName());
-		FString Message = FString::Printf(TEXT("Hitted Component: %s"), *HitResult.Component->GetReadableName());
-		GEngine->AddOnScreenDebugMessage(0, 1.f, FColor::Orange, Message);
-	}
-	
-}
+
 
 
 

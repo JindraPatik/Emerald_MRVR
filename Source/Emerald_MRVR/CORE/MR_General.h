@@ -34,8 +34,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void PostInitializeComponents() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	void SetPlayerColor();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	void SetPlayerColor();
 
 protected:
 	virtual void BeginPlay() override;
@@ -66,7 +66,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
 	TObjectPtr<UStaticMeshComponent> GeneralBody;
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly)
@@ -94,12 +94,12 @@ public:
 	UWidgetInteractionComponent* WidgetInteraction_R;
 
 	// MILITARY BASE
+	void SpawnMilitaryBase();
+	void SelectBuilding();
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	UMilitaryBaseComp* MilitaryBaseComp;
-
-	UFUNCTION()
-	void SpawnMilitaryBase();
-
+	
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 
@@ -110,9 +110,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")
 	TMap<FName, int32> BuildingsMap;
 	
-	UFUNCTION()
-	void SelectBuilding();
-
 	// Character Movement
 	UPROPERTY(ReplicatedUsing=OnRepPosition)
 	FVector ReplicatedPosition;
@@ -126,7 +123,6 @@ public:
 	UFUNCTION()
 	void OnRepRotation() const {RootComponent->SetWorldRotation(ReplicatedRotation);}
 
-	UFUNCTION()
 	void Action_SpawnUnit();
 
 public:	
@@ -147,8 +143,6 @@ public:
 	
 	UPROPERTY(BlueprintReadOnly, Category="Controller")
 	FHitResult HitResultRight;
-
-	void DetectModule(FHitResult HitResult);
 
 	UPROPERTY(BlueprintReadOnly, Category="CORE")
 	bool bGameInitialized = false; 

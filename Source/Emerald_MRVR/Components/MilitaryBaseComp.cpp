@@ -1,6 +1,5 @@
 #include "MilitaryBaseComp.h"
 
-#include "AsyncTreeDifferences.h"
 #include "BuildingsModuleComponent.h"
 #include "ResourcesComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
