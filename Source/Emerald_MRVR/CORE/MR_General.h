@@ -148,6 +148,9 @@ public:
 	bool bGameInitialized = false;
 
 	UPROPERTY(BlueprintReadWrite, Category="CORE")
-	bool bIsNotGameplay = false; 
+	bool bIsNotGameplay = false;
+
+	UPROPERTY(EditDefaultsOnly, Category="Testing")
+	TSubclassOf<AUnit> DefaultUnit;
 };
 

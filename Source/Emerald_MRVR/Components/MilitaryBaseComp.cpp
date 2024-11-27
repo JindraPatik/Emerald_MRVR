@@ -31,7 +31,7 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
-	General = Cast<AMR_General>(GetOwner()->GetOwner());
+	General = Cast<AMR_General>(GetOwner());
 }
 
 
@@ -95,20 +95,26 @@ void UMilitaryBaseComp::SpawnUnit()
 		Server_SpawnUnit();
 	}
 
-	if (General && General->BaseInstance && General->BaseInstance->SpawnPoint_Ground)
+	if (General && General->IsLocallyControlled() && General->BaseInstance && General->BaseInstance->SpawnPoint_Ground)
 	{
 
 		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
         FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
         FActorSpawnParameters SpawnParams;
         SpawnParams.Owner = General->GetController();
+
+		/// for testing without VR only!!!!
+		UnitToSpawn = General->DefaultUnit;
+		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+		SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
+		/// for testing without VR only!!!!
     
         if (General->CurrentlySelectedModule)
         {
             UnitToSpawn = General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
             if (!UnitToSpawn)
             {
-                DBG(3, "MBC: No Unit to Spawn") 
+            	DBG(3, "MBC: No Unit selected") 
             }
             else
             {
