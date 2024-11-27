@@ -69,7 +69,7 @@ AMR_General::AMR_General()
 	PointerStick_L->SetupAttachment(MotionController_L);
 
 	PointerStick_R = CreateDefaultSubobject<UStaticMeshComponent>("PointerStick_R");
-	PointerStick_L->SetupAttachment(MotionController_R);
+	PointerStick_R->SetupAttachment(MotionController_R);
 
 
 	// COMPONENTS
@@ -182,6 +182,7 @@ void AMR_General::SetPlayerColor() // Set Player Color
 	{
 		PlayerDefaultColor = GameMode->PlayersColors.Pop();
 	}
+	
 	GeneralBody->SetMaterial(0, PlayerDefaultColor);
 	PointerStick_L->SetMaterial(0, PlayerDefaultColor);
 	PointerStick_R->SetMaterial(0, PlayerDefaultColor);
