@@ -14,13 +14,13 @@ class EMERALD_MRVR_API AUnit : public APawn
 
 public:
 	AUnit();
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
-	TObjectPtr<UStaticMeshComponent> Body;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Collision")
 	TObjectPtr<USphereComponent> SphereComponent;
@@ -29,9 +29,8 @@ protected:
 	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
 
 public:	
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
+	TObjectPtr<UStaticMeshComponent> Body;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
 	float Speed;

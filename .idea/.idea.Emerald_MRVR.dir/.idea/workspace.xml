@@ -15,13 +15,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="Added BuildingsModuleInterface">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CORE/BP_MR_General.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/BP_MR_General.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Interfaces/BuildingsModuleInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Interfaces/BuildingsModuleInterface.h" afterDir="false" />
-    </list>
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -1124,7 +1118,7 @@
       <workItem from="1731599049920" duration="127000" />
       <workItem from="1731600514365" duration="254000" />
       <workItem from="1732093412995" duration="17624000" />
-      <workItem from="1732692610295" duration="2604000" />
+      <workItem from="1732692610295" duration="2705000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1206,7 +1200,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732692712402</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Ref works only on client">
+      <option name="closed" value="true" />
+      <created>1732695499535</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1732695499535</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1248,6 +1250,7 @@
     <MESSAGE value="Provizorni Combat v BP" />
     <MESSAGE value="SetUnitStats from data asset" />
     <MESSAGE value="Added BuildingsModuleInterface" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added BuildingsModuleInterface" />
+    <MESSAGE value="Ref works only on client" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ref works only on client" />
   </component>
 </project>

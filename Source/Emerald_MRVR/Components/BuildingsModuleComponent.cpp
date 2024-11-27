@@ -1,7 +1,7 @@
 #include "BuildingsModuleComponent.h"
 
-#include "BoxComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Net/UnrealNetwork.h"
 
@@ -19,14 +19,16 @@ UBuildingsModuleComponent::UBuildingsModuleComponent()
 void UBuildingsModuleComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	AMR_General* General = Cast<AMR_General>(GetOwner()->GetOwner());
 	if (BuildingDataAsset)
 	{
-		
 		ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building);
-		ModuleMesh->SetMaterial(0, BuildingDataAsset->BaseMaterial);
+		if (General)
+		{
+			ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
+		}
 	}
 	ModuleMesh->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
-	// Adds tag to BuildingsModule comp
 	ModuleMesh->RegisterComponent();
 
 }

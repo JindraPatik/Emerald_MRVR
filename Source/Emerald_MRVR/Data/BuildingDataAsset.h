@@ -5,6 +5,7 @@
 #include "Engine/DataAsset.h"
 #include "BuildingDataAsset.generated.h"
 
+class AUnit;
 class UUnitDataAsset;
 
 UCLASS()
@@ -22,8 +23,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
 	UStaticMesh* SM_Building;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Building")
-	TObjectPtr<UUnitDataAsset> UnitToSpawn;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Unit")
+	TObjectPtr<UUnitDataAsset> UnitToSpawnData;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Unit")
+	TSubclassOf<AUnit> UnitToSpawn;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
 	UMaterialInterface* BaseMaterial;

@@ -33,10 +33,6 @@ AMilitaryBase::AMilitaryBase()
 	// Modules
 	Modules = CreateDefaultSubobject<USceneComponent>(TEXT("ModulesRoot"));
 	Modules->SetupAttachment(RootComponent);
-
-	// Postupne doplnit vsechny moduly!!!
-
-	
 }
 
 void AMilitaryBase::BeginPlay()
@@ -61,7 +57,7 @@ void AMilitaryBase::PostInitializeComponents()
 				BuildingComp->SetIsReplicated(true);
 				BuildingComp->SetupAttachment(Modules);
 				BuildingComp->BuildingDataAsset = Building;
-				// BuildingComp->ModuleBody->SetStaticMesh(Building->SM_Building);
+				BuildingComp->RegisterComponent();
 				
 				ReplicatedBuildingComponents.AddUnique(BuildingComp);
 				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);

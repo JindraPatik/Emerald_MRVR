@@ -56,6 +56,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	UCrystalSpawnerComp* CrystalSpawner;
 
+	UPROPERTY(EditDefaultsOnly, Category="Identification")
+	TArray<UMaterialInterface*> PlayersColors;
+
+
 
 
 };

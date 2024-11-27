@@ -39,6 +39,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	ATargetPoint* TargetPoint;
 
+	AMilitaryBase* MyBaseInstance;
+
 	UPROPERTY(Replicated, VisibleAnywhere)
 	FVector UnitTargetLoc;
 

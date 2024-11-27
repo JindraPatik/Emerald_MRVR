@@ -32,15 +32,13 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
-	General = Cast<AMR_General>(GetOwner());
-	// UDELAT EVENTABY SE NACETLO PO NASPAWNOVANI BASE
-	// AvailableModules = General->BaseInstance->BuildingsModuleComponent->AvailableBuildings;
+	General = Cast<AMR_General>(GetOwner()->GetOwner());
 }
 
 
 void UMilitaryBaseComp::SelectUnitToSpawn(UBuildingDataAsset* SelectedBuilding)
 {
-	SelectedUnit = SelectedBuilding->UnitToSpawn;
+	SelectedUnit = SelectedBuilding->UnitToSpawnData;
 }
 
 
@@ -64,7 +62,6 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 		return;
 	}
 
-	// TArray<ATargetPoint*> TargetPoints = GameMode->GetAllTargetpoints();
 	if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
 	{
 		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
@@ -101,19 +98,26 @@ void UMilitaryBaseComp::SpawnUnit()
 
 	if (General && General->BaseInstance && General->BaseInstance->SpawnPoint_Ground)
 	{
+
 		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
-		FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = General->GetController();
-        
-        	if (!UnitToSpawn)
-        	{
-        		DBG(5, "MBC: No unit set!")
-        	}
-        	else
-        	{
-        		GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
-        	}
+        FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.Owner = General->GetController();
+    
+        if (General->CurrentlySelectedModule)
+        {
+            UnitToSpawn = General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
+            if (!UnitToSpawn)
+            {
+                DBG(3, "MBC: No Unit to Spawn") 
+            }
+            else
+            {
+                AUnit* SpawnedUnit = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+            	SpawnedUnit->Body->SetMaterial(0, General->PlayerDefaultColor);
+            }
+        }
+
 	}
 	else
 	{

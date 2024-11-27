@@ -88,6 +88,8 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, BaseInstance);
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
 	DOREPLIFETIME(AMR_General, CurrentlySelectedModule);
+	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
+;
 }
 // ~REPLICATED PROPS
 
@@ -114,8 +116,7 @@ void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
-
-	
+	SetPlayerColor();
 	
 // Jsem Server	
 	if (IsLocallyControlled())
@@ -167,6 +168,16 @@ void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPos
 }
 // ~UPDATE PAWN MOVEMENT
 
+
+void AMR_General::SetPlayerColor() // Set Player Color
+{
+	if (GameMode && GameMode->PlayersColors.Num() > 0)
+	{
+		PlayerDefaultColor = GameMode->PlayersColors.Pop();
+	}
+	GeneralBody->SetMaterial(0, PlayerDefaultColor);
+}
+
 // Setup Pointer
 void AMR_General::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
 	UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult)
@@ -213,7 +224,6 @@ void AMR_General::SpawnMilitaryBase()
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
-		// EnsureInitializeAvailabeBuildings();}
 	}
 }
 
