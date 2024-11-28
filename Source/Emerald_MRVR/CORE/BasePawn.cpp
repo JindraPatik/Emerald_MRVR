@@ -109,7 +109,7 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	Input->BindAction(Click, ETriggerEvent::Started, this, &ABasePawn::OnMousePressed);
-	Input->BindAction(Click, ETriggerEvent::Canceled, this, &ABasePawn::OnMouseReleased);
+	Input->BindAction(Click, ETriggerEvent::Completed, this, &ABasePawn::OnMouseReleased);
 }
 
 void ABasePawn::OnMousePressed()
