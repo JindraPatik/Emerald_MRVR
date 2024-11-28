@@ -15,7 +15,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="" />
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="BasePawn refactored">
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CORE/BP_BasePawn.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/BP_BasePawn.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/BasePawn.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/BasePawn.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/BasePawn.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/BasePawn.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -1119,6 +1126,7 @@
       <workItem from="1731600514365" duration="254000" />
       <workItem from="1732093412995" duration="17624000" />
       <workItem from="1732692610295" duration="2705000" />
+      <workItem from="1732795087374" duration="3247000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1208,7 +1216,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732695499535</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="BasePawn refactored">
+      <option name="closed" value="true" />
+      <created>1732797891661</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1732797891661</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1251,6 +1267,7 @@
     <MESSAGE value="SetUnitStats from data asset" />
     <MESSAGE value="Added BuildingsModuleInterface" />
     <MESSAGE value="Ref works only on client" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ref works only on client" />
+    <MESSAGE value="BasePawn refactored" />
+    <option name="LAST_COMMIT_MESSAGE" value="BasePawn refactored" />
   </component>
 </project>

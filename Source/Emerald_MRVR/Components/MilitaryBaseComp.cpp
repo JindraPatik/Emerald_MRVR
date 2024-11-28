@@ -122,7 +122,6 @@ void UMilitaryBaseComp::SpawnUnit()
             	SpawnedUnit->Body->SetMaterial(0, General->PlayerDefaultColor);
             }
         }
-
 	}
 	else
 	{
