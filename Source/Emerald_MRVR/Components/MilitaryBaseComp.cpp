@@ -96,7 +96,7 @@ void UMilitaryBaseComp::SpawnUnit()
 		Server_SpawnUnit();
 	}
 
-	if (General && General->IsLocallyControlled() && General->BaseInstance && General->BaseInstance->SpawnPoint_Ground)
+	if (General && General->BaseInstance && General->BaseInstance->SpawnPoint_Ground)
 	{
 
 		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
@@ -105,9 +105,14 @@ void UMilitaryBaseComp::SpawnUnit()
         SpawnParams.Owner = General->GetController();
 
 		/// for testing without VR only!!!!
-		/*UnitToSpawn = General->DefaultUnit;
-		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
-		SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);*/
+		UnitToSpawn = General->DefaultUnit;
+		if (General->IsLocallyControlled())
+		{
+			AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+			SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
+		}
+		
+		// SpawnedUnitTest->SetReplicates(true);
 		/// for testing without VR only!!!!
     
         if (General->CurrentlySelectedModule)
@@ -119,7 +124,7 @@ void UMilitaryBaseComp::SpawnUnit()
             }
             else
             {
-	            if (HasEnoughResources())
+	            if (HasEnoughResources() && General->IsLocallyControlled())
 	            {
 		            AUnit* SpawnedUnit = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
 		            General->ResourcesComponent->UpdateResources(General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawnData->Price);

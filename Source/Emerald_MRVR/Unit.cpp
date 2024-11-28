@@ -1,16 +1,10 @@
 #include "Unit.h"
 
-#include "DebugMacros.h"
-#include "MilitaryBase.h"
 #include "SphereComponent.h"
 #include "Components/MilitaryBaseComp.h"
 #include "Components/UnitMovementComponent.h"
 #include "CORE/MR_General.h"
-#include "CORE/PC_MR_General.h"
-#include "CORE/MR_General.h"
 #include "Data/UnitDataAsset.h"
-#include "GameFramework/GameSession.h"
-#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -40,7 +34,6 @@ void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimePro
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AUnit, Speed)
-	//DOREPLIFETIME(AUnit, TargetLoc)
 }
 
 void AUnit::Tick(float DeltaTime)
