@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BasePawn.h"
 #include "EK_GameMode.h"
 #include "GameFramework/Pawn.h"
 #include "EnhancedInputSubsystems.h"
@@ -25,25 +26,22 @@ class UInputMappingContext;
 class UInputAction;
 
 UCLASS()
-class EMERALD_MRVR_API AMR_General : public APawn
+class EMERALD_MRVR_API AMR_General : public ABasePawn
 {
 	GENERATED_BODY()
 
 public:
-	AMR_General();
-	virtual void Tick(float DeltaTime) override;
-	virtual void PostInitializeComponents() override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	
 	void SetPlayerColor();
+	void Action_SpawnUnit();
 
 
 protected:
+	AMR_General();
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditDefaultsOnly, Category="Controller")
-	float PointerDistance;
-	
 	
 public:
 	// CORE
@@ -56,49 +54,25 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
 	UInputMappingContext* InputMapping;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* DebugSpawnUnit;
 
-	UFUNCTION(BlueprintCallable)
-	void SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Distance, UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult);
+	// Character Movement
+	UPROPERTY(ReplicatedUsing=OnRepPosition)
+	FVector ReplicatedPosition;
+
+	UPROPERTY(ReplicatedUsing=OnRepRotation)
+	FRotator ReplicatedRotation;
+
+	UFUNCTION()
+	void OnRepPosition () const {RootComponent->SetWorldLocation(ReplicatedPosition);}
+
+	UFUNCTION()
+	void OnRepRotation() const {RootComponent->SetWorldRotation(ReplicatedRotation);}
+
+	UFUNCTION(Server, Unreliable, Category="Position")
+	void Server_UpdatePawnPosition(const FVector& NewPosition, const FRotator& NewRotation);
+
 	// ~INPUT
 
-	// Character Body
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
-	TObjectPtr<UCameraComponent> Camera;
-
-	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
-	TObjectPtr<UStaticMeshComponent> GeneralBody;
-
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly)
-	UMaterialInterface* PlayerDefaultColor;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
-	TObjectPtr<USceneComponent> Hands;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-	TObjectPtr<UMotionControllerComponent> MotionController_L;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-	TObjectPtr<UMotionControllerComponent> MotionController_R;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	UStaticMeshComponent* ImpactPointer_L;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	UStaticMeshComponent* ImpactPointer_R;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	UWidgetInteractionComponent* WidgetInteraction_L;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	UWidgetInteractionComponent* WidgetInteraction_R;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	UStaticMeshComponent* PointerStick_L;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	UStaticMeshComponent* PointerStick_R;
 
 	// MILITARY BASE
 	void SpawnMilitaryBase();
@@ -113,29 +87,18 @@ public:
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
 	UBuildingsModuleComponent* CurrentlySelectedModule;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UInputAction* DebugSpawnUnit;
+
 	// doplnit nebo smazat
 	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")
 	TMap<FName, int32> BuildingsMap;
-	
-	// Character Movement
-	UPROPERTY(ReplicatedUsing=OnRepPosition)
-	FVector ReplicatedPosition;
 
-	UPROPERTY(ReplicatedUsing=OnRepRotation)
-	FRotator ReplicatedRotation;
-
-	UFUNCTION()
-	void OnRepPosition () const {RootComponent->SetWorldLocation(ReplicatedPosition);}
-
-	UFUNCTION()
-	void OnRepRotation() const {RootComponent->SetWorldRotation(ReplicatedRotation);}
-
-	void Action_SpawnUnit();
+	// Visuals
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly)
+	UMaterialInterface* PlayerDefaultColor;
 
 public:	
-	UFUNCTION(Server, Unreliable, Category="Position")
-	void Server_UpdatePawnPosition(const FVector& NewPosition, const FRotator& NewRotation);
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UHealthComponent> HealthComponent;
 	
@@ -144,12 +107,6 @@ public:
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	AMilitaryBase* BaseInstance;
-
-	UPROPERTY(BlueprintReadOnly, Category="Controller")
-	FHitResult HitResultLeft;
-	
-	UPROPERTY(BlueprintReadOnly, Category="Controller")
-	FHitResult HitResultRight;
 
 	UPROPERTY(BlueprintReadOnly, Category="CORE")
 	bool bGameInitialized = false;

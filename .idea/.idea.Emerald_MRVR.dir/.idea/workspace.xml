@@ -15,7 +15,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="" />
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/CORE/BP_BasePawn.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -1119,6 +1125,7 @@
       <workItem from="1731600514365" duration="254000" />
       <workItem from="1732093412995" duration="17624000" />
       <workItem from="1732692610295" duration="2705000" />
+      <workItem from="1732795087374" duration="2655000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />

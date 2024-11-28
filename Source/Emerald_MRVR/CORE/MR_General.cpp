@@ -33,43 +33,7 @@ AMR_General::AMR_General()
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
 
-	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
-	Camera->SetIsReplicated(true);
 
-	RootComponent = Camera;
-	RootComponent->SetIsReplicated(true);
-
-	GeneralBody = CreateDefaultSubobject<UStaticMeshComponent>("GeneralBody");
-	GeneralBody->SetupAttachment(RootComponent);
-	GeneralBody->SetIsReplicated(true);
-	Hands = CreateDefaultSubobject<USceneComponent>("Hands");
-	
-	MotionController_L = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_L");
-	MotionController_L->SetIsReplicated(true);
-	MotionController_L->SetupAttachment(Hands);
-	
-	MotionController_R = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_R");
-	MotionController_R->SetIsReplicated(true);
-	MotionController_R->SetupAttachment(Hands);
-
-	PointerDistance = 2000.f;
-	ImpactPointer_L = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerL");
-	ImpactPointer_L->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-	ImpactPointer_R = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerR");
-	ImpactPointer_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-	WidgetInteraction_L = CreateDefaultSubobject<UWidgetInteractionComponent>("InteractionLeft");
-	WidgetInteraction_L->SetupAttachment(ImpactPointer_L);
-	
-	WidgetInteraction_R = CreateDefaultSubobject<UWidgetInteractionComponent>("InteractionRight");
-	WidgetInteraction_R->SetupAttachment(ImpactPointer_R);
-
-	PointerStick_L = CreateDefaultSubobject<UStaticMeshComponent>("PointerStick_L");
-	PointerStick_L->SetupAttachment(MotionController_L);
-
-	PointerStick_R = CreateDefaultSubobject<UStaticMeshComponent>("PointerStick_R");
-	PointerStick_R->SetupAttachment(MotionController_R);
 
 
 	// COMPONENTS
@@ -95,7 +59,6 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
 	DOREPLIFETIME(AMR_General, CurrentlySelectedModule);
 	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
-	DOREPLIFETIME(AMR_General, GeneralBody);
 ;
 }
 // ~REPLICATED PROPS
@@ -160,13 +123,6 @@ void AMR_General::Tick(float DeltaTime)
 }
 // ~TICK
 
-// Post initialize comp
-void AMR_General::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-}
-// ~Post initialize comp
-
 // UPDATE PAWN MOVEMENT
 void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)
 {
@@ -174,7 +130,6 @@ void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPos
 	ReplicatedRotation = NewRotation;
 }
 // ~UPDATE PAWN MOVEMENT
-
 
 void AMR_General::SetPlayerColor() // Set Player Color
 {
@@ -187,45 +142,10 @@ void AMR_General::SetPlayerColor() // Set Player Color
 	PointerStick_R->SetMaterial(0, PlayerDefaultColor);
 }
 
-// Setup Pointer
-void AMR_General::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
-	UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult)
-{
-	UHeadMountedDisplayFunctionLibrary* HMDLibrary;
-	FXRMotionControllerData FxrMotionControllerData;
-	HMDLibrary->GetMotionControllerData(MotionControllerComponent, Hand, FxrMotionControllerData);
-
-	FVector Start = FxrMotionControllerData.AimPosition;
-	FVector End = FxrMotionControllerData.AimRotation.GetForwardVector() * PointerDistance;
-
-	TObjectPtr<UWorld> World = GetWorld();
-	if (World)
-	{
-		FCollisionQueryParams QueryParams;
-		QueryParams.bTraceComplex = false;
-		QueryParams.AddIgnoredActor(this);
-        
-		bool	bHit = World->SweepSingleByChannel(
-				HitResult,
-				Start,
-				End,
-				FQuat::Identity,
-				ECC_Visibility,
-				FCollisionShape::MakeSphere(5.f),
-				QueryParams);
-        
-		ImpactPointer->SetWorldLocation(HitResult.ImpactPoint);
-		FRotator WidgetinteractionRotation = UKismetMathLibrary::FindLookAtRotation(Camera->GetComponentLocation(), HitResult.ImpactPoint);
-		WidgetInteractionComponent->SetRelativeRotation(WidgetinteractionRotation);
-	}
-}
-//~Setup Pointer
-
-
 // Volá PC
 void AMR_General::SpawnMilitaryBase()
 {
-	if (IsLocallyControlled())
+	if (IsLocallyControlled() && !HasAuthority())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
 	}
