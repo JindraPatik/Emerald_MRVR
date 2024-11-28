@@ -44,8 +44,4 @@ void UResourcesComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 void UResourcesComponent::UpdateResources(float ResourcesDelta)
 {
 	AvailableResources -= ResourcesDelta;
-
-	float AddResources = CVarAddResources.GetValueOnGameThread();
-	AvailableResources -= AddResources;
-	UE_LOG(LogTemp, Warning, TEXT("ResourcesUpdated"));
 }

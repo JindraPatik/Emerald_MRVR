@@ -76,7 +76,6 @@ public:
 
 	// MILITARY BASE
 	void SpawnMilitaryBase();
-	void SelectBuilding();
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	UMilitaryBaseComp* MilitaryBaseComp;

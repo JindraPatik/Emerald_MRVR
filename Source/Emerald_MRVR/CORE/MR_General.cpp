@@ -137,13 +137,6 @@ void AMR_General::Action_SpawnUnit()
 	MilitaryBaseComp->SpawnUnit();
 }
 
-void AMR_General::SelectBuilding()
-{
-	for (UBuildingDataAsset* Building : AvailableBuildings)
-	{
-		
-	}
-}
 
 
 

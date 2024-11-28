@@ -8,6 +8,7 @@
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
+#include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
 #include "Net/UnrealNetwork.h"
 
@@ -118,8 +119,16 @@ void UMilitaryBaseComp::SpawnUnit()
             }
             else
             {
-                AUnit* SpawnedUnit = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
-            	SpawnedUnit->Body->SetMaterial(0, General->PlayerDefaultColor);
+	            if (HasEnoughResources())
+	            {
+		            AUnit* SpawnedUnit = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+		            General->ResourcesComponent->UpdateResources(General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawnData->Price);
+		            SpawnedUnit->Body->SetMaterial(0, General->PlayerDefaultColor);
+	            }
+	            else
+	            {
+		            DBG(3, "NOT ENOUGH RESOURCES");
+	            }
             }
         }
 	}
@@ -127,7 +136,6 @@ void UMilitaryBaseComp::SpawnUnit()
 	{
 		DBG(5, "MBC: No MB or SpawnPoint!") 
 	}
-	
 }
 
 void UMilitaryBaseComp::Server_SpawnUnit_Implementation()
@@ -141,6 +149,11 @@ bool UMilitaryBaseComp::HasEnoughResources() const
 	if (General && General->ResourcesComponent)
 	{
 		float AvailableResources = General->ResourcesComponent->AvailableResources;
+		
+		if (UnitToSpawn && General->CurrentlySelectedModule->BuildingDataAsset)
+		{
+			return AvailableResources >= General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawnData->Price;
+		}
 	}
-	return true;
+	return false;
 }
