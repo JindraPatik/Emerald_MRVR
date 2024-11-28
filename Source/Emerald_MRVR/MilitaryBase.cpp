@@ -24,6 +24,7 @@ AMilitaryBase::AMilitaryBase()
 	
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	BuildingsModuleComponent = CreateDefaultSubobject<UBuildingsModuleComponent>("BuildingsModuleComponent");
+	BuildingsModuleComponent->SetIsReplicated(true);
 	
 	SpawnPoint_Ground = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
 	SpawnPoint_Ground->SetupAttachment(RootComponent);
@@ -33,17 +34,26 @@ AMilitaryBase::AMilitaryBase()
 	// Modules
 	Modules = CreateDefaultSubobject<USceneComponent>(TEXT("ModulesRoot"));
 	Modules->SetupAttachment(RootComponent);
+	Modules->SetIsReplicated(true);
+}
+
+void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
+	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
+	DOREPLIFETIME(AMilitaryBase, ReplicatedBuildingComponents);
+	DOREPLIFETIME(AMilitaryBase, BuildingsModuleComponent);
+	DOREPLIFETIME(AMilitaryBase, BuildingModules);
+	DOREPLIFETIME(AMilitaryBase, Modules);
+	DOREPLIFETIME(AMilitaryBase, AvailableBuildings);
+	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
+	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
 }
 
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void AMilitaryBase::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-	
 	AMR_General* General = Cast<AMR_General>(GetOwner());
 	
 	if (ensure(General))
@@ -62,9 +72,17 @@ void AMilitaryBase::PostInitializeComponents()
 				ReplicatedBuildingComponents.AddUnique(BuildingComp);
 				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
 			}
-		General->bGameInitialized = true;
 		}
+		SpawnResourcesWidget();
+		SpawnHealthWidget();
+		General->bGameInitialized = true;
 	} 
+}
+
+void AMilitaryBase::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	
 }
 
 void AMilitaryBase::Tick(float DeltaTime)
@@ -72,18 +90,54 @@ void AMilitaryBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+
+void AMilitaryBase::SpawnResourcesWidget()
 {
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
-	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
-	DOREPLIFETIME(AMilitaryBase, ReplicatedBuildingComponents);
-	DOREPLIFETIME(AMilitaryBase, BuildingsModuleComponent);
-	DOREPLIFETIME(AMilitaryBase, BuildingModules);
-	DOREPLIFETIME(AMilitaryBase, Modules);
-	DOREPLIFETIME(AMilitaryBase, AvailableBuildings);
+	if (!HasAuthority())
+	{
+		Server_SpawnResourcesWidget();
+	}
+	
+	AMR_General* General = Cast<AMR_General>(GetOwner());
+
+	if (General && General->IsLocallyControlled())
+	{
+		TObjectPtr<UWorld> World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			FVector Location = GetActorLocation() + FVector(0.f, 0.f, 100.f);
+			ResourcesWidgetInstance = World->SpawnActor<AActor>(ResourcesWidget, Location, FRotator::ZeroRotator, SpawnParams);
+		}
+	}
 }
 
+void AMilitaryBase::Server_SpawnResourcesWidget_Implementation()
+{
+	SpawnResourcesWidget();
+}
+
+void AMilitaryBase::SpawnHealthWidget()
+{
+	if (!HasAuthority())
+	{
+		Server_SpawnHealthWidget();
+	}
+	
+	AMR_General* General = Cast<AMR_General>(GetOwner());
+	TObjectPtr<UWorld> World = GetWorld();
+	if (World)
+	{
+		FActorSpawnParameters SpawnParams;
+		FVector Location = GetActorLocation() + FVector(0.f, 0.f, 110.f);
+		HealthWidgetInstance = World->SpawnActor<AActor>(HealthWidget, Location, FRotator::ZeroRotator, SpawnParams);
+	}
+}
+
+void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
+{
+	SpawnHealthWidget();
+}
 
 
 
