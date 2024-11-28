@@ -2,11 +2,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "EnhancedInputSubsystems.h"
 #include "BasePawn.generated.h"
 
+class UWidgetInteractionComponent;
 class UMotionControllerComponent;
 class UCameraComponent;
 class UInputMappingContext;
+class UMotionControllerComponent;
 
 UCLASS()
 class EMERALD_MRVR_API ABasePawn : public APawn
@@ -21,6 +24,9 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	void OnMousePressed();
+	void OnMouseReleased();
+	
 	
 	UFUNCTION(BlueprintCallable)
 	void SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Distance, UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult);
@@ -71,8 +77,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
 	UInputMappingContext* MenuInputMappingContext;
 
+	//INPUT ACTIONS
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UInputAction* Click;
+
 public:	
-	
 	
 	
 };

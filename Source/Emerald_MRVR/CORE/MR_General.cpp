@@ -1,40 +1,22 @@
 #include "MR_General.h"
 
-#include "DelayAction.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "EK_GameMode.h"
-#include "MotionControllerComponent.h"
-#include "Camera/CameraComponent.h"
 #include "Emerald_MRVR/MilitaryBase.h"
-#include "Engine/TargetPoint.h"
-#include "GameFramework/GameMode.h"
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
-#include "PC_MR_General.h"
-#include "Components/WidgetInteractionComponent.h"
-#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
-#include "Emerald_MRVR/Unit.h"
-#include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "GameFramework/GameStateBase.h"
-#include "GameFramework/PlayerState.h"
-#include "Emerald_MRVR/EKG_Enums.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
-#include "Kismet/KismetMathLibrary.h"
-#include "Kismet/KismetSystemLibrary.h"
 
 AMR_General::AMR_General()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
-
-
-
 
 	// COMPONENTS
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
@@ -53,13 +35,14 @@ AMR_General::AMR_General()
 void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
 	DOREPLIFETIME(AMR_General, ReplicatedPosition);
 	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 	DOREPLIFETIME(AMR_General, BaseInstance);
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
 	DOREPLIFETIME(AMR_General, CurrentlySelectedModule);
 	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
-;
+
 }
 // ~REPLICATED PROPS
 
@@ -87,13 +70,12 @@ void AMR_General::BeginPlay()
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	SetPlayerColor();
 	
-// Jsem Server	
+	// Jsem Server	
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
 	}
 }
-
 // ~BEGIN PLAY
 
 // TICK
@@ -144,7 +126,7 @@ void AMR_General::SetPlayerColor() // Set Player Color
 // Volá PC
 void AMR_General::SpawnMilitaryBase()
 {
-	if (IsLocallyControlled() && !HasAuthority())
+	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
 	}

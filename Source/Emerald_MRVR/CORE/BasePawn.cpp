@@ -1,9 +1,9 @@
 #include "BasePawn.h"
 
+#include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
-#include "MR_General.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "GameFramework/GameState.h"
@@ -23,6 +23,7 @@ ABasePawn::ABasePawn()
 	GeneralBody = CreateDefaultSubobject<UStaticMeshComponent>("GeneralBody");
 	GeneralBody->SetupAttachment(RootComponent);
 	GeneralBody->SetIsReplicated(true);
+	GeneralBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
 	Hands = CreateDefaultSubobject<USceneComponent>("Hands");
 	
@@ -39,10 +40,12 @@ ABasePawn::ABasePawn()
 	ImpactPointer_L = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerL");
 	ImpactPointer_L->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	ImpactPointer_L->SetIsReplicated(true);
+	ImpactPointer_L->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	ImpactPointer_R = CreateDefaultSubobject<UStaticMeshComponent>("ImpactPointerR");
 	ImpactPointer_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	ImpactPointer_R->SetIsReplicated(true);
+	ImpactPointer_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	WidgetInteraction_L = CreateDefaultSubobject<UWidgetInteractionComponent>("InteractionLeft");
 	WidgetInteraction_L->SetupAttachment(ImpactPointer_L);
@@ -55,11 +58,12 @@ ABasePawn::ABasePawn()
 	PointerStick_L = CreateDefaultSubobject<UStaticMeshComponent>("PointerStick_L");
 	PointerStick_L->SetupAttachment(MotionController_L);
 	PointerStick_L->SetIsReplicated(true);
+	PointerStick_L->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	PointerStick_R = CreateDefaultSubobject<UStaticMeshComponent>("PointerStick_R");
 	PointerStick_R->SetupAttachment(MotionController_R);
 	PointerStick_R->SetIsReplicated(true);
-
+	PointerStick_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ABasePawn::BeginPlay()
@@ -104,6 +108,20 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Subsystem->AddMappingContext(MenuInputMappingContext, 1);
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
+	Input->BindAction(Click, ETriggerEvent::Started, this, &ABasePawn::OnMousePressed);
+	Input->BindAction(Click, ETriggerEvent::Canceled, this, &ABasePawn::OnMouseReleased);
+}
+
+void ABasePawn::OnMousePressed()
+{
+	WidgetInteraction_L->PressPointerKey(EKeys::LeftMouseButton);
+	WidgetInteraction_R->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void ABasePawn::OnMouseReleased()
+{
+	WidgetInteraction_L->ReleasePointerKey(EKeys::LeftMouseButton);
+	WidgetInteraction_R->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
 // Setup Pointer
