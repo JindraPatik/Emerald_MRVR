@@ -43,8 +43,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TArray<ATargetPoint*> GetAllTargetpoints();
 
-	
-	UPROPERTY(Replicated, BlueprintReadOnly, Category="Spawning")
+	UPROPERTY(BlueprintReadOnly, Category="Spawning")
 	TArray<ATargetPoint*> TargetPoints;
 
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")

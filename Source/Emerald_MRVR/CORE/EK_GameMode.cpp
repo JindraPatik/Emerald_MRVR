@@ -73,14 +73,14 @@ void AEK_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME(AEK_GameMode, TargetPoints);
+	// DOREPLIFETIME(AEK_GameMode, TargetPoints);
 }
 
 // Iterate all Player starts and return FTransform
 FTransform AEK_GameMode::FindMyPlayerStart()
 {
 	FTransform Transform;
-	if (AllPlayerStarts.Num() < 0) { return Transform; }
+	if (AllPlayerStarts.Num() == 0) { return Transform; }
 
 	APlayerStart* SelectedPlayerStart = AllPlayerStarts[0];
 	AllPlayerStarts.Remove(SelectedPlayerStart);
@@ -94,7 +94,7 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 	{
 		FActorSpawnParameters PawnSpawnParameters;
 		PawnSpawnParameters.Owner = PlayerController;
-		
+
 		APawn* Pawn = PlayerController->GetPawn();
 		if (Pawn)
 		{
@@ -108,7 +108,6 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 			PlayerController->Possess(PlayerPawn);
 		}
 		PlayerPawn->PossessedBy(PlayerController);
-		
 	}	
 }
 
@@ -122,11 +121,25 @@ TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 	return TPs;
 }
 
+
 void AEK_GameMode::FindAllPlayerStarts()
 {
+	// Pokud už máme nalezené PlayerStarty, neděláme nic
+	if (AllPlayerStarts.Num() > 1)
+	{
+		return;
+	}
+
+	// Iterujeme přes všechny PlayerStarty ve světě
 	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
 	{
 		AllPlayerStarts.Add(*It);
+	}
+
+	// Debug: Pokud se žádný PlayerStart nenašel
+	if (AllPlayerStarts.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No PlayerStart found in the world!"));
 	}
 }
 
