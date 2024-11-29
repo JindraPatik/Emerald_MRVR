@@ -1,6 +1,8 @@
 #include "ResourcesComponent.h"
 #include "Components/TextBlock.h"
+#include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
+#include "GameFramework/GameStateBase.h"
 #include "Net/UnrealNetwork.h"
 
 static TAutoConsoleVariable<float> CVarAddResources(TEXT("EKG.AddResources"), 5.f,TEXT("AddedResourcesToPlayer"), ECVF_Cheat);
@@ -18,7 +20,6 @@ UResourcesComponent::UResourcesComponent()
 	AvailableResources = 100.f;
 }
 
-
 void UResourcesComponent::OnRep_ResourcesChanged() const
 {
 	if (ResourcesWidget)
@@ -28,20 +29,23 @@ void UResourcesComponent::OnRep_ResourcesChanged() const
 	}
 }
 
-void UResourcesComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	
-}
-
-void UResourcesComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-}
-
 void UResourcesComponent::UpdateResources(float ResourcesDelta)
 {
 	AvailableResources -= ResourcesDelta;
+}
+void UResourcesComponent::GrowResources()
+{
+	float ResourcesGrowAmount = 1.f;
+	AvailableResources += ResourcesGrowAmount;
+}
+
+void UResourcesComponent::StartGrowResources()
+{
+	TObjectPtr<UWorld> World = GetWorld();
+	FTimerHandle GrowResourcesTimerHandle;
+	float GrowInterval = 1.f;
+	if (World)
+	{
+		World->GetTimerManager().SetTimer(GrowResourcesTimerHandle, this, &UResourcesComponent::GrowResources, GrowInterval, true);
+	}
 }

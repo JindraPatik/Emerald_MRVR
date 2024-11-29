@@ -119,18 +119,23 @@ void AMilitaryBase::Server_SpawnResourcesWidget_Implementation()
 
 void AMilitaryBase::SpawnHealthWidget()
 {
+	AMR_General* General = Cast<AMR_General>(GetOwner());
 	if (!HasAuthority())
 	{
 		Server_SpawnHealthWidget();
+		return;
 	}
 	
-	AMR_General* General = Cast<AMR_General>(GetOwner());
 	TObjectPtr<UWorld> World = GetWorld();
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
 		FVector Location = GetActorLocation() + FVector(0.f, 0.f, 110.f);
 		HealthWidgetInstance = World->SpawnActor<AActor>(HealthWidget, Location, FRotator::ZeroRotator, SpawnParams);
+		if (HealthWidgetInstance)
+		{
+			HealthWidgetInstance->SetReplicates(true);
+		}
 	}
 }
 

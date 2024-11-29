@@ -17,24 +17,24 @@ public:
 
 	UPROPERTY(ReplicatedUsing=OnRep_ResourcesChanged, EditAnywhere, BlueprintReadWrite, Category="Resources")
 	float AvailableResources;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resources")
-	float MaxResources = 9999.f;
-
-	UFUNCTION()
-	void OnRep_ResourcesChanged() const;
-
+	
 	UPROPERTY(BlueprintReadWrite, Category="Widget")
 	UResourcesWidget* ResourcesWidget;
 
 	UFUNCTION(Blueprintable, Category="Resources")
 	void UpdateResources(float ResourcesDelta);
+	
+private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resources", meta=(AllowPrivateAccess="true"));
+	float MaxResources = 9999.f;
+
+	UFUNCTION()
+	void OnRep_ResourcesChanged() const;
 
 protected:
-	virtual void BeginPlay() override;
-
+	void GrowResources();
 public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void StartGrowResources();
 
 		
 	

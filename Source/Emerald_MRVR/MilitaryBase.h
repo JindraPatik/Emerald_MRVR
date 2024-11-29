@@ -75,13 +75,13 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Buildings")
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Widgets")
 	TSubclassOf<AActor> ResourcesWidget;
 
 	UPROPERTY(Replicated)
 	AActor* ResourcesWidgetInstance;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Widgets")
 	TSubclassOf<AActor> HealthWidget;
 
 	UPROPERTY(Replicated)

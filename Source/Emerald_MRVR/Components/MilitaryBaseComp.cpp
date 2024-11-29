@@ -80,6 +80,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 			{
 				// Spawn Base Instance
 				General->BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
+				General->ResourcesComponent->StartGrowResources();
 			}
 		}
 	}
@@ -111,7 +112,6 @@ void UMilitaryBaseComp::SpawnUnit()
 			AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
 			SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
 		}
-		
 		// SpawnedUnitTest->SetReplicates(true);
 		/// for testing without VR only!!!!
     
