@@ -7,9 +7,7 @@
 #include "ResourcesWidget.generated.h"
 
 class UTextBlock;
-/**
- * 
- */
+
 UCLASS()
 class EMERALD_MRVR_API UResourcesWidget : public UUserWidget
 {
@@ -19,7 +17,7 @@ protected:
 	virtual void NativeConstruct() override;
 public:
 	UPROPERTY(meta=(BindWidget))
-	UTextBlock* TXT_Resources;
+	TObjectPtr<UTextBlock> TXT_Resources;
 
 	UFUNCTION(BlueprintCallable, Category="Widget")
 	void UpdateResourcesWidget(float Resources);

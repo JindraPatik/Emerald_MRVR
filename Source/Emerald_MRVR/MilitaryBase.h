@@ -19,7 +19,6 @@ class EMERALD_MRVR_API AMilitaryBase : public AActor
 	
 public:	
 	AMilitaryBase();
-	
 	void SpawnResourcesWidget();
 
 	UFUNCTION(Server, Reliable)
@@ -75,8 +74,8 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Buildings")
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Widgets")
-	TSubclassOf<AActor> ResourcesWidget;
+	UPROPERTY(EditDefaultsOnly, Category="Widgets")
+	TSubclassOf<AActor> ResourcesWBP;
 
 	UPROPERTY(Replicated)
 	AActor* ResourcesWidgetInstance;
@@ -86,5 +85,4 @@ public:
 
 	UPROPERTY(Replicated)
 	AActor* HealthWidgetInstance;
-	
 };

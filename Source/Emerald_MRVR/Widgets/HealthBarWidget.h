@@ -17,9 +17,9 @@ protected:
 
 public:
 	UPROPERTY(meta=(BindWidget))
-	UTextBlock* TXT_Health;
+	TObjectPtr<UTextBlock> TXT_Health;
 
 	UPROPERTY(meta=(BindWidget))
-	UProgressBar* HealthProgressBar;
+	TObjectPtr<UProgressBar> HealthProgressBar;
 		
 };
