@@ -75,7 +75,10 @@ void AMilitaryBase::BeginPlay()
 		}
 		SpawnResourcesWidget();
 		SpawnHealthWidget();
-		General->bGameInitialized = true;
+		if (HealthWidgetInstance && ResourcesWidgetInstance)
+		{
+			General->bGameInitialized = true;
+		}
 	} 
 }
 

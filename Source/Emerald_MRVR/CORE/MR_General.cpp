@@ -84,7 +84,7 @@ void AMR_General::Tick(float DeltaTime)
 
 	if (MotionController_L && MotionController_R && BaseInstance)
 	{
-		bGameInitialized = true;
+		// bGameInitialized = true;
 	}
 
 	if (IsLocallyControlled())

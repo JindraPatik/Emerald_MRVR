@@ -107,8 +107,8 @@ void UMilitaryBaseComp::SpawnUnit()
 		SpawnParams.Instigator = General;
 
 		/// for testing without VR only!!!!
-		UnitToSpawn = General->DefaultUnit;
-		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+		/*UnitToSpawn = General->DefaultUnit;
+		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);*/
 		// SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
 		/// for testing without VR only!!!!
     
