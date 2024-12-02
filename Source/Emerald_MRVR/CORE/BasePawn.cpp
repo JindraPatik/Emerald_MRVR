@@ -4,6 +4,7 @@
 #include "EnhancedInputComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
+#include "MovieSceneSequenceID.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "GameFramework/GameState.h"
@@ -14,18 +15,22 @@ ABasePawn::ABasePawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	VR_Root = CreateDefaultSubobject<USceneComponent>("VR_Root");
+	SetRootComponent(VR_Root);
+	VR_Root->SetIsReplicated(true);
+	
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetIsReplicated(true);
+	Camera->SetupAttachment(VR_Root);
 
-	RootComponent = Camera;
-	RootComponent->SetIsReplicated(true);
 
 	GeneralBody = CreateDefaultSubobject<UStaticMeshComponent>("GeneralBody");
-	GeneralBody->SetupAttachment(RootComponent);
+	GeneralBody->SetupAttachment(VR_Root);
 	GeneralBody->SetIsReplicated(true);
 	GeneralBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
 	Hands = CreateDefaultSubobject<USceneComponent>("Hands");
+	Hands->SetupAttachment(VR_Root);
 	
 	MotionController_L = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_L");
 	MotionController_L->SetIsReplicated(true);
@@ -69,7 +74,6 @@ ABasePawn::ABasePawn()
 void ABasePawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
