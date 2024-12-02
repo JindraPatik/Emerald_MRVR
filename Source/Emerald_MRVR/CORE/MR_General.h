@@ -83,7 +83,7 @@ public:
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 
-	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
 	UBuildingsModuleComponent* CurrentlySelectedModule;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

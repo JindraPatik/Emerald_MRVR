@@ -92,24 +92,24 @@ void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* Own
 
 void UMilitaryBaseComp::SpawnUnit()
 {
-	if (!GetOwner()->HasAuthority() && General->IsLocallyControlled())
+	if (!GetOwner()->HasAuthority())
 	{
 		Server_SpawnUnit();
+		return;
 	}
 
 	if (General && General->BaseInstance && General->BaseInstance->SpawnPoint_Ground)
 	{
-
 		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
         FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
         FActorSpawnParameters SpawnParams;
         SpawnParams.Owner = General->GetController();
+		SpawnParams.Instigator = General;
 
 		/// for testing without VR only!!!!
 		UnitToSpawn = General->DefaultUnit;
 		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
-		SpawnedUnitTest->SetReplicates(true);
-		SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
+		// SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
 		/// for testing without VR only!!!!
     
         if (General->CurrentlySelectedModule)
@@ -125,8 +125,6 @@ void UMilitaryBaseComp::SpawnUnit()
 	            {
 		            AUnit* SpawnedUnit = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
 		            General->ResourcesComponent->UpdateResources(General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawnData->Price);
-		            SpawnedUnit->Body->SetMaterial(0, General->PlayerDefaultColor);
-	            	SpawnedUnit->SetReplicates(true);
 	            }
 	            else
 	            {
@@ -143,10 +141,7 @@ void UMilitaryBaseComp::SpawnUnit()
 
 void UMilitaryBaseComp::Server_SpawnUnit_Implementation()
 {
-	if (General->IsLocallyControlled())
-	{
-		SpawnUnit();
-	}
+	SpawnUnit();
 }
 
 bool UMilitaryBaseComp::HasEnoughResources() const
