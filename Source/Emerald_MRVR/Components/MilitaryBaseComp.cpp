@@ -92,7 +92,7 @@ void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* Own
 
 void UMilitaryBaseComp::SpawnUnit()
 {
-	if (!GetOwner()->HasAuthority())
+	if (!GetOwner()->HasAuthority() && General->IsLocallyControlled())
 	{
 		Server_SpawnUnit();
 	}
@@ -107,12 +107,9 @@ void UMilitaryBaseComp::SpawnUnit()
 
 		/// for testing without VR only!!!!
 		UnitToSpawn = General->DefaultUnit;
-		if (General->IsLocallyControlled())
-		{
-			AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
-			//SpawnedUnitTest->SetReplicates(true);
-			SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
-		}
+		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+		SpawnedUnitTest->SetReplicates(true);
+		SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
 		/// for testing without VR only!!!!
     
         if (General->CurrentlySelectedModule)
