@@ -106,6 +106,7 @@ void AMilitaryBase::SpawnResourcesWidget()
 		if (World)
 		{
 			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = GetOwner();
 			FVector Location = GetActorLocation() + FVector(0.f, 0.f, 100.f);
 			ResourcesWidgetInstance = World->SpawnActor<AActor>(ResourcesWBP, Location, FRotator::ZeroRotator, SpawnParams);
 		}
