@@ -29,12 +29,10 @@ public:
 	UFUNCTION(Server, Reliable)
 	void Server_SpawnHealthWidget();
 	
-	
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
-	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(EditAnywhere, Category = "Visuals")

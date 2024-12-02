@@ -29,7 +29,7 @@ protected:
 	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
 
 public:	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
+	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 	TObjectPtr<UStaticMeshComponent> Body;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Stats")

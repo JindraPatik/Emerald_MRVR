@@ -12,9 +12,11 @@ AUnit::AUnit()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
+	Body->SetIsReplicated(true);
 	RootComponent = Body;
 	bReplicates = true;
 	UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
+	UnitMovementComponent->SetIsReplicated(true);
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>("SphereComponent");
 	SphereComponent->SetupAttachment(Body);
@@ -33,7 +35,10 @@ void AUnit::BeginPlay()
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AUnit, Speed)
+	DOREPLIFETIME(AUnit, Speed);
+	DOREPLIFETIME(AUnit, Strenght);
+	DOREPLIFETIME(AUnit, Price);
+	DOREPLIFETIME(AUnit, Body);
 }
 
 void AUnit::Tick(float DeltaTime)

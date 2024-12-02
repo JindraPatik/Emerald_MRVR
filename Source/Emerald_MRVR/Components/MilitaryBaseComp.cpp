@@ -110,9 +110,9 @@ void UMilitaryBaseComp::SpawnUnit()
 		if (General->IsLocallyControlled())
 		{
 			AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
+			//SpawnedUnitTest->SetReplicates(true);
 			SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
 		}
-		// SpawnedUnitTest->SetReplicates(true);
 		/// for testing without VR only!!!!
     
         if (General->CurrentlySelectedModule)
@@ -124,11 +124,12 @@ void UMilitaryBaseComp::SpawnUnit()
             }
             else
             {
-	            if (HasEnoughResources() && General->IsLocallyControlled())
+	            if (HasEnoughResources())
 	            {
 		            AUnit* SpawnedUnit = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
 		            General->ResourcesComponent->UpdateResources(General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawnData->Price);
 		            SpawnedUnit->Body->SetMaterial(0, General->PlayerDefaultColor);
+	            	SpawnedUnit->SetReplicates(true);
 	            }
 	            else
 	            {
@@ -145,12 +146,14 @@ void UMilitaryBaseComp::SpawnUnit()
 
 void UMilitaryBaseComp::Server_SpawnUnit_Implementation()
 {
-	SpawnUnit();
+	if (General->IsLocallyControlled())
+	{
+		SpawnUnit();
+	}
 }
 
 bool UMilitaryBaseComp::HasEnoughResources() const
 {
-	// Dodelat po nacteni z DataAssetu;
 	if (General && General->ResourcesComponent)
 	{
 		float AvailableResources = General->ResourcesComponent->AvailableResources;
