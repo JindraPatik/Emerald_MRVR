@@ -18,27 +18,29 @@ ABasePawn::ABasePawn()
 	VR_Root = CreateDefaultSubobject<USceneComponent>("VR_Root");
 	SetRootComponent(VR_Root);
 	VR_Root->SetIsReplicated(true);
+
+	VR_Origin = CreateDefaultSubobject<USceneComponent>("VR_Origin");
+	VR_Origin->SetIsReplicated(true);
+	VR_Origin->SetupAttachment(VR_Root);
 	
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetIsReplicated(true);
-	Camera->SetupAttachment(VR_Root);
-
+	Camera->SetupAttachment(VR_Origin);
+	Camera->bLockToHmd = true;
+	Camera->bUsePawnControlRotation = false;
 
 	GeneralBody = CreateDefaultSubobject<UStaticMeshComponent>("GeneralBody");
 	GeneralBody->SetupAttachment(VR_Root);
 	GeneralBody->SetIsReplicated(true);
 	GeneralBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
-	Hands = CreateDefaultSubobject<USceneComponent>("Hands");
-	Hands->SetupAttachment(VR_Root);
-	
 	MotionController_L = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_L");
 	MotionController_L->SetIsReplicated(true);
-	MotionController_L->SetupAttachment(Hands);
+	MotionController_L->SetupAttachment(VR_Origin);
 	
 	MotionController_R = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_R");
 	MotionController_R->SetIsReplicated(true);
-	MotionController_R->SetupAttachment(Hands);
+	MotionController_R->SetupAttachment(VR_Origin);
 
 	PointerDistance = 2000.f;
 	
@@ -69,11 +71,17 @@ ABasePawn::ABasePawn()
 	PointerStick_R->SetupAttachment(MotionController_R);
 	PointerStick_R->SetIsReplicated(true);
 	PointerStick_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+
 }
 
 void ABasePawn::BeginPlay()
 {
 	Super::BeginPlay();
+	VR_Origin->SetRelativeRotation(FRotator::ZeroRotator);
 }
 
 void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -88,6 +96,7 @@ void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetim
 	DOREPLIFETIME(ABasePawn, ImpactPointer_R);
 	DOREPLIFETIME(ABasePawn, PointerStick_L);
 	DOREPLIFETIME(ABasePawn, PointerStick_R);
+	DOREPLIFETIME(ABasePawn, VR_Origin);
 }
 
 void ABasePawn::Tick(float DeltaTime)

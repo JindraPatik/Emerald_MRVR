@@ -13,6 +13,7 @@ UBuildingsModuleComponent::UBuildingsModuleComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	
 	ModuleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ModuleMesh"));
+	ModuleMesh->SetupAttachment(this);
 	ModuleMesh->SetIsReplicated(true); 
 	
 }

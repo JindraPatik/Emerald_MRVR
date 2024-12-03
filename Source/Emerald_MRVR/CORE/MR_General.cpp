@@ -10,6 +10,7 @@
 #include "Net/UnrealNetwork.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
+#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
@@ -216,6 +217,7 @@ void AMR_General::OnSelectedModule()
 {
 	if (CurrentlySelectedModule)
 	{
+		DBG(3, "Module Selected")
 		// Add logic
 		//CurrentlySelectedModule->PerformAction();
 	}

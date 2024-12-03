@@ -44,7 +44,7 @@ protected:
 	UPROPERTY(Replicated, VisibleAnywhere)
 	FVector UnitTargetLoc;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Units")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
 	TSubclassOf<AUnit> UnitToSpawn;
 
 	UFUNCTION()

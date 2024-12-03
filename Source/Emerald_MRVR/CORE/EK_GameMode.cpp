@@ -79,40 +79,54 @@ void AEK_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 // Iterate all Player starts and return FTransform
 FTransform AEK_GameMode::FindMyPlayerStart()
 {
-	FTransform Transform;
-	if (AllPlayerStarts.Num() == 0) { return Transform; }
+	if (AllPlayerStarts.Num() == 0) 
+	{
+		UE_LOG(LogTemp, Error, TEXT("No available PlayerStart!"));
+		return FTransform(); // Invalid Transform
+	}
 
 	APlayerStart* SelectedPlayerStart = AllPlayerStarts[0];
 	AllPlayerStarts.Remove(SelectedPlayerStart);
-	FTransform PlayerStartTransform = SelectedPlayerStart->GetTransform();
+
+	FTransform PlayerStartTransform = SelectedPlayerStart->GetActorTransform();
+	if (!PlayerStartTransform.IsValid())
+	{
+		UE_LOG(LogTemp, Error, TEXT("PlayerStart Transform is invalid!"));
+	}
+
 	return PlayerStartTransform;
 }
 
 // Spawn player at custom player start
 void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 {
-	if (PlayerController)
-	{
-		FActorSpawnParameters PawnSpawnParameters;
-		PawnSpawnParameters.Owner = PlayerController;
-		PawnSpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		FVector Location = FindMyPlayerStart().GetLocation();
-		FRotator Rotation = FindMyPlayerStart().Rotator();
+	if (!PlayerController) return;
 
-		APawn* Pawn = PlayerController->GetPawn();
-		if (Pawn)
-		{
-			Pawn->Destroy();
-			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, PawnSpawnParameters);
-			PlayerController->Possess(PlayerPawn);
-		}
-		else
-		{
-			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, PawnSpawnParameters);
-			PlayerController->Possess(PlayerPawn);
-		}
+	FTransform PlayerStartTransform = FindMyPlayerStart();
+	if (!PlayerStartTransform.IsValid()) return;
+
+	FVector Location = PlayerStartTransform.GetLocation();
+	FRotator Rotation = PlayerStartTransform.Rotator();
+
+	UE_LOG(LogTemp, Log, TEXT("Spawning player at Location: %s, Rotation: %s"),
+		*Location.ToString(), *Rotation.ToString());
+
+	FActorSpawnParameters PawnSpawnParameters;
+	PawnSpawnParameters.Owner = PlayerController;
+	PawnSpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	if (PlayerController->GetPawn())
+	{
+		PlayerController->GetPawn()->Destroy();
+	}
+
+	PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, PawnSpawnParameters);
+	if (PlayerPawn)
+	{
+		PlayerPawn->SetReplicates(true); // Zajistí replikaci Pawna
+		PlayerController->Possess(PlayerPawn);
 		PlayerPawn->PossessedBy(PlayerController);
-	}	
+	}
 }
 
 TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
@@ -128,19 +142,17 @@ TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 
 void AEK_GameMode::FindAllPlayerStarts()
 {
-	// Pokud už máme nalezené PlayerStarty, neděláme nic
-	if (AllPlayerStarts.Num() > 1)
-	{
-		return;
-	}
+	AllPlayerStarts.Empty(); // Reset pole při nové iteraci
 
-	// Iterujeme přes všechny PlayerStarty ve světě
 	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
 	{
-		AllPlayerStarts.Add(*It);
+		APlayerStart* PlayerStart = *It;
+		if (IsValid(PlayerStart))
+		{
+			AllPlayerStarts.Add(PlayerStart);
+		}
 	}
 
-	// Debug: Pokud se žádný PlayerStart nenašel
 	if (AllPlayerStarts.Num() == 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("No PlayerStart found in the world!"));

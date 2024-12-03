@@ -28,7 +28,6 @@ protected:
 	void OnMouseReleased();
 	
 	
-	
 	/*UFUNCTION(BlueprintCallable)
 	void SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Distance, UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult);
 	*/
@@ -37,14 +36,14 @@ protected:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<USceneComponent> VR_Root;
 	
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
+	TObjectPtr<USceneComponent> VR_Origin;
+	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
 	TObjectPtr<UStaticMeshComponent> GeneralBody;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
-	TObjectPtr<USceneComponent> Hands;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	TObjectPtr<UMotionControllerComponent> MotionController_L;

@@ -12,7 +12,7 @@ class UStaticMeshComponent;
 class UBoxComponent; // ?? Uvidime
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class EMERALD_MRVR_API UBuildingsModuleComponent : public UPrimitiveComponent, public IBuildingsModuleInterface
+class EMERALD_MRVR_API UBuildingsModuleComponent : public USceneComponent, public IBuildingsModuleInterface
 {
 	GENERATED_BODY()
 
