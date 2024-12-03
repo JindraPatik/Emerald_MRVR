@@ -4,8 +4,10 @@
 #include "EnhancedInputComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
+#include "PC_MR_General.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetInteractionComponent.h"
+#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "GameFramework/GameState.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -81,16 +83,9 @@ ABasePawn::ABasePawn()
 void ABasePawn::BeginPlay()
 {
 	Super::BeginPlay();
-	// VR_Origin->SetRelativeRotation(FRotator::ZeroRotator);
-
-	if (IsLocallyControlled()) // Pouze lokálně vlastněný hráč zpracovává vstupy
-	{
-		EnableInput(Cast<APlayerController>(GetController()));
-	}
-	else
-	{
-		DisableInput(nullptr);
-	}
+	
+	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
+	
 }
 
 void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -146,6 +141,20 @@ void ABasePawn::OnMouseReleased()
 	WidgetInteraction_R->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
+void ABasePawn::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (IsLocallyControlled()) // Pouze lokálně vlastněný hráč zpracovává vstupy
+	{
+		EnableInput(Cast<APC_MR_General>(NewController));
+	}
+	else
+	{
+		DisableInput(nullptr);
+		DBG(10, "CAST to PC failed")
+	}
+}
 
 
 // Setup Pointer

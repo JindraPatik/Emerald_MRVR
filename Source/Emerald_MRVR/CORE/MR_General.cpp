@@ -70,7 +70,6 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	SetPlayerColor();
 	

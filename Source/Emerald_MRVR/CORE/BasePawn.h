@@ -26,6 +26,7 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	void OnMousePressed();
 	void OnMouseReleased();
+	virtual void PossessedBy(AController* NewController) override;
 	
 	
 	/*UFUNCTION(BlueprintCallable)
