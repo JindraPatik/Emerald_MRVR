@@ -9,9 +9,12 @@
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
+#include "MotionControllerComponent.h"
+#include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "GameFramework/GameStateBase.h"
+#include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
 
 AMR_General::AMR_General()
 {
@@ -42,6 +45,8 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
 	DOREPLIFETIME(AMR_General, CurrentlySelectedModule);
 	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
+	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_L);
+	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_R);
 
 }
 // ~REPLICATED PROPS
@@ -59,6 +64,8 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	
 	// Bindings
 	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::Action_SpawnUnit);
+	Input->BindAction(Action_SelectModule_L, ETriggerEvent::Started, this, &AMR_General::SelectModule_L);
+	Input->BindAction(Action_SelectModule_R, ETriggerEvent::Started, this, &AMR_General::SelectModule_R);
 }
 // ~PLAYER INPUT
 
@@ -95,8 +102,16 @@ void AMR_General::Tick(float DeltaTime)
 		// Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
 		if (bGameInitialized)
 		{
-			SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
-			SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
+			//SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
+			//SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
+			if (MotionController_L && ImpactPointer_L)
+			{
+				PerformSphereTrace(MotionController_L, ImpactPointer_L, CurrentlyHoveredModule_L);
+			}
+			if (MotionController_R && ImpactPointer_R)
+			{
+				PerformSphereTrace(MotionController_R, ImpactPointer_R, CurrentlyHoveredModule_R);
+			}
 		}
 		
 	}
@@ -111,7 +126,7 @@ void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPos
 }
 // ~UPDATE PAWN MOVEMENT
 
-void AMR_General::SetPlayerColor() // Set Player Color
+void AMR_General::SetPlayerColor() // Sets Player Color
 {
 	if (GameMode && GameMode->PlayersColors.Num() > 0)
 	{
@@ -120,6 +135,90 @@ void AMR_General::SetPlayerColor() // Set Player Color
 	GeneralBody->SetMaterial(0, PlayerDefaultColor);
 	PointerStick_L->SetMaterial(0, PlayerDefaultColor);
 	PointerStick_R->SetMaterial(0, PlayerDefaultColor);
+}
+
+void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> UsedController,
+	TObjectPtr<UStaticMeshComponent> ImpactPointer, TObjectPtr<UBuildingsModuleComponent> CurrentlyHoveredModule)
+{
+	FHitResult HitResult;
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	FVector Start = UsedController->GetComponentLocation();
+	FVector End = Start + (UsedController->GetForwardVector() * 3000.f);
+	float Radius = 5.f;
+
+	bool bHit = GetWorld()->SweepSingleByChannel(
+		HitResult,
+		Start,
+		End,
+		FQuat::Identity,
+		ECC_Visibility,
+		FCollisionShape::MakeSphere(Radius),
+		QueryParams);
+
+	if (bHit)
+	{
+		if (ImpactPointer)
+		{
+			ImpactPointer->SetWorldLocation(HitResult.Location);
+		}
+
+		UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetActor()->FindComponentByClass<UBuildingsModuleComponent>());
+		if (HitModule)
+		{
+			HitModule->HighlightModule(true);
+			CurrentlyHoveredModule = HitModule;
+		}
+		else
+		{
+			if (CurrentlyHoveredModule)
+			{
+				CurrentlyHoveredModule->HighlightModule(false);
+				CurrentlyHoveredModule = nullptr;
+			}
+		}
+	}
+	else
+	{
+		if (CurrentlyHoveredModule)
+		{
+			CurrentlyHoveredModule->HighlightModule(false);
+			CurrentlyHoveredModule = nullptr;
+		}
+
+		if (ImpactPointer)
+		{
+			ImpactPointer->SetWorldLocation(End);
+		}
+	}
+	
+}
+
+void AMR_General::SelectModule_L()
+{
+	if (CurrentlyHoveredModule_L)
+	{
+		CurrentlySelectedModule = CurrentlyHoveredModule_L;
+		OnSelectedModule();
+	}
+}
+
+void AMR_General::SelectModule_R()
+{
+	if (CurrentlyHoveredModule_R)
+	{
+		CurrentlySelectedModule = CurrentlyHoveredModule_L;
+		OnSelectedModule();
+	}
+}
+
+void AMR_General::OnSelectedModule()
+{
+	if (CurrentlySelectedModule)
+	{
+		// Add logic
+		//CurrentlySelectedModule->PerformAction();
+	}
 }
 
 // Volá PC

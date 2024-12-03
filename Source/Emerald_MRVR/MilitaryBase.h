@@ -83,4 +83,10 @@ public:
 
 	UPROPERTY(Replicated)
 	AActor* HealthWidgetInstance;
+	
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
+	UMaterialInterface* OriginalMaterial;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, Category="Visuals")
+	UMaterialInterface* HoveredMaterial;
 };

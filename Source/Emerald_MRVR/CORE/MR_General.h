@@ -42,6 +42,10 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
+	void PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Controller, TObjectPtr<UStaticMeshComponent> ImpactPointer, TObjectPtr<UBuildingsModuleComponent> CurrentlyHoveredModule);
+	void SelectModule_L();
+	void SelectModule_R();
+	void OnSelectedModule();
 	
 public:
 	// CORE
@@ -84,10 +88,22 @@ public:
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
+	UBuildingsModuleComponent* CurrentlyHoveredModule_L;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
+	UBuildingsModuleComponent* CurrentlyHoveredModule_R;
+
+	UPROPERTY(Replicated, VisibleAnywhere, Category="MilitaryBase")
 	UBuildingsModuleComponent* CurrentlySelectedModule;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputAction* DebugSpawnUnit;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UInputAction* Action_SelectModule_L;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UInputAction* Action_SelectModule_R;
 
 	// doplnit nebo smazat
 	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")

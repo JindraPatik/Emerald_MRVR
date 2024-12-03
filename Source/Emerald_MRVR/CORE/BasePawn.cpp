@@ -4,9 +4,9 @@
 #include "EnhancedInputComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
-#include "MovieSceneSequenceID.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetInteractionComponent.h"
+#include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "GameFramework/GameState.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
@@ -95,11 +95,11 @@ void ABasePawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	
-	if (GetWorld()->GetGameState()->IsActorInitialized())
+	/*if (GetWorld()->GetGameState()->IsActorInitialized())
 	{
 		SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
 		SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
-	}
+	}*/
 }
 
 void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -128,8 +128,10 @@ void ABasePawn::OnMouseReleased()
 	WidgetInteraction_R->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
+
+
 // Setup Pointer
-void ABasePawn::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
+/*void ABasePawn::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
 	UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult)
 {
 	UHeadMountedDisplayFunctionLibrary* HMDLibrary;
@@ -159,5 +161,5 @@ void ABasePawn::SetUpPointer(UMotionControllerComponent* MotionControllerCompone
 		FRotator WidgetinteractionRotation = UKismetMathLibrary::FindLookAtRotation(Camera->GetComponentLocation(), HitResult.ImpactPoint);
 		WidgetInteractionComponent->SetRelativeRotation(WidgetinteractionRotation);
 	}
-}
+}*/
 //~Setup Pointer

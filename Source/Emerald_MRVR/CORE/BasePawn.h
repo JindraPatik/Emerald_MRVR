@@ -28,8 +28,10 @@ protected:
 	void OnMouseReleased();
 	
 	
-	UFUNCTION(BlueprintCallable)
+	
+	/*UFUNCTION(BlueprintCallable)
 	void SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Distance, UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult);
+	*/
 
 	// Character Body
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")

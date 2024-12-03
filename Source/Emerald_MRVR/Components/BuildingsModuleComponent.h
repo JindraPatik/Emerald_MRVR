@@ -6,6 +6,7 @@
 #include "BuildingsModuleComponent.generated.h"
 
 
+class AMilitaryBase;
 class UBuildingDataAsset;
 class UStaticMeshComponent;
 class UBoxComponent; // ?? Uvidime
@@ -31,6 +32,23 @@ public:
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
 	UBuildingDataAsset* BuildingDataAsset;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
+	TObjectPtr<AMilitaryBase> MyBaseInstance;
+
+	UFUNCTION()
+	virtual void HighlightModule(bool bIsHighlighted) override;
+
+	UFUNCTION(Server, Unreliable)
+	void Server_HighlightModule(UMaterialInterface* Material);
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void Multi_HighlightModule(UMaterialInterface* Material);
+
+	bool CurrentlyHighlightedState = false
+
+	;
+	
 
 
 	

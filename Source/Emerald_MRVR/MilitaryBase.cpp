@@ -49,6 +49,8 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, AvailableBuildings);
 	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
+	DOREPLIFETIME(AMilitaryBase, OriginalMaterial);
+	DOREPLIFETIME(AMilitaryBase, HoveredMaterial);
 }
 
 void AMilitaryBase::BeginPlay()
