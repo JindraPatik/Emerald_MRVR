@@ -84,7 +84,8 @@ FTransform AEK_GameMode::FindMyPlayerStart()
 
 	APlayerStart* SelectedPlayerStart = AllPlayerStarts[0];
 	AllPlayerStarts.Remove(SelectedPlayerStart);
-	return SelectedPlayerStart->GetTransform();
+	FTransform PlayerStartTransform = SelectedPlayerStart->GetTransform();
+	return PlayerStartTransform;
 }
 
 // Spawn player at custom player start
@@ -95,17 +96,19 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 		FActorSpawnParameters PawnSpawnParameters;
 		PawnSpawnParameters.Owner = PlayerController;
 		PawnSpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector Location = FindMyPlayerStart().GetLocation();
+		FRotator Rotation = FindMyPlayerStart().Rotator();
 
 		APawn* Pawn = PlayerController->GetPawn();
 		if (Pawn)
 		{
 			Pawn->Destroy();
-			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
+			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, PawnSpawnParameters);
 			PlayerController->Possess(PlayerPawn);
 		}
 		else
 		{
-			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, FindMyPlayerStart(), PawnSpawnParameters);
+			PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, PawnSpawnParameters);
 			PlayerController->Possess(PlayerPawn);
 		}
 		PlayerPawn->PossessedBy(PlayerController);
