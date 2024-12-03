@@ -60,20 +60,6 @@ public:
 
 
 	// Character Movement
-	UPROPERTY(ReplicatedUsing=OnRepPosition)
-	FVector ReplicatedPosition;
-
-	UPROPERTY(ReplicatedUsing=OnRepRotation)
-	FRotator ReplicatedRotation;
-
-	UFUNCTION()
-	void OnRepPosition () const {RootComponent->SetWorldLocation(ReplicatedPosition);}
-
-	UFUNCTION()
-	void OnRepRotation() const {RootComponent->SetWorldRotation(ReplicatedRotation);}
-
-	UFUNCTION(Server, Unreliable, Category="Position")
-	void Server_UpdatePawnPosition(const FVector& NewPosition, const FRotator& NewRotation);
 
 	// ~INPUT
 

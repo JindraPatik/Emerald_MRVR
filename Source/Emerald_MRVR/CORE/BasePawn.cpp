@@ -81,7 +81,7 @@ ABasePawn::ABasePawn()
 void ABasePawn::BeginPlay()
 {
 	Super::BeginPlay();
-	VR_Origin->SetRelativeRotation(FRotator::ZeroRotator);
+	// VR_Origin->SetRelativeRotation(FRotator::ZeroRotator);
 
 	if (IsLocallyControlled()) // Pouze lokálně vlastněný hráč zpracovává vstupy
 	{

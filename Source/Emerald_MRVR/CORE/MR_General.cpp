@@ -3,7 +3,6 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "EK_GameMode.h"
-#include "Emerald_MRVR/MilitaryBase.h"
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
@@ -13,9 +12,7 @@
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
-#include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "GameFramework/GameStateBase.h"
-#include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
 
 AMR_General::AMR_General()
 {
@@ -40,8 +37,6 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
-	DOREPLIFETIME(AMR_General, ReplicatedPosition);
-	DOREPLIFETIME(AMR_General, ReplicatedRotation);
 	DOREPLIFETIME(AMR_General, BaseInstance);
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
 	DOREPLIFETIME(AMR_General, CurrentlySelectedModule);
@@ -75,6 +70,7 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
+	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	SetPlayerColor();
 	
@@ -90,16 +86,13 @@ void AMR_General::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (MotionController_L && MotionController_R && BaseInstance)
-	{
-		// bGameInitialized = true;
-	}
-
 	if (IsLocallyControlled())
 	{
+		
 		FVector HMDPosition;
 		FRotator HMDOrientation;
 		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
+		
 		// Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
 		if (bGameInitialized)
 		{
@@ -113,19 +106,13 @@ void AMR_General::Tick(float DeltaTime)
 			{
 				PerformSphereTrace(MotionController_R, ImpactPointer_R, CurrentlyHoveredModule_R);
 			}
+			
+		// SetActorLocation(HMDPosition);
+		SetActorRelativeLocation(HMDPosition);
 		}
-		
 	}
 }
 // ~TICK
-
-// UPDATE PAWN MOVEMENT
-void AMR_General::Server_UpdatePawnPosition_Implementation(const FVector& NewPosition, const FRotator& NewRotation)
-{
-	ReplicatedPosition = NewPosition;
-	ReplicatedRotation = NewRotation;
-}
-// ~UPDATE PAWN MOVEMENT
 
 void AMR_General::SetPlayerColor() // Sets Player Color
 {
