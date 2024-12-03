@@ -15,7 +15,6 @@ UBuildingsModuleComponent::UBuildingsModuleComponent()
 	ModuleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ModuleMesh"));
 	ModuleMesh->SetupAttachment(this);
 	ModuleMesh->SetIsReplicated(true); 
-	
 }
 
 

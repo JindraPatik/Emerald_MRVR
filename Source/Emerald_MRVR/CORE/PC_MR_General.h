@@ -21,9 +21,6 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 public:
-	UFUNCTION(Server, Reliable, Category="Spawning")
-	void Server_SpawnPlayer();
-
 	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere, Category = "CORE")
 	APC_MR_General* OtherPlayerPC;
 };

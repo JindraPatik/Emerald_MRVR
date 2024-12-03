@@ -82,6 +82,15 @@ void ABasePawn::BeginPlay()
 {
 	Super::BeginPlay();
 	VR_Origin->SetRelativeRotation(FRotator::ZeroRotator);
+
+	if (IsLocallyControlled()) // Pouze lokálně vlastněný hráč zpracovává vstupy
+	{
+		EnableInput(Cast<APlayerController>(GetController()));
+	}
+	else
+	{
+		DisableInput(nullptr);
+	}
 }
 
 void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

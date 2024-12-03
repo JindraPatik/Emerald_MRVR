@@ -7,9 +7,6 @@
 #include "Engine/TargetPoint.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerStart.h"
-#include "Kismet/GameplayStatics.h"
-#include "Net/UnrealNetwork.h"
-#include "Emerald_MRVR/DebugMacros.h"
 
 
 AEK_GameMode::AEK_GameMode()
@@ -23,6 +20,13 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 
 	AllPCs.Add(NewPlayer);
+
+	// Debugging: Zkontroluj, kolik PlayerControllers máme
+	UE_LOG(LogTemp, Log, TEXT("Player logged in: %s. Total players: %d"), *NewPlayer->GetName(), AllPCs.Num());
+
+	// Spawn player Pawn při přihlášení
+	SpawnPlayer(NewPlayer);
+	
 	GetAllTargetpoints();
 
 	APC_MR_General* NewPC = Cast<APC_MR_General>(NewPlayer);
@@ -44,7 +48,6 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 		}
 	}
 }
-
 
 void AEK_GameMode::SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC)
 {
@@ -72,8 +75,6 @@ void AEK_GameMode::BeginPlay()
 void AEK_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	// DOREPLIFETIME(AEK_GameMode, TargetPoints);
 }
 
 // Iterate all Player starts and return FTransform
@@ -100,35 +101,36 @@ FTransform AEK_GameMode::FindMyPlayerStart()
 // Spawn player at custom player start
 void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 {
+	if (!HasAuthority() || !PlayerController) return;
 	if (!PlayerController) return;
 
 	FTransform PlayerStartTransform = FindMyPlayerStart();
 	if (!PlayerStartTransform.IsValid()) return;
 
 	FVector Location = PlayerStartTransform.GetLocation();
-	FRotator Rotation = PlayerStartTransform.Rotator();
+	FRotator Rotation = PlayerStartTransform.GetRotation().Rotator();
 
-	UE_LOG(LogTemp, Log, TEXT("Spawning player at Location: %s, Rotation: %s"),
-		*Location.ToString(), *Rotation.ToString());
+	// Debugging: Kontrola transformace
+	UE_LOG(LogTemp, Log, TEXT("Spawning Pawn at Location: %s, Rotation: %s"), *Location.ToString(), *Rotation.ToString());
 
-	FActorSpawnParameters PawnSpawnParameters;
-	PawnSpawnParameters.Owner = PlayerController;
-	PawnSpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = PlayerController;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-	if (PlayerController->GetPawn())
+	// Znič předchozí Pawna, pokud existuje
+	if (APawn* ExistingPawn = PlayerController->GetPawn())
 	{
-		PlayerController->GetPawn()->Destroy();
+		ExistingPawn->Destroy();
 	}
 
-	PlayerPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, PawnSpawnParameters);
-	if (PlayerPawn)
+	// Vytvoř nového Pawna
+	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(PawnToSpawn, Location, Rotation, SpawnParams);
+	if (NewPawn)
 	{
-		PlayerPawn->SetReplicates(true); // Zajistí replikaci Pawna
-		PlayerController->Possess(PlayerPawn);
-		PlayerPawn->PossessedBy(PlayerController);
+		NewPawn->SetReplicates(true); // Zajistí replikaci
+		PlayerController->Possess(NewPawn); // Připojí Pawna k PlayerControlleru
 	}
 }
-
 TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 {
 	TArray<ATargetPoint*> TPs;
@@ -138,7 +140,6 @@ TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 	}
 	return TPs;
 }
-
 
 void AEK_GameMode::FindAllPlayerStarts()
 {
