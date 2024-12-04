@@ -10,3 +10,4 @@ void IBuildingsModuleInterface::HighlightModule(bool bIsHighlighted)
 {
 	
 }
+

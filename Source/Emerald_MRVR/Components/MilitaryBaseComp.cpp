@@ -92,6 +92,8 @@ void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* Own
 
 void UMilitaryBaseComp::SpawnUnit()
 {
+
+	DBG(3, "Spawnunit");
 	if (!GetOwner()->HasAuthority())
 	{
 		Server_SpawnUnit();
@@ -103,7 +105,7 @@ void UMilitaryBaseComp::SpawnUnit()
 		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
         FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
         FActorSpawnParameters SpawnParams;
-        SpawnParams.Owner = General->GetController();
+        // SpawnParams.Owner = General->GetController();
 		SpawnParams.Instigator = General;
 
 		/// for testing without VR only!!!!
@@ -112,9 +114,9 @@ void UMilitaryBaseComp::SpawnUnit()
 		// SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
 		/// for testing without VR only!!!!
     
-        if (General->CurrentlySelectedModule)
+        //if (General->CurrentlySelectedModule)
         {
-            UnitToSpawn = General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
+            //UnitToSpawn = General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
             if (!UnitToSpawn)
             {
             	DBG(3, "MBC: No Unit selected") 

@@ -87,6 +87,6 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
 	UMaterialInterface* OriginalMaterial;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, Category="Visuals")
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
 	UMaterialInterface* HoveredMaterial;
 };

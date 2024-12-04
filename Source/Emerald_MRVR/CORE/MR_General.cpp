@@ -10,8 +10,10 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "GameFramework/GameStateBase.h"
 
 AMR_General::AMR_General()
@@ -28,6 +30,8 @@ AMR_General::AMR_General()
 	
 	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
 	MilitaryBaseComp->SetIsReplicated(true);
+
+	CurrentlySelectedModule = nullptr;
 	// ~COMPONENTS
 
 }
@@ -103,7 +107,7 @@ void AMR_General::Tick(float DeltaTime)
 			
 		}
 		
-		if (bGameInitialized)
+		// if (bGameInitialized)
 		{
 			//SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
 			//SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
@@ -133,7 +137,8 @@ void AMR_General::SetPlayerColor() // Sets Player Color
 }
 
 void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> UsedController,
-	TObjectPtr<UStaticMeshComponent> ImpactPointer, TObjectPtr<UBuildingsModuleComponent> CurrentlyHoveredModule)
+	TObjectPtr<UStaticMeshComponent> ImpactPointer,
+	UBuildingsModuleComponent*& CurrentlyHoveredModule)
 {
 	FHitResult HitResult;
 	FCollisionQueryParams QueryParams;
@@ -158,11 +163,12 @@ void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Used
 			ImpactPointer->SetWorldLocation(HitResult.Location);
 		}
 
-		UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetActor()->FindComponentByClass<UBuildingsModuleComponent>());
+		UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetActor()->GetComponentByClass(UBuildingsModuleComponent::StaticClass()));
+
 		if (HitModule)
 		{
-			HitModule->HighlightModule(true);
 			CurrentlyHoveredModule = HitModule;
+			HitModule->HighlightModule(true);
 		}
 		else
 		{
@@ -193,6 +199,7 @@ void AMR_General::SelectModule_L()
 {
 	if (CurrentlyHoveredModule_L)
 	{
+		DBG(5, "Module L")
 		CurrentlySelectedModule = CurrentlyHoveredModule_L;
 		OnSelectedModule();
 	}
@@ -202,7 +209,8 @@ void AMR_General::SelectModule_R()
 {
 	if (CurrentlyHoveredModule_R)
 	{
-		CurrentlySelectedModule = CurrentlyHoveredModule_L;
+		DBG(5, "Module R")
+		CurrentlySelectedModule = CurrentlyHoveredModule_R;
 		OnSelectedModule();
 	}
 }
@@ -212,8 +220,8 @@ void AMR_General::OnSelectedModule()
 	if (CurrentlySelectedModule)
 	{
 		DBG(3, "Module Selected")
-		// Add logic
-		//CurrentlySelectedModule->PerformAction();
+		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Red, FString::Printf(TEXT("dasda %s"),*CurrentlySelectedModule.GetName()));
+		MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
 	}
 }
 
@@ -241,10 +249,4 @@ void AMR_General::Action_SpawnUnit()
 {
 	MilitaryBaseComp->SpawnUnit();
 }
-
-
-
-
-
-
 

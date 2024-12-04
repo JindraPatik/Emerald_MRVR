@@ -17,7 +17,6 @@ UBuildingsModuleComponent::UBuildingsModuleComponent()
 	ModuleMesh->SetIsReplicated(true); 
 }
 
-
 void UBuildingsModuleComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -36,7 +35,7 @@ void UBuildingsModuleComponent::BeginPlay()
 			}
 		}
 	}
-	ModuleMesh->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
+	// ModuleMesh->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
 	ModuleMesh->RegisterComponent();
 
 }
@@ -65,42 +64,22 @@ void UBuildingsModuleComponent::HighlightModule(bool bIsHighlighted)
 {
 	IBuildingsModuleInterface::HighlightModule(bIsHighlighted);
 
-	UMaterialInterface* NewMaterial = bIsHighlighted ? MyBaseInstance->HoveredMaterial : MyBaseInstance->OriginalMaterial;
+	DBG(0,"Interface")
 
-
-		if (GetOwner()->HasAuthority())
-		{
-			if (MyBaseInstance && ModuleMesh)
-			{
-				Multi_HighlightModule(NewMaterial);
-				// DBG(1.f, "Change Material");
-			}
-		}
-		else
-		{
-			if (MyBaseInstance && ModuleMesh)
-			{
-				Server_HighlightModule(NewMaterial);
-				// DBG(1.f, "Change Material");
-			}
-		}
-
-}
-
-void UBuildingsModuleComponent::Server_HighlightModule_Implementation(UMaterialInterface* Material)
-{
-	Multi_HighlightModule(Material);
-}
-
-void UBuildingsModuleComponent::Multi_HighlightModule_Implementation(UMaterialInterface* Material)
-{
-	if (ModuleMesh)
+	if (bIsHighlighted)
 	{
-		ModuleMesh->SetMaterial(0, Material);
-		ModuleMesh->MarkRenderStateDirty();
-		
+		ModuleMesh->SetMaterial(0, MyBaseInstance->HoveredMaterial);
 	}
+	else
+	{
+		ModuleMesh->SetMaterial(0, MyBaseInstance->OriginalMaterial);
+	}
+	
+		
+
 }
+
+
 
 
 

@@ -7,6 +7,7 @@
 
 #include "BuildingsModuleInterface.generated.h"
 
+class UBuildingsModuleComponent;
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI, Blueprintable)
 class UBuildingsModuleInterface : public UInterface
@@ -24,6 +25,5 @@ class EMERALD_MRVR_API IBuildingsModuleInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual void HighlightModule(bool bIsHighlighted);
-	
 	
 };

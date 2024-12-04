@@ -12,7 +12,7 @@ class UStaticMeshComponent;
 class UBoxComponent; // ?? Uvidime
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class EMERALD_MRVR_API UBuildingsModuleComponent : public USceneComponent, public IBuildingsModuleInterface
+class EMERALD_MRVR_API UBuildingsModuleComponent : public UPrimitiveComponent, public IBuildingsModuleInterface
 {
 	GENERATED_BODY()
 
@@ -38,12 +38,6 @@ public:
 
 	UFUNCTION()
 	virtual void HighlightModule(bool bIsHighlighted) override;
-
-	UFUNCTION(Server, Unreliable)
-	void Server_HighlightModule(UMaterialInterface* Material);
-
-	UFUNCTION(NetMulticast, Unreliable)
-	void Multi_HighlightModule(UMaterialInterface* Material);
 
 	bool CurrentlyHighlightedState = false;
 	

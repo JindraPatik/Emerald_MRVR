@@ -44,8 +44,6 @@ protected:
 	UPROPERTY(Replicated, VisibleAnywhere)
 	FVector UnitTargetLoc;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
-	TSubclassOf<AUnit> UnitToSpawn;
 
 	UFUNCTION()
 	void SelectUnitToSpawn(UBuildingDataAsset* SelectedBuilding);
@@ -53,6 +51,9 @@ protected:
 
 
 public:	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
+	TSubclassOf<AUnit> UnitToSpawn;
+	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 	UFUNCTION(Category="SpawnBase")

@@ -42,7 +42,7 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
-	void PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Controller, TObjectPtr<UStaticMeshComponent> ImpactPointer, TObjectPtr<UBuildingsModuleComponent> CurrentlyHoveredModule);
+	void PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Controller, TObjectPtr<UStaticMeshComponent> ImpactPointer, UBuildingsModuleComponent*& CurrentlyHoveredModule);
 	void SelectModule_L();
 	void SelectModule_R();
 	void OnSelectedModule();
@@ -86,7 +86,7 @@ public:
 	UBuildingsModuleComponent* CurrentlyHoveredModule_R;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category="MilitaryBase")
-	UBuildingsModuleComponent* CurrentlySelectedModule;
+	TObjectPtr<UBuildingsModuleComponent> CurrentlySelectedModule;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputAction* DebugSpawnUnit;
