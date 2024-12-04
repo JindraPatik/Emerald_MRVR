@@ -133,7 +133,7 @@ void AMilitaryBase::SpawnModules()
 	for (UBuildingDataAsset* Building : General->AvailableBuildings)
 	{
 		BuildingModules.AddUnique(Building);
-		if (General->IsLocallyControlled())
+		// if (General->IsLocallyControlled())
 		{
 			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
 			UStaticMeshComponent* ModuleMesh = NewObject<UStaticMeshComponent>(this, *Building->SM_Building->GetName());

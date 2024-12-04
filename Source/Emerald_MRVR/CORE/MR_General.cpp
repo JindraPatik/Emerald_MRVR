@@ -79,7 +79,7 @@ void AMR_General::BeginPlay()
 	
 	if (IsLocallyControlled())
 	{
-		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
+		MilitaryBaseComp->SpawnMilitaryBase(this);
 	}
 }
 // ~BEGIN PLAY
@@ -244,13 +244,13 @@ void AMR_General::UpadatePosition(FVector HMDPosition, FRotator HMDOrientation)
 }
 
 // Volá PC
-void AMR_General::SpawnMilitaryBase()
+/*void AMR_General::SpawnMilitaryBase()
 {
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
 	}
-}
+}*/
 
 void AMR_General::Action_SpawnUnit()
 {

@@ -72,6 +72,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 				General->BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
 				General->ResourcesComponent->StartGrowResources();
 			}
+			
 		}
 	}
 }
