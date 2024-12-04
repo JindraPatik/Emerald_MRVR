@@ -8,9 +8,6 @@
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
-#include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
-#include "GameFramework/GameState.h"
-#include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 
 ABasePawn::ABasePawn()
@@ -145,14 +142,17 @@ void ABasePawn::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
+	DBG_ONE_PARAM(10, "PC: %s", *NewController->GetName());
+
 	if (IsLocallyControlled()) // Pouze lokálně vlastněný hráč zpracovává vstupy
 	{
 		EnableInput(Cast<APC_MR_General>(NewController));
+		DBG(10, "Local input enabled")
 	}
 	else
 	{
 		DisableInput(nullptr);
-		DBG(10, "CAST to PC failed")
+		DBG(10, "Disabled Input")
 	}
 }
 
