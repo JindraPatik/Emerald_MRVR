@@ -162,17 +162,6 @@ void AMilitaryBase::SpawnModules()
 				BuildingComp->BuildingDataAsset = Building;
 				BuildingComp->RegisterComponent();
 
-				/*
-				if (BuildingComp->ModuleMesh)
-				{
-					//BuildingComp->ModuleMesh->SetupAttachment(BuildingComp);
-					if (Modules && Modules->IsRegistered())
-					{
-						BuildingComp->SetupAttachment(Modules);
-					}
-				}
-				*/
-
 				ReplicatedBuildingComponents.AddUnique(BuildingComp);
 				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
 			}

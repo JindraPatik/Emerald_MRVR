@@ -135,6 +135,7 @@ void UMilitaryBaseComp::SpawnUnit()
 	            }
             }
         }
+		DBG(5, "MBC: Module not selected!") 
 	}
 	else
 	{

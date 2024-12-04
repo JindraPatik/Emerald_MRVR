@@ -201,6 +201,7 @@ void AMR_General::SelectModule_L()
 	{
 		DBG(5, "Module L")
 		CurrentlySelectedModule = CurrentlyHoveredModule_L;
+		MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
 		OnSelectedModule();
 	}
 }
@@ -211,7 +212,13 @@ void AMR_General::SelectModule_R()
 	{
 		DBG(5, "Module R")
 		CurrentlySelectedModule = CurrentlyHoveredModule_R;
-		OnSelectedModule();
+
+		// toto vzhazuje chybu !!
+		/*if (MilitaryBaseComp && CurrentlySelectedModule)
+		{
+			MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
+		}*/
+		// OnSelectedModule();
 	}
 }
 
@@ -221,6 +228,7 @@ void AMR_General::OnSelectedModule()
 	{
 		DBG(3, "Module Selected")
 		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Red, FString::Printf(TEXT("dasda %s"),*CurrentlySelectedModule.GetName()));
+		CurrentlySelectedModule->ModuleMesh->SetVisibility(false);
 	}
 }
 
