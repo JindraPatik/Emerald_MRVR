@@ -163,7 +163,8 @@ void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Used
 			ImpactPointer->SetWorldLocation(HitResult.Location);
 		}
 
-		UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetActor()->GetComponentByClass(UBuildingsModuleComponent::StaticClass()));
+		//UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetActor()->GetComponentByClass(UBuildingsModuleComponent::StaticClass()));
+		UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetComponent()->GetAttachParent());
 
 		if (HitModule)
 		{
@@ -213,11 +214,11 @@ void AMR_General::SelectModule_R()
 		DBG(5, "Module R")
 		CurrentlySelectedModule = CurrentlyHoveredModule_R;
 
-		// toto vzhazuje chybu !!
-		/*if (MilitaryBaseComp && CurrentlySelectedModule)
+		// toto vyhazuje chybu !!
+		if (MilitaryBaseComp && CurrentlySelectedModule)
 		{
 			MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
-		}*/
+		}
 		// OnSelectedModule();
 	}
 }
