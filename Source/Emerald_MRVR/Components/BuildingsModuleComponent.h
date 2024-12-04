@@ -22,10 +22,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
 public:	
-	/*UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
-	UStaticMeshComponent* ModuleMesh;*/
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
 	UBuildingDataAsset* BuildingDataAsset;

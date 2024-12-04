@@ -125,7 +125,6 @@ void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
 void AMilitaryBase::SpawnModules()
 {
 	AMR_General* General = Cast<AMR_General>(GetOwner());
-	// Modules->RegisterComponent(); nemusim registrovat podle me
 	
 	if (!HasAuthority())
 	{
@@ -142,14 +141,17 @@ void AMilitaryBase::SpawnModules()
 			if (BuildingComp && ModuleMesh)
 			{
 				BuildingComp->SetIsReplicated(true);
-				BuildingComp->SetupAttachment(Modules); // Modules musí být registrované
+				BuildingComp->SetupAttachment(Modules);
 				BuildingComp->BuildingDataAsset = Building;
 
 				ModuleMesh->SetIsReplicated(true);
 				ModuleMesh->SetupAttachment(BuildingComp);
 				ModuleMesh->SetStaticMesh(Building->SM_Building);
+				ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
+				
 
 				BuildingComp->ModuleMeshInstance = ModuleMesh;
+				BuildingComp->ModuleMeshInstance->AddReplicatedSubObject(ModuleMesh, COND_Dynamic);
 				
 				BuildingComp->RegisterComponent();
 				ModuleMesh->RegisterComponent();

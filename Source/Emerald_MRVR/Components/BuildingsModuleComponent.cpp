@@ -1,9 +1,7 @@
 #include "BuildingsModuleComponent.h"
-
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
-#include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
 #include "Net/UnrealNetwork.h"
 
@@ -11,6 +9,7 @@
 UBuildingsModuleComponent::UBuildingsModuleComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	SetIsReplicatedByDefault(true);
 }
 
 void UBuildingsModuleComponent::BeginPlay()
@@ -18,16 +17,6 @@ void UBuildingsModuleComponent::BeginPlay()
 	Super::BeginPlay();
 	AMR_General* General = Cast<AMR_General>(GetOwner()->GetOwner());
 	MyBaseInstance = Cast<AMilitaryBase>(GetOwner());
-
-	if (General && ModuleMeshInstance)
-	{
-		ModuleMeshInstance->SetMaterial(0, General->PlayerDefaultColor);
-		if (MyBaseInstance)
-		{
-			MyBaseInstance->OriginalMaterial = General->PlayerDefaultColor;
-		}
-	}
-
 
 }
 
@@ -38,6 +27,7 @@ void UBuildingsModuleComponent::GetLifetimeReplicatedProps(TArray<FLifetimePrope
 	DOREPLIFETIME(UBuildingsModuleComponent, ModuleMeshInstance);
 	DOREPLIFETIME(UBuildingsModuleComponent, BuildingDataAsset);
 }
+
 
 void UBuildingsModuleComponent::HighlightModule(bool bIsHighlighted)
 {
