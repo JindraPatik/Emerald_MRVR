@@ -92,12 +92,17 @@ void AMR_General::Tick(float DeltaTime)
 			FVector HMDPosition;
 			FRotator HMDOrientation;
 			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
-			SetActorLocation(HMDPosition);
-			SetActorRotation(FRotator(0.f, HMDOrientation.Yaw, 0.f));
-			// SetActorRelativeLocation(HMDPosition);
+			if (HasAuthority())
+			{
+				UpadatePosition(HMDPosition, HMDOrientation);
+			}
+			else
+			{
+				Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
+			}
+			
 		}
 		
-		// Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
 		if (bGameInitialized)
 		{
 			//SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
@@ -210,6 +215,17 @@ void AMR_General::OnSelectedModule()
 		// Add logic
 		//CurrentlySelectedModule->PerformAction();
 	}
+}
+
+void AMR_General::Server_UpdatePawnPosition_Implementation(FVector HMDPosition, FRotator HMDOrientation)
+{
+	Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
+}
+
+void AMR_General::UpadatePosition(FVector HMDPosition, FRotator HMDOrientation)
+{
+	SetActorLocation(HMDPosition);
+	SetActorRotation(FRotator(0.f, HMDOrientation.Yaw, 0.f));
 }
 
 // Volá PC
