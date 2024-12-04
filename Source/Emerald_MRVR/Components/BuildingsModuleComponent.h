@@ -23,6 +23,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void PostInitProperties() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void InitializeComponent() override;
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

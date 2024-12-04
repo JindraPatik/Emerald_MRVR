@@ -53,6 +53,11 @@ void UBuildingsModuleComponent::GetLifetimeReplicatedProps(TArray<FLifetimePrope
 	DOREPLIFETIME(UBuildingsModuleComponent, BuildingDataAsset);
 }
 
+void UBuildingsModuleComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+}
+
 
 void UBuildingsModuleComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -74,8 +79,6 @@ void UBuildingsModuleComponent::HighlightModule(bool bIsHighlighted)
 	{
 		ModuleMesh->SetMaterial(0, MyBaseInstance->OriginalMaterial);
 	}
-	
-		
 
 }
 

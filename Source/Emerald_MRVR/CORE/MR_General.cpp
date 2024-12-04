@@ -221,7 +221,6 @@ void AMR_General::OnSelectedModule()
 	{
 		DBG(3, "Module Selected")
 		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Red, FString::Printf(TEXT("dasda %s"),*CurrentlySelectedModule.GetName()));
-		MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
 	}
 }
 

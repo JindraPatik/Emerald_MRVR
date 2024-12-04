@@ -28,6 +28,12 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_SpawnHealthWidget();
+
+	UFUNCTION()
+	void SpawnModules();
+
+	UFUNCTION(Server, Reliable)
+	void Server_SpawnModules();
 	
 
 protected:

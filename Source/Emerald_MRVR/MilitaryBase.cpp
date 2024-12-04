@@ -35,6 +35,7 @@ AMilitaryBase::AMilitaryBase()
 	Modules = CreateDefaultSubobject<USceneComponent>(TEXT("ModulesRoot"));
 	Modules->SetupAttachment(RootComponent);
 	Modules->SetIsReplicated(true);
+	Modules->RegisterComponent();
 }
 
 void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -53,6 +54,8 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, HoveredMaterial);
 }
 
+
+
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -60,21 +63,7 @@ void AMilitaryBase::BeginPlay()
 	
 	if (ensure(General))
 	{
-		for (UBuildingDataAsset* Building : General->AvailableBuildings)
-		{
-			BuildingModules.AddUnique(Building);
-			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
-			if (BuildingComp)
-			{
-				BuildingComp->SetIsReplicated(true);
-				BuildingComp->SetupAttachment(Modules);
-				BuildingComp->BuildingDataAsset = Building;
-				BuildingComp->RegisterComponent();
-				
-				ReplicatedBuildingComponents.AddUnique(BuildingComp);
-				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
-			}
-		}
+		SpawnModules();
 		SpawnResourcesWidget();
 		SpawnHealthWidget();
 		
@@ -149,6 +138,52 @@ void AMilitaryBase::SpawnHealthWidget()
 void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
 {
 	SpawnHealthWidget();
+}
+
+void AMilitaryBase::SpawnModules()
+{
+	AMR_General* General = Cast<AMR_General>(GetOwner());
+	if (!HasAuthority())
+	{
+		Server_SpawnModules();
+	}
+	for (UBuildingDataAsset* Building : General->AvailableBuildings)
+	{
+		BuildingModules.AddUnique(Building);
+		if (General->IsLocallyControlled())
+		{
+			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
+			
+			if (BuildingComp)
+			{
+				BuildingComp->SetIsReplicated(true);
+				Modules->RegisterComponent();
+				BuildingComp->SetupAttachment(Modules); // Modules musí být registrované
+				BuildingComp->BuildingDataAsset = Building;
+				BuildingComp->RegisterComponent();
+
+				/*
+				if (BuildingComp->ModuleMesh)
+				{
+					//BuildingComp->ModuleMesh->SetupAttachment(BuildingComp);
+					if (Modules && Modules->IsRegistered())
+					{
+						BuildingComp->SetupAttachment(Modules);
+					}
+				}
+				*/
+
+				ReplicatedBuildingComponents.AddUnique(BuildingComp);
+				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
+			}
+		}
+	}
+	
+}
+
+void AMilitaryBase::Server_SpawnModules_Implementation()
+{
+	SpawnModules();
 }
 
 
