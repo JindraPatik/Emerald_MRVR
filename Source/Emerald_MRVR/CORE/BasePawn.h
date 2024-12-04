@@ -43,13 +43,13 @@ protected:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
+	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category = "Body")
 	TObjectPtr<UStaticMeshComponent> GeneralBody;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	TObjectPtr<UMotionControllerComponent> MotionController_L;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	TObjectPtr<UMotionControllerComponent> MotionController_R;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
@@ -64,10 +64,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
 	TObjectPtr<UWidgetInteractionComponent> WidgetInteraction_R;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
 	TObjectPtr<UStaticMeshComponent> PointerStick_L;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
 	TObjectPtr<UStaticMeshComponent> PointerStick_R;
 
 	UPROPERTY(EditDefaultsOnly, Category="Controller")

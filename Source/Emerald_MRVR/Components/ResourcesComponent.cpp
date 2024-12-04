@@ -1,8 +1,5 @@
 #include "ResourcesComponent.h"
-#include "Components/TextBlock.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
-#include "GameFramework/GameStateBase.h"
 #include "Net/UnrealNetwork.h"
 
 static TAutoConsoleVariable<float> CVarAddResources(TEXT("EKG.AddResources"), 5.f,TEXT("AddedResourcesToPlayer"), ECVF_Cheat);
@@ -25,7 +22,6 @@ void UResourcesComponent::OnRep_ResourcesChanged() const
 	if (ResourcesWidget)
 	{
 		ResourcesWidget->UpdateResourcesWidget(FMath::Clamp(AvailableResources, 0.f, MaxResources));
-		UE_LOG(LogTemp, Warning, TEXT("ResourcesChanged"));
 	}
 }
 

@@ -45,9 +45,7 @@ public:
 	UFUNCTION(NetMulticast, Unreliable)
 	void Multi_HighlightModule(UMaterialInterface* Material);
 
-	bool CurrentlyHighlightedState = false
-
-	;
+	bool CurrentlyHighlightedState = false;
 	
 
 

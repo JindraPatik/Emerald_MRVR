@@ -117,5 +117,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="Testing")
 	TSubclassOf<AUnit> DefaultUnit;
+
+	bool bPossesed = false;
 };
 

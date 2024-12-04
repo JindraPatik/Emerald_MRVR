@@ -81,23 +81,16 @@ void ABasePawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-	
 }
 
 void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME(ABasePawn, Camera);
-	DOREPLIFETIME(ABasePawn, GeneralBody);
-	DOREPLIFETIME(ABasePawn, MotionController_L);
-	DOREPLIFETIME(ABasePawn, MotionController_R);
 	DOREPLIFETIME(ABasePawn, ImpactPointer_L);
 	DOREPLIFETIME(ABasePawn, ImpactPointer_R);
-	DOREPLIFETIME(ABasePawn, PointerStick_L);
-	DOREPLIFETIME(ABasePawn, PointerStick_R);
 	DOREPLIFETIME(ABasePawn, VR_Origin);
+	DOREPLIFETIME(ABasePawn, VR_Root);
 }
 
 void ABasePawn::Tick(float DeltaTime)
@@ -142,18 +135,7 @@ void ABasePawn::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	DBG_ONE_PARAM(10, "PC: %s", *NewController->GetName());
 
-	if (IsLocallyControlled()) // Pouze lokálně vlastněný hráč zpracovává vstupy
-	{
-		EnableInput(Cast<APC_MR_General>(NewController));
-		DBG(10, "Local input enabled")
-	}
-	else
-	{
-		DisableInput(nullptr);
-		DBG(10, "Disabled Input")
-	}
 }
 
 

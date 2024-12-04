@@ -87,10 +87,15 @@ void AMR_General::Tick(float DeltaTime)
 
 	if (IsLocallyControlled())
 	{
-		
-		FVector HMDPosition;
-		FRotator HMDOrientation;
-		UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
+		if (bPossesed)
+		{
+			FVector HMDPosition;
+			FRotator HMDOrientation;
+			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
+			SetActorLocation(HMDPosition);
+			SetActorRotation(FRotator(0.f, HMDOrientation.Yaw, 0.f));
+			// SetActorRelativeLocation(HMDPosition);
+		}
 		
 		// Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
 		if (bGameInitialized)
@@ -106,8 +111,6 @@ void AMR_General::Tick(float DeltaTime)
 				PerformSphereTrace(MotionController_R, ImpactPointer_R, CurrentlyHoveredModule_R);
 			}
 			
-		// SetActorLocation(HMDPosition);
-		SetActorRelativeLocation(HMDPosition);
 		}
 	}
 }

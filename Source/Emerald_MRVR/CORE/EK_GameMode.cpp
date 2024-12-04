@@ -1,6 +1,7 @@
 #include "EK_GameMode.h"
 
 #include "EngineUtils.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
 #include "MR_General.h"
 #include "PC_MR_General.h"
 #include "Emerald_MRVR/Components/CrystalSpawnerComp.h"
@@ -127,6 +128,7 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(PawnToSpawn, Location, Rotation, SpawnParams);
 	if (NewPawn)
 	{
+		UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 		NewPawn->SetReplicates(true); // Zajistí replikaci
 		PlayerController->Possess(NewPawn); // Připojí Pawna k PlayerControlleru
 	}

@@ -16,6 +16,7 @@ class EMERALD_MRVR_API APC_MR_General : public APlayerController
 	GENERATED_BODY()
 	
 protected:
+	
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void OnPossess(APawn* InPawn) override;
