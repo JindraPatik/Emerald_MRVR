@@ -35,7 +35,6 @@ public:
 	void SetPlayerColor();
 	void Action_SpawnUnit();
 
-
 protected:
 	AMR_General();
 	virtual void Tick(float DeltaTime) override;

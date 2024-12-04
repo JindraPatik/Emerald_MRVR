@@ -21,21 +21,20 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void PostInitProperties() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-	virtual void InitializeComponent() override;
 
 public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
-	UStaticMeshComponent* ModuleMesh;
+	/*UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
+	UStaticMeshComponent* ModuleMesh;*/
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
 	UBuildingDataAsset* BuildingDataAsset;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	TObjectPtr<AMilitaryBase> MyBaseInstance;
+
+	UPROPERTY(Replicated)
+	UStaticMeshComponent* ModuleMeshInstance;
 
 	UFUNCTION()
 	virtual void HighlightModule(bool bIsHighlighted) override;

@@ -17,31 +17,20 @@
 UMilitaryBaseComp::UMilitaryBaseComp()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	TargetPoint = CreateDefaultSubobject<ATargetPoint>("MilitaryBaseTargetPoint");
+	SpawnPointForMilitaryBase = CreateDefaultSubobject<ATargetPoint>("MilitaryBaseTargetPoint");
 	SetIsReplicatedByDefault(true);
 }
 
 void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(UMilitaryBaseComp, General);
-	DOREPLIFETIME(UMilitaryBaseComp, UnitTargetLoc);
 }
-
 
 void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
 	General = Cast<AMR_General>(GetOwner());
 }
-
-
-void UMilitaryBaseComp::SelectUnitToSpawn(UBuildingDataAsset* SelectedBuilding)
-{
-	SelectedUnit = SelectedBuilding->UnitToSpawnData;
-}
-
 
 void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -65,14 +54,14 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 
 	if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
 	{
-		TargetPoint = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
+		SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
 		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
 		GameMode->TargetPoints.RemoveAt(0);
 
-		if (TargetPoint)
+		if (SpawnPointForMilitaryBase)
 		{
-			FVector SpawnLocation = TargetPoint->GetActorLocation();
-			FRotator SpawnRotation = TargetPoint->GetActorRotation();
+			FVector SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
+			FRotator SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.Instigator = OwningPawn;
 			SpawnParameters.Owner = OwningPawn;

@@ -38,7 +38,6 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void PostInitializeComponents() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(EditAnywhere, Category = "Visuals")
@@ -58,7 +57,6 @@ protected:
 	TArray<UBuildingDataAsset*> BuildingModules;
 
 public:	
-	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite); 
 	TArray<UBuildingsModuleComponent*> ReplicatedBuildingComponents;
@@ -66,9 +64,6 @@ public:
 	UPROPERTY()
 	TMap<FName, UBuildingsModuleComponent*> BuildingComponentsMap;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category="Modules")
-	UBuildingsModuleComponent* BuildingsModuleComponent;
-	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Ground;
 	

@@ -17,25 +17,21 @@ AMilitaryBase::AMilitaryBase()
 	bReplicates = true;
 
 	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
-	RootComponent = BaseBody;
+	SetRootComponent(BaseBody);
 	
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
 	BaseBox->SetupAttachment(BaseBody);
 	
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
-	BuildingsModuleComponent = CreateDefaultSubobject<UBuildingsModuleComponent>("BuildingsModuleComponent");
-	BuildingsModuleComponent->SetIsReplicated(true);
 	
 	SpawnPoint_Ground = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
 	SpawnPoint_Ground->SetupAttachment(RootComponent);
 	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
-	SpawnPoint_Air->SetupAttachment(RootComponent);
+	SpawnPoint_Air->SetupAttachment(BaseBody);
 
 	// Modules
 	Modules = CreateDefaultSubobject<USceneComponent>(TEXT("ModulesRoot"));
-	Modules->SetupAttachment(RootComponent);
-	Modules->SetIsReplicated(true);
-	Modules->RegisterComponent();
+	Modules->SetupAttachment(BaseBody);
 }
 
 void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -44,9 +40,7 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
 	DOREPLIFETIME(AMilitaryBase, ReplicatedBuildingComponents);
-	DOREPLIFETIME(AMilitaryBase, BuildingsModuleComponent);
 	DOREPLIFETIME(AMilitaryBase, BuildingModules);
-	DOREPLIFETIME(AMilitaryBase, Modules);
 	DOREPLIFETIME(AMilitaryBase, AvailableBuildings);
 	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
@@ -73,18 +67,6 @@ void AMilitaryBase::BeginPlay()
 		}
 	} 
 }
-
-void AMilitaryBase::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-	
-}
-
-void AMilitaryBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
 
 void AMilitaryBase::SpawnResourcesWidget()
 {
@@ -143,6 +125,8 @@ void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
 void AMilitaryBase::SpawnModules()
 {
 	AMR_General* General = Cast<AMR_General>(GetOwner());
+	// Modules->RegisterComponent(); nemusim registrovat podle me
+	
 	if (!HasAuthority())
 	{
 		Server_SpawnModules();
@@ -153,21 +137,28 @@ void AMilitaryBase::SpawnModules()
 		if (General->IsLocallyControlled())
 		{
 			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
+			UStaticMeshComponent* ModuleMesh = NewObject<UStaticMeshComponent>(this, *Building->SM_Building->GetName());
 			
-			if (BuildingComp)
+			if (BuildingComp && ModuleMesh)
 			{
 				BuildingComp->SetIsReplicated(true);
-				Modules->RegisterComponent();
 				BuildingComp->SetupAttachment(Modules); // Modules musí být registrované
 				BuildingComp->BuildingDataAsset = Building;
+
+				ModuleMesh->SetIsReplicated(true);
+				ModuleMesh->SetupAttachment(BuildingComp);
+				ModuleMesh->SetStaticMesh(Building->SM_Building);
+
+				BuildingComp->ModuleMeshInstance = ModuleMesh;
+				
 				BuildingComp->RegisterComponent();
+				ModuleMesh->RegisterComponent();
 
 				ReplicatedBuildingComponents.AddUnique(BuildingComp);
 				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
 			}
 		}
 	}
-	
 }
 
 void AMilitaryBase::Server_SpawnModules_Implementation()

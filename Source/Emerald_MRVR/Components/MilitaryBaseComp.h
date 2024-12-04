@@ -24,11 +24,8 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(Replicated)
+	UPROPERTY()
 	AMR_General* General; 
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="BaseBody")
-	FTransform BaseBody; // Military Base Unit spawn point
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
 	FTransform SpawnPoint; // Military Base Unit spawn point
@@ -37,18 +34,10 @@ protected:
 	TSubclassOf<AMilitaryBase> MilitaryBase;
 
 	UPROPERTY(BlueprintReadOnly)
-	ATargetPoint* TargetPoint;
+	ATargetPoint* SpawnPointForMilitaryBase;
 
+	UPROPERTY()
 	AMilitaryBase* MyBaseInstance;
-
-	UPROPERTY(Replicated, VisibleAnywhere)
-	FVector UnitTargetLoc;
-
-
-	UFUNCTION()
-	void SelectUnitToSpawn(UBuildingDataAsset* SelectedBuilding);
-
-
 
 public:	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")

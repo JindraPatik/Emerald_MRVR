@@ -11,10 +11,6 @@
 UBuildingsModuleComponent::UBuildingsModuleComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	
-	ModuleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ModuleMesh"));
-	ModuleMesh->SetupAttachment(this);
-	ModuleMesh->SetIsReplicated(true); 
 }
 
 void UBuildingsModuleComponent::BeginPlay()
@@ -22,47 +18,25 @@ void UBuildingsModuleComponent::BeginPlay()
 	Super::BeginPlay();
 	AMR_General* General = Cast<AMR_General>(GetOwner()->GetOwner());
 	MyBaseInstance = Cast<AMilitaryBase>(GetOwner());
-	
-	if (BuildingDataAsset)
+
+	if (General && ModuleMeshInstance)
 	{
-		ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building);
-		if (General)
+		ModuleMeshInstance->SetMaterial(0, General->PlayerDefaultColor);
+		if (MyBaseInstance)
 		{
-			ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
-			if (MyBaseInstance)
-			{
-				MyBaseInstance->OriginalMaterial = General->PlayerDefaultColor;
-			}
+			MyBaseInstance->OriginalMaterial = General->PlayerDefaultColor;
 		}
 	}
-	// ModuleMesh->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
-	ModuleMesh->RegisterComponent();
 
-}
 
-void UBuildingsModuleComponent::PostInitProperties()
-{
-	Super::PostInitProperties();
 }
 
 void UBuildingsModuleComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
-	DOREPLIFETIME(UBuildingsModuleComponent, ModuleMesh);
+	DOREPLIFETIME(UBuildingsModuleComponent, ModuleMeshInstance);
 	DOREPLIFETIME(UBuildingsModuleComponent, BuildingDataAsset);
-}
-
-void UBuildingsModuleComponent::InitializeComponent()
-{
-	Super::InitializeComponent();
-}
-
-
-void UBuildingsModuleComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 }
 
 void UBuildingsModuleComponent::HighlightModule(bool bIsHighlighted)
@@ -73,11 +47,11 @@ void UBuildingsModuleComponent::HighlightModule(bool bIsHighlighted)
 
 	if (bIsHighlighted)
 	{
-		ModuleMesh->SetMaterial(0, MyBaseInstance->HoveredMaterial);
+		ModuleMeshInstance->SetMaterial(0, MyBaseInstance->HoveredMaterial);
 	}
 	else
 	{
-		ModuleMesh->SetMaterial(0, MyBaseInstance->OriginalMaterial);
+		ModuleMeshInstance->SetMaterial(0, MyBaseInstance->OriginalMaterial);
 	}
 
 }
