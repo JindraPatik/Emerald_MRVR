@@ -79,6 +79,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* OwningPawn)
 {
 	SpawnMilitaryBase(OwningPawn);
+	
 }
 
 void UMilitaryBaseComp::SpawnUnit()

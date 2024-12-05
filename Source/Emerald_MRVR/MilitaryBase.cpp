@@ -63,8 +63,15 @@ void AMilitaryBase::BeginPlay()
 	
 	if (ensure(General))
 	{
+		if (HasAuthority())
+		{
+			SpawnModules();
+		}
+		else
 		{
 			Server_SpawnModules();
+		}
+		{
 			SpawnResourcesWidget();
 			SpawnHealthWidget();
 		}
@@ -140,25 +147,23 @@ void AMilitaryBase::SpawnModules()
 	{
 		BuildingModules.AddUnique(Building);
 		{
-			
 			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
-			
 			if (BuildingComp)
 			{
 				BuildingComp->SetIsReplicated(true);
 				BuildingComp->SetupAttachment(Modules);
-				BuildingComp->RegisterComponent();
 				BuildingComp->BuildingDataAsset = Building;
+				BuildingComp->RegisterComponent();
 
 				UStaticMeshComponent* ModuleMesh = NewObject<UStaticMeshComponent>(this, *Building->SM_Building->GetName());
 				if (ModuleMesh)
 				{
 					ModuleMesh->SetIsReplicated(true);
 					ModuleMesh->SetupAttachment(BuildingComp);
-					ModuleMesh->RegisterComponent();
 					ModuleMesh->SetStaticMesh(Building->SM_Building);
 					ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
 					BuildingComp->ModuleMeshInstance = ModuleMesh;
+					ModuleMesh->RegisterComponent();
 				}
 
 				ReplicatedBuildingComponents.AddUnique(BuildingComp);

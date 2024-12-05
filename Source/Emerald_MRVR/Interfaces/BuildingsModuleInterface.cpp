@@ -11,3 +11,12 @@ void IBuildingsModuleInterface::HighlightModule(bool bIsHighlighted)
 	
 }
 
+UBuildingsModuleComponent* IBuildingsModuleInterface::SelectModule()
+{
+	return nullptr;
+}
+
+
+
+
+

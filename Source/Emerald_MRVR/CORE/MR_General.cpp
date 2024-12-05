@@ -47,6 +47,7 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_L);
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_R);
+	DOREPLIFETIME(AMR_General, MilitaryBaseComp);
 
 }
 // ~REPLICATED PROPS
@@ -81,6 +82,7 @@ void AMR_General::BeginPlay()
 	{
 		MilitaryBaseComp->SpawnMilitaryBase(this);
 	}
+
 }
 // ~BEGIN PLAY
 
@@ -93,7 +95,7 @@ void AMR_General::Tick(float DeltaTime)
 	{
 		if (bPossesed)
 		{
-			FVector HMDPosition;
+			/*FVector HMDPosition;
 			FRotator HMDOrientation;
 			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
 			if (HasAuthority())
@@ -103,7 +105,7 @@ void AMR_General::Tick(float DeltaTime)
 			else
 			{
 				Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-			}
+			}*/
 			
 		}
 		
@@ -163,7 +165,6 @@ void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Used
 			ImpactPointer->SetWorldLocation(HitResult.Location);
 		}
 
-		//UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetActor()->GetComponentByClass(UBuildingsModuleComponent::StaticClass()));
 		UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetComponent()->GetAttachParent());
 
 		if (HitModule)
@@ -209,28 +210,49 @@ void AMR_General::SelectModule_L()
 
 void AMR_General::SelectModule_R()
 {
+	if (!HasAuthority())
+	{
+		Server_SelectModule_R();
+		return;
+	}
 	if (CurrentlyHoveredModule_R)
 	{
-		DBG(5, "Module R")
-		CurrentlySelectedModule = CurrentlyHoveredModule_R;
-
-		// toto vyhazuje chybu !!
-		if (MilitaryBaseComp && CurrentlySelectedModule)
-		{
-			MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
-		}
-		// OnSelectedModule();
+		CurrentlySelectedModule = CurrentlyHoveredModule_R->SelectModule();
+		DBG(3, "CurrentlyHoveredModule_R")
+	}
+	else
+	{
+		DBG(3, "CurrentlyHoveredModule_R neeeeeeeeeni")
 	}
 }
+
+void AMR_General::Server_SelectModule_R_Implementation()
+{
+	SelectModule_R();
+}
+
 
 void AMR_General::OnSelectedModule()
 {
+	if (!HasAuthority())
+	{
+		Server_OnSelectedModule();
+		return;
+	}
+	
 	if (CurrentlySelectedModule)
 	{
 		DBG(3, "Module Selected")
-		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Red, FString::Printf(TEXT("dasda %s"),*CurrentlySelectedModule.GetName()));
+		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Blue, FString::Printf(TEXT("dasda %s"),*CurrentlySelectedModule.GetName()));
+		MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
 	}
 }
+
+void AMR_General::Server_OnSelectedModule_Implementation()
+{
+	OnSelectedModule();
+}
+
 
 void AMR_General::Server_UpdatePawnPosition_Implementation(FVector HMDPosition, FRotator HMDOrientation)
 {

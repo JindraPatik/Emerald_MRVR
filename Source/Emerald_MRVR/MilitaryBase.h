@@ -35,7 +35,6 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_SpawnModules();
-	
 
 protected:
 	virtual void BeginPlay() override;

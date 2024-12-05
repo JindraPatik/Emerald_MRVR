@@ -2,6 +2,7 @@
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
 #include "Net/UnrealNetwork.h"
 
@@ -24,7 +25,7 @@ void UBuildingsModuleComponent::BeginPlay()
 	}
 	else
 	{
-		DBG(5, "INSTANCE not valid")
+		// DBG(5, "INSTANCE not valid")
 	}
 
 }
@@ -37,18 +38,11 @@ void UBuildingsModuleComponent::GetLifetimeReplicatedProps(TArray<FLifetimePrope
 	DOREPLIFETIME(UBuildingsModuleComponent, BuildingDataAsset);
 }
 
-void UBuildingsModuleComponent::InitializeComponent()
-{
-	Super::InitializeComponent();
-	// RegisterComponent();
-}
-
-
 void UBuildingsModuleComponent::HighlightModule(bool bIsHighlighted)
 {
 	IBuildingsModuleInterface::HighlightModule(bIsHighlighted);
 
-	DBG(0,"Interface")
+	// DBG(0,"Interface")
 
 	if (bIsHighlighted)
 	{
@@ -60,6 +54,18 @@ void UBuildingsModuleComponent::HighlightModule(bool bIsHighlighted)
 	}
 
 }
+
+UBuildingsModuleComponent* UBuildingsModuleComponent::SelectModule()
+{
+	return this;
+}
+
+
+
+
+
+
+
 
 
 

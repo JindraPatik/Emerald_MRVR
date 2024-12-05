@@ -43,8 +43,15 @@ protected:
 	virtual void BeginPlay() override;
 	void PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Controller, TObjectPtr<UStaticMeshComponent> ImpactPointer, UBuildingsModuleComponent*& CurrentlyHoveredModule);
 	void SelectModule_L();
+
 	void SelectModule_R();
+
+	UFUNCTION(Server, Reliable)
+	void Server_SelectModule_R();
+
 	void OnSelectedModule();
+	UFUNCTION(Server, Reliable)
+	void Server_OnSelectedModule();
 	
 public:
 	// CORE
@@ -70,9 +77,7 @@ public:
 
 
 	// MILITARY BASE
-	void SpawnMilitaryBase();
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
 	UMilitaryBaseComp* MilitaryBaseComp;
 	
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
