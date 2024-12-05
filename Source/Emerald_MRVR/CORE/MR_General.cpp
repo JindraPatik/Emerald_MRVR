@@ -243,15 +243,6 @@ void AMR_General::UpadatePosition(FVector HMDPosition, FRotator HMDOrientation)
 	SetActorRotation(FRotator(0.f, HMDOrientation.Yaw, 0.f));
 }
 
-// Volá PC
-/*void AMR_General::SpawnMilitaryBase()
-{
-	if (IsLocallyControlled())
-	{
-		MilitaryBaseComp->Server_SpawnMilitaryBase(this);
-	}
-}*/
-
 void AMR_General::Action_SpawnUnit()
 {
 	MilitaryBaseComp->SpawnUnit();

@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "MilitaryBase.generated.h"
 
+class AMR_General;
 class UBuildingDataAsset;
 class APC_MR_General;
 class AUnit;
@@ -40,7 +41,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(EditAnywhere, Category = "Visuals")
+	UPROPERTY(Replicated, VisibleAnywhere, Category = "Visuals")
 	TObjectPtr<UStaticMeshComponent> BaseBody;
 
 	UPROPERTY(EditAnywhere, Category = "BaseBody")
@@ -48,6 +49,9 @@ protected:
 
 	UPROPERTY(VisibleDefaultsOnly, Category="Visuals")
 	UDownScaleComponent* DownScaleComponent;
+
+	UPROPERTY(Replicated)
+	AMR_General* General;
 
 	// Building modules
 	UPROPERTY(Replicated, EditAnywhere, Category = "Buildings")

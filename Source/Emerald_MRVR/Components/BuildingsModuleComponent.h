@@ -9,7 +9,6 @@
 class AMilitaryBase;
 class UBuildingDataAsset;
 class UStaticMeshComponent;
-class UBoxComponent; // ?? Uvidime
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UBuildingsModuleComponent : public UPrimitiveComponent, public IBuildingsModuleInterface
@@ -22,6 +21,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void InitializeComponent() override;
 public:	
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Building")
@@ -30,7 +30,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
 	TObjectPtr<AMilitaryBase> MyBaseInstance;
 
-	UPROPERTY(Replicated)
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Building")
 	UStaticMeshComponent* ModuleMeshInstance;
 
 	UFUNCTION()

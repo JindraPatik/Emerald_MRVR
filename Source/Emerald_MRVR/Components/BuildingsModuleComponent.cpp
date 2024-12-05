@@ -18,6 +18,15 @@ void UBuildingsModuleComponent::BeginPlay()
 	AMR_General* General = Cast<AMR_General>(GetOwner()->GetOwner());
 	MyBaseInstance = Cast<AMilitaryBase>(GetOwner());
 
+	if (ModuleMeshInstance)
+	{
+		ModuleMeshInstance->SetMaterial(0, General->PlayerDefaultColor);
+	}
+	else
+	{
+		DBG(5, "INSTANCE not valid")
+	}
+
 }
 
 void UBuildingsModuleComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -26,6 +35,12 @@ void UBuildingsModuleComponent::GetLifetimeReplicatedProps(TArray<FLifetimePrope
 	
 	DOREPLIFETIME(UBuildingsModuleComponent, ModuleMeshInstance);
 	DOREPLIFETIME(UBuildingsModuleComponent, BuildingDataAsset);
+}
+
+void UBuildingsModuleComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+	// RegisterComponent();
 }
 
 

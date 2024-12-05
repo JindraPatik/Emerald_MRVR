@@ -5,6 +5,7 @@
 #include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
 #include "CORE/MR_General.h"
+#include "CORE/PC_MR_General.h"
 #include "Data/BuildingDataAsset.h"
 #include "Net/UnrealNetwork.h"
 
@@ -18,6 +19,7 @@ AMilitaryBase::AMilitaryBase()
 
 	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
 	SetRootComponent(BaseBody);
+	SetReplicates(true);
 	
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
 	BaseBox->SetupAttachment(BaseBody);
@@ -25,41 +27,48 @@ AMilitaryBase::AMilitaryBase()
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	
 	SpawnPoint_Ground = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
-	SpawnPoint_Ground->SetupAttachment(RootComponent);
+	SpawnPoint_Ground->SetupAttachment(BaseBody);
 	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
 	SpawnPoint_Air->SetupAttachment(BaseBody);
 
 	// Modules
 	Modules = CreateDefaultSubobject<USceneComponent>(TEXT("ModulesRoot"));
 	Modules->SetupAttachment(BaseBody);
+	SetReplicates(true);
 }
 
 void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AMilitaryBase, General);
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
+	DOREPLIFETIME(AMilitaryBase, BaseBody)
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
 	DOREPLIFETIME(AMilitaryBase, ReplicatedBuildingComponents);
 	DOREPLIFETIME(AMilitaryBase, BuildingModules);
+	DOREPLIFETIME(AMilitaryBase, Modules);
 	DOREPLIFETIME(AMilitaryBase, AvailableBuildings);
 	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, OriginalMaterial);
 	DOREPLIFETIME(AMilitaryBase, HoveredMaterial);
+	
 }
-
-
 
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
-	AMR_General* General = Cast<AMR_General>(GetOwner());
+	General = Cast<AMR_General>(GetOwner());
+	DBG_ONE_PARAM(5, "general: %s", *General->GetName())
 	
 	if (ensure(General))
 	{
-		SpawnModules();
-		SpawnResourcesWidget();
-		SpawnHealthWidget();
+		{
+			Server_SpawnModules();
+			SpawnResourcesWidget();
+			SpawnHealthWidget();
+		}
+		
 		
 		if (HealthWidgetInstance && ResourcesWidgetInstance)
 		{
@@ -75,8 +84,6 @@ void AMilitaryBase::SpawnResourcesWidget()
 		Server_SpawnResourcesWidget();
 	}
 	
-	AMR_General* General = Cast<AMR_General>(GetOwner());
-
 	if (General && General->IsLocallyControlled())
 	{
 		TObjectPtr<UWorld> World = GetWorld();
@@ -97,7 +104,6 @@ void AMilitaryBase::Server_SpawnResourcesWidget_Implementation()
 
 void AMilitaryBase::SpawnHealthWidget()
 {
-	AMR_General* General = Cast<AMR_General>(GetOwner());
 	if (!HasAuthority())
 	{
 		Server_SpawnHealthWidget();
@@ -124,37 +130,36 @@ void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
 
 void AMilitaryBase::SpawnModules()
 {
-	AMR_General* General = Cast<AMR_General>(GetOwner());
-	
 	if (!HasAuthority())
 	{
 		Server_SpawnModules();
+		return;
 	}
+	
 	for (UBuildingDataAsset* Building : General->AvailableBuildings)
 	{
 		BuildingModules.AddUnique(Building);
-		// if (General->IsLocallyControlled())
 		{
-			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
-			UStaticMeshComponent* ModuleMesh = NewObject<UStaticMeshComponent>(this, *Building->SM_Building->GetName());
 			
-			if (BuildingComp && ModuleMesh)
+			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
+			
+			if (BuildingComp)
 			{
 				BuildingComp->SetIsReplicated(true);
 				BuildingComp->SetupAttachment(Modules);
+				BuildingComp->RegisterComponent();
 				BuildingComp->BuildingDataAsset = Building;
 
-				ModuleMesh->SetIsReplicated(true);
-				ModuleMesh->SetupAttachment(BuildingComp);
-				ModuleMesh->SetStaticMesh(Building->SM_Building);
-				ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
-				
-
-				BuildingComp->ModuleMeshInstance = ModuleMesh;
-				BuildingComp->ModuleMeshInstance->AddReplicatedSubObject(ModuleMesh, COND_Dynamic);
-				
-				BuildingComp->RegisterComponent();
-				ModuleMesh->RegisterComponent();
+				UStaticMeshComponent* ModuleMesh = NewObject<UStaticMeshComponent>(this, *Building->SM_Building->GetName());
+				if (ModuleMesh)
+				{
+					ModuleMesh->SetIsReplicated(true);
+					ModuleMesh->SetupAttachment(BuildingComp);
+					ModuleMesh->RegisterComponent();
+					ModuleMesh->SetStaticMesh(Building->SM_Building);
+					ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
+					BuildingComp->ModuleMeshInstance = ModuleMesh;
+				}
 
 				ReplicatedBuildingComponents.AddUnique(BuildingComp);
 				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);

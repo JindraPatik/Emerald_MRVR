@@ -23,8 +23,6 @@ void APC_MR_General::OnPossess(APawn* InPawn)
 	AMR_General* General = Cast<AMR_General>(InPawn);
 	if (General)
 	{
-		General->SpawnMilitaryBase();
-
 		DBG_ONE_PARAM(10, "PC: %s", *this->GetName());
 
 		if (IsLocalController()) // Pouze lokálně vlastněný hráč zpracovává vstupy
