@@ -164,8 +164,9 @@ void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Used
 		}
 
 		AModuleActor* HitModule = Cast<AModuleActor>(HitResult.GetActor());
+		AMR_General* HittedGeneral = Cast<AMR_General>(HitResult.GetActor()->GetOwner());
 
-		if (HitModule)
+		if (HitModule && HittedGeneral == this)
 		{
 			CurrentlyHoveredModule = HitModule;
 			HitModule->HighlightModule(true);
