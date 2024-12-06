@@ -95,17 +95,16 @@ void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 		SpawnParameters.Owner = OwningPawn;
 		if (AvailableModules.Num() > 0)
 		{
-				for (UBuildingDataAsset* Module : AvailableModules)
+			for (UBuildingDataAsset* Module : AvailableModules)
+			{
+				AModuleActor* ModuleInstance = GetWorld()->SpawnActor<AModuleActor>(ModuleClass, SpawnLocation, SpawnRotation, SpawnParameters);
+				ModuleInstance->SetReplicates(true);
+				if (ModuleInstance)
 				{
-					AModuleActor* ModuleInstance = GetWorld()->SpawnActor<AModuleActor>(ModuleClass, SpawnLocation, SpawnRotation, SpawnParameters);
-					ModuleInstance->SetReplicates(true);
-					if (ModuleInstance)
-					{
-						ModuleInstance->BuildingDataAsset = Module;
-					}
+					ModuleInstance->BuildingDataAsset = Module;
 				}
 			}
-			
+		}
 	}
 }
 
@@ -132,7 +131,7 @@ void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
 				SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
 				SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
 			}
-	}
+}
 
 void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
 {

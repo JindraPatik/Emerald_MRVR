@@ -48,8 +48,6 @@ void APC_MR_General::SpawnBaseAndModules()
 		Server_SpawnBaseAndModules();
 		return;
 	}
-	//General->MilitaryBaseComp->SpawnMilitaryBase(General);
-	//General->MilitaryBaseComp->SpawnModules(General);
 }
 
 void APC_MR_General::Server_SpawnBaseAndModules_Implementation()
