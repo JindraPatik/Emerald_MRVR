@@ -5,6 +5,7 @@
 #include "MilitaryBaseComp.generated.h"
 
 
+class AModuleActor;
 class UUnitDataAsset;
 class UBuildingDataAsset;
 class AMR_General;
@@ -33,11 +34,20 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	TSubclassOf<AModuleActor> ModuleClass;
+
+	UPROPERTY(Replicated, BlueprintReadOnly)
 	ATargetPoint* SpawnPointForMilitaryBase;
 
 	UPROPERTY()
 	AMilitaryBase* MyBaseInstance;
+
+	UPROPERTY(Replicated)
+	FVector SpawnLocation;
+	
+	UPROPERTY(Replicated)
+	FRotator SpawnRotation;
 
 public:	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
@@ -51,18 +61,29 @@ public:
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
 	void Server_SpawnMilitaryBase(AMR_General* OwningPawn);
 
-	UFUNCTION()
+	UFUNCTION(Category="SpawnBase")
+	void SpawnModules(AMR_General* OwningPawn);
+	
+	UFUNCTION(Server, Reliable, Category="SpawnBase")
+	void Server_SpawnModule(AMR_General* OwningPawn);
+
+	/*UFUNCTION()
 	void SpawnUnit();
 
 	UFUNCTION(Server, Reliable, Category="UnitSpawning")
 	void Server_SpawnUnit();
 
 	UFUNCTION(Category="UnitSpawning")
-	bool HasEnoughResources() const;
+	bool HasEnoughResources() const;*/
 
-	UPROPERTY(VisibleAnywhere, Category="UnitSpawning")
+	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
 	TArray<UBuildingDataAsset*> AvailableModules;
 
 	UPROPERTY(VisibleAnywhere, Category="UnitSpawning")
 	UUnitDataAsset* SelectedUnit;
+
+	void GetMilitaryBaseSpawnPoint();
+
+	UFUNCTION(Server, Reliable)
+	void Server_GetMilitaryBaseSpawnPoint();
 };

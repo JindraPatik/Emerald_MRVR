@@ -267,6 +267,8 @@ void AMR_General::UpadatePosition(FVector HMDPosition, FRotator HMDOrientation)
 
 void AMR_General::Action_SpawnUnit()
 {
-	MilitaryBaseComp->SpawnUnit();
+	// MilitaryBaseComp->SpawnUnit();
 }
+
+
 

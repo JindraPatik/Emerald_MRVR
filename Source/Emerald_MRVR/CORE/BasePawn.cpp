@@ -131,13 +131,6 @@ void ABasePawn::OnMouseReleased()
 	WidgetInteraction_R->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
-void ABasePawn::PossessedBy(AController* NewController)
-{
-	Super::PossessedBy(NewController);
-
-
-}
-
 
 // Setup Pointer
 /*void ABasePawn::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,

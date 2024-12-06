@@ -16,10 +16,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/BP/MilitaryBase/BP_Module.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CORE/BP_BasePawn.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/BP_BasePawn.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CORE/BP_MR_General.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/BP_MR_General.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Data/Buildings/Hangar.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Data/Buildings/Hangar.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/BasePawn.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/BasePawn.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/BasePawn.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/BasePawn.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/PC_MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/PC_MR_General.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1128,6 +1137,7 @@
       <workItem from="1732093412995" duration="17624000" />
       <workItem from="1732692610295" duration="2705000" />
       <workItem from="1732795087374" duration="3832000" />
+      <workItem from="1733470247461" duration="3282000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />

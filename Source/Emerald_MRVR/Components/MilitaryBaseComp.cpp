@@ -4,6 +4,7 @@
 #include "ResourcesComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
+#include "Emerald_MRVR/ModuleActor.h"
 #include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
@@ -24,12 +25,26 @@ UMilitaryBaseComp::UMilitaryBaseComp()
 void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UMilitaryBaseComp, AvailableModules);
+	DOREPLIFETIME(UMilitaryBaseComp, SpawnPointForMilitaryBase);
+	DOREPLIFETIME(UMilitaryBaseComp, SpawnPointForMilitaryBase);
+	DOREPLIFETIME(UMilitaryBaseComp, SpawnLocation);
+	DOREPLIFETIME(UMilitaryBaseComp, SpawnRotation);
 }
 
 void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
 	General = Cast<AMR_General>(GetOwner());
+
+
+	if (General->IsLocallyControlled())
+	{
+		GetMilitaryBaseSpawnPoint();
+		SpawnMilitaryBase(General);
+		SpawnModules(General);
+	}
+
 }
 
 void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -44,24 +59,8 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 		Server_SpawnMilitaryBase(OwningPawn);
 		return;
 	}
-
-	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
-	if (!GameMode)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GameMode is invalid!"));
-		return;
-	}
-
-	if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
-	{
-		SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
-		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
-		GameMode->TargetPoints.RemoveAt(0);
-
 		if (SpawnPointForMilitaryBase)
 		{
-			FVector SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
-			FRotator SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.Instigator = OwningPawn;
 			SpawnParameters.Owner = OwningPawn;
@@ -69,22 +68,86 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 			if (General)
 			{
 				// Spawn Base Instance
-				General->BaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
+				MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
 				General->ResourcesComponent->StartGrowResources();
 			}
 			
 		}
-	}
 }
+
 void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* OwningPawn)
 {
 	SpawnMilitaryBase(OwningPawn);
-	
 }
 
-void UMilitaryBaseComp::SpawnUnit()
+void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 {
+	if (!GetOwner()->HasAuthority())
+	{
+		Server_SpawnModule(OwningPawn);
+		return;
+	}
 
+	if (SpawnPointForMilitaryBase)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Instigator = OwningPawn;
+		SpawnParameters.Owner = OwningPawn;
+		if (AvailableModules.Num() > 0)
+		{
+				for (UBuildingDataAsset* Module : AvailableModules)
+				{
+					AModuleActor* ModuleInstance = GetWorld()->SpawnActor<AModuleActor>(ModuleClass, SpawnLocation, SpawnRotation, SpawnParameters);
+					ModuleInstance->SetReplicates(true);
+					if (ModuleInstance)
+					{
+						ModuleInstance->BuildingDataAsset = Module;
+					}
+				}
+			}
+			
+	}
+}
+
+void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
+{
+	if (!General->HasAuthority())
+	{
+		Server_GetMilitaryBaseSpawnPoint();
+		return;
+	}
+	
+	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+		if (!GameMode)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GameMode is invalid!"));
+			return;
+		}
+	
+			if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
+			{
+				SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
+				SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
+				GameMode->TargetPoints.RemoveAt(0);
+				SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
+				SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
+			}
+	}
+
+void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
+{
+	GetMilitaryBaseSpawnPoint();
+}
+
+
+void UMilitaryBaseComp::Server_SpawnModule_Implementation(AMR_General* OwningPawn)
+{
+	SpawnModules(OwningPawn);
+}
+
+
+/*void UMilitaryBaseComp::SpawnUnit()
+{
 	DBG(3, "Spawnunit");
 	if (!GetOwner()->HasAuthority())
 	{
@@ -102,7 +165,7 @@ void UMilitaryBaseComp::SpawnUnit()
 
 		/// for testing without VR only!!!!
 		/*UnitToSpawn = General->DefaultUnit;
-		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);*/
+		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);#1#
 		// SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
 		/// for testing without VR only!!!!
     
@@ -151,4 +214,4 @@ bool UMilitaryBaseComp::HasEnoughResources() const
 		}
 	}
 	return false;
-}
+}*/

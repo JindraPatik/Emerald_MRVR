@@ -4,6 +4,7 @@
 #include "DebugMacros.h"
 #include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
+#include "Components/MilitaryBaseComp.h"
 #include "CORE/MR_General.h"
 #include "CORE/PC_MR_General.h"
 #include "Data/BuildingDataAsset.h"
@@ -30,11 +31,6 @@ AMilitaryBase::AMilitaryBase()
 	SpawnPoint_Ground->SetupAttachment(BaseBody);
 	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
 	SpawnPoint_Air->SetupAttachment(BaseBody);
-
-	// Modules
-	Modules = CreateDefaultSubobject<USceneComponent>(TEXT("ModulesRoot"));
-	Modules->SetupAttachment(BaseBody);
-	SetReplicates(true);
 }
 
 void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -44,15 +40,16 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
 	DOREPLIFETIME(AMilitaryBase, BaseBody)
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
-	DOREPLIFETIME(AMilitaryBase, ReplicatedBuildingComponents);
-	DOREPLIFETIME(AMilitaryBase, BuildingModules);
-	DOREPLIFETIME(AMilitaryBase, Modules);
-	DOREPLIFETIME(AMilitaryBase, AvailableBuildings);
 	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, OriginalMaterial);
 	DOREPLIFETIME(AMilitaryBase, HoveredMaterial);
 	
+}
+
+void AMilitaryBase::PostInitProperties()
+{
+	Super::PostInitProperties();
 }
 
 void AMilitaryBase::BeginPlay()
@@ -63,22 +60,6 @@ void AMilitaryBase::BeginPlay()
 	
 	if (ensure(General))
 	{
-		/*
-		if (HasAuthority())
-		{
-			SpawnModules();
-		}
-		else
-		{
-			Server_SpawnModules();
-		}
-		{
-			SpawnResourcesWidget();
-			SpawnHealthWidget();
-		}
-		*/
-		
-		
 		if (HealthWidgetInstance && ResourcesWidgetInstance)
 		{
 			General->bGameInitialized = true;
@@ -136,49 +117,6 @@ void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
 {
 	SpawnHealthWidget();
 }
-
-/*void AMilitaryBase::SpawnModules()
-{
-	if (!HasAuthority())
-	{
-		Server_SpawnModules();
-		return;
-	}
-	
-	for (UBuildingDataAsset* Building : General->AvailableBuildings)
-	{
-		BuildingModules.AddUnique(Building);
-		{
-			UBuildingsModuleComponent* BuildingComp = NewObject<UBuildingsModuleComponent>(this, *Building->BuildingName.ToString());
-			if (BuildingComp)
-			{
-				BuildingComp->SetIsReplicated(true);
-				BuildingComp->SetupAttachment(Modules);
-				BuildingComp->BuildingDataAsset = Building;
-				BuildingComp->RegisterComponent();
-
-				UStaticMeshComponent* ModuleMesh = NewObject<UStaticMeshComponent>(this, *Building->SM_Building->GetName());
-				if (ModuleMesh)
-				{
-					ModuleMesh->SetIsReplicated(true);
-					ModuleMesh->SetupAttachment(BuildingComp);
-					ModuleMesh->SetStaticMesh(Building->SM_Building);
-					ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
-					BuildingComp->ModuleMeshInstance = ModuleMesh;
-					ModuleMesh->RegisterComponent();
-				}
-
-				ReplicatedBuildingComponents.AddUnique(BuildingComp);
-				BuildingComponentsMap.Add(Building->BuildingName, BuildingComp);
-			}
-		}
-	}
-}
-
-void AMilitaryBase::Server_SpawnModules_Implementation()
-{
-	SpawnModules();
-}*/
 
 
 

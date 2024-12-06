@@ -77,7 +77,7 @@ public:
 
 
 	// MILITARY BASE
-	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	UMilitaryBaseComp* MilitaryBaseComp;
 	
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")

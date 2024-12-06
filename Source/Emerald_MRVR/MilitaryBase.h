@@ -30,12 +30,6 @@ public:
 	UFUNCTION(Server, Reliable)
 	void Server_SpawnHealthWidget();
 
-	UFUNCTION()
-	void SpawnModules();
-
-	UFUNCTION(Server, Reliable)
-	void Server_SpawnModules();
-
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -52,29 +46,16 @@ protected:
 	UPROPERTY(Replicated)
 	AMR_General* General;
 
-	// Building modules
-	UPROPERTY(Replicated, EditAnywhere, Category = "Buildings")
-	TObjectPtr<USceneComponent> Modules;
-
-	UPROPERTY(Replicated, EditAnywhere, Category = "Buildings")
-	TArray<UBuildingDataAsset*> BuildingModules;
+	virtual void PostInitProperties() override;
+	
 
 public:	
-	
-	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite); 
-	TArray<UBuildingsModuleComponent*> ReplicatedBuildingComponents;
-
-	UPROPERTY()
-	TMap<FName, UBuildingsModuleComponent*> BuildingComponentsMap;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Ground;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	USceneComponent* SpawnPoint_Air;
-
-	UPROPERTY(Replicated, VisibleAnywhere, Category="Buildings")
-	TArray<UBuildingDataAsset*> AvailableBuildings;
 
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 	TSubclassOf<AActor> ResourcesWBP;
