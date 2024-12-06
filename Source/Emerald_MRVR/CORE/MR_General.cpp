@@ -7,11 +7,9 @@
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
-#include "Emerald_MRVR/MilitaryBase.h"
-#include "Emerald_MRVR/Components/BuildingsModuleComponent.h"
+#include "Emerald_MRVR/ModuleActor.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "GameFramework/GameStateBase.h"
@@ -140,7 +138,7 @@ void AMR_General::SetPlayerColor() // Sets Player Color
 
 void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> UsedController,
 	TObjectPtr<UStaticMeshComponent> ImpactPointer,
-	UBuildingsModuleComponent*& CurrentlyHoveredModule)
+	AModuleActor*& CurrentlyHoveredModule)
 {
 	FHitResult HitResult;
 	FCollisionQueryParams QueryParams;
@@ -165,7 +163,7 @@ void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Used
 			ImpactPointer->SetWorldLocation(HitResult.Location);
 		}
 
-		UBuildingsModuleComponent* HitModule = Cast<UBuildingsModuleComponent>(HitResult.GetComponent()->GetAttachParent());
+		AModuleActor* HitModule = Cast<AModuleActor>(HitResult.GetActor());
 
 		if (HitModule)
 		{
@@ -194,7 +192,6 @@ void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Used
 			ImpactPointer->SetWorldLocation(End);
 		}
 	}
-	
 }
 
 void AMR_General::SelectModule_L()
@@ -217,7 +214,7 @@ void AMR_General::SelectModule_R()
 	}
 	if (CurrentlyHoveredModule_R)
 	{
-		CurrentlySelectedModule = CurrentlyHoveredModule_R->SelectModule();
+		CurrentlySelectedModule = CurrentlyHoveredModule_R;
 		DBG(3, "CurrentlyHoveredModule_R")
 	}
 	else

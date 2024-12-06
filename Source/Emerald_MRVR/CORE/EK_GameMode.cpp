@@ -111,20 +111,15 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 	FVector Location = PlayerStartTransform.GetLocation();
 	FRotator Rotation = PlayerStartTransform.GetRotation().Rotator();
 
-	// Debugging: Kontrola transformace
-	UE_LOG(LogTemp, Log, TEXT("Spawning Pawn at Location: %s, Rotation: %s"), *Location.ToString(), *Rotation.ToString());
-
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = PlayerController;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-	// Znič předchozí Pawna, pokud existuje
 	if (APawn* ExistingPawn = PlayerController->GetPawn())
 	{
 		ExistingPawn->Destroy();
 	}
 
-	// Vytvoř nového Pawna
 	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(PawnToSpawn, Location, Rotation, SpawnParams);
 	if (NewPawn)
 	{

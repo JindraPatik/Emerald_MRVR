@@ -1,12 +1,9 @@
 #include "ModuleActor.h"
-
 #include "DebugMacros.h"
 #include "Components/DownScaleComponent.h"
-#include "Components/MilitaryBaseComp.h"
 #include "CORE/MR_General.h"
 #include "Data/BuildingDataAsset.h"
 #include "Net/UnrealNetwork.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
 
 AModuleActor::AModuleActor()
 {
@@ -15,15 +12,17 @@ AModuleActor::AModuleActor()
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	
-	ModuleBody = CreateDefaultSubobject<UStaticMeshComponent>("ModuleBody");
-	SetRootComponent(ModuleBody);
+	ModuleMesh = CreateDefaultSubobject<UStaticMeshComponent>("ModuleBody");
+	SetRootComponent(ModuleMesh);
 }
 
 void AModuleActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AModuleActor, ModuleBody);
+	DOREPLIFETIME(AModuleActor, ModuleMesh);
 	DOREPLIFETIME(AModuleActor, BuildingDataAsset);
+	DOREPLIFETIME(AModuleActor, OriginalMaterial);
+	DOREPLIFETIME(AModuleActor, HoverMaterial);
 }
 
 void AModuleActor::BeginPlay()
@@ -43,10 +42,11 @@ void AModuleActor::OnBuildingsDataChanged()
 	General = General ? General : Cast<AMR_General>(GetOwner());
 	if (BuildingDataAsset)
 	{
-		ModuleBody->SetStaticMesh(BuildingDataAsset->SM_Building);
+		ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building);
 		if (General)
 		{
-			ModuleBody->SetMaterial(0, General->PlayerDefaultColor);
+			ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
+			OriginalMaterial = General->PlayerDefaultColor;
 		}
 	}
 	else
@@ -55,5 +55,10 @@ void AModuleActor::OnBuildingsDataChanged()
 	}
 }
 
+void AModuleActor::HighlightModule(bool bIsHighlighted)
+{
+	IBuildingsModuleInterface::HighlightModule(bIsHighlighted);
 
+	bIsHighlighted ? ModuleMesh->SetMaterial(0, HoverMaterial) : ModuleMesh->SetMaterial(0, OriginalMaterial);
+}
 

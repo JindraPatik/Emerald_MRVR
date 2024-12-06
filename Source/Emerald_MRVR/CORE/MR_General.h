@@ -24,6 +24,7 @@ class UStaticMeshComponent;
 class ATargetPoint;
 class UInputMappingContext;
 class UInputAction;
+class AModuleActor;
 
 UCLASS()
 class EMERALD_MRVR_API AMR_General : public ABasePawn
@@ -41,7 +42,7 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
-	void PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Controller, TObjectPtr<UStaticMeshComponent> ImpactPointer, UBuildingsModuleComponent*& CurrentlyHoveredModule);
+	void PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Controller, TObjectPtr<UStaticMeshComponent> ImpactPointer, AModuleActor*& CurrentlyHoveredModule);
 	void SelectModule_L();
 
 	void SelectModule_R();
@@ -84,13 +85,13 @@ public:
 	TArray<UBuildingDataAsset*> AvailableBuildings;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-	UBuildingsModuleComponent* CurrentlyHoveredModule_L;
+	AModuleActor* CurrentlyHoveredModule_L;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-	UBuildingsModuleComponent* CurrentlyHoveredModule_R;
+	AModuleActor* CurrentlyHoveredModule_R;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category="MilitaryBase")
-	TObjectPtr<UBuildingsModuleComponent> CurrentlySelectedModule;
+	TObjectPtr<AModuleActor> CurrentlySelectedModule;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputAction* DebugSpawnUnit;

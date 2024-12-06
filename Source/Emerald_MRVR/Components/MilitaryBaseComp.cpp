@@ -1,17 +1,11 @@
 #include "MilitaryBaseComp.h"
-
-#include "BuildingsModuleComponent.h"
 #include "ResourcesComponent.h"
-#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/ModuleActor.h"
-#include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
-#include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
-#include "GameFramework/PlayerState.h"
 #include "Net/UnrealNetwork.h"
 
 

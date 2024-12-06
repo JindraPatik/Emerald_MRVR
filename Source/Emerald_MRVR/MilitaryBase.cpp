@@ -2,12 +2,8 @@
 #include "MilitaryBase.h"
 #include "BoxComponent.h"
 #include "DebugMacros.h"
-#include "Components/BuildingsModuleComponent.h"
 #include "Components/DownScaleComponent.h"
-#include "Components/MilitaryBaseComp.h"
 #include "CORE/MR_General.h"
-#include "CORE/PC_MR_General.h"
-#include "Data/BuildingDataAsset.h"
 #include "Net/UnrealNetwork.h"
 
 #define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()
