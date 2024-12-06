@@ -63,6 +63,7 @@ void AMilitaryBase::BeginPlay()
 	
 	if (ensure(General))
 	{
+		/*
 		if (HasAuthority())
 		{
 			SpawnModules();
@@ -75,6 +76,7 @@ void AMilitaryBase::BeginPlay()
 			SpawnResourcesWidget();
 			SpawnHealthWidget();
 		}
+		*/
 		
 		
 		if (HealthWidgetInstance && ResourcesWidgetInstance)
@@ -135,7 +137,7 @@ void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
 	SpawnHealthWidget();
 }
 
-void AMilitaryBase::SpawnModules()
+/*void AMilitaryBase::SpawnModules()
 {
 	if (!HasAuthority())
 	{
@@ -176,7 +178,7 @@ void AMilitaryBase::SpawnModules()
 void AMilitaryBase::Server_SpawnModules_Implementation()
 {
 	SpawnModules();
-}
+}*/
 
 
 
