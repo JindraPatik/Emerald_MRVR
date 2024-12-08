@@ -6,6 +6,7 @@
 #include "UObject/Interface.h"
 #include "BuildingsModuleInterface.generated.h"
 
+class AMilitaryBase;
 class UBuildingsModuleComponent;
 class AMR_General;
 class AUnit;
@@ -28,5 +29,6 @@ class EMERALD_MRVR_API IBuildingsModuleInterface
 public:
 	virtual void HighlightModule(bool bIsHighlighted);
 	virtual UBuildingsModuleComponent* SelectModule();
+	virtual void DeployUnit(AMR_General* InPawn, AMilitaryBase* BaseInstance);
 	
 };

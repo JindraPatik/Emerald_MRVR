@@ -1,7 +1,9 @@
 #include "MilitaryBaseComp.h"
 #include "ResourcesComponent.h"
+#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/ModuleActor.h"
+#include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
@@ -136,6 +138,40 @@ void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
 void UMilitaryBaseComp::Server_SpawnModule_Implementation(AMR_General* OwningPawn)
 {
 	SpawnModules(OwningPawn);
+}
+
+void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AMilitaryBase* BaseInstance, AModuleActor* Module)
+{
+	if (!General->HasAuthority())
+	{
+		Server_SpawnUnit(InstigatorPawn, BaseInstance, Module);
+	}
+	if (InstigatorPawn && BaseInstance && Module)
+	{
+		UBuildingDataAsset* BuildingDataAsset = Module->BuildingDataAsset;
+		if (BuildingDataAsset)
+		{
+			TSubclassOf<AUnit> UnitClassToSpawn = BuildingDataAsset->UnitToSpawn;
+			TObjectPtr<UWorld> World = GetWorld();
+
+			FVector UnitSpawnLocation = BaseInstance->SpawnPoint_Ground->GetComponentLocation();
+			FRotator UnitSpawnRotation = BaseInstance->SpawnPoint_Ground->GetComponentRotation();
+			FActorSpawnParameters UnitSpawnParams;
+			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+			UnitSpawnParams.Owner = InstigatorPawn;
+			UnitSpawnParams.Instigator = InstigatorPawn;
+			
+			AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
+			
+		}
+	}
+	DBG(3, "MBC: NOT INstigator || BaseInstance || Module")
+}
+
+void UMilitaryBaseComp::Server_SpawnUnit_Implementation(AMR_General* InstigatorPawn, AMilitaryBase* BaseInstance,
+	AModuleActor* Module)
+{
+	SpawnUnit(InstigatorPawn, BaseInstance, Module);
 }
 
 

@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Emerald_MRVR/MilitaryBase.h"
+#include "Emerald_MRVR/ModuleActor.h"
 #include "MilitaryBaseComp.generated.h"
 
 
@@ -66,6 +68,12 @@ public:
 	
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
 	void Server_SpawnModule(AMR_General* OwningPawn);
+
+	UFUNCTION()
+	void SpawnUnit(AMR_General* InstigatorPawn, AMilitaryBase* BaseInstance, AModuleActor* Module);
+
+	UFUNCTION(Server, Reliable)
+	void Server_SpawnUnit(AMR_General* InstigatorPawn, AMilitaryBase* BaseInstance, AModuleActor* Module);
 
 	/*UFUNCTION()
 	void SpawnUnit();

@@ -34,7 +34,6 @@ class EMERALD_MRVR_API AMR_General : public ABasePawn
 public:
 	
 	void SetPlayerColor();
-	void Action_SpawnUnit();
 
 protected:
 	AMR_General();
@@ -42,17 +41,16 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
-	void PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Controller, TObjectPtr<UStaticMeshComponent> ImpactPointer, AModuleActor*& CurrentlyHoveredModule);
+	void PerformSphereTrace(
+		TObjectPtr<UMotionControllerComponent> Controller,
+		TObjectPtr<UStaticMeshComponent> ImpactPointer,
+		AModuleActor*& CurrentlyHoveredModule);
 	void SelectModule_L();
-
 	void SelectModule_R();
+	bool bModuleSelected = false;
+	void Action_SpawnUnit();
 
-	UFUNCTION(Server, Reliable)
-	void Server_SelectModule_R();
 
-	void OnSelectedModule();
-	UFUNCTION(Server, Reliable)
-	void Server_OnSelectedModule();
 	
 public:
 	// CORE
@@ -89,9 +87,6 @@ public:
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
 	AModuleActor* CurrentlyHoveredModule_R;
-
-	UPROPERTY(Replicated, VisibleAnywhere, Category="MilitaryBase")
-	TObjectPtr<AModuleActor> CurrentlySelectedModule;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputAction* DebugSpawnUnit;
@@ -130,5 +125,8 @@ public:
 	TSubclassOf<AUnit> DefaultUnit;
 
 	bool bPossesed = false;
+
+	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")
+	AModuleActor* SelectedModuleActor;
 };
 

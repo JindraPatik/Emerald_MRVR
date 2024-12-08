@@ -29,7 +29,6 @@ AMR_General::AMR_General()
 	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
 	MilitaryBaseComp->SetIsReplicated(true);
 
-	CurrentlySelectedModule = nullptr;
 	// ~COMPONENTS
 
 }
@@ -41,7 +40,6 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	
 	DOREPLIFETIME(AMR_General, BaseInstance);
 	DOREPLIFETIME(AMR_General, AvailableBuildings);
-	DOREPLIFETIME(AMR_General, CurrentlySelectedModule);
 	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_L);
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_R);
@@ -136,7 +134,8 @@ void AMR_General::SetPlayerColor() // Sets Player Color
 	PointerStick_R->SetMaterial(0, PlayerDefaultColor);
 }
 
-void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> UsedController,
+void AMR_General::PerformSphereTrace(
+	TObjectPtr<UMotionControllerComponent> UsedController,
 	TObjectPtr<UStaticMeshComponent> ImpactPointer,
 	AModuleActor*& CurrentlyHoveredModule)
 {
@@ -170,23 +169,20 @@ void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Used
 		{
 			CurrentlyHoveredModule = HitModule;
 			HitModule->HighlightModule(true);
+			bModuleSelected = true;
+			
 		}
 		else
 		{
-			if (CurrentlyHoveredModule)
-			{
-				CurrentlyHoveredModule->HighlightModule(false);
-				CurrentlyHoveredModule = nullptr;
-			}
+			HitModule->HighlightModule(false);
+			CurrentlyHoveredModule = nullptr;
+			bModuleSelected = false;
 		}
 	}
 	else
 	{
-		if (CurrentlyHoveredModule)
-		{
-			CurrentlyHoveredModule->HighlightModule(false);
-			CurrentlyHoveredModule = nullptr;
-		}
+		CurrentlyHoveredModule = nullptr;
+		bModuleSelected = false;
 
 		if (ImpactPointer)
 		{
@@ -197,58 +193,23 @@ void AMR_General::PerformSphereTrace(TObjectPtr<UMotionControllerComponent> Used
 
 void AMR_General::SelectModule_L()
 {
-	if (CurrentlyHoveredModule_L)
+	if (bModuleSelected && CurrentlyHoveredModule_L)
 	{
-		DBG(5, "Module L")
-		CurrentlySelectedModule = CurrentlyHoveredModule_L;
-		MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
-		OnSelectedModule();
+		SelectedModuleActor = CurrentlyHoveredModule_R;
 	}
 }
 
 void AMR_General::SelectModule_R()
 {
-	if (!HasAuthority())
+	if (bModuleSelected && CurrentlyHoveredModule_R)
 	{
-		Server_SelectModule_R();
-		return;
-	}
-	if (CurrentlyHoveredModule_R)
-	{
-		CurrentlySelectedModule = CurrentlyHoveredModule_R;
-		DBG(3, "CurrentlyHoveredModule_R")
-	}
-	else
-	{
-		DBG(3, "CurrentlyHoveredModule_R neeeeeeeeeni")
+		SelectedModuleActor = CurrentlyHoveredModule_R;
 	}
 }
 
-void AMR_General::Server_SelectModule_R_Implementation()
+void AMR_General::Action_SpawnUnit()
 {
-	SelectModule_R();
-}
-
-
-void AMR_General::OnSelectedModule()
-{
-	if (!HasAuthority())
-	{
-		Server_OnSelectedModule();
-		return;
-	}
-	
-	if (CurrentlySelectedModule)
-	{
-		DBG(3, "Module Selected")
-		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Blue, FString::Printf(TEXT("dasda %s"),*CurrentlySelectedModule.GetName()));
-		MilitaryBaseComp->UnitToSpawn = CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
-	}
-}
-
-void AMR_General::Server_OnSelectedModule_Implementation()
-{
-	OnSelectedModule();
+	MilitaryBaseComp->SpawnUnit(this, BaseInstance, SelectedModuleActor);
 }
 
 
@@ -262,11 +223,4 @@ void AMR_General::UpadatePosition(FVector HMDPosition, FRotator HMDOrientation)
 	SetActorLocation(HMDPosition);
 	SetActorRotation(FRotator(0.f, HMDOrientation.Yaw, 0.f));
 }
-
-void AMR_General::Action_SpawnUnit()
-{
-	// MilitaryBaseComp->SpawnUnit();
-}
-
-
 

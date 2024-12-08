@@ -16,6 +16,11 @@ UBuildingsModuleComponent* IBuildingsModuleInterface::SelectModule()
 	return nullptr;
 }
 
+void IBuildingsModuleInterface::DeployUnit(AMR_General* InPawn, AMilitaryBase* BaseInstance)
+{
+	
+}
+
 
 
 
