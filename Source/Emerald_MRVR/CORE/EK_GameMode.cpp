@@ -8,6 +8,7 @@
 #include "Engine/TargetPoint.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerStart.h"
+#include "Net/UnrealNetwork.h"
 
 
 AEK_GameMode::AEK_GameMode()
@@ -76,6 +77,7 @@ void AEK_GameMode::BeginPlay()
 void AEK_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AEK_GameMode, AllPlayerStarts);
 }
 
 // Iterate all Player starts and return FTransform

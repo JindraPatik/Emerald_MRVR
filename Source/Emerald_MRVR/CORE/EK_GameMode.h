@@ -46,7 +46,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")
 	TArray<ATargetPoint*> TargetPoints;
 
-	UPROPERTY(BlueprintReadOnly, Category="Spawning")
+	UPROPERTY(Replicated, BlueprintReadOnly, Category="Spawning")
 	TArray<APlayerStart*> AllPlayerStarts;
 
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")

@@ -29,7 +29,6 @@ void APC_MR_General::OnPossess(APawn* InPawn)
 		{
 			EnableInput(this);
 			QQQ("Local input enabled")
-			SpawnBaseAndModules();
 		}
 		else
 		{
@@ -40,19 +39,6 @@ void APC_MR_General::OnPossess(APawn* InPawn)
 	}
 }
 
-void APC_MR_General::SpawnBaseAndModules()
-{
-	if (!HasAuthority())
-	{
-		Server_SpawnBaseAndModules();
-		return;
-	}
-}
-
-void APC_MR_General::Server_SpawnBaseAndModules_Implementation()
-{
-	SpawnBaseAndModules();
-}
 
 
 

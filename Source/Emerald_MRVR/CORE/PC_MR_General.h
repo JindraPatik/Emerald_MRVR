@@ -20,13 +20,9 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void OnPossess(APawn* InPawn) override;
-	AMR_General* General;
 
-	void SpawnBaseAndModules();
-	UFUNCTION(Server, Reliable)
-	void Server_SpawnBaseAndModules();
-	
-	
+	UPROPERTY()
+	AMR_General* General;
 
 public:
 	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere, Category = "CORE")
