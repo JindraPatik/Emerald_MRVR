@@ -33,6 +33,7 @@ void UResourcesComponent::UpdateResources(float ResourcesDelta)
 	if (General && !General->HasAuthority())
 	{
 		Server_UpdateResources(ResourcesDelta);
+		return;
 	}
 	AvailableResources -= ResourcesDelta;
 }

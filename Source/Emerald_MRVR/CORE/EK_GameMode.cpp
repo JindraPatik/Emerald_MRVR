@@ -122,7 +122,7 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 		ExistingPawn->Destroy();
 	}
 
-	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(PawnToSpawn, Location, Rotation, SpawnParams);
+	AMR_General* NewPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, SpawnParams);
 	if (NewPawn)
 	{
 		NewPawn->SetReplicates(true); // Zajistí replikaci
