@@ -119,9 +119,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category="CORE")
 	bool bIsNotGameplay = false;
 
-	UPROPERTY(EditDefaultsOnly, Category="Testing")
-	TSubclassOf<AUnit> DefaultUnit;
-
 	bool bPossesed = false;
 
 	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")

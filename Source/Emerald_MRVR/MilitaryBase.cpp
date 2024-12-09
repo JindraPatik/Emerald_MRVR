@@ -33,8 +33,8 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMilitaryBase, General);
-	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
 	DOREPLIFETIME(AMilitaryBase, BaseBody)
+	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
 	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
@@ -52,10 +52,12 @@ void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
 	General = Cast<AMR_General>(GetOwner());
-	DBG_ONE_PARAM(5, "general: %s", *General->GetName())
 	
 	if (ensure(General))
 	{
+		SpawnResourcesWidget();
+		SpawnHealthWidget();
+		
 		if (HealthWidgetInstance && ResourcesWidgetInstance)
 		{
 			General->bGameInitialized = true;
@@ -79,6 +81,7 @@ void AMilitaryBase::SpawnResourcesWidget()
 			SpawnParams.Owner = GetOwner();
 			FVector Location = GetActorLocation() + FVector(0.f, 0.f, 100.f);
 			ResourcesWidgetInstance = World->SpawnActor<AActor>(ResourcesWBP, Location, FRotator::ZeroRotator, SpawnParams);
+			DBG(5, "Resource widget spawned");
 		}
 	}
 }
@@ -102,6 +105,7 @@ void AMilitaryBase::SpawnHealthWidget()
 		FActorSpawnParameters SpawnParams;
 		FVector Location = GetActorLocation() + FVector(0.f, 0.f, 110.f);
 		HealthWidgetInstance = World->SpawnActor<AActor>(HealthWidget, Location, FRotator::ZeroRotator, SpawnParams);
+		DBG(5, "Resource widget spawned");
 		if (HealthWidgetInstance)
 		{
 			HealthWidgetInstance->SetReplicates(true);

@@ -23,6 +23,9 @@ public:
 
 	UFUNCTION(Blueprintable, Category="Resources")
 	void UpdateResources(float ResourcesDelta);
+
+	UFUNCTION(Server, Reliable)
+	void Server_UpdateResources(float ResourcesDelta);
 	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resources", meta=(AllowPrivateAccess="true"));

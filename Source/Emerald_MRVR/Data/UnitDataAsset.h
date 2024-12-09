@@ -25,9 +25,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	int32 Strength;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-	UStaticMesh* SM_Body;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	bool IsFlyingUnit = false;
 
 	
 };

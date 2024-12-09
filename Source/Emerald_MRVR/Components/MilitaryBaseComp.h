@@ -75,11 +75,11 @@ public:
 	UFUNCTION(Server, Reliable, Category="UnitSpawning")
 	void Server_SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module);
 
-
-	/*
 	UFUNCTION(Category="UnitSpawning")
-	bool HasEnoughResources() const;
-	*/
+	bool HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const;
+
+	UFUNCTION(Server, Reliable)
+	void Server_HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const;
 
 	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
 	TArray<UBuildingDataAsset*> AvailableModules;
@@ -91,4 +91,10 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_GetMilitaryBaseSpawnPoint();
+
+	UPROPERTY(Replicated)
+	FVector UnitSpawnLocation = FVector::ZeroVector;
+
+	UPROPERTY(Replicated)
+	FRotator UnitSpawnRotation = FRotator::ZeroRotator;
 };

@@ -7,6 +7,7 @@
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
+#include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
 #include "Net/UnrealNetwork.h"
 
@@ -23,10 +24,11 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UMilitaryBaseComp, AvailableModules);
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnPointForMilitaryBase);
-	DOREPLIFETIME(UMilitaryBaseComp, SpawnPointForMilitaryBase);
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnLocation);
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnRotation);
 	DOREPLIFETIME(UMilitaryBaseComp, MyBaseInstance);
+	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnLocation);
+	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnRotation);
 }
 
 void UMilitaryBaseComp::BeginPlay()
@@ -60,7 +62,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 		{
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.Instigator = OwningPawn;
-			SpawnParameters.Owner = OwningPawn;
+			SpawnParameters.Owner = General;
 
 			if (General)
 			{
@@ -155,23 +157,67 @@ void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Mod
 			TSubclassOf<AUnit> UnitClassToSpawn = BuildingDataAsset->UnitToSpawn;
 			TObjectPtr<UWorld> World = GetWorld();
 
-			FVector UnitSpawnLocation = MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
-			FRotator UnitSpawnRotation = MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
+			if (!BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
+			{
+				UnitSpawnLocation = MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
+				UnitSpawnRotation = MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
+			}
+			else
+			{
+				UnitSpawnLocation = MyBaseInstance->SpawnPoint_Air->GetComponentLocation();
+				UnitSpawnRotation = MyBaseInstance->SpawnPoint_Air->GetComponentRotation();
+			}
 			FActorSpawnParameters UnitSpawnParams;
 			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 			UnitSpawnParams.Owner = InstigatorPawn;
 			UnitSpawnParams.Instigator = InstigatorPawn;
-			
-			AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
+
+			if (HasEnoughResources(BuildingDataAsset))
+			{
+				General->ResourcesComponent->UpdateResources(BuildingDataAsset->UnitToSpawnData->Price);
+				AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
+			}
+			else
+			{
+				DBG(3, "NotEnoughRsources")
+			}
 			return;
 		}
 	}
 	DBG(3, "MBC: NOT INstigator || BaseInstance || Module")
 }
 
+
 void UMilitaryBaseComp::Server_SpawnUnit_Implementation(AMR_General* InstigatorPawn, AModuleActor* Module)
 {
 	SpawnUnit(InstigatorPawn, Module);
+}
+
+
+bool UMilitaryBaseComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const
+{
+	if (General)
+	{
+		if (!General->HasAuthority())
+		{
+			Server_HasEnoughResources(BuildingDataAsset);
+		}
+			UResourcesComponent* ResourcesComponent = General->ResourcesComponent;
+			if (ResourcesComponent)
+			{
+				if (ResourcesComponent->AvailableResources >= BuildingDataAsset->UnitToSpawnData->Price)
+				{
+					return true;
+				}
+				return false;
+			}
+	}
+	return false;
+}
+
+void UMilitaryBaseComp::Server_HasEnoughResources_Implementation(UBuildingDataAsset* BuildingDataAsset) const
+{
+	HasEnoughResources(BuildingDataAsset);
 }
 
 

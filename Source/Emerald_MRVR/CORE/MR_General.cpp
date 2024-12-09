@@ -3,6 +3,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "EK_GameMode.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
@@ -91,7 +92,7 @@ void AMR_General::Tick(float DeltaTime)
 	{
 		if (bPossesed)
 		{
-			/*FVector HMDPosition;
+			FVector HMDPosition;
 			FRotator HMDOrientation;
 			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
 			if (HasAuthority())
@@ -101,7 +102,7 @@ void AMR_General::Tick(float DeltaTime)
 			else
 			{
 				Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-			}*/
+			}
 			
 		}
 		
@@ -215,7 +216,6 @@ void AMR_General::SelectModule_R()
 void AMR_General::Action_SpawnUnit()
 {
 	MilitaryBaseComp->SpawnUnit(this, SelectedModuleActor);
-	DBG(2, "Try to spawn")
 }
 
 

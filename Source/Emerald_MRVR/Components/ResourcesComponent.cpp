@@ -1,4 +1,6 @@
 #include "ResourcesComponent.h"
+
+#include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
 #include "Net/UnrealNetwork.h"
 
@@ -27,8 +29,20 @@ void UResourcesComponent::OnRep_ResourcesChanged() const
 
 void UResourcesComponent::UpdateResources(float ResourcesDelta)
 {
+	AMR_General* General = Cast<AMR_General>(GetOwner());
+	if (General && !General->HasAuthority())
+	{
+		Server_UpdateResources(ResourcesDelta);
+	}
 	AvailableResources -= ResourcesDelta;
 }
+
+void UResourcesComponent::Server_UpdateResources_Implementation(float ResourcesDelta)
+{
+	UpdateResources(ResourcesDelta);
+}
+
+
 void UResourcesComponent::GrowResources()
 {
 	float ResourcesGrowAmount = 1.f;
