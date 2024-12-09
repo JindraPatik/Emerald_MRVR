@@ -47,9 +47,7 @@ protected:
 		AModuleActor*& CurrentlyHoveredModule);
 	void SelectModule_L();
 	void SelectModule_R();
-	bool bModuleSelected = false;
 	void Action_SpawnUnit();
-
 
 	
 public:

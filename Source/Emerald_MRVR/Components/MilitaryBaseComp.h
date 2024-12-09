@@ -42,7 +42,7 @@ protected:
 	UPROPERTY(Replicated, BlueprintReadOnly)
 	ATargetPoint* SpawnPointForMilitaryBase;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	AMilitaryBase* MyBaseInstance;
 
 	UPROPERTY(Replicated)
@@ -70,19 +70,16 @@ public:
 	void Server_SpawnModule(AMR_General* OwningPawn);
 
 	UFUNCTION()
-	void SpawnUnit(AMR_General* InstigatorPawn, AMilitaryBase* BaseInstance, AModuleActor* Module);
-
-	UFUNCTION(Server, Reliable)
-	void Server_SpawnUnit(AMR_General* InstigatorPawn, AMilitaryBase* BaseInstance, AModuleActor* Module);
-
-	/*UFUNCTION()
-	void SpawnUnit();
+	void SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module);
 
 	UFUNCTION(Server, Reliable, Category="UnitSpawning")
-	void Server_SpawnUnit();
+	void Server_SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module);
 
+
+	/*
 	UFUNCTION(Category="UnitSpawning")
-	bool HasEnoughResources() const;*/
+	bool HasEnoughResources() const;
+	*/
 
 	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
 	TArray<UBuildingDataAsset*> AvailableModules;

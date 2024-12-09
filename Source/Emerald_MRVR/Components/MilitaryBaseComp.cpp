@@ -26,6 +26,7 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnPointForMilitaryBase);
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnLocation);
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnRotation);
+	DOREPLIFETIME(UMilitaryBaseComp, MyBaseInstance);
 }
 
 void UMilitaryBaseComp::BeginPlay()
@@ -140,13 +141,13 @@ void UMilitaryBaseComp::Server_SpawnModule_Implementation(AMR_General* OwningPaw
 	SpawnModules(OwningPawn);
 }
 
-void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AMilitaryBase* BaseInstance, AModuleActor* Module)
+void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module)
 {
 	if (!General->HasAuthority())
 	{
-		Server_SpawnUnit(InstigatorPawn, BaseInstance, Module);
+		Server_SpawnUnit(InstigatorPawn, Module);
 	}
-	if (InstigatorPawn && BaseInstance && Module)
+	if (InstigatorPawn && MyBaseInstance && Module)
 	{
 		UBuildingDataAsset* BuildingDataAsset = Module->BuildingDataAsset;
 		if (BuildingDataAsset)
@@ -154,24 +155,23 @@ void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AMilitaryBase* Ba
 			TSubclassOf<AUnit> UnitClassToSpawn = BuildingDataAsset->UnitToSpawn;
 			TObjectPtr<UWorld> World = GetWorld();
 
-			FVector UnitSpawnLocation = BaseInstance->SpawnPoint_Ground->GetComponentLocation();
-			FRotator UnitSpawnRotation = BaseInstance->SpawnPoint_Ground->GetComponentRotation();
+			FVector UnitSpawnLocation = MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
+			FRotator UnitSpawnRotation = MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
 			FActorSpawnParameters UnitSpawnParams;
 			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 			UnitSpawnParams.Owner = InstigatorPawn;
 			UnitSpawnParams.Instigator = InstigatorPawn;
 			
 			AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
-			
+			return;
 		}
 	}
 	DBG(3, "MBC: NOT INstigator || BaseInstance || Module")
 }
 
-void UMilitaryBaseComp::Server_SpawnUnit_Implementation(AMR_General* InstigatorPawn, AMilitaryBase* BaseInstance,
-	AModuleActor* Module)
+void UMilitaryBaseComp::Server_SpawnUnit_Implementation(AMR_General* InstigatorPawn, AModuleActor* Module)
 {
-	SpawnUnit(InstigatorPawn, BaseInstance, Module);
+	SpawnUnit(InstigatorPawn, Module);
 }
 
 

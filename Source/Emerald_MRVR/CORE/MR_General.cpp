@@ -155,6 +155,7 @@ void AMR_General::PerformSphereTrace(
 		FCollisionShape::MakeSphere(Radius),
 		QueryParams);
 
+	AModuleActor* PrevisouslyHighlightedModule = nullptr;
 	if (bHit)
 	{
 		if (ImpactPointer)
@@ -169,20 +170,23 @@ void AMR_General::PerformSphereTrace(
 		{
 			CurrentlyHoveredModule = HitModule;
 			HitModule->HighlightModule(true);
-			bModuleSelected = true;
-			
 		}
 		else
 		{
-			HitModule->HighlightModule(false);
-			CurrentlyHoveredModule = nullptr;
-			bModuleSelected = false;
+			if (CurrentlyHoveredModule)
+			{
+				CurrentlyHoveredModule->HighlightModule(false);
+				CurrentlyHoveredModule = nullptr;
+			}
 		}
 	}
 	else
 	{
-		CurrentlyHoveredModule = nullptr;
-		bModuleSelected = false;
+		if (CurrentlyHoveredModule)
+		{
+			CurrentlyHoveredModule->HighlightModule(false);
+			CurrentlyHoveredModule = nullptr;
+		}
 
 		if (ImpactPointer)
 		{
@@ -191,17 +195,18 @@ void AMR_General::PerformSphereTrace(
 	}
 }
 
+
 void AMR_General::SelectModule_L()
 {
-	if (bModuleSelected && CurrentlyHoveredModule_L)
+	if (CurrentlyHoveredModule_L)
 	{
-		SelectedModuleActor = CurrentlyHoveredModule_R;
+		SelectedModuleActor = CurrentlyHoveredModule_L;
 	}
 }
 
 void AMR_General::SelectModule_R()
 {
-	if (bModuleSelected && CurrentlyHoveredModule_R)
+	if (CurrentlyHoveredModule_R)
 	{
 		SelectedModuleActor = CurrentlyHoveredModule_R;
 	}
@@ -209,7 +214,8 @@ void AMR_General::SelectModule_R()
 
 void AMR_General::Action_SpawnUnit()
 {
-	MilitaryBaseComp->SpawnUnit(this, BaseInstance, SelectedModuleActor);
+	MilitaryBaseComp->SpawnUnit(this, SelectedModuleActor);
+	DBG(2, "Try to spawn")
 }
 
 
