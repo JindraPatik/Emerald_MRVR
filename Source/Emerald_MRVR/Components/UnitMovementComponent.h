@@ -22,10 +22,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Moving")
 	void MoveTo(float DeltaTime) const;
 
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
+	float UnitSpeed;
 	
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 
 
 public:	

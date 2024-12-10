@@ -6,6 +6,7 @@
 #include "Components/UnitMovementComponent.h"
 #include "CORE/MR_General.h"
 #include "CORE/PC_MR_General.h"
+#include "Data/BuildingDataAsset.h"
 #include "Data/UnitDataAsset.h"
 #include "Net/UnrealNetwork.h"
 
@@ -34,7 +35,6 @@ void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetUnitStats();
 		AMR_General* General = Cast<AMR_General>(GetInstigator());
 		if (General)
 		{
@@ -72,15 +72,10 @@ void AUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AUnit::SetUnitStats()
+/*void AUnit::SetUnitStats(float InSpeed, float InPrice, float InStrenght)
 {
-	AMR_General* General = Cast<AMR_General>(GetOwner());
-	if (General && General->MilitaryBaseComp->SelectedUnit)
-	{
-		UUnitDataAsset* UnitStats = General->MilitaryBaseComp->SelectedUnit;
-		Speed = UnitStats->Speed;
-		Price = UnitStats->Price;
-		Strenght = UnitStats->Strength;
-	}
-}
+	Speed = InSpeed;
+	Price = InPrice;
+	Strenght = InPrice;
+}*/
 

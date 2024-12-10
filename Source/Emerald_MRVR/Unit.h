@@ -25,10 +25,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Collision")
 	TObjectPtr<USphereComponent> SphereComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
-	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
 
 public:	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
+	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
+	
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 	TObjectPtr<UStaticMeshComponent> Body;
 
@@ -41,8 +42,8 @@ public:
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 	float Price;
 
-	UFUNCTION()
-	void SetUnitStats();
+	/*UFUNCTION()
+	void SetUnitStats(float InSpeed, float InPrice, float InStrenght);*/
 
 
 	

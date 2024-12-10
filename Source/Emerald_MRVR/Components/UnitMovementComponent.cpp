@@ -21,11 +21,15 @@ UUnitMovementComponent::UUnitMovementComponent()
 void UUnitMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UUnitMovementComponent, UnitSpeed);
 }
 
 void UUnitMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	AUnit* Unit = Cast<AUnit>(GetOwner());
+	UnitSpeed = Unit->Speed;
 }
 
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -45,14 +49,8 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 	}
 	
 	FVector MovementDirection = Unit->GetActorForwardVector();
-	FVector DeltaLocation = MovementDirection.GetSafeNormal() * (Unit->Speed * DeltaTime);
+	FVector DeltaLocation = MovementDirection.GetSafeNormal() * (UnitSpeed * DeltaTime);
 	Unit->AddActorWorldOffset(DeltaLocation);
 	
-	// Až budu vědět jak získat lokaci druhé základny.
-	/*FVector CurrentLoc =  Unit->GetActorLocation();
-	FVector Direction = (TargetLocation - CurrentLoc).GetSafeNormal();
-	float Speed = Unit->Speed;
-	FVector NewLocation = CurrentLoc + Direction * (Speed * DeltaTime);
-	Unit->SetActorLocation(NewLocation);*/
 }
 

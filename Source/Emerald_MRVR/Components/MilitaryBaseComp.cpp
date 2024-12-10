@@ -1,5 +1,6 @@
 #include "MilitaryBaseComp.h"
 #include "ResourcesComponent.h"
+#include "UnitMovementComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/ModuleActor.h"
@@ -175,8 +176,13 @@ void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Mod
 
 			if (HasEnoughResources(BuildingDataAsset))
 			{
-				General->ResourcesComponent->UpdateResources(BuildingDataAsset->UnitToSpawnData->Price);
+				UUnitDataAsset* SpawnedUnitDataAsset = BuildingDataAsset->UnitToSpawnData;
+				General->ResourcesComponent->UpdateResources(SpawnedUnitDataAsset->Price);
 				AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
+				UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+				UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
+				UnitInstance->Price = SpawnedUnitDataAsset->Price;
+				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
 			}
 			else
 			{
