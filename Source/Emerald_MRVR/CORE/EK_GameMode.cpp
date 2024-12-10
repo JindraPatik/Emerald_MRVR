@@ -115,7 +115,7 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = PlayerController;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	if (APawn* ExistingPawn = PlayerController->GetPawn())
 	{

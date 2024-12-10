@@ -36,7 +36,7 @@ protected:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<USceneComponent> VR_Root;
 	
-	UPROPERTY(Replicated, EditDefaultsOnly, Category = "Body")
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	TObjectPtr<USceneComponent> VR_Origin;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")

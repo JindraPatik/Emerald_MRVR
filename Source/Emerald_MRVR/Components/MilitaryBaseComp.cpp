@@ -147,7 +147,9 @@ void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Mod
 	if (!General->HasAuthority())
 	{
 		Server_SpawnUnit(InstigatorPawn, Module);
+		return;
 	}
+	
 	if (InstigatorPawn && MyBaseInstance && Module)
 	{
 		UBuildingDataAsset* BuildingDataAsset = Module->BuildingDataAsset;

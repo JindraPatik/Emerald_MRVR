@@ -1,23 +1,25 @@
 #include "ResourcesComponent.h"
 
+#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
 #include "Net/UnrealNetwork.h"
 
 static TAutoConsoleVariable<float> CVarAddResources(TEXT("EKG.AddResources"), 5.f,TEXT("AddedResourcesToPlayer"), ECVF_Cheat);
 
-void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UResourcesComponent,AvailableResources);
-}
-
 UResourcesComponent::UResourcesComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
-	AvailableResources = 100.f;
 }
+
+void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UResourcesComponent, AvailableResources);
+}
+
+
 
 void UResourcesComponent::OnRep_ResourcesChanged() const
 {
@@ -29,20 +31,21 @@ void UResourcesComponent::OnRep_ResourcesChanged() const
 
 void UResourcesComponent::UpdateResources(float ResourcesDelta)
 {
-	AMR_General* General = Cast<AMR_General>(GetOwner());
-	if (General && !General->HasAuthority())
+	if (GetOwnerRole() == ROLE_Authority)
+	{
+		AvailableResources = FMath::Max(0, AvailableResources - ResourcesDelta);
+	}
+	else
 	{
 		Server_UpdateResources(ResourcesDelta);
-		return;
 	}
-	AvailableResources -= ResourcesDelta;
+	
 }
 
 void UResourcesComponent::Server_UpdateResources_Implementation(float ResourcesDelta)
 {
 	UpdateResources(ResourcesDelta);
 }
-
 
 void UResourcesComponent::GrowResources()
 {

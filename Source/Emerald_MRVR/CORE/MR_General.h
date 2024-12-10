@@ -87,13 +87,13 @@ public:
 	AModuleActor* CurrentlyHoveredModule_R;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* DebugSpawnUnit;
+	UInputAction* IA_SpawnUnit;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* Action_SelectModule_L;
+	UInputAction* IA_SelectModule_L;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* Action_SelectModule_R;
+	UInputAction* IA_SelectModule_R;
 
 	// doplnit nebo smazat
 	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")

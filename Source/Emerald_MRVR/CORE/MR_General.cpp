@@ -61,9 +61,9 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 	
 	// Bindings
-	Input->BindAction(DebugSpawnUnit, ETriggerEvent::Started, this, &AMR_General::Action_SpawnUnit);
-	Input->BindAction(Action_SelectModule_L, ETriggerEvent::Started, this, &AMR_General::SelectModule_L);
-	Input->BindAction(Action_SelectModule_R, ETriggerEvent::Started, this, &AMR_General::SelectModule_R);
+	Input->BindAction(IA_SpawnUnit, ETriggerEvent::Started, this, &AMR_General::Action_SpawnUnit);
+	Input->BindAction(IA_SelectModule_L, ETriggerEvent::Started, this, &AMR_General::SelectModule_L);
+	Input->BindAction(IA_SelectModule_R, ETriggerEvent::Started, this, &AMR_General::SelectModule_R);
 }
 // ~PLAYER INPUT
 
@@ -215,7 +215,10 @@ void AMR_General::SelectModule_R()
 
 void AMR_General::Action_SpawnUnit()
 {
-	MilitaryBaseComp->SpawnUnit(this, SelectedModuleActor);
+	if (IsLocallyControlled())
+	{
+		MilitaryBaseComp->SpawnUnit(this, SelectedModuleActor);
+	}
 }
 
 
