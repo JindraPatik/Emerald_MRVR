@@ -1,7 +1,9 @@
 #include "Unit.h"
 
+#include "BoxComponent.h"
 #include "DebugMacros.h"
 #include "SphereComponent.h"
+#include "Components/DownScaleComponent.h"
 #include "Components/MilitaryBaseComp.h"
 #include "Components/UnitMovementComponent.h"
 #include "CORE/MR_General.h"
@@ -21,14 +23,19 @@ AUnit::AUnit()
 	RootComponent = Body;
 	bReplicates = true;
 	bNetLoadOnClient = true;
+
+	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	
 	UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
 	UnitMovementComponent->SetIsReplicated(true);
 
-	SphereComponent = CreateDefaultSubobject<USphereComponent>("SphereComponent");
-	SphereComponent->SetupAttachment(Body);
-	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	SphereComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
+	BoxComponent->SetupAttachment(Body);
+	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	BoxComponent->SetCollisionObjectType(ECC_Pawn);
+	BoxComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+	BoxComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	BoxComponent->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 }
 
 void AUnit::BeginPlay()
@@ -71,11 +78,4 @@ void AUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
-
-/*void AUnit::SetUnitStats(float InSpeed, float InPrice, float InStrenght)
-{
-	Speed = InSpeed;
-	Price = InPrice;
-	Strenght = InPrice;
-}*/
 
