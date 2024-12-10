@@ -1,5 +1,8 @@
 #include "HealthComponent.h"
 
+#include "Emerald_MRVR/MilitaryBase.h"
+#include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -34,5 +37,12 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UHealthComponent::OnRep_OnHealthChanged()
 {
-	
+	AMR_General* General = Cast<AMR_General>(GetOwner());
+	if (General)
+	{
+		if(General->BaseInstance)
+		{
+			General->HealthComponent->HealthWidget->UpdateHealthWidget(Health);
+		}
+	}
 }

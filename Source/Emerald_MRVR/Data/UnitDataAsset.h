@@ -26,8 +26,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	int32 Strength;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	int32 Damage;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	bool IsFlyingUnit = false;
+
+	
 
 	
 };

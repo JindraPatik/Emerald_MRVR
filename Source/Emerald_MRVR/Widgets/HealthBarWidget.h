@@ -21,5 +21,9 @@ public:
 
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UProgressBar> HealthProgressBar;
+
+	UFUNCTION()
+	void UpdateHealthWidget(float NewHealth);
+	
 		
 };

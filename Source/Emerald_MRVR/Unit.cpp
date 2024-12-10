@@ -3,6 +3,7 @@
 #include "BoxComponent.h"
 #include "DebugMacros.h"
 #include "SphereComponent.h"
+#include "Components/CombatComponent.h"
 #include "Components/DownScaleComponent.h"
 #include "Components/MilitaryBaseComp.h"
 #include "Components/UnitMovementComponent.h"
@@ -28,6 +29,8 @@ AUnit::AUnit()
 	
 	UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
 	UnitMovementComponent->SetIsReplicated(true);
+
+	CombatComponent = CreateDefaultSubobject<UCombatComponent>("CombatComponent");
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
 	BoxComponent->SetupAttachment(Body);
@@ -60,6 +63,7 @@ void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimePro
 	DOREPLIFETIME(AUnit, Strenght);
 	DOREPLIFETIME(AUnit, Price);
 	DOREPLIFETIME(AUnit, Body);
+	DOREPLIFETIME(AUnit, Damage);
 }
 
 void AUnit::Tick(float DeltaTime)

@@ -5,6 +5,8 @@
 #include "HealthComponent.generated.h"
 
 
+class UHealthBarWidget;
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UHealthComponent : public UActorComponent
 {
@@ -22,6 +24,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_OnHealthChanged();
+
+	UPROPERTY(BlueprintReadWrite, Category="Widget")
+	UHealthBarWidget* HealthWidget;
 
 	
 

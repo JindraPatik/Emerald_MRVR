@@ -4,6 +4,7 @@
 #include "GameFramework/Pawn.h"
 #include "Unit.generated.h"
 
+class UCombatComponent;
 class UDownScaleComponent;
 class UBoxComponent;
 class USphereComponent;
@@ -32,6 +33,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
 	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
+	TObjectPtr<UCombatComponent> CombatComponent;
 	
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 	TObjectPtr<UStaticMeshComponent> Body;
@@ -44,6 +48,9 @@ public:
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 	float Price;
+	
+	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
+	float Damage;
 
 
 	

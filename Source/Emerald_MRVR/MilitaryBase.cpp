@@ -20,6 +20,10 @@ AMilitaryBase::AMilitaryBase()
 	
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
 	BaseBox->SetupAttachment(BaseBody);
+	BaseBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	BaseBox->SetCollisionObjectType(ECC_WorldDynamic);
+	BaseBox->SetCollisionResponseToAllChannels(ECR_Ignore);
+	BaseBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	
@@ -56,7 +60,10 @@ void AMilitaryBase::BeginPlay()
 	if (ensure(General))
 	{
 		SpawnResourcesWidget();
-		SpawnHealthWidget();
+		if (General->IsLocallyControlled())
+		{
+			SpawnHealthWidget();
+		}
 		
 		if (HealthWidgetInstance && ResourcesWidgetInstance)
 		{
@@ -81,7 +88,6 @@ void AMilitaryBase::SpawnResourcesWidget()
 			SpawnParams.Owner = GetOwner();
 			FVector Location = GetActorLocation() + FVector(0.f, 0.f, 100.f);
 			ResourcesWidgetInstance = World->SpawnActor<AActor>(ResourcesWBP, Location, FRotator::ZeroRotator, SpawnParams);
-			DBG(5, "Resource widget spawned");
 		}
 	}
 }
@@ -104,12 +110,13 @@ void AMilitaryBase::SpawnHealthWidget()
 	{
 		FActorSpawnParameters SpawnParams;
 		FVector Location = GetActorLocation() + FVector(0.f, 0.f, 110.f);
+		
 		HealthWidgetInstance = World->SpawnActor<AActor>(HealthWidget, Location, FRotator::ZeroRotator, SpawnParams);
-		DBG(5, "Resource widget spawned");
 		if (HealthWidgetInstance)
 		{
 			HealthWidgetInstance->SetReplicates(true);
 		}
+		return;
 	}
 }
 

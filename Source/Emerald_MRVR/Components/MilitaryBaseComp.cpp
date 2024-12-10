@@ -18,6 +18,7 @@ UMilitaryBaseComp::UMilitaryBaseComp()
 	PrimaryComponentTick.bCanEverTick = true;
 	SpawnPointForMilitaryBase = CreateDefaultSubobject<ATargetPoint>("MilitaryBaseTargetPoint");
 	SetIsReplicatedByDefault(true);
+	
 }
 
 void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -183,6 +184,7 @@ void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Mod
 				UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
 				UnitInstance->Price = SpawnedUnitDataAsset->Price;
 				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
+				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
 			}
 			else
 			{

@@ -11,6 +11,7 @@ void UHealthBarWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	AMR_General* MR_General = Cast<AMR_General>(GetOwningPlayerPawn());
+    	
 	if (MR_General && MR_General->ResourcesComponent && MR_General->HealthComponent)
 	{
 		float Health = MR_General->HealthComponent->Health;
@@ -18,4 +19,17 @@ void UHealthBarWidget::NativeConstruct()
 		float Percent = Health / (MR_General->HealthComponent->MaxHealth); 
 		HealthProgressBar->SetPercent(Percent);
 	}
+}
+
+void UHealthBarWidget::UpdateHealthWidget(float NewHealth)
+{
+	AMR_General* MR_General = Cast<AMR_General>(GetOwningPlayerPawn()); // tady bude chyba???
+    	
+    	if (MR_General && MR_General->HealthComponent)
+    	{
+    		float Health = NewHealth;
+    		TXT_Health->SetText(FText::AsNumber(Health));
+    		float Percent = NewHealth / (MR_General->HealthComponent->MaxHealth); 
+    		HealthProgressBar->SetPercent(Percent);
+    	}
 }
