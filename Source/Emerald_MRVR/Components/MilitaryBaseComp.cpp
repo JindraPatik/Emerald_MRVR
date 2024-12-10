@@ -40,7 +40,6 @@ void UMilitaryBaseComp::BeginPlay()
 	if (General->IsLocallyControlled())
 	{
 		GetMilitaryBaseSpawnPoint();
-		SpawnMilitaryBase(General);
 		SpawnModules(General);
 	}
 

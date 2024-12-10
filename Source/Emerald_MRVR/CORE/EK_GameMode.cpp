@@ -29,6 +29,7 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 	// Spawn player Pawn při přihlášení
 	SpawnPlayer(NewPlayer);
 	
+	FindAllPlayerStarts();
 	GetAllTargetpoints();
 
 	APC_MR_General* NewPC = Cast<APC_MR_General>(NewPlayer);
@@ -69,7 +70,6 @@ void AEK_GameMode::Logout(AController* Exiting)
 void AEK_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	FindAllPlayerStarts();
 	CrystalSpawner->StartSpawning();
 }
 

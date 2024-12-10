@@ -70,6 +70,7 @@ void AMilitaryBase::SpawnResourcesWidget()
 	if (!HasAuthority())
 	{
 		Server_SpawnResourcesWidget();
+		return;
 	}
 	
 	if (General && General->IsLocallyControlled())
