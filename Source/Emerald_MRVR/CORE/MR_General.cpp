@@ -266,7 +266,6 @@ void AMR_General::OnSelectedModuleChanged()
 		PreviewInstance->Destroy();
 	}
 	SpawnPreviewUnit(SelectedModuleActor);
-	
 }
 
 
