@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 
 ABasePawn::ABasePawn()
@@ -98,11 +99,11 @@ void ABasePawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	
-	/*if (GetWorld()->GetGameState()->IsActorInitialized())
+	if (bIsMenuActive)
 	{
 		SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
 		SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
-	}*/
+	}
 }
 
 void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -112,7 +113,7 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	APlayerController* PlayerController = Cast<APlayerController>(GetController());
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
 	Subsystem->ClearAllMappings();
-	Subsystem->AddMappingContext(MenuInputMappingContext, 1);
+	Subsystem->AddMappingContext(MenuInputMappingContext, 0);
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	Input->BindAction(Click, ETriggerEvent::Started, this, &ABasePawn::OnMousePressed);
@@ -133,7 +134,7 @@ void ABasePawn::OnMouseReleased()
 
 
 // Setup Pointer
-/*void ABasePawn::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
+void ABasePawn::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
 	UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult)
 {
 	UHeadMountedDisplayFunctionLibrary* HMDLibrary;
@@ -161,7 +162,7 @@ void ABasePawn::OnMouseReleased()
         
 		ImpactPointer->SetWorldLocation(HitResult.ImpactPoint);
 		FRotator WidgetinteractionRotation = UKismetMathLibrary::FindLookAtRotation(Camera->GetComponentLocation(), HitResult.ImpactPoint);
-		WidgetInteractionComponent->SetRelativeRotation(WidgetinteractionRotation);
+		WidgetInteractionComponent->SetRelativeRotation(WidgetinteractionRotation * -1);
 	}
-}*/
+}
 //~Setup Pointer

@@ -9,7 +9,7 @@
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)
-enum class ECombatScenarios : uint8
+enum class ECombatScenarios
 {
 	E_Win,
 	E_Loose,

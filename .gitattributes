@@ -22,3 +22,5 @@
 
 # Anything in `/RawContent` dir.
 /RawContent/**/* filter=lfs diff=lfs merge=lfs -text
+
+Content\Imported_assets

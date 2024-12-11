@@ -25,6 +25,7 @@ class ATargetPoint;
 class UInputMappingContext;
 class UInputAction;
 class AModuleActor;
+class AActor;
 
 UCLASS()
 class EMERALD_MRVR_API AMR_General : public ABasePawn
@@ -86,6 +87,17 @@ public:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
 	AModuleActor* CurrentlyHoveredModule_R;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
+	TSubclassOf<AActor> PreviewUnitClass;
+
+	UPROPERTY()
+	AActor* PreviewInstance;
+
+	UFUNCTION()
+	void SpawnPreviewUnit(AModuleActor* ModuleActor);
+
+	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInputAction* IA_SpawnUnit;
 
@@ -121,7 +133,10 @@ public:
 
 	bool bPossesed = false;
 
-	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")
-	AModuleActor* SelectedModuleActor;
+	UPROPERTY(ReplicatedUsing=OnSelectedModuleChanged, VisibleAnywhere, Category="MilitaryBase")
+	AModuleActor* SelectedModuleActor = nullptr;
+
+	UFUNCTION()
+	void OnSelectedModuleChanged();
 };
 

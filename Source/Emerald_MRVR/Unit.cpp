@@ -1,5 +1,6 @@
 #include "Unit.h"
 
+#include "AIHelpers.h"
 #include "BoxComponent.h"
 #include "DebugMacros.h"
 #include "SphereComponent.h"
@@ -9,9 +10,11 @@
 #include "Components/UnitMovementComponent.h"
 #include "CORE/MR_General.h"
 #include "CORE/PC_MR_General.h"
+#include "CORE/UnitAIController.h"
 #include "Data/BuildingDataAsset.h"
 #include "Data/UnitDataAsset.h"
 #include "Net/UnrealNetwork.h"
+#include "Runtime/AIModule/Classes/AIController.h"
 
 
 AUnit::AUnit()
@@ -20,6 +23,7 @@ AUnit::AUnit()
 	
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
 	Body->SetIsReplicated(true);
+	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
 	
 	RootComponent = Body;
 	bReplicates = true;
@@ -45,15 +49,16 @@ void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
 
-		AMR_General* General = Cast<AMR_General>(GetInstigator());
-		if (General)
-		{
-			Body->SetMaterial(0, General->PlayerDefaultColor);	
-		}
-		else
-		{
-			DBG(3, "AUnit failed to cast GENERAL")
-		}
+	AMR_General* General = Cast<AMR_General>(GetInstigator());
+	if (General)
+	{
+		Body->SetMaterial(0, General->PlayerDefaultColor);	
+	}
+	else
+	{
+		DBG(3, "AUnit failed to cast GENERAL")
+	}
+
 }
 
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

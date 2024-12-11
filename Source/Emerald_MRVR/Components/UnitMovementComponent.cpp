@@ -35,7 +35,6 @@ void UUnitMovementComponent::BeginPlay()
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	
 }
 

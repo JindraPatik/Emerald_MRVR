@@ -13,6 +13,7 @@
 #include "Emerald_MRVR/ModuleActor.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
+#include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "GameFramework/GameStateBase.h"
 
 AMR_General::AMR_General()
@@ -45,6 +46,7 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_L);
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_R);
 	DOREPLIFETIME(AMR_General, MilitaryBaseComp);
+	DOREPLIFETIME(AMR_General, SelectedModuleActor);
 
 }
 // ~REPLICATED PROPS
@@ -106,10 +108,8 @@ void AMR_General::Tick(float DeltaTime)
 			
 		}
 		
-		// if (bGameInitialized)
+		if (!bIsMenuActive)
 		{
-			//SetUpPointer(MotionController_L, PointerDistance, ImpactPointer_L, WidgetInteraction_L, EControllerHand::Left, HitResultLeft);
-			//SetUpPointer(MotionController_R, PointerDistance, ImpactPointer_R, WidgetInteraction_R, EControllerHand::Right, HitResultRight);
 			if (MotionController_L && ImpactPointer_L)
 			{
 				PerformSphereTrace(MotionController_L, ImpactPointer_L, CurrentlyHoveredModule_L);
@@ -202,6 +202,7 @@ void AMR_General::SelectModule_L()
 	if (CurrentlyHoveredModule_L)
 	{
 		SelectedModuleActor = CurrentlyHoveredModule_L;
+		OnSelectedModuleChanged();
 	}
 }
 
@@ -210,6 +211,7 @@ void AMR_General::SelectModule_R()
 	if (CurrentlyHoveredModule_R)
 	{
 		SelectedModuleActor = CurrentlyHoveredModule_R;
+		OnSelectedModuleChanged();
 	}
 }
 
@@ -232,4 +234,44 @@ void AMR_General::UpadatePosition(FVector HMDPosition, FRotator HMDOrientation)
 	SetActorLocation(HMDPosition);
 	SetActorRotation(FRotator(0.f, HMDOrientation.Yaw, 0.f));
 }
+
+void AMR_General::SpawnPreviewUnit(AModuleActor* ModuleActor)
+{
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Owner = this;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector SpawnLoc = MotionController_R->GetComponentLocation() + FVector(0.f,0.f,15.f);
+		FRotator SpawnRot = FRotator::ZeroRotator;
+		PreviewInstance = World->SpawnActor<AActor>(PreviewUnitClass, SpawnLoc, SpawnRot, SpawnParameters);
+		UStaticMeshComponent* PreviewMeshComponent = PreviewInstance->FindComponentByClass<UStaticMeshComponent>();
+		PreviewMeshComponent->AttachToComponent(MotionController_R, FAttachmentTransformRules::KeepRelativeTransform);
+		if (PreviewMeshComponent)
+		{
+			UStaticMesh* PreviewSM = ModuleActor->BuildingDataAsset->UnitToSpawnData->SM_Unit;
+			if (PreviewSM)
+			{
+				PreviewMeshComponent->SetStaticMesh(PreviewSM);
+			}
+		}
+	}
+}
+
+void AMR_General::OnSelectedModuleChanged()
+{
+	if(PreviewInstance)
+	{
+		PreviewInstance->Destroy();
+	}
+	SpawnPreviewUnit(SelectedModuleActor);
+	
+}
+
+
+
+
+
+
 

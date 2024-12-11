@@ -4,6 +4,8 @@
 #include "GameFramework/Pawn.h"
 #include "Unit.generated.h"
 
+class AAIController;
+class AUnitAIController;
 class UCombatComponent;
 class UDownScaleComponent;
 class UBoxComponent;
@@ -27,7 +29,8 @@ protected:
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	UDownScaleComponent* DownScaleComponent;
-	
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Collision")
 	TObjectPtr<UBoxComponent> BoxComponent;
 	

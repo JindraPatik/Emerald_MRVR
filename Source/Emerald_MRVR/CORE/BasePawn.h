@@ -28,9 +28,8 @@ protected:
 	void OnMouseReleased();
 	
 	
-	/*UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Distance, UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult);
-	*/
 
 	// Character Body
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
@@ -80,6 +79,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
 	UInputMappingContext* MenuInputMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Controller")
+	bool bIsMenuActive = false;
 
 	//INPUT ACTIONS
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

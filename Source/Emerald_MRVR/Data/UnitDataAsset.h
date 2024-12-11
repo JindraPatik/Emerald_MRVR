@@ -32,7 +32,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	bool IsFlyingUnit = false;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
+	UStaticMesh* SM_Unit;
 
 	
 };
