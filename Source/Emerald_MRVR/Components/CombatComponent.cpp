@@ -65,21 +65,22 @@ void UCombatComponent::UnitFight(AActor* InActor)
                 {
                 	if (Unit->Strenght > HittedUnit->Strenght) // Win condition
                 	{
+                		CurrentScenario = ECombatScenarios::E_Win;
                 		InActor->Destroy();
+                		
                 		return;
                 	}
                 	if (Unit->Strenght < HittedUnit->Strenght) // Loose condition
                 	{
+                		CurrentScenario = ECombatScenarios::E_Loose;
                 		GetOwner()->Destroy();
                 		return;
                 	}
-                	// Uvidime jestli se neznici navzajem a nebude to zbytecna podminka
-                	/*if (Unit->Strenght == HittedUnit->Strenght) // Tie condition
+                	if (Unit->Strenght == HittedUnit->Strenght) // Tie condition
                 	{
-                		OtherActor->Destroy();
-                		GetOwner()->Destroy();
+                		CurrentScenario = ECombatScenarios::E_Tie;
                 		return;
-                	}*/
+                	}
                 }
 				return;
 			}

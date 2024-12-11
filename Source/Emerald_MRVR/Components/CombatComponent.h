@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
+enum class ECombatScenarios;
 class AUnit;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -30,7 +31,9 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_BaseFight(AActor* InActor);
-	
+
+	ECombatScenarios CurrentScenario;
+
 
 protected:
 	virtual void BeginPlay() override;
