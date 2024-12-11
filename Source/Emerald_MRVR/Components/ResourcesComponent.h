@@ -17,9 +17,6 @@ public:
 
 	UPROPERTY(ReplicatedUsing=OnRep_ResourcesChanged, EditAnywhere, BlueprintReadWrite, Category="Resources")
 	float AvailableResources;
-	
-	UPROPERTY(BlueprintReadWrite, Category="Widget")
-	UResourcesWidget* ResourcesWidget;
 
 	UFUNCTION(Blueprintable, Category="Resources")
 	void UpdateResources(float ResourcesDelta);

@@ -53,11 +53,8 @@ void UHealthComponent::OnRep_OnHealthChanged()
 				if (HealthBarWidget)
 				{
 					HealthBarWidget->UpdateHealthWidget(Health);
-					DBG(5, "Cast to Health Bar failed")
 				}
 			}
-			DBG(5, "Not HB instance instance")
 		}
-		DBG(5, "Not military instance")
 	}
 }
