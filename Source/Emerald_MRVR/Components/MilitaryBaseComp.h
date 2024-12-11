@@ -97,4 +97,7 @@ public:
 
 	UPROPERTY(Replicated)
 	FRotator UnitSpawnRotation = FRotator::ZeroRotator;
+
+	UFUNCTION()
+	FORCEINLINE AMilitaryBase* GatBaseInstance() const { return MyBaseInstance; }
 };

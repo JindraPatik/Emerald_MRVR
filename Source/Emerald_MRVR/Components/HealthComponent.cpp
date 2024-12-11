@@ -1,5 +1,8 @@
 #include "HealthComponent.h"
 
+#include "MilitaryBaseComp.h"
+#include "Components/WidgetComponent.h"
+#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
@@ -40,9 +43,21 @@ void UHealthComponent::OnRep_OnHealthChanged()
 	AMR_General* General = Cast<AMR_General>(GetOwner());
 	if (General)
 	{
-		if(General->BaseInstance)
+		if (General->MilitaryBaseComp)
 		{
-			General->HealthComponent->HealthWidget->UpdateHealthWidget(Health);
+			AMilitaryBase* BaseInstance = General->MilitaryBaseComp->GatBaseInstance();
+			if (BaseInstance && BaseInstance->HealthWidgetInstance)
+			{
+								
+				UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(BaseInstance->HealthWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
+				if (HealthBarWidget)
+				{
+					HealthBarWidget->UpdateHealthWidget(Health);
+					DBG(5, "Cast to Health Bar failed")
+				}
+			}
+			DBG(5, "Not HB instance instance")
 		}
+		DBG(5, "Not military instance")
 	}
 }
