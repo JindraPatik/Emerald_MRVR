@@ -35,45 +35,59 @@ AMilitaryBase::AMilitaryBase()
 	// Modules Locations
 	Mine_Position = CreateDefaultSubobject<USceneComponent>("MinePosition");
 	Mine_Position->ComponentTags.Add("Mine");
+	ModulePositions.Add(Mine_Position);
 	
 	Prison_Position = CreateDefaultSubobject<USceneComponent>("PrisonPosition");
 	Prison_Position->ComponentTags.Add("PrisonPosition");
-
+	ModulePositions.Add(Prison_Position);
+	
 	Bank_Position = CreateDefaultSubobject<USceneComponent>("BankPosition");
 	Bank_Position->ComponentTags.Add("Bank");
+	ModulePositions.Add(Bank_Position);
 
 	UVKSC_Position = CreateDefaultSubobject<USceneComponent>("UVKSCPosition");
 	UVKSC_Position->ComponentTags.Add("UVKSC");
-
+	ModulePositions.Add(UVKSC_Position);
+	
 	Microsoft_Position = CreateDefaultSubobject<USceneComponent>("Microsoft");
 	Microsoft_Position->ComponentTags.Add("Microsoft");
+	ModulePositions.Add(Microsoft_Position);
 
 	Barracs_Position = CreateDefaultSubobject<USceneComponent>("BarracsPosition");
 	Barracs_Position->ComponentTags.Add("Barracs");
-
+	ModulePositions.Add(Barracs_Position);
+	
 	Garage_Position = CreateDefaultSubobject<USceneComponent>("GaragePosition");
 	Garage_Position->ComponentTags.Add("Garage");
+	ModulePositions.Add(Garage_Position);
 
 	LPlatform_Position = CreateDefaultSubobject<USceneComponent>("LPlatformPosition");
 	LPlatform_Position->ComponentTags.Add("LPlatform");
+	ModulePositions.Add(LPlatform_Position);
 
 	Minecraft_Position = CreateDefaultSubobject<USceneComponent>("MinecraftPosition");
 	Minecraft_Position->ComponentTags.Add("Minecraft");
+	ModulePositions.Add(Minecraft_Position);
 
 	Heliport_Position = CreateDefaultSubobject<USceneComponent>("HeliportPosition");
 	Heliport_Position->ComponentTags.Add("Heliport");
+	ModulePositions.Add(Heliport_Position);
 	
 	Runway_Position = CreateDefaultSubobject<USceneComponent>("Runway_Position");
 	Runway_Position->ComponentTags.Add("Runway");
+	ModulePositions.Add(Runway_Position);
 	
 	Aerial_Position = CreateDefaultSubobject<USceneComponent>("Aerial_Position");
 	Aerial_Position->ComponentTags.Add("Aerial");
+	ModulePositions.Add(Aerial_Position);
 
 	Hangar_Position = CreateDefaultSubobject<USceneComponent>("Hangar_Position");
 	Hangar_Position->ComponentTags.Add("Hangar");
+	ModulePositions.Add(Hangar_Position);
 
 	RocketLauncher_Position = CreateDefaultSubobject<USceneComponent>("RocketLauncher_Position");
 	RocketLauncher_Position->ComponentTags.Add("RocketLauncher");
+	ModulePositions.Add(RocketLauncher_Position);
 }
 
 void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -103,6 +117,8 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, Aerial_Position);
 	DOREPLIFETIME(AMilitaryBase, Hangar_Position);
 	DOREPLIFETIME(AMilitaryBase, RocketLauncher_Position);
+	
+	DOREPLIFETIME(AMilitaryBase, ModulePositions);
 
 	
 	

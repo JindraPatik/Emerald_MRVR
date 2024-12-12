@@ -35,8 +35,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
 
+	/*
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AModuleActor> ModuleClass;
+	*/
 
 	UPROPERTY(Replicated, BlueprintReadOnly)
 	ATargetPoint* SpawnPointForMilitaryBase;
@@ -98,5 +100,5 @@ public:
 	FRotator UnitSpawnRotation = FRotator::ZeroRotator;
 
 	UFUNCTION()
-	FORCEINLINE AMilitaryBase* GatBaseInstance() const { return MyBaseInstance; }
+	FORCEINLINE AMilitaryBase* GetBaseInstance() const { return MyBaseInstance; }
 };

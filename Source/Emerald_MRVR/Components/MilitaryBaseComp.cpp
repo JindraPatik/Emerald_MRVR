@@ -79,7 +79,7 @@ void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* Own
 	SpawnMilitaryBase(OwningPawn);
 }
 
-void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
+/*void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 {
 	if (!GetOwner()->HasAuthority())
 	{
@@ -101,6 +101,47 @@ void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 				if (ModuleInstance)
 				{
 					ModuleInstance->BuildingDataAsset = Module;
+				}
+			}
+		}
+	}
+}*/
+
+void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
+{
+	if (!GetOwner()->HasAuthority())
+	{
+		Server_SpawnModule(OwningPawn);
+		return;
+	}
+
+	if (SpawnPointForMilitaryBase)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Instigator = OwningPawn;
+		SpawnParameters.Owner = OwningPawn;
+		
+		if (AvailableModules.Num() > 0)
+		{
+			for (UBuildingDataAsset* Module : AvailableModules)
+			{
+				if (GetBaseInstance() && GetBaseInstance()->ModulePositions.Num() > 0)
+				{
+					for (USceneComponent* ModulePos : GetBaseInstance()->ModulePositions)
+					{
+						if (ModulePos->ComponentHasTag(Module->BuildingName))
+						{
+							FVector ModuleSpawnLoc = ModulePos->GetComponentLocation();
+							FRotator ModuleSpawnRot = ModulePos->GetComponentRotation();
+							
+							AModuleActor* ModuleInstance = GetWorld()->SpawnActor<AModuleActor>(Module->ModuleClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
+							ModuleInstance->SetReplicates(true);
+							if (ModuleInstance)
+							{
+								ModuleInstance->BuildingDataAsset = Module;
+							}
+						}
+					}
 				}
 			}
 		}

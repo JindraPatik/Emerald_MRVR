@@ -45,7 +45,7 @@ void UHealthComponent::OnRep_OnHealthChanged()
 	{
 		if (General->MilitaryBaseComp)
 		{
-			AMilitaryBase* BaseInstance = General->MilitaryBaseComp->GatBaseInstance();
+			AMilitaryBase* BaseInstance = General->MilitaryBaseComp->GetBaseInstance();
 			if (BaseInstance && BaseInstance->HealthWidgetInstance)
 			{
 								

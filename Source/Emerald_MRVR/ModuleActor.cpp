@@ -42,12 +42,16 @@ void AModuleActor::OnBuildingsDataChanged()
 	General = General ? General : Cast<AMR_General>(GetOwner());
 	if (BuildingDataAsset)
 	{
-		ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building);
+		/*ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building);
 		if (General)
 		{
 			ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
 			OriginalMaterial = General->PlayerDefaultColor;
-		}
+		}*/
+		
+// duplikovano kvuli zakomentaovani
+		ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
+		OriginalMaterial = General->PlayerDefaultColor;
 	}
 	else
 	{

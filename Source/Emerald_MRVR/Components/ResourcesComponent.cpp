@@ -31,7 +31,7 @@ void UResourcesComponent::OnRep_ResourcesChanged() const
 	{
 		if (General->MilitaryBaseComp)
 		{
-			AMilitaryBase* BaseInstance = General->MilitaryBaseComp->GatBaseInstance();
+			AMilitaryBase* BaseInstance = General->MilitaryBaseComp->GetBaseInstance();
 			if (BaseInstance && BaseInstance->ResourcesWidgetInstance)
 			{
 								

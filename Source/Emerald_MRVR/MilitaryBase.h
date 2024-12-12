@@ -117,4 +117,7 @@ public:
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	TObjectPtr<USceneComponent> RocketLauncher_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, Category="Spawning")
+	TArray<USceneComponent*> ModulePositions;
 };

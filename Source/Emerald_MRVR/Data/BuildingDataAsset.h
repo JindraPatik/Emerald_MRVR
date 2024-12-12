@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
 	UStaticMesh* SM_Building;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	TSubclassOf<AModuleActor> ModuleClass;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Unit")
 	TObjectPtr<UUnitDataAsset> UnitToSpawnData;
 
