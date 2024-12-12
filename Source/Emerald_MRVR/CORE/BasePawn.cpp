@@ -16,7 +16,8 @@ ABasePawn::ABasePawn()
 	PrimaryActorTick.bCanEverTick = true;
 
 	VR_Root = CreateDefaultSubobject<USceneComponent>("VR_Root");
-	SetRootComponent(VR_Root);
+	// 
+	VR_Root->SetupAttachment(Camera);
 	VR_Root->SetIsReplicated(true);
 
 	VR_Origin = CreateDefaultSubobject<USceneComponent>("VR_Origin");
@@ -25,7 +26,8 @@ ABasePawn::ABasePawn()
 	
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetIsReplicated(true);
-	Camera->SetupAttachment(VR_Origin);
+	SetRootComponent(Camera);
+	//Camera->SetupAttachment(VR_Origin);
 	Camera->bLockToHmd = true;
 	Camera->bUsePawnControlRotation = false;
 
@@ -36,11 +38,11 @@ ABasePawn::ABasePawn()
 	
 	MotionController_L = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_L");
 	MotionController_L->SetIsReplicated(true);
-	MotionController_L->SetupAttachment(VR_Origin);
+	MotionController_L->SetupAttachment(Camera);
 	
 	MotionController_R = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_R");
 	MotionController_R->SetIsReplicated(true);
-	MotionController_R->SetupAttachment(VR_Origin);
+	MotionController_R->SetupAttachment(Camera);
 
 	PointerDistance = 2000.f;
 	
@@ -117,6 +119,7 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	Input->BindAction(Click, ETriggerEvent::Started, this, &ABasePawn::OnMousePressed);
+	Input->BindAction(Click, ETriggerEvent::Triggered, this, &ABasePawn::OnMousePressed);
 	Input->BindAction(Click, ETriggerEvent::Completed, this, &ABasePawn::OnMouseReleased);
 }
 
