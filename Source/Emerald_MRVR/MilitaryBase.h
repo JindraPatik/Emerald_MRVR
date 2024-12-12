@@ -75,7 +75,10 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
 	UMaterialInterface* HoveredMaterial;
 
-	// Modules Locations
+	// Modules 
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Positions_Root;
+	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 	TObjectPtr<USceneComponent> Mine_Position;
 

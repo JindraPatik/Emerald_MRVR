@@ -7,6 +7,7 @@
 
 class AUnit;
 class UUnitDataAsset;
+class AModuleActor;
 
 UCLASS()
 class EMERALD_MRVR_API UBuildingDataAsset : public UPrimaryDataAsset
@@ -23,7 +24,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
 	UStaticMesh* SM_Building;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	TSubclassOf<AModuleActor> ModuleClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Unit")

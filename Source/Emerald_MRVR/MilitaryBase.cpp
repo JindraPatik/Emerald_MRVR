@@ -33,61 +33,78 @@ AMilitaryBase::AMilitaryBase()
 	SpawnPoint_Air->SetupAttachment(BaseBody);
 
 	// Modules Locations
+	Positions_Root = CreateDefaultSubobject<USceneComponent>("Positions_Root");
+	Positions_Root->SetupAttachment(BaseBody);
+	
 	Mine_Position = CreateDefaultSubobject<USceneComponent>("MinePosition");
 	Mine_Position->ComponentTags.Add("Mine");
 	ModulePositions.Add(Mine_Position);
+	Mine_Position->SetupAttachment(Positions_Root);
 	
 	Prison_Position = CreateDefaultSubobject<USceneComponent>("PrisonPosition");
 	Prison_Position->ComponentTags.Add("PrisonPosition");
 	ModulePositions.Add(Prison_Position);
+	Prison_Position->SetupAttachment(Positions_Root);
 	
 	Bank_Position = CreateDefaultSubobject<USceneComponent>("BankPosition");
 	Bank_Position->ComponentTags.Add("Bank");
 	ModulePositions.Add(Bank_Position);
+	Bank_Position->SetupAttachment(Positions_Root);
 
 	UVKSC_Position = CreateDefaultSubobject<USceneComponent>("UVKSCPosition");
 	UVKSC_Position->ComponentTags.Add("UVKSC");
 	ModulePositions.Add(UVKSC_Position);
+	UVKSC_Position->SetupAttachment(Positions_Root);
 	
 	Microsoft_Position = CreateDefaultSubobject<USceneComponent>("Microsoft");
 	Microsoft_Position->ComponentTags.Add("Microsoft");
 	ModulePositions.Add(Microsoft_Position);
+	Microsoft_Position->SetupAttachment(Positions_Root);
 
 	Barracs_Position = CreateDefaultSubobject<USceneComponent>("BarracsPosition");
 	Barracs_Position->ComponentTags.Add("Barracs");
 	ModulePositions.Add(Barracs_Position);
+	Barracs_Position->SetupAttachment(Positions_Root);
 	
 	Garage_Position = CreateDefaultSubobject<USceneComponent>("GaragePosition");
 	Garage_Position->ComponentTags.Add("Garage");
 	ModulePositions.Add(Garage_Position);
+	Garage_Position->SetupAttachment(Positions_Root);
 
 	LPlatform_Position = CreateDefaultSubobject<USceneComponent>("LPlatformPosition");
 	LPlatform_Position->ComponentTags.Add("LPlatform");
 	ModulePositions.Add(LPlatform_Position);
+	LPlatform_Position->SetupAttachment(Positions_Root);
 
 	Minecraft_Position = CreateDefaultSubobject<USceneComponent>("MinecraftPosition");
 	Minecraft_Position->ComponentTags.Add("Minecraft");
 	ModulePositions.Add(Minecraft_Position);
+	Minecraft_Position->SetupAttachment(Positions_Root);
 
 	Heliport_Position = CreateDefaultSubobject<USceneComponent>("HeliportPosition");
 	Heliport_Position->ComponentTags.Add("Heliport");
 	ModulePositions.Add(Heliport_Position);
+	Heliport_Position->SetupAttachment(Positions_Root);
 	
 	Runway_Position = CreateDefaultSubobject<USceneComponent>("Runway_Position");
 	Runway_Position->ComponentTags.Add("Runway");
 	ModulePositions.Add(Runway_Position);
+	Runway_Position->SetupAttachment(Positions_Root);
 	
 	Aerial_Position = CreateDefaultSubobject<USceneComponent>("Aerial_Position");
 	Aerial_Position->ComponentTags.Add("Aerial");
 	ModulePositions.Add(Aerial_Position);
+	Aerial_Position->SetupAttachment(Positions_Root);
 
 	Hangar_Position = CreateDefaultSubobject<USceneComponent>("Hangar_Position");
 	Hangar_Position->ComponentTags.Add("Hangar");
 	ModulePositions.Add(Hangar_Position);
+	Hangar_Position->SetupAttachment(Positions_Root);
 
 	RocketLauncher_Position = CreateDefaultSubobject<USceneComponent>("RocketLauncher_Position");
 	RocketLauncher_Position->ComponentTags.Add("RocketLauncher");
 	ModulePositions.Add(RocketLauncher_Position);
+	RocketLauncher_Position->SetupAttachment(Positions_Root);
 }
 
 void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

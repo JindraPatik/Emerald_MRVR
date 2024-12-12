@@ -42,7 +42,7 @@ void UMilitaryBaseComp::BeginPlay()
 	if (General->IsLocallyControlled())
 	{
 		GetMilitaryBaseSpawnPoint();
-		SpawnModules(General);
+		
 	}
 
 }
@@ -125,9 +125,9 @@ void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 		{
 			for (UBuildingDataAsset* Module : AvailableModules)
 			{
-				if (GetBaseInstance() && GetBaseInstance()->ModulePositions.Num() > 0)
+				if (MyBaseInstance && MyBaseInstance->ModulePositions.Num() > 0)
 				{
-					for (USceneComponent* ModulePos : GetBaseInstance()->ModulePositions)
+					for (USceneComponent* ModulePos : MyBaseInstance->ModulePositions)
 					{
 						if (ModulePos->ComponentHasTag(Module->BuildingName))
 						{

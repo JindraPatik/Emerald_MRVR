@@ -79,6 +79,7 @@ void AMR_General::BeginPlay()
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->SpawnMilitaryBase(this);
+		MilitaryBaseComp->SpawnModules(this);
 	}
 
 }

@@ -50,7 +50,7 @@ void AModuleActor::OnBuildingsDataChanged()
 		}*/
 		
 // duplikovano kvuli zakomentaovani
-		ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
+		// ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
 		OriginalMaterial = General->PlayerDefaultColor;
 	}
 	else
@@ -65,4 +65,3 @@ void AModuleActor::HighlightModule(bool bIsHighlighted)
 
 	bIsHighlighted ? ModuleMesh->SetMaterial(0, HoverMaterial) : ModuleMesh->SetMaterial(0, OriginalMaterial);
 }
-

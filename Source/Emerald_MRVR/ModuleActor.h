@@ -31,7 +31,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Components")
 	TObjectPtr<UDownScaleComponent> DownScaleComponent;
 	
-	UPROPERTY(Replicated, BlueprintReadWrite, Category="Visuals")
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 	TObjectPtr<UStaticMeshComponent> ModuleMesh;
 
 	UPROPERTY(ReplicatedUsing=OnBuildingsDataChanged, VisibleAnywhere, Category="Data")
