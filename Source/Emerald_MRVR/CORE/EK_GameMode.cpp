@@ -125,8 +125,8 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 	AMR_General* NewPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, SpawnParams);
 	if (NewPawn)
 	{
-		NewPawn->SetReplicates(true); // Zajistí replikaci
-		PlayerController->Possess(NewPawn); // Připojí Pawna k PlayerControlleru
+		NewPawn->SetReplicates(true);
+		PlayerController->Possess(NewPawn);
 		UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 	}
 }
