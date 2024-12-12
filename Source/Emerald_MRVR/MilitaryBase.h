@@ -74,4 +74,47 @@ public:
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
 	UMaterialInterface* HoveredMaterial;
+
+	// Modules Locations
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Mine_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Prison_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Bank_Position;
+	
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> UVKSC_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Microsoft_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Barracs_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Garage_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> LPlatform_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Minecraft_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Heliport_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Runway_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Aerial_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> Hangar_Position;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+	TObjectPtr<USceneComponent> RocketLauncher_Position;
 };

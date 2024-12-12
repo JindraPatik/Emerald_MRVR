@@ -71,7 +71,6 @@ void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 				MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
 				General->ResourcesComponent->StartGrowResources();
 			}
-			
 		}
 }
 
@@ -108,6 +107,11 @@ void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 	}
 }
 
+void UMilitaryBaseComp::Server_SpawnModule_Implementation(AMR_General* OwningPawn)
+{
+	SpawnModules(OwningPawn);
+}
+
 void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
 {
 	if (!General->HasAuthority())
@@ -139,10 +143,7 @@ void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
 }
 
 
-void UMilitaryBaseComp::Server_SpawnModule_Implementation(AMR_General* OwningPawn)
-{
-	SpawnModules(OwningPawn);
-}
+
 
 void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module)
 {
@@ -228,74 +229,3 @@ void UMilitaryBaseComp::Server_HasEnoughResources_Implementation(UBuildingDataAs
 {
 	HasEnoughResources(BuildingDataAsset);
 }
-
-
-/*void UMilitaryBaseComp::SpawnUnit()
-{
-	DBG(3, "Spawnunit");
-	if (!GetOwner()->HasAuthority())
-	{
-		Server_SpawnUnit();
-		return;
-	}
-
-	if (General && General->BaseInstance && General->BaseInstance->SpawnPoint_Ground)
-	{
-		FVector Location = General->BaseInstance->SpawnPoint_Ground->GetComponentLocation();
-        FRotator Rotation = General->BaseInstance->SpawnPoint_Ground->GetComponentRotation();
-        FActorSpawnParameters SpawnParams;
-        SpawnParams.Owner = General->GetPlayerState()->GetOwningController();
-		SpawnParams.Instigator = General;
-
-		/// for testing without VR only!!!!
-		/*UnitToSpawn = General->DefaultUnit;
-		AUnit* SpawnedUnitTest = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);#1#
-		// SpawnedUnitTest->Body->SetMaterial(0, General->PlayerDefaultColor);
-		/// for testing without VR only!!!!
-    
-        if (General->CurrentlySelectedModule)
-        {
-            UnitToSpawn = General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawn;
-            if (!UnitToSpawn)
-            {
-            	DBG(3, "MBC: No Unit selected") 
-            }
-            else
-            {
-	            if (HasEnoughResources())
-	            {
-		            AUnit* SpawnedUnit = GetWorld()->SpawnActor<AUnit>(UnitToSpawn, Location, Rotation, SpawnParams);
-		            General->ResourcesComponent->UpdateResources(General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawnData->Price);
-	            }
-	            else
-	            {
-		            DBG(3, "NOT ENOUGH RESOURCES");
-	            }
-            }
-        }
-		DBG(5, "MBC: Module not selected!") 
-	}
-	else
-	{
-		DBG(5, "MBC: No MB or SpawnPoint!") 
-	}
-}
-
-void UMilitaryBaseComp::Server_SpawnUnit_Implementation()
-{
-	SpawnUnit();
-}
-
-bool UMilitaryBaseComp::HasEnoughResources() const
-{
-	if (General && General->ResourcesComponent)
-	{
-		float AvailableResources = General->ResourcesComponent->AvailableResources;
-		
-		if (UnitToSpawn && General->CurrentlySelectedModule->BuildingDataAsset)
-		{
-			return AvailableResources >= General->CurrentlySelectedModule->BuildingDataAsset->UnitToSpawnData->Price;
-		}
-	}
-	return false;
-}*/

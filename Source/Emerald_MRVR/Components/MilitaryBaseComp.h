@@ -6,7 +6,6 @@
 #include "Emerald_MRVR/ModuleActor.h"
 #include "MilitaryBaseComp.generated.h"
 
-
 class AModuleActor;
 class UUnitDataAsset;
 class UBuildingDataAsset;
