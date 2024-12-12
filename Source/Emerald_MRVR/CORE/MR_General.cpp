@@ -41,7 +41,7 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
 	DOREPLIFETIME(AMR_General, BaseInstance);
-	DOREPLIFETIME(AMR_General, AvailableBuildings);
+	// DOREPLIFETIME(AMR_General, AvailableBuildings);
 	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_L);
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_R);

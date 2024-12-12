@@ -78,8 +78,8 @@ public:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	UMilitaryBaseComp* MilitaryBaseComp;
 	
-	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
-	TArray<UBuildingDataAsset*> AvailableBuildings;
+	/*UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MilitaryBase")
+	TArray<UBuildingDataAsset*> AvailableBuildings;*/
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
 	AModuleActor* CurrentlyHoveredModule_L;
