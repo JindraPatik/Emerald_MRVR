@@ -139,8 +139,7 @@ TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 
 void AEK_GameMode::FindAllPlayerStarts()
 {
-	
-	AllPlayerStarts.Empty(); // Reset pole při nové iteraci
+	// AllPlayerStarts.Empty(); // Reset pole při nové iteraci
 
 	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
 	{
