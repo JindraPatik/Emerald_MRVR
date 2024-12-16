@@ -27,6 +27,7 @@ public:
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC) override;
 	virtual void Logout(AController* Exiting) override;
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Networkong")
 	TArray<APlayerController*> AllPCs;

@@ -16,12 +16,20 @@ AEK_GameMode::AEK_GameMode()
 	PawnToSpawn = AMR_General::StaticClass();
 }
 
+
+void AEK_GameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+
+	GetAllTargetpoints();
+	FindAllPlayerStarts();
+	
+}
+
 void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 	
-	FindAllPlayerStarts();
-	GetAllTargetpoints();
 
 	AllPCs.Add(NewPlayer);
 
@@ -61,6 +69,7 @@ void AEK_GameMode::Logout(AController* Exiting)
 
 	AllPCs.Remove(Cast<APC_MR_General>(Exiting));
 }
+
 
 
 // Begin Play
