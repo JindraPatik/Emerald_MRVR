@@ -22,6 +22,7 @@ AUnit::AUnit()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SetRootComponent(UnitRoot);
+	UnitRoot = CreateDefaultSubobject<USceneComponent>("UnitRoot");
 	UnitRoot->SetIsReplicated(true);
 	
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");

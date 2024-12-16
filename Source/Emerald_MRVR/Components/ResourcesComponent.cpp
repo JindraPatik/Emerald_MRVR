@@ -22,10 +22,13 @@ void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME(UResourcesComponent, AvailableResources);
 }
 
-
-
 void UResourcesComponent::OnRep_ResourcesChanged() const
 {
+	if (GetOwner()->HasAuthority())
+	{
+		OnRep_ResourcesChanged();
+	}
+	
 	AMR_General* General = Cast<AMR_General>(GetOwner());
 	if (General)
 	{

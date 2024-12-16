@@ -40,6 +40,11 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UHealthComponent::OnRep_OnHealthChanged()
 {
+	if (GetOwner()->HasAuthority())
+	{
+		OnRep_OnHealthChanged();
+	}
+	
 	AMR_General* General = Cast<AMR_General>(GetOwner());
 	if (General)
 	{
