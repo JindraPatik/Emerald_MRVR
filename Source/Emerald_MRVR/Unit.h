@@ -30,6 +30,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	UDownScaleComponent* DownScaleComponent;
 
+	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
+	TObjectPtr<USceneComponent> UnitRoot;
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Collision")
 	TObjectPtr<UBoxComponent> BoxComponent;

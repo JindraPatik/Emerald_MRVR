@@ -20,12 +20,15 @@
 AUnit::AUnit()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	SetRootComponent(UnitRoot);
+	UnitRoot->SetIsReplicated(true);
 	
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
 	Body->SetIsReplicated(true);
 	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
+	Body->SetupAttachment(UnitRoot);
 	
-	RootComponent = Body;
 	bReplicates = true;
 	bNetLoadOnClient = true;
 
@@ -69,6 +72,7 @@ void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimePro
 	DOREPLIFETIME(AUnit, Price);
 	DOREPLIFETIME(AUnit, Body);
 	DOREPLIFETIME(AUnit, Damage);
+	DOREPLIFETIME(AUnit, UnitRoot);
 }
 
 void AUnit::Tick(float DeltaTime)

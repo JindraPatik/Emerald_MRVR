@@ -5,6 +5,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "BasePawn.generated.h"
 
+class UCapsuleComponent;
 class UWidgetInteractionComponent;
 class UMotionControllerComponent;
 class UCameraComponent;
@@ -33,7 +34,7 @@ protected:
 
 	// Character Body
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
-	TObjectPtr<USceneComponent> VR_Root;
+	TObjectPtr<UCapsuleComponent> VR_Root;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 	TObjectPtr<USceneComponent> VR_Origin;

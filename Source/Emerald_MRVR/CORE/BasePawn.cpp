@@ -1,5 +1,6 @@
 #include "BasePawn.h"
 
+#include "CapsuleComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
@@ -15,10 +16,11 @@ ABasePawn::ABasePawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	VR_Root = CreateDefaultSubobject<USceneComponent>("VR_Root");
-	// 
+	VR_Root = CreateDefaultSubobject<UCapsuleComponent>("VR_Root");
 	VR_Root->SetupAttachment(Camera);
 	VR_Root->SetIsReplicated(true);
+	VR_Root->SetCollisionResponseToAllChannels(ECR_Ignore);
+	VR_Root->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
 
 	VR_Origin = CreateDefaultSubobject<USceneComponent>("VR_Origin");
 	VR_Origin->SetIsReplicated(true);
