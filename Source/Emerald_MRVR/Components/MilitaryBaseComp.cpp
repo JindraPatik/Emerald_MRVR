@@ -7,6 +7,7 @@
 #include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/CORE/UnitAIController.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
@@ -18,7 +19,6 @@ UMilitaryBaseComp::UMilitaryBaseComp()
 	PrimaryComponentTick.bCanEverTick = true;
 	SpawnPointForMilitaryBase = CreateDefaultSubobject<ATargetPoint>("MilitaryBaseTargetPoint");
 	SetIsReplicatedByDefault(true);
-	
 }
 
 void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -79,33 +79,6 @@ void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* Own
 	SpawnMilitaryBase(OwningPawn);
 }
 
-/*void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
-{
-	if (!GetOwner()->HasAuthority())
-	{
-		Server_SpawnModule(OwningPawn);
-		return;
-	}
-
-	if (SpawnPointForMilitaryBase)
-	{
-		FActorSpawnParameters SpawnParameters;
-		SpawnParameters.Instigator = OwningPawn;
-		SpawnParameters.Owner = OwningPawn;
-		if (AvailableModules.Num() > 0)
-		{
-			for (UBuildingDataAsset* Module : AvailableModules)
-			{
-				AModuleActor* ModuleInstance = GetWorld()->SpawnActor<AModuleActor>(ModuleClass, SpawnLocation, SpawnRotation, SpawnParameters);
-				ModuleInstance->SetReplicates(true);
-				if (ModuleInstance)
-				{
-					ModuleInstance->BuildingDataAsset = Module;
-				}
-			}
-		}
-	}
-}*/
 
 void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 {

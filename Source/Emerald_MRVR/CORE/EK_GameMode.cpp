@@ -1,5 +1,4 @@
 #include "EK_GameMode.h"
-
 #include "EngineUtils.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MR_General.h"
@@ -20,18 +19,15 @@ AEK_GameMode::AEK_GameMode()
 void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
-
-	AllPCs.Add(NewPlayer);
-
-	// Debugging: Zkontroluj, kolik PlayerControllers máme
-	UE_LOG(LogTemp, Log, TEXT("Player logged in: %s. Total players: %d"), *NewPlayer->GetName(), AllPCs.Num());
-
-	// Spawn player Pawn při přihlášení
-	SpawnPlayer(NewPlayer);
 	
 	FindAllPlayerStarts();
 	GetAllTargetpoints();
 
+	AllPCs.Add(NewPlayer);
+
+	// Spawn player Pawn při přihlášení
+	SpawnPlayer(NewPlayer);
+	
 	APC_MR_General* NewPC = Cast<APC_MR_General>(NewPlayer);
 	if (!NewPC)
 	{
@@ -65,6 +61,7 @@ void AEK_GameMode::Logout(AController* Exiting)
 
 	AllPCs.Remove(Cast<APC_MR_General>(Exiting));
 }
+
 
 // Begin Play
 void AEK_GameMode::BeginPlay()
@@ -142,6 +139,7 @@ TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
 
 void AEK_GameMode::FindAllPlayerStarts()
 {
+	
 	AllPlayerStarts.Empty(); // Reset pole při nové iteraci
 
 	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
@@ -158,6 +156,7 @@ void AEK_GameMode::FindAllPlayerStarts()
 		UE_LOG(LogTemp, Warning, TEXT("No PlayerStart found in the world!"));
 	}
 }
+
 
 
 

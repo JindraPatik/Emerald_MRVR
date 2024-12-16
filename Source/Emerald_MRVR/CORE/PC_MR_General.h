@@ -7,9 +7,7 @@
 #include "PC_MR_General.generated.h"
 
 class AMR_General;
-/**
- * 
- */
+
 UCLASS()
 class EMERALD_MRVR_API APC_MR_General : public APlayerController
 {

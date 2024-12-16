@@ -6,6 +6,7 @@
 #include "Emerald_MRVR/ModuleActor.h"
 #include "MilitaryBaseComp.generated.h"
 
+class AUnitAIController;
 class AModuleActor;
 class UUnitDataAsset;
 class UBuildingDataAsset;
@@ -34,11 +35,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 	TSubclassOf<AMilitaryBase> MilitaryBase;
-
-	/*
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
-	TSubclassOf<AModuleActor> ModuleClass;
-	*/
 
 	UPROPERTY(Replicated, BlueprintReadOnly)
 	ATargetPoint* SpawnPointForMilitaryBase;
@@ -101,4 +97,8 @@ public:
 
 	UFUNCTION()
 	FORCEINLINE AMilitaryBase* GetBaseInstance() const { return MyBaseInstance; }
+
+	TSubclassOf<AUnitAIController> AiUnitControllerClass;
+
+	AUnitAIController* AIUnitController;
 };

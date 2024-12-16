@@ -30,7 +30,9 @@ public:
 	
 	UPROPERTY(BlueprintReadOnly, Category="Networkong")
 	TArray<APlayerController*> AllPCs;
-	 
+
+
+	
 	UFUNCTION(Category="Spawning")
 	FTransform FindMyPlayerStart();
 
