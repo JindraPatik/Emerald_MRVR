@@ -7,13 +7,13 @@
 #include "Gamemode_Single.generated.h"
 
 
+class AUnitAIController;
 class AAIPawn;
 class APC_MR_General;
 class ATargetPoint;
 class APlayerStart;
 class UCrystalSpawnerComp;
 class AMR_General;
-
 
 UCLASS()
 class EMERALD_MRVR_API AGamemode_Single : public AGameMode
@@ -33,12 +33,14 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")
 		TArray<APlayerStart*> AllPlayerStarts;
 
-
 	UFUNCTION()
 		void FindAllPlayerStarts();
 
 	UFUNCTION(Category="Spawning")
 		void SpawnPlayer(APlayerController* PlayerController);
+
+	UFUNCTION(Category="Spawning")
+		void SpawnEnemyAI();
 
 	UFUNCTION(BlueprintCallable)
 		TArray<ATargetPoint*> GetAllTargetpoints();

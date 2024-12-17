@@ -8,23 +8,22 @@ AAIPawn::AAIPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
+	/*HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
 	
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
 	
-	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
+	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");*/
+
 
 }
 
 void AAIPawn::BeginPlay()
 {
-	Super::BeginPlay();
 	
 }
 
 void AAIPawn::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
 
 }
 

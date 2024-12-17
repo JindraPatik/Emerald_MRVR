@@ -39,12 +39,12 @@ void UMilitaryBaseComp::BeginPlay()
 	Super::BeginPlay();
 	General = Cast<AMR_General>(GetOwner());
 
+	GetMilitaryBaseSpawnPoint();
 
-	if (General->IsLocallyControlled())
+	/*if (General->IsLocallyControlled())
 	{
-		GetMilitaryBaseSpawnPoint();
 		
-	}
+	}*/
 
 }
 
@@ -55,24 +55,26 @@ void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
 {
-	if (!OwningPawn->HasAuthority())
+	AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(GetWorld()->GetAuthGameMode());
+	if (!Gamemode_Single && !OwningPawn->HasAuthority())
 	{
 		Server_SpawnMilitaryBase(OwningPawn);
 		return;
 	}
-		if (SpawnPointForMilitaryBase)
-		{
-			FActorSpawnParameters SpawnParameters;
-			SpawnParameters.Instigator = OwningPawn;
-			SpawnParameters.Owner = General;
+	
+	if (SpawnPointForMilitaryBase)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Instigator = OwningPawn;
+		SpawnParameters.Owner = General;
 
-			if (General)
-			{
-				// Spawn Base Instance
-				MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
-				General->ResourcesComponent->StartGrowResources();
-			}
+		if (General)
+		{
+			// Spawn Base Instance
+			MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
+			General->ResourcesComponent->StartGrowResources();
 		}
+	}
 }
 
 void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* OwningPawn)
@@ -129,43 +131,40 @@ void UMilitaryBaseComp::Server_SpawnModule_Implementation(AMR_General* OwningPaw
 
 void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
 {
-	if (!General->HasAuthority())
+	AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(GetWorld()->GetAuthGameMode());
+	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+
+	if (!Gamemode_Single && !General->HasAuthority())
 	{
 		Server_GetMilitaryBaseSpawnPoint();
 		return;
 	}
 	
-	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
-	AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(GetWorld()->GetAuthGameMode());
-	
-		if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
-		{
-			SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
-			SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
-			GameMode->TargetPoints.RemoveAt(0);
-			SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
-			SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
-			return;
-		}
+	if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
+	{
+		SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
+		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
+		GameMode->TargetPoints.RemoveAt(0);
+		SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
+		SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
+		return;
+	}
 
-		if (ensure(Gamemode_Single) && (Gamemode_Single->TargetPoints.Num() > 0))
-		{
-			SpawnPointForMilitaryBase = Gamemode_Single->TargetPoints.IsValidIndex(0) ? Gamemode_Single->TargetPoints[0] : nullptr;
-			SpawnPoint = Gamemode_Single->TargetPoints[0]->GetTransform();
-			Gamemode_Single->TargetPoints.RemoveAt(0);
-			SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
-			SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
-			return;
-		}
+	if (Gamemode_Single->TargetPoints.Num() > 0)
+	{
+		SpawnPointForMilitaryBase = Gamemode_Single->TargetPoints.IsValidIndex(0) ? Gamemode_Single->TargetPoints[0] : nullptr;
+		SpawnPoint = Gamemode_Single->TargetPoints[0]->GetTransform();
+		Gamemode_Single->TargetPoints.RemoveAt(0);
+		SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
+		SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
+		return;
+	}
 }
 
 void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
 {
 	GetMilitaryBaseSpawnPoint();
 }
-
-
-
 
 void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module)
 {

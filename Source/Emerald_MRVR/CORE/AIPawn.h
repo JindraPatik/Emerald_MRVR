@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MR_General.h"
 #include "GameFramework/Pawn.h"
 #include "AIPawn.generated.h"
 
@@ -10,7 +11,7 @@ class UResourcesComponent;
 class AMilitaryBase;
 
 UCLASS()
-class EMERALD_MRVR_API AAIPawn : public APawn
+class EMERALD_MRVR_API AAIPawn : public AMR_General
 {
 	GENERATED_BODY()
 
@@ -20,7 +21,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
+	/*UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 		UMilitaryBaseComp* MilitaryBaseComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -30,7 +31,7 @@ protected:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryBase* BaseInstance;
+		AMilitaryBase* BaseInstance;*/
 	
 
 public:	
