@@ -21,11 +21,15 @@ ABasePawn::ABasePawn()
 	VR_Root->SetIsReplicated(true);
 	VR_Root->SetCollisionResponseToAllChannels(ECR_Ignore);
 	VR_Root->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
-	SetRootComponent(VR_Root);
+
+	VR_Origin = CreateDefaultSubobject<USceneComponent>("VR_Origin");
+	VR_Origin->SetIsReplicated(true);
+	VR_Origin->SetupAttachment(VR_Root);
 	
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetIsReplicated(true);
-	Camera->SetupAttachment(VR_Root);
+	SetRootComponent(Camera);
+	//Camera->SetupAttachment(VR_Origin);
 	Camera->bLockToHmd = true;
 	Camera->bUsePawnControlRotation = false;
 
@@ -36,11 +40,11 @@ ABasePawn::ABasePawn()
 	
 	MotionController_L = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_L");
 	MotionController_L->SetIsReplicated(true);
-	MotionController_L->SetupAttachment(VR_Root);
+	MotionController_L->SetupAttachment(Camera);
 	
 	MotionController_R = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_R");
 	MotionController_R->SetIsReplicated(true);
-	MotionController_R->SetupAttachment(VR_Root);
+	MotionController_R->SetupAttachment(Camera);
 
 	PointerDistance = 2000.f;
 	
@@ -90,6 +94,7 @@ void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetim
 
 	DOREPLIFETIME(ABasePawn, ImpactPointer_L);
 	DOREPLIFETIME(ABasePawn, ImpactPointer_R);
+	DOREPLIFETIME(ABasePawn, VR_Origin);
 	DOREPLIFETIME(ABasePawn, VR_Root);
 }
 

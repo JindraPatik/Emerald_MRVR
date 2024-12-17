@@ -36,7 +36,8 @@ protected:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCapsuleComponent> VR_Root;
 	
-
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
+	TObjectPtr<USceneComponent> VR_Origin;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
 	TObjectPtr<UCameraComponent> Camera;
