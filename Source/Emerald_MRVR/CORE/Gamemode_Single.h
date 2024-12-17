@@ -59,6 +59,8 @@ public:
 	
 	UFUNCTION(Category="Spawning")
 		FTransform FindMyPlayerStart();
+
+	AAIPawn* EnemyPawn;
 	
 	
 };

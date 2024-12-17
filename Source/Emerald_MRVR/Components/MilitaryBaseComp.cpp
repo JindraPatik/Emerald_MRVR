@@ -140,7 +140,7 @@ void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
 		return;
 	}
 	
-	if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
+	if (!Gamemode_Single && ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
 	{
 		SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
 		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();

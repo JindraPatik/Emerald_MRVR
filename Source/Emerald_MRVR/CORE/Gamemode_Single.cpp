@@ -10,7 +10,7 @@
 #include "SingleAIController.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Components/CrystalSpawnerComp.h"
-
+#include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 
 
 AGamemode_Single::AGamemode_Single()
@@ -31,6 +31,11 @@ void AGamemode_Single::BeginPlay()
 	Super::BeginPlay();
 
 	SpawnEnemyAI();
+	if (EnemyPawn)
+	{
+		EnemyPawn->MilitaryBaseComp->SpawnMilitaryBase(EnemyPawn);
+	}
+	
 	
 	if (CrystalSpawner)
 	{
@@ -130,7 +135,7 @@ void AGamemode_Single::SpawnEnemyAI()
 	//SpawnParams.Owner = PlayerController;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
-	AAIPawn* EnemyPawn = GetWorld()->SpawnActor<AAIPawn>(EnemyToSpawn, Location, Rotation, SpawnParams);
+	EnemyPawn = GetWorld()->SpawnActor<AAIPawn>(EnemyToSpawn, Location, Rotation, SpawnParams);
 	
 }
 
