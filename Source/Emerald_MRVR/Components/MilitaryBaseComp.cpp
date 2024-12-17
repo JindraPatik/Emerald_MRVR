@@ -6,6 +6,7 @@
 #include "Emerald_MRVR/ModuleActor.h"
 #include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
+#include "Emerald_MRVR/CORE/Gamemode_Single.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/CORE/UnitAIController.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
@@ -135,20 +136,27 @@ void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
 	}
 	
 	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
-		if (!GameMode)
+	AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(GetWorld()->GetAuthGameMode());
+	
+		if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("GameMode is invalid!"));
+			SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
+			SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
+			GameMode->TargetPoints.RemoveAt(0);
+			SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
+			SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
 			return;
 		}
-	
-			if (ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
-			{
-				SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
-				SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
-				GameMode->TargetPoints.RemoveAt(0);
-				SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
-				SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
-			}
+
+		if (ensure(Gamemode_Single) && (Gamemode_Single->TargetPoints.Num() > 0))
+		{
+			SpawnPointForMilitaryBase = Gamemode_Single->TargetPoints.IsValidIndex(0) ? Gamemode_Single->TargetPoints[0] : nullptr;
+			SpawnPoint = Gamemode_Single->TargetPoints[0]->GetTransform();
+			Gamemode_Single->TargetPoints.RemoveAt(0);
+			SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
+			SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
+			return;
+		}
 }
 
 void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
