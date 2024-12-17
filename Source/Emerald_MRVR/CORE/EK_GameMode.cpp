@@ -16,14 +16,12 @@ AEK_GameMode::AEK_GameMode()
 	PawnToSpawn = AMR_General::StaticClass();
 }
 
-
 void AEK_GameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
 
 	GetAllTargetpoints();
 	FindAllPlayerStarts();
-	
 }
 
 void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
@@ -76,7 +74,10 @@ void AEK_GameMode::Logout(AController* Exiting)
 void AEK_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	CrystalSpawner->StartSpawning();
+	if (CrystalSpawner)
+	{
+		CrystalSpawner->StartSpawning();
+	}
 }
 
 // REPLICATION

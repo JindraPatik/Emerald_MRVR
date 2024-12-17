@@ -54,73 +54,64 @@ protected:
 public:
 	// CORE
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
-	AEK_GameMode* GameMode;
+		AEK_GameMode* GameMode;
 
 	// ~CORE
 
 	// INPUT
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
-	UInputMappingContext* GameplayInputMappingContext;
-
+		UInputMappingContext* GameplayInputMappingContext;
 
 	// Character Movement
-
-	
 	void UpadatePosition(FVector HMDPosition, FRotator HMDOrientation);
 
 	UFUNCTION(Server, Unreliable)
-	void Server_UpdatePawnPosition(FVector HMDPosition, FRotator HMDOrientation);
+		void Server_UpdatePawnPosition(FVector HMDPosition, FRotator HMDOrientation);
 
 	// ~INPUT
 
 
 	// MILITARY BASE
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-	UMilitaryBaseComp* MilitaryBaseComp;
+		UMilitaryBaseComp* MilitaryBaseComp;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-	AModuleActor* CurrentlyHoveredModule_L;
+		AModuleActor* CurrentlyHoveredModule_L;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-	AModuleActor* CurrentlyHoveredModule_R;
+		AModuleActor* CurrentlyHoveredModule_R;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-	TSubclassOf<AActor> PreviewUnitClass;
+		TSubclassOf<AActor> PreviewUnitClass;
 
 	UPROPERTY()
-	AActor* PreviewInstance;
+		AActor* PreviewInstance;
 
 	UFUNCTION()
-	void SpawnPreviewUnit(AModuleActor* ModuleActor);
-
-	
+		void SpawnPreviewUnit(AModuleActor* ModuleActor);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* IA_SpawnUnit;
+		UInputAction* IA_SpawnUnit;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* IA_SelectModule_L;
+		UInputAction* IA_SelectModule_L;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* IA_SelectModule_R;
-
-	// doplnit nebo smazat
-	UPROPERTY(VisibleAnywhere, Category="MilitaryBase")
-	TMap<FName, int32> BuildingsMap;
+		UInputAction* IA_SelectModule_R;
 
 	// Visuals
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly)
-	UMaterialInterface* PlayerDefaultColor;
+		UMaterialInterface* PlayerDefaultColor;
 
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UHealthComponent> HealthComponent;
+		TObjectPtr<UHealthComponent> HealthComponent;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UResourcesComponent> ResourcesComponent;
+		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-	AMilitaryBase* BaseInstance;
+		AMilitaryBase* BaseInstance;
 
 	UPROPERTY(BlueprintReadOnly, Category="CORE")
 	bool bGameInitialized = false;
@@ -131,7 +122,7 @@ public:
 	bool bPossesed = false;
 
 	UPROPERTY(ReplicatedUsing=OnSelectedModuleChanged, VisibleAnywhere, Category="MilitaryBase")
-	AModuleActor* SelectedModuleActor = nullptr;
+		AModuleActor* SelectedModuleActor = nullptr;
 
 	UFUNCTION()
 	void OnSelectedModuleChanged();

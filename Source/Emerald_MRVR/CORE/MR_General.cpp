@@ -94,7 +94,7 @@ void AMR_General::Tick(float DeltaTime)
 	{
 		if (bPossesed)
 		{
-			FVector HMDPosition;
+			/*FVector HMDPosition;
 			FRotator HMDOrientation;
 			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
 			if (HasAuthority())
@@ -104,7 +104,7 @@ void AMR_General::Tick(float DeltaTime)
 			else
 			{
 				Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-			}
+			}*/
 			
 		}
 		
@@ -231,6 +231,10 @@ void AMR_General::Server_UpdatePawnPosition_Implementation(FVector HMDPosition, 
 
 void AMR_General::UpadatePosition(FVector HMDPosition, FRotator HMDOrientation)
 {
+	if (!HasAuthority())
+	{
+		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
+	}
 	SetActorLocation(HMDPosition);
 	SetActorRotation(FRotator(0.f, HMDOrientation.Yaw, 0.f));
 }

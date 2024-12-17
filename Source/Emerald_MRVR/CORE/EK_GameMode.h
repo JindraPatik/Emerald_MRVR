@@ -17,7 +17,7 @@ class EMERALD_MRVR_API AEK_GameMode : public AGameMode
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
-	TSubclassOf<AMR_General> PawnToSpawn;
+		TSubclassOf<AMR_General> PawnToSpawn;
 
 	
 public:
@@ -30,36 +30,36 @@ public:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Networkong")
-	TArray<APlayerController*> AllPCs;
+		TArray<APlayerController*> AllPCs;
 
 
 	
 	UFUNCTION(Category="Spawning")
-	FTransform FindMyPlayerStart();
+		FTransform FindMyPlayerStart();
 
 	UFUNCTION(Category="Spawning")
-	void SpawnPlayer(APlayerController* PlayerController);
+		void SpawnPlayer(APlayerController* PlayerController);
 
 	UFUNCTION()
-	void FindAllPlayerStarts();
+		void FindAllPlayerStarts();
 	
 	UFUNCTION(BlueprintCallable)
-	TArray<ATargetPoint*> GetAllTargetpoints();
+		TArray<ATargetPoint*> GetAllTargetpoints();
 
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")
-	TArray<ATargetPoint*> TargetPoints;
+		TArray<ATargetPoint*> TargetPoints;
 
 	UPROPERTY(Replicated, BlueprintReadOnly, Category="Spawning")
-	TArray<APlayerStart*> AllPlayerStarts;
+		TArray<APlayerStart*> AllPlayerStarts;
 
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")
-	AMR_General* PlayerPawn;
+		AMR_General* PlayerPawn;
 
 	UPROPERTY(EditAnywhere)
-	UCrystalSpawnerComp* CrystalSpawner;
+		UCrystalSpawnerComp* CrystalSpawner;
 
 	UPROPERTY(EditDefaultsOnly, Category="Identification")
-	TArray<UMaterialInterface*> PlayersColors;
+		TArray<UMaterialInterface*> PlayersColors;
 
 
 
