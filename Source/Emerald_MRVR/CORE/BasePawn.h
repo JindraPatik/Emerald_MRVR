@@ -30,63 +30,63 @@ protected:
 	
 	
 	UFUNCTION(BlueprintCallable)
-	void SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Distance, UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult);
+		void SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Distance, UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult);
 
 	// Character Body
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
-	TObjectPtr<UCapsuleComponent> VR_Root;
+		TObjectPtr<UCapsuleComponent> VR_Root;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-	TObjectPtr<USceneComponent> VR_Origin;
+		TObjectPtr<USceneComponent> VR_Proxy;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly, Category = "Body")
-	TObjectPtr<UCameraComponent> Camera;
+		TObjectPtr<UCameraComponent> Camera;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category = "Body")
-	TObjectPtr<UStaticMeshComponent> GeneralBody;
+		TObjectPtr<UStaticMeshComponent> GeneralBody;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-	TObjectPtr<UMotionControllerComponent> MotionController_L;
+		TObjectPtr<UMotionControllerComponent> MotionController_L;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-	TObjectPtr<UMotionControllerComponent> MotionController_R;
+		TObjectPtr<UMotionControllerComponent> MotionController_R;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	TObjectPtr<UStaticMeshComponent> ImpactPointer_L;
+		TObjectPtr<UStaticMeshComponent> ImpactPointer_L;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	TObjectPtr<UStaticMeshComponent> ImpactPointer_R;
+		TObjectPtr<UStaticMeshComponent> ImpactPointer_R;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	TObjectPtr<UWidgetInteractionComponent> WidgetInteraction_L;
+		TObjectPtr<UWidgetInteractionComponent> WidgetInteraction_L;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	TObjectPtr<UWidgetInteractionComponent> WidgetInteraction_R;
+		TObjectPtr<UWidgetInteractionComponent> WidgetInteraction_R;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	TObjectPtr<UStaticMeshComponent> PointerStick_L;
+		TObjectPtr<UStaticMeshComponent> PointerStick_L;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Controller")
-	TObjectPtr<UStaticMeshComponent> PointerStick_R;
+		TObjectPtr<UStaticMeshComponent> PointerStick_R;
 
 	UPROPERTY(EditDefaultsOnly, Category="Controller")
-	float PointerDistance;
+		float PointerDistance;
 
 	UPROPERTY(BlueprintReadOnly, Category="Controller")
-	FHitResult HitResultLeft;
+		FHitResult HitResultLeft;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Controller")
-	FHitResult HitResultRight;
+		FHitResult HitResultRight;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
-	UInputMappingContext* MenuInputMappingContext;
+		UInputMappingContext* MenuInputMappingContext;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Controller")
-	bool bIsMenuActive = false;
+		bool bIsMenuActive = false;
 
 	//INPUT ACTIONS
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UInputAction* Click;
+		UInputAction* Click;
 
 public:	
 	
