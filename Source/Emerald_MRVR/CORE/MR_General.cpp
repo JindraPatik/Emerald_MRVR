@@ -91,21 +91,6 @@ void AMR_General::Tick(float DeltaTime)
 
 	if (IsLocallyControlled())
 	{
-		if (bPossesed)
-		{
-			/*FVector HMDPosition;
-			FRotator HMDOrientation;
-			UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(HMDOrientation, HMDPosition);
-			if (HasAuthority())
-			{
-				UpadatePosition(HMDPosition, HMDOrientation);
-			}
-			else
-			{
-				Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-			}*/
-			
-		}
 		
 		if (!bIsMenuActive)
 		{
@@ -221,21 +206,6 @@ void AMR_General::Action_SpawnUnit()
 	}
 }
 
-
-void AMR_General::Server_UpdatePawnPosition_Implementation(FVector HMDPosition, FRotator HMDOrientation)
-{
-	Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-}
-
-void AMR_General::UpadatePosition(FVector HMDPosition, FRotator HMDOrientation)
-{
-	if (!HasAuthority())
-	{
-		Server_UpdatePawnPosition(HMDPosition, HMDOrientation);
-	}
-	SetActorLocation(HMDPosition);
-	SetActorRotation(FRotator(0.f, HMDOrientation.Yaw, 0.f));
-}
 
 void AMR_General::SpawnPreviewUnit(AModuleActor* ModuleActor)
 {

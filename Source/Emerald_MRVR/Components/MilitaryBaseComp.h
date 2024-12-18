@@ -43,7 +43,6 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void Server_SetSpawnPointForBase();
 	
-
 public:	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
 		FTransform SpawnPoint; // Military Base spawn point
@@ -56,12 +55,6 @@ public:
 
 	UPROPERTY(Replicated)
 		AMilitaryBase* MyBaseInstance;
-
-	/*UPROPERTY(Replicated)
-		FVector SpawnLocation;
-	
-	UPROPERTY(Replicated)
-		FRotator SpawnRotation;*/
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
 		TSubclassOf<AUnit> UnitToSpawn;

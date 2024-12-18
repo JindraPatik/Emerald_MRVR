@@ -61,13 +61,6 @@ public:
 	// INPUT
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
 		UInputMappingContext* GameplayInputMappingContext;
-
-	// Character Movement
-	void UpadatePosition(FVector HMDPosition, FRotator HMDOrientation);
-
-	UFUNCTION(Server, Unreliable)
-		void Server_UpdatePawnPosition(FVector HMDPosition, FRotator HMDOrientation);
-
 	// ~INPUT
 
 
