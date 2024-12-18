@@ -54,11 +54,11 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	
 	if (InActor)
 	{
-		AMR_General* MyGeneral = Cast<AMR_General>(GetOwner()->GetOwner());
+		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
 		if (HittedUnit)
 		{
-			AMR_General* OtherOwner = Cast<AMR_General>(HittedUnit->GetOwner());
+			APawn* OtherOwner = Cast<APawn>(HittedUnit->GetOwner());
 			if (OtherOwner)
 			{
 				if (MyGeneral && HittedUnit && OtherOwner && MyGeneral != OtherOwner) 	// Is that Other players Unit? 
@@ -104,17 +104,21 @@ void UCombatComponent::BaseFight(AActor* InActor)
 		Server_BaseFight(InActor);
 		return;
 	}
-	AMR_General* MyGeneral = Cast<AMR_General>(GetOwner()->GetOwner());
+	APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
 	AMilitaryBase* HittedBase = Cast<AMilitaryBase>(InActor);
 	if (HittedBase)
 	{
-		AMR_General* OtherBaseOwner = Cast<AMR_General>(HittedBase->GetOwner());
+		APawn* OtherBaseOwner = Cast<APawn>(HittedBase->GetOwner());
 		if (OtherBaseOwner)
 		{
 			if (MyGeneral && HittedBase && OtherBaseOwner && OtherBaseOwner != MyGeneral)
 			{
-				OtherBaseOwner->HealthComponent->Health -= Unit->Damage;
-				GetOwner()->Destroy();
+				UHealthComponent* OtherBaseHealthComp = OtherBaseOwner->FindComponentByClass<UHealthComponent>();
+				if (OtherBaseHealthComp)
+				{
+					OtherBaseHealthComp->Health -= Unit->Damage;
+					GetOwner()->Destroy();
+				}
 			}
 			return;
 		}

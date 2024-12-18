@@ -25,12 +25,12 @@ public:
 	void UnitFight(AActor* InActor);
 
 	UFUNCTION(Server, Reliable)
-	void Server_UnitFight(AActor* InActor);
+		void Server_UnitFight(AActor* InActor);
 
 	void BaseFight(AActor* InActor);
 
 	UFUNCTION(Server, Reliable)
-	void Server_BaseFight(AActor* InActor);
+		void Server_BaseFight(AActor* InActor);
 
 	ECombatScenarios CurrentScenario;
 
@@ -39,5 +39,5 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-	AUnit* Unit;
+		AUnit* Unit;
 };

@@ -41,9 +41,6 @@ protected:
 	void Server_SetSpawnPointForBase();
 	
 public:	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
-		FTransform SpawnPoint; // Military Base spawn point
-
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 		TSubclassOf<AMilitaryBase> MilitaryBase;
 

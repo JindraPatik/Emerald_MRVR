@@ -15,20 +15,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CORE/BP_EK_GM.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/BP_EK_GM.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/LVL_001.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_Single001.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/LVL_Single001.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/EK_GameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/EK_GameMode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HealthComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HealthComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HealthComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HealthComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" afterDir="false" />
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="Spawning Players corrected for MP">
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/ResourcesComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/ResourcesComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/ResourcesComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/ResourcesComponent.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +30,12 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -1222,7 +1218,7 @@
       <workItem from="1732795087374" duration="3832000" />
       <workItem from="1733470247461" duration="3282000" />
       <workItem from="1734439738124" duration="10171000" />
-      <workItem from="1734527268662" duration="1591000" />
+      <workItem from="1734527268662" duration="2442000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1360,7 +1356,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734450127632</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Spawning Players corrected for MP">
+      <option name="closed" value="true" />
+      <created>1734529196553</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1734529196553</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1408,6 +1412,7 @@
     <MESSAGE value="Single: MyPawn spawn works" />
     <MESSAGE value="AI Nespawnuje Base" />
     <MESSAGE value="Porad Nespawnuje" />
-    <option name="LAST_COMMIT_MESSAGE" value="Porad Nespawnuje" />
+    <MESSAGE value="Spawning Players corrected for MP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Spawning Players corrected for MP" />
   </component>
 </project>
