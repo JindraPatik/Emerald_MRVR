@@ -94,7 +94,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 		if (OwningPawn)
 		{
 			MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
-			// ResourcesComponentInst->StartGrowResources();
+			ResourcesComponentInst->StartGrowResources();
 		}
 	}	
 }
@@ -154,7 +154,7 @@ void UMilitaryBaseComp::Server_SpawnModule_Implementation(APawn* OwningPawn)
 
 void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 {
-	if (GetOwner()->HasAuthority())
+	if (!GetOwner()->HasAuthority())
 	{
 		Server_SpawnUnit(InstigatorPawn, Module);
 		return;

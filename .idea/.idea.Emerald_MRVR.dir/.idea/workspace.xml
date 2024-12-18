@@ -15,10 +15,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="Spawning Players corrected for MP">
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" afterDir="false" />
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/MilitaryBase.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +32,22 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -139,7 +157,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Uproject.Emerald_MRVR.executor": "Debug",
+    "Uproject.Emerald_MRVR.executor": "Run",
     "git-widget-placeholder": "Pawn-Control",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
@@ -1218,7 +1236,7 @@
       <workItem from="1732795087374" duration="3832000" />
       <workItem from="1733470247461" duration="3282000" />
       <workItem from="1734439738124" duration="10171000" />
-      <workItem from="1734527268662" duration="2442000" />
+      <workItem from="1734527268662" duration="3720000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1364,7 +1382,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734529196553</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Combat corrected">
+      <option name="closed" value="true" />
+      <created>1734530205454</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1734530205454</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1413,6 +1439,7 @@
     <MESSAGE value="AI Nespawnuje Base" />
     <MESSAGE value="Porad Nespawnuje" />
     <MESSAGE value="Spawning Players corrected for MP" />
-    <option name="LAST_COMMIT_MESSAGE" value="Spawning Players corrected for MP" />
+    <MESSAGE value="Combat corrected" />
+    <option name="LAST_COMMIT_MESSAGE" value="Combat corrected" />
   </component>
 </project>

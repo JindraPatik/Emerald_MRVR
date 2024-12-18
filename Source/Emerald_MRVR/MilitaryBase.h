@@ -44,7 +44,7 @@ protected:
 	UDownScaleComponent* DownScaleComponent;
 
 	UPROPERTY(Replicated)
-	AMR_General* General;
+	APawn* General;
 
 	virtual void PostInitProperties() override;
 	

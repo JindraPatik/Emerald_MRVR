@@ -146,7 +146,7 @@ void AMilitaryBase::PostInitProperties()
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
-	General = Cast<AMR_General>(GetOwner());
+	General = Cast<APawn>(GetOwner());
 	
 	if (ensure(General))
 	{
@@ -154,11 +154,6 @@ void AMilitaryBase::BeginPlay()
 		if (General->IsLocallyControlled())
 		{
 			SpawnHealthWidget();
-		}
-		
-		if (HealthWidgetInstance && ResourcesWidgetInstance)
-		{
-			General->bGameInitialized = true;
 		}
 	} 
 }
