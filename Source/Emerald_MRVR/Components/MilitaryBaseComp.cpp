@@ -7,6 +7,7 @@
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/ModuleActor.h"
 #include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/Gamemode_Single.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
@@ -14,6 +15,8 @@
 #include "Engine/TargetPoint.h"
 #include "Net/UnrealNetwork.h"
 
+
+class AEKGameState;
 
 UMilitaryBaseComp::UMilitaryBaseComp()
 {
@@ -36,14 +39,14 @@ void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	
 	MyOwner = Cast<APawn>(GetOwner());
-	MultiGameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	ResourcesComponentInst = Cast<UResourcesComponent>(GetOwner()->FindComponentByClass<UResourcesComponent>());
 }
 
 void UMilitaryBaseComp::SetSpawnPointForBase()
 {
-	if (MultiGameMode && !GetOwner()->HasAuthority())
+	if (!GetOwner()->HasAuthority())
 	{
 		Server_SetSpawnPointForBase();
 		return;
@@ -73,7 +76,7 @@ void UMilitaryBaseComp::Server_SetSpawnPointForBase_Implementation()
 
 void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 {
-	if (MultiGameMode && !OwningPawn->HasAuthority())
+	if (!OwningPawn->HasAuthority())
 	{
 		Server_SpawnMilitaryBase(OwningPawn);
 		return;
@@ -104,7 +107,7 @@ void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(APawn* InOwner)
 
 void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 {
-	if (MultiGameMode && !GetOwner()->HasAuthority())
+	if (!GetOwner()->HasAuthority())
 	{
 		Server_SpawnModule(OwningPawn);
 		return;
@@ -134,10 +137,8 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 							{
 								ModuleInstance->BuildingDataAsset = Module;
 							}
-							if (MultiGameMode)
-							{
-								ModuleInstance->SetReplicates(true);
-							}
+							ModuleInstance->SetReplicates(true);
+
 						}
 					}
 				}
@@ -153,7 +154,7 @@ void UMilitaryBaseComp::Server_SpawnModule_Implementation(APawn* OwningPawn)
 
 void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 {
-	if (MultiGameMode && GetOwner()->HasAuthority())
+	if (GetOwner()->HasAuthority())
 	{
 		Server_SpawnUnit(InstigatorPawn, Module);
 		return;
@@ -212,7 +213,7 @@ void UMilitaryBaseComp::Server_SpawnUnit_Implementation(APawn* InstigatorPawn, A
 
 bool UMilitaryBaseComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const
 {
-		if (MultiGameMode && !GetOwner()->HasAuthority())
+		if (!GetOwner()->HasAuthority())
 		{
 			Server_HasEnoughResources(BuildingDataAsset);
 		}

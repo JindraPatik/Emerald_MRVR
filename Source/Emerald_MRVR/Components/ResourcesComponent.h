@@ -30,8 +30,6 @@ public:
 	
 private:
 	UPROPERTY()
-		TObjectPtr<AEK_GameMode> MultiGameMode;
-	UPROPERTY()
 		TObjectPtr<UMilitaryBaseComp> MilitaryBaseCompInst;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resources", meta=(AllowPrivateAccess="true"));

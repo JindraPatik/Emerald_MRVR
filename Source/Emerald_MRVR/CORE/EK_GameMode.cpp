@@ -1,4 +1,6 @@
 #include "EK_GameMode.h"
+
+#include "EKGameState.h"
 #include "EngineUtils.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MR_General.h"
@@ -52,6 +54,7 @@ void AEK_GameMode::Logout(AController* Exiting)
 void AEK_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	if (CrystalSpawner)
 	{
 		CrystalSpawner->StartSpawning();

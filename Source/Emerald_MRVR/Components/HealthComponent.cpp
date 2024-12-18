@@ -19,7 +19,6 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MultiGameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 }
 
@@ -31,7 +30,7 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 void UHealthComponent::OnRep_OnHealthChanged()
 {
-	if (MultiGameMode && GetOwner()->HasAuthority())
+	if (GetOwner()->HasAuthority())
 	{
 		OnRep_OnHealthChanged();
 	}

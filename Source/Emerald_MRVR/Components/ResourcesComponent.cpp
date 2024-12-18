@@ -25,13 +25,12 @@ void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 void UResourcesComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MultiGameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 }
 
 void UResourcesComponent::OnRep_ResourcesChanged() const
 {
-	if (MultiGameMode && GetOwner()->HasAuthority())
+	if (GetOwner()->HasAuthority())
 	{
 		OnRep_ResourcesChanged();
 	}

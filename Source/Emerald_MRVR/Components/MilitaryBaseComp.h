@@ -27,9 +27,6 @@ public:
 
 private:
 	UPROPERTY()
-		TObjectPtr<AEK_GameMode> MultiGameMode;
-	
-	UPROPERTY()
 		TObjectPtr<APawn> MyOwner;
 
 	UPROPERTY()

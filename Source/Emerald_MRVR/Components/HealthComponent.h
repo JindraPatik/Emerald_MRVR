@@ -30,9 +30,6 @@ public:
 
 private:
 	UPROPERTY()
-		TObjectPtr<AEK_GameMode> MultiGameMode;
-
-	UPROPERTY()
 		TObjectPtr<UMilitaryBaseComp> MilitaryBaseCompInst;
 
 protected:
