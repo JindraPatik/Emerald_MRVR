@@ -1,11 +1,9 @@
 #include "Gamemode_Single.h"
 #include "AIPawn.h"
-#include "Engine/TargetPoint.h"
 #include "EngineUtils.h"
 #include "GameFramework/PlayerStart.h"
 #include "MR_General.h"
 #include "Emerald_MRVR/Components/CrystalSpawnerComp.h"
-#include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 
 
 AGamemode_Single::AGamemode_Single()
@@ -26,11 +24,10 @@ void AGamemode_Single::BeginPlay()
 
 	SpawnEnemyAI();
 	
-	/*if (CrystalSpawner)
+	if (CrystalSpawner)
 	{
 		CrystalSpawner->StartSpawning();
-	}*/
-
+	}
 }
 
 void AGamemode_Single::PostLogin(APlayerController* NewPlayer)
@@ -75,7 +72,6 @@ FTransform AGamemode_Single::FindMyPlayerStart()
 	{
 		UE_LOG(LogTemp, Error, TEXT("PlayerStart Transform is invalid!"));
 	}
-
 	return PlayerStartTransform;
 }
 
@@ -111,11 +107,8 @@ void AGamemode_Single::SpawnEnemyAI()
 	FVector Location = FVector::ZeroVector;
 	FRotator Rotation = FRotator::ZeroRotator;
 	FActorSpawnParameters SpawnParams;
-	// SpawnParams.Owner = GetInstigatorController();
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	
 	EnemyPawn = GetWorld()->SpawnActor<AAIPawn>(EnemyToSpawn, Location, Rotation, SpawnParams);
-	
 }
 
 

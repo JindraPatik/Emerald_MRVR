@@ -118,7 +118,8 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, OriginalMaterial);
 	DOREPLIFETIME(AMilitaryBase, HoveredMaterial);
-	
+
+	// Modules
 	DOREPLIFETIME(AMilitaryBase, Mine_Position);
 	DOREPLIFETIME(AMilitaryBase, Prison_Position);
 	DOREPLIFETIME(AMilitaryBase, Bank_Position);

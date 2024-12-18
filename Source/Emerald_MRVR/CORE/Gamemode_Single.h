@@ -47,7 +47,7 @@ protected:
 	
 public:
 	AGamemode_Single();
-		virtual void BeginPlay() override;
+	virtual void BeginPlay() override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 
@@ -57,7 +57,8 @@ public:
 	UFUNCTION(Category="Spawning")
 		FTransform FindMyPlayerStart();
 
-	AAIPawn* EnemyPawn;
+	UPROPERTY()
+		AAIPawn* EnemyPawn;
 	
 	
 };

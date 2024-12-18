@@ -9,8 +9,6 @@
 #include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EK_GameMode.h"
 #include "Emerald_MRVR/CORE/Gamemode_Single.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
-#include "Emerald_MRVR/CORE/UnitAIController.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
@@ -29,8 +27,6 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UMilitaryBaseComp, AvailableModules);
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnPointForMilitaryBase);
-	//DOREPLIFETIME(UMilitaryBaseComp, SpawnLocation);
-	//DOREPLIFETIME(UMilitaryBaseComp, SpawnRotation);
 	DOREPLIFETIME(UMilitaryBaseComp, MyBaseInstance);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnLocation);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnRotation);
@@ -43,7 +39,6 @@ void UMilitaryBaseComp::BeginPlay()
 	MyOwner = Cast<APawn>(GetOwner());
 	MultiGameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	ResourcesComponentInst = Cast<UResourcesComponent>(GetOwner()->FindComponentByClass<UResourcesComponent>());
-	// GetMilitaryBaseSpawnPoint();
 }
 
 void UMilitaryBaseComp::SetSpawnPointForBase()
@@ -155,42 +150,6 @@ void UMilitaryBaseComp::Server_SpawnModule_Implementation(APawn* OwningPawn)
 {
 	SpawnModules(OwningPawn);
 }
-
-/*void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
-{
-	AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(GetWorld()->GetAuthGameMode());
-
-	if (MultiGameMode && !General->HasAuthority())
-	{
-		Server_GetMilitaryBaseSpawnPoint();
-		return;
-	}
-	
-	if (MultiGameMode && MultiGameMode->TargetPoints.Num() > 0)
-	{
-		SpawnPointForMilitaryBase = MultiGameMode->TargetPoints.IsValidIndex(0) ? MultiGameMode->TargetPoints[0] : nullptr;
-		SpawnPoint = MultiGameMode->TargetPoints[0]->GetTransform();
-		MultiGameMode->TargetPoints.RemoveAt(0);
-		SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
-		SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
-		return;
-	}
-	
-	if (Gamemode_Single && Gamemode_Single->TargetPoints.Num() > 0)
-	{
-		SpawnPointForMilitaryBase = Gamemode_Single->TargetPoints.IsValidIndex(0) ? Gamemode_Single->TargetPoints[0] : nullptr;
-		SpawnPoint = Gamemode_Single->TargetPoints[0]->GetTransform();
-		Gamemode_Single->TargetPoints.RemoveAt(0);
-		SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
-		SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
-		return;
-	}
-}*/
-
-/*void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
-{
-	GetMilitaryBaseSpawnPoint();
-}*/
 
 void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 {

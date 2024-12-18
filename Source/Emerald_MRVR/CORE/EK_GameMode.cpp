@@ -33,24 +33,6 @@ void AEK_GameMode::PostLogin(APlayerController* NewPlayer)
 	// Spawn player Pawn při přihlášení
 	SpawnPlayer(NewPlayer);
 	
-	APC_MR_General* NewPC = Cast<APC_MR_General>(NewPlayer);
-	if (!NewPC)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PostLogin: New PlayerController is not of type APC_MR_General."));
-		return;
-	}
-
-	// Iterate over all PCs
-	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
-	{
-		APC_MR_General* ExistingPC = Cast<APC_MR_General>(It->Get());
-		if (ExistingPC && ExistingPC != NewPC) // Najdeme jiného hráče
-		{
-			// Set references to others PCs
-			NewPC->OtherPlayerPC = ExistingPC;
-			ExistingPC->OtherPlayerPC = NewPC;
-		}
-	}
 }
 
 void AEK_GameMode::SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC)
@@ -67,9 +49,6 @@ void AEK_GameMode::Logout(AController* Exiting)
 	AllPCs.Remove(Cast<APC_MR_General>(Exiting));
 }
 
-
-
-// Begin Play
 void AEK_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -79,7 +58,6 @@ void AEK_GameMode::BeginPlay()
 	}
 }
 
-// REPLICATION
 void AEK_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -94,7 +72,8 @@ FTransform AEK_GameMode::FindMyPlayerStart()
 		UE_LOG(LogTemp, Error, TEXT("No available PlayerStart!"));
 		return FTransform(); // Invalid Transform
 	}
-
+	
+	
 	APlayerStart* SelectedPlayerStart = AllPlayerStarts[0];
 	AllPlayerStarts.Remove(SelectedPlayerStart);
 
@@ -103,7 +82,6 @@ FTransform AEK_GameMode::FindMyPlayerStart()
 	{
 		UE_LOG(LogTemp, Error, TEXT("PlayerStart Transform is invalid!"));
 	}
-
 	return PlayerStartTransform;
 }
 
@@ -139,8 +117,6 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 
 void AEK_GameMode::FindAllPlayerStarts()
 {
-	// AllPlayerStarts.Empty(); // Reset pole při nové iteraci
-
 	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
 	{
 		APlayerStart* PlayerStart = *It;

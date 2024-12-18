@@ -32,8 +32,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Networkong")
 		TArray<APlayerController*> AllPCs;
 
-
-	
 	UFUNCTION(Category="Spawning")
 		FTransform FindMyPlayerStart();
 
@@ -42,16 +40,12 @@ public:
 
 	UFUNCTION()
 		void FindAllPlayerStarts();
-	
 
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")
 		TArray<ATargetPoint*> TargetPoints;
 
 	UPROPERTY(Replicated, BlueprintReadOnly, Category="Spawning")
 		TArray<APlayerStart*> AllPlayerStarts;
-
-	UPROPERTY(BlueprintReadOnly, Category="Spawning")
-		AMR_General* PlayerPawn;
 
 	UPROPERTY(EditAnywhere)
 		UCrystalSpawnerComp* CrystalSpawner;
