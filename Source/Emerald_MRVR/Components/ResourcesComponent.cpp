@@ -22,31 +22,32 @@ void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME(UResourcesComponent, AvailableResources);
 }
 
+void UResourcesComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	MultiGameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+}
+
 void UResourcesComponent::OnRep_ResourcesChanged() const
 {
-	if (GetOwner()->HasAuthority())
+	if (MultiGameMode && GetOwner()->HasAuthority())
 	{
 		OnRep_ResourcesChanged();
 	}
 	
-	AMR_General* General = Cast<AMR_General>(GetOwner());
-	if (General)
+	if (MilitaryBaseCompInst)
 	{
-		if (General->MilitaryBaseComp)
+		AMilitaryBase* BaseInstance = MilitaryBaseCompInst->GetBaseInstance();
+		if (BaseInstance && BaseInstance->ResourcesWidgetInstance)
 		{
-			AMilitaryBase* BaseInstance = General->MilitaryBaseComp->GetBaseInstance();
-			if (BaseInstance && BaseInstance->ResourcesWidgetInstance)
+			UResourcesWidget* ResourcesWidget = Cast<UResourcesWidget>(BaseInstance->ResourcesWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
+			if (ResourcesWidget)
 			{
-								
-				UResourcesWidget* ResourcesWidget = Cast<UResourcesWidget>(BaseInstance->ResourcesWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
-				if (ResourcesWidget)
-				{
-					ResourcesWidget->UpdateResourcesWidget(FMath::Clamp(AvailableResources, 0.f, MaxResources));
-				}
+				ResourcesWidget->UpdateResourcesWidget(FMath::Clamp(AvailableResources, 0.f, MaxResources));
 			}
 		}
 	}
-	
 }
 
 void UResourcesComponent::UpdateResources(float ResourcesDelta)
@@ -59,7 +60,6 @@ void UResourcesComponent::UpdateResources(float ResourcesDelta)
 	{
 		Server_UpdateResources(ResourcesDelta);
 	}
-	
 }
 
 void UResourcesComponent::Server_UpdateResources_Implementation(float ResourcesDelta)
@@ -76,10 +76,10 @@ void UResourcesComponent::GrowResources()
 void UResourcesComponent::StartGrowResources()
 {
 	TObjectPtr<UWorld> World = GetWorld();
-	FTimerHandle GrowResourcesTimerHandle;
-	float GrowInterval = 1.f;
 	if (World)
 	{
+		FTimerHandle GrowResourcesTimerHandle;
+		float GrowInterval = 1.f;
 		World->GetTimerManager().SetTimer(GrowResourcesTimerHandle, this, &UResourcesComponent::GrowResources, GrowInterval, true);
 	}
 }

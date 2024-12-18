@@ -1,14 +1,9 @@
 #include "Gamemode_Single.h"
-
-#include "AIController.h"
 #include "AIPawn.h"
 #include "Engine/TargetPoint.h"
 #include "EngineUtils.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
 #include "GameFramework/PlayerStart.h"
 #include "MR_General.h"
-#include "SingleAIController.h"
-#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Components/CrystalSpawnerComp.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 
@@ -22,7 +17,6 @@ AGamemode_Single::AGamemode_Single()
 void AGamemode_Single::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
-	GetAllTargetpoints();
 	FindAllPlayerStarts();
 }
 
@@ -31,17 +25,11 @@ void AGamemode_Single::BeginPlay()
 	Super::BeginPlay();
 
 	SpawnEnemyAI();
-	if (EnemyPawn)
-	{
-		EnemyPawn->MilitaryBaseComp->SpawnMilitaryBase(EnemyPawn);
-	}
 	
-	
-	if (CrystalSpawner)
+	/*if (CrystalSpawner)
 	{
 		CrystalSpawner->StartSpawning();
-	}
-	
+	}*/
 
 }
 
@@ -91,15 +79,6 @@ FTransform AGamemode_Single::FindMyPlayerStart()
 	return PlayerStartTransform;
 }
 
-TArray<ATargetPoint*> AGamemode_Single::GetAllTargetpoints()
-{
-	TArray<ATargetPoint*> TPs;
-	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
-	{
-		TargetPoints.Add(*It);
-	}
-	return TPs;
-}
 
 void AGamemode_Single::SpawnPlayer(APlayerController* PlayerController)
 {
@@ -132,11 +111,12 @@ void AGamemode_Single::SpawnEnemyAI()
 	FVector Location = FVector::ZeroVector;
 	FRotator Rotation = FRotator::ZeroRotator;
 	FActorSpawnParameters SpawnParams;
-	//SpawnParams.Owner = PlayerController;
+	// SpawnParams.Owner = GetInstigatorController();
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
 	EnemyPawn = GetWorld()->SpawnActor<AAIPawn>(EnemyToSpawn, Location, Rotation, SpawnParams);
 	
 }
+
 
 

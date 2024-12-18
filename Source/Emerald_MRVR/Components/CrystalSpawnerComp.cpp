@@ -31,7 +31,10 @@ void UCrystalSpawnerComp::SpawnCrystal()
 	TArray<ATargetPoint*> Targets;
 	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
 	{
-		Targets.Add(*It);
+		if (It->ActorHasTag("CrystalBoundry"))
+		{
+			Targets.Add(*It);
+		}
 	}
 	FVector Target1_Pos = Targets[0]->GetActorLocation();
 	FVector Target2_Pos = Targets[1]->GetActorLocation();

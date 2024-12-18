@@ -1,4 +1,6 @@
 #include "MilitaryBaseComp.h"
+
+#include "EngineUtils.h"
 #include "ResourcesComponent.h"
 #include "UnitMovementComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
@@ -27,8 +29,8 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UMilitaryBaseComp, AvailableModules);
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnPointForMilitaryBase);
-	DOREPLIFETIME(UMilitaryBaseComp, SpawnLocation);
-	DOREPLIFETIME(UMilitaryBaseComp, SpawnRotation);
+	//DOREPLIFETIME(UMilitaryBaseComp, SpawnLocation);
+	//DOREPLIFETIME(UMilitaryBaseComp, SpawnRotation);
 	DOREPLIFETIME(UMilitaryBaseComp, MyBaseInstance);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnLocation);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnRotation);
@@ -37,55 +39,65 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
-	General = Cast<AMR_General>(GetOwner());
+	
+	MyOwner = Cast<APawn>(GetOwner());
+	MultiGameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	ResourcesComponentInst = Cast<UResourcesComponent>(GetOwner()->FindComponentByClass<UResourcesComponent>());
+	// GetMilitaryBaseSpawnPoint();
+}
 
-	GetMilitaryBaseSpawnPoint();
-
-	/*if (General->IsLocallyControlled())
+void UMilitaryBaseComp::SetSpawnPointForBase()
+{
+	TArray<ATargetPoint*> AllBaseTargetPoints;
+	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
 	{
-		
-	}*/
-
+		ATargetPoint* BaseTargetPoint = *It;
+		if (BaseTargetPoint && BaseTargetPoint->ActorHasTag("BaseSpawnPoint"))
+		{
+			AllBaseTargetPoints.Add(BaseTargetPoint);
+		}
+	}
+	if (AllBaseTargetPoints.Num() > 0)
+	{
+		SpawnPointForMilitaryBase = AllBaseTargetPoints[0];
+		AllBaseTargetPoints[0]->Destroy();
+	}
 }
 
-void UMilitaryBaseComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-}
-
-void UMilitaryBaseComp::SpawnMilitaryBase(AMR_General* OwningPawn)
-{
-	AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(GetWorld()->GetAuthGameMode());
-	if (!Gamemode_Single && !OwningPawn->HasAuthority())
+	if (MultiGameMode && !OwningPawn->HasAuthority())
 	{
 		Server_SpawnMilitaryBase(OwningPawn);
 		return;
 	}
 	
+	SetSpawnPointForBase();
 	if (SpawnPointForMilitaryBase)
 	{
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.Instigator = OwningPawn;
-		SpawnParameters.Owner = General;
-
-		if (General)
+		SpawnParameters.Owner = OwningPawn;
+		FVector SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
+		FRotator SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
+		
+		if (OwningPawn)
 		{
-			// Spawn Base Instance
 			MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
-			General->ResourcesComponent->StartGrowResources();
+			// ResourcesComponentInst->StartGrowResources();
 		}
-	}
+	}	
 }
 
-void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(AMR_General* OwningPawn)
+void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(APawn* InOwner)
 {
-	SpawnMilitaryBase(OwningPawn);
+	SpawnMilitaryBase(InOwner);
 }
 
 
-void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
+void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 {
-	if (!GetOwner()->HasAuthority())
+	if (MultiGameMode && !GetOwner()->HasAuthority())
 	{
 		Server_SpawnModule(OwningPawn);
 		return;
@@ -111,10 +123,13 @@ void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 							FRotator ModuleSpawnRot = ModulePos->GetComponentRotation();
 							
 							AModuleActor* ModuleInstance = GetWorld()->SpawnActor<AModuleActor>(Module->ModuleClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
-							ModuleInstance->SetReplicates(true);
 							if (ModuleInstance)
 							{
 								ModuleInstance->BuildingDataAsset = Module;
+							}
+							if (MultiGameMode)
+							{
+								ModuleInstance->SetReplicates(true);
 							}
 						}
 					}
@@ -124,33 +139,32 @@ void UMilitaryBaseComp::SpawnModules(AMR_General* OwningPawn)
 	}
 }
 
-void UMilitaryBaseComp::Server_SpawnModule_Implementation(AMR_General* OwningPawn)
+void UMilitaryBaseComp::Server_SpawnModule_Implementation(APawn* OwningPawn)
 {
 	SpawnModules(OwningPawn);
 }
 
-void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
+/*void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
 {
 	AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(GetWorld()->GetAuthGameMode());
-	AEK_GameMode* GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 
-	if (!Gamemode_Single && !General->HasAuthority())
+	if (MultiGameMode && !General->HasAuthority())
 	{
 		Server_GetMilitaryBaseSpawnPoint();
 		return;
 	}
 	
-	if (!Gamemode_Single && ensure(GameMode) && (GameMode->TargetPoints.Num() > 0))
+	if (MultiGameMode && MultiGameMode->TargetPoints.Num() > 0)
 	{
-		SpawnPointForMilitaryBase = GameMode->TargetPoints.IsValidIndex(0) ? GameMode->TargetPoints[0] : nullptr;
-		SpawnPoint = GameMode->TargetPoints[0]->GetTransform();
-		GameMode->TargetPoints.RemoveAt(0);
+		SpawnPointForMilitaryBase = MultiGameMode->TargetPoints.IsValidIndex(0) ? MultiGameMode->TargetPoints[0] : nullptr;
+		SpawnPoint = MultiGameMode->TargetPoints[0]->GetTransform();
+		MultiGameMode->TargetPoints.RemoveAt(0);
 		SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
 		SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
 		return;
 	}
-
-	if (Gamemode_Single->TargetPoints.Num() > 0)
+	
+	if (Gamemode_Single && Gamemode_Single->TargetPoints.Num() > 0)
 	{
 		SpawnPointForMilitaryBase = Gamemode_Single->TargetPoints.IsValidIndex(0) ? Gamemode_Single->TargetPoints[0] : nullptr;
 		SpawnPoint = Gamemode_Single->TargetPoints[0]->GetTransform();
@@ -159,16 +173,16 @@ void UMilitaryBaseComp::GetMilitaryBaseSpawnPoint()
 		SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
 		return;
 	}
-}
+}*/
 
-void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
+/*void UMilitaryBaseComp::Server_GetMilitaryBaseSpawnPoint_Implementation()
 {
 	GetMilitaryBaseSpawnPoint();
-}
+}*/
 
-void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module)
+void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 {
-	if (!General->HasAuthority())
+	if (MultiGameMode && GetOwner()->HasAuthority())
 	{
 		Server_SpawnUnit(InstigatorPawn, Module);
 		return;
@@ -193,14 +207,14 @@ void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Mod
 				UnitSpawnRotation = MyBaseInstance->SpawnPoint_Air->GetComponentRotation();
 			}
 			FActorSpawnParameters UnitSpawnParams;
-			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			UnitSpawnParams.Owner = InstigatorPawn;
 			UnitSpawnParams.Instigator = InstigatorPawn;
 
 			if (HasEnoughResources(BuildingDataAsset))
 			{
 				UUnitDataAsset* SpawnedUnitDataAsset = BuildingDataAsset->UnitToSpawnData;
-				General->ResourcesComponent->UpdateResources(SpawnedUnitDataAsset->Price);
+				ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
 				AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
 				UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
 				UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
@@ -219,7 +233,7 @@ void UMilitaryBaseComp::SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Mod
 }
 
 
-void UMilitaryBaseComp::Server_SpawnUnit_Implementation(AMR_General* InstigatorPawn, AModuleActor* Module)
+void UMilitaryBaseComp::Server_SpawnUnit_Implementation(APawn* InstigatorPawn, AModuleActor* Module)
 {
 	SpawnUnit(InstigatorPawn, Module);
 }
@@ -227,22 +241,19 @@ void UMilitaryBaseComp::Server_SpawnUnit_Implementation(AMR_General* InstigatorP
 
 bool UMilitaryBaseComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const
 {
-	if (General)
-	{
-		if (!General->HasAuthority())
+		if (MultiGameMode && !GetOwner()->HasAuthority())
 		{
 			Server_HasEnoughResources(BuildingDataAsset);
 		}
-			UResourcesComponent* ResourcesComponent = General->ResourcesComponent;
-			if (ResourcesComponent)
+	
+		if (ResourcesComponentInst)
+		{
+			if (ResourcesComponentInst->AvailableResources >= BuildingDataAsset->UnitToSpawnData->Price)
 			{
-				if (ResourcesComponent->AvailableResources >= BuildingDataAsset->UnitToSpawnData->Price)
-				{
-					return true;
-				}
-				return false;
+				return true;
 			}
-	}
+			return false;
+		}
 	return false;
 }
 

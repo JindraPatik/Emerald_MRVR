@@ -6,6 +6,8 @@
 #include "Emerald_MRVR/ModuleActor.h"
 #include "MilitaryBaseComp.generated.h"
 
+class UResourcesComponent;
+class AEK_GameMode;
 class AUnitAIController;
 class AModuleActor;
 class UUnitDataAsset;
@@ -23,82 +25,91 @@ class EMERALD_MRVR_API UMilitaryBaseComp : public UActorComponent
 public:	
 	UMilitaryBaseComp();
 
+private:
+	UPROPERTY()
+		TObjectPtr<AEK_GameMode> MultiGameMode;
+	
+	UPROPERTY()
+		TObjectPtr<APawn> MyOwner;
+
+	UPROPERTY()
+		TObjectPtr<UResourcesComponent> ResourcesComponentInst;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
-	UPROPERTY()
-	AMR_General* General; 
+	void SetSpawnPointForBase();
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
-	FTransform SpawnPoint; // Military Base Unit spawn point
-
-	UPROPERTY(EditDefaultsOnly, Category = "Body")
-	TSubclassOf<AMilitaryBase> MilitaryBase;
-
-	UPROPERTY(Replicated, BlueprintReadOnly)
-	ATargetPoint* SpawnPointForMilitaryBase;
-
-	UPROPERTY(Replicated)
-	AMilitaryBase* MyBaseInstance;
-
-	UPROPERTY(Replicated)
-	FVector SpawnLocation;
-	
-	UPROPERTY(Replicated)
-	FRotator SpawnRotation;
 
 public:	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
-	TSubclassOf<AUnit> UnitToSpawn;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="spawning")
+		FTransform SpawnPoint; // Military Base spawn point
+
+	UPROPERTY(EditDefaultsOnly, Category = "Body")
+		TSubclassOf<AMilitaryBase> MilitaryBase;
+
+	UPROPERTY(Replicated, BlueprintReadOnly)
+		ATargetPoint* SpawnPointForMilitaryBase;
+
+	UPROPERTY(Replicated)
+		AMilitaryBase* MyBaseInstance;
+
+	/*UPROPERTY(Replicated)
+		FVector SpawnLocation;
 	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	UPROPERTY(Replicated)
+		FRotator SpawnRotation;*/
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
+		TSubclassOf<AUnit> UnitToSpawn;
 	
 	UFUNCTION(Category="SpawnBase")
-	void SpawnMilitaryBase(AMR_General* OwningPawn);
+		void SpawnMilitaryBase(APawn* OwningPawn);
 	
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
-	void Server_SpawnMilitaryBase(AMR_General* OwningPawn);
+		void Server_SpawnMilitaryBase(APawn* InOwner);
 
 	UFUNCTION(Category="SpawnBase")
-	void SpawnModules(AMR_General* OwningPawn);
+		void SpawnModules(APawn* OwningPawn);
 	
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
-	void Server_SpawnModule(AMR_General* OwningPawn);
+		void Server_SpawnModule(APawn* OwningPawn);
 
 	UFUNCTION()
-	void SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module);
+		void SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
 
 	UFUNCTION(Server, Reliable, Category="UnitSpawning")
-	void Server_SpawnUnit(AMR_General* InstigatorPawn, AModuleActor* Module);
+		void Server_SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
 
 	UFUNCTION(Category="UnitSpawning")
-	bool HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const;
+		bool HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const;
 
 	UFUNCTION(Server, Reliable)
-	void Server_HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const;
+		void Server_HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const;
 
 	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
-	TArray<UBuildingDataAsset*> AvailableModules;
+		TArray<UBuildingDataAsset*> AvailableModules;
 
 	UPROPERTY(VisibleAnywhere, Category="UnitSpawning")
-	UUnitDataAsset* SelectedUnit;
+		UUnitDataAsset* SelectedUnit;
 
-	void GetMilitaryBaseSpawnPoint();
+	/*UFUNCTION()
+	void GetMilitaryBaseSpawnPoint();*/
 
-	UFUNCTION(Server, Reliable)
-	void Server_GetMilitaryBaseSpawnPoint();
-
-	UPROPERTY(Replicated)
-	FVector UnitSpawnLocation = FVector::ZeroVector;
+	/*UFUNCTION(Server, Reliable)
+		void Server_GetMilitaryBaseSpawnPoint();*/
 
 	UPROPERTY(Replicated)
-	FRotator UnitSpawnRotation = FRotator::ZeroRotator;
+		FVector UnitSpawnLocation = FVector::ZeroVector;
+
+	UPROPERTY(Replicated)
+		FRotator UnitSpawnRotation = FRotator::ZeroRotator;
 
 	UFUNCTION()
-	FORCEINLINE AMilitaryBase* GetBaseInstance() const { return MyBaseInstance; }
+		FORCEINLINE AMilitaryBase* GetBaseInstance() const { return MyBaseInstance; }
 
 	TSubclassOf<AUnitAIController> AiUnitControllerClass;
 
-	AUnitAIController* AIUnitController;
+	UPROPERTY()
+		AUnitAIController* AIUnitController;
 };

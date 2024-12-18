@@ -5,6 +5,8 @@
 #include "ResourcesComponent.generated.h"
 
 class UResourcesWidget;
+class AEK_GameMode;
+class UMilitaryBaseComp;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UResourcesComponent : public UActorComponent
@@ -16,23 +18,31 @@ public:
 	UResourcesComponent();
 
 	UPROPERTY(ReplicatedUsing=OnRep_ResourcesChanged, EditAnywhere, BlueprintReadWrite, Category="Resources")
-	float AvailableResources;
+		float AvailableResources;
 
 	UFUNCTION(Blueprintable, Category="Resources")
-	void UpdateResources(float ResourcesDelta);
+		void UpdateResources(float ResourcesDelta);
 
 	UFUNCTION(Server, Reliable)
-	void Server_UpdateResources(float ResourcesDelta);
+		void Server_UpdateResources(float ResourcesDelta);
+
+	virtual void BeginPlay() override;
 	
 private:
+	UPROPERTY()
+		TObjectPtr<AEK_GameMode> MultiGameMode;
+	UPROPERTY()
+		TObjectPtr<UMilitaryBaseComp> MilitaryBaseCompInst;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resources", meta=(AllowPrivateAccess="true"));
-	float MaxResources = 9999.f;
+		float MaxResources = 9999.f;
 
 	UFUNCTION()
-	void OnRep_ResourcesChanged() const;
+		void OnRep_ResourcesChanged() const;
 
 protected:
 	void GrowResources();
+
 public:	
 	void StartGrowResources();
 

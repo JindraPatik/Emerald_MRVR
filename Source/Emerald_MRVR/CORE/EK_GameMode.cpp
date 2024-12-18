@@ -20,7 +20,6 @@ void AEK_GameMode::InitGame(const FString& MapName, const FString& Options, FStr
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
 
-	GetAllTargetpoints();
 	FindAllPlayerStarts();
 }
 
@@ -136,15 +135,6 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 		PlayerController->Possess(NewPawn);
 		UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 	}
-}
-TArray<ATargetPoint*> AEK_GameMode::GetAllTargetpoints()
-{
-	TArray<ATargetPoint*> TPs;
-	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
-	{
-		TargetPoints.Add(*It);
-	}
-	return TPs;
 }
 
 void AEK_GameMode::FindAllPlayerStarts()

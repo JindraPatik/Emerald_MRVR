@@ -4,8 +4,9 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
-
 class UHealthBarWidget;
+class AEK_GameMode;
+class UMilitaryBaseComp;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UHealthComponent : public UActorComponent
@@ -14,29 +15,28 @@ class EMERALD_MRVR_API UHealthComponent : public UActorComponent
 
 public:	
 	UHealthComponent();
-	
 
 	UPROPERTY(ReplicatedUsing=OnRep_OnHealthChanged, EditDefaultsOnly, BlueprintReadWrite, Category="Health")
-	float Health;
+		float Health;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Health")
-	float MaxHealth;
+		float MaxHealth;
 
 	UFUNCTION()
-	void OnRep_OnHealthChanged();
+		void OnRep_OnHealthChanged();
 
 	UPROPERTY(BlueprintReadWrite, Category="Widget")
-	UHealthBarWidget* HealthWidget;
+		UHealthBarWidget* HealthWidget;
 
-	
+private:
+	UPROPERTY()
+		TObjectPtr<AEK_GameMode> MultiGameMode;
+
+	UPROPERTY()
+		TObjectPtr<UMilitaryBaseComp> MilitaryBaseCompInst;
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
-public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 	
 };

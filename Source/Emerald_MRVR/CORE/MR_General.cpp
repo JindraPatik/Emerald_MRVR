@@ -75,7 +75,6 @@ void AMR_General::BeginPlay()
 	Super::BeginPlay();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
 	SetPlayerColor();
-	
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->SpawnMilitaryBase(this);

@@ -11,7 +11,7 @@ class UResourcesComponent;
 class AMilitaryBase;
 
 UCLASS()
-class EMERALD_MRVR_API AAIPawn : public AMR_General
+class EMERALD_MRVR_API AAIPawn : public APawn
 {
 	GENERATED_BODY()
 
@@ -20,8 +20,11 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+public:	
+	virtual void Tick(float DeltaTime) override;
 	
-	/*UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 		UMilitaryBaseComp* MilitaryBaseComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -31,14 +34,5 @@ protected:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryBase* BaseInstance;*/
-	
-
-public:	
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	
-	
+		AMilitaryBase* BaseInstance;
 };

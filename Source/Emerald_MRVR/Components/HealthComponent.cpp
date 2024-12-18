@@ -8,7 +8,6 @@
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Net/UnrealNetwork.h"
 
-
 UHealthComponent::UHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -17,12 +16,11 @@ UHealthComponent::UHealthComponent()
 	Health = MaxHealth;
 }
 
-
-
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	MultiGameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 }
 
 void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -31,34 +29,22 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(UHealthComponent, Health);
 }
 
-
-void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-}
-
 void UHealthComponent::OnRep_OnHealthChanged()
 {
-	if (GetOwner()->HasAuthority())
+	if (MultiGameMode && GetOwner()->HasAuthority())
 	{
 		OnRep_OnHealthChanged();
 	}
 	
-	AMR_General* General = Cast<AMR_General>(GetOwner());
-	if (General)
+	if (MilitaryBaseCompInst)
 	{
-		if (General->MilitaryBaseComp)
+		AMilitaryBase* BaseInstance = MilitaryBaseCompInst->GetBaseInstance();
+		if (BaseInstance && BaseInstance->HealthWidgetInstance)
 		{
-			AMilitaryBase* BaseInstance = General->MilitaryBaseComp->GetBaseInstance();
-			if (BaseInstance && BaseInstance->HealthWidgetInstance)
+			UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(BaseInstance->HealthWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
+			if (HealthBarWidget)
 			{
-								
-				UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(BaseInstance->HealthWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
-				if (HealthBarWidget)
-				{
-					HealthBarWidget->UpdateHealthWidget(Health);
-				}
+				HealthBarWidget->UpdateHealthWidget(Health);
 			}
 		}
 	}

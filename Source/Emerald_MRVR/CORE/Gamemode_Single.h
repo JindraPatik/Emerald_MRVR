@@ -24,10 +24,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
 		TSubclassOf<AMR_General> PawnToSpawn;
 
-	UPROPERTY(EditDefaultsOnly, Category="Pawn")
+	UPROPERTY(EditDefaultsOnly, Category="AI")
 		TSubclassOf<AAIPawn> EnemyToSpawn;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Resources")
 		UCrystalSpawnerComp* CrystalSpawner;
 
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")
@@ -41,9 +41,6 @@ protected:
 
 	UFUNCTION(Category="Spawning")
 		void SpawnEnemyAI();
-
-	UFUNCTION(BlueprintCallable)
-		TArray<ATargetPoint*> GetAllTargetpoints();
 
 	UPROPERTY()
 	TObjectPtr<APlayerController> PC;
