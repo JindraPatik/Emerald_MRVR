@@ -134,11 +134,7 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, Aerial_Position);
 	DOREPLIFETIME(AMilitaryBase, Hangar_Position);
 	DOREPLIFETIME(AMilitaryBase, RocketLauncher_Position);
-	
 	DOREPLIFETIME(AMilitaryBase, ModulePositions);
-
-	
-	
 }
 
 void AMilitaryBase::PostInitProperties()

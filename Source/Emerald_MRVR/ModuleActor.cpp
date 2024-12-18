@@ -51,7 +51,7 @@ void AModuleActor::OnBuildingsDataChanged()
 		
 // duplikovano kvuli zakomentaovani
 		// ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
-		OriginalMaterial = General->PlayerDefaultColor;
+		//OriginalMaterial = General->PlayerDefaultColor;
 	}
 	else
 	{

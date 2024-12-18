@@ -48,6 +48,12 @@ void UMilitaryBaseComp::BeginPlay()
 
 void UMilitaryBaseComp::SetSpawnPointForBase()
 {
+	if (MultiGameMode && !GetOwner()->HasAuthority())
+	{
+		Server_SetSpawnPointForBase();
+		return;
+	}
+	
 	TArray<ATargetPoint*> AllBaseTargetPoints;
 	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
 	{
@@ -63,6 +69,12 @@ void UMilitaryBaseComp::SetSpawnPointForBase()
 		AllBaseTargetPoints[0]->Destroy();
 	}
 }
+
+void UMilitaryBaseComp::Server_SetSpawnPointForBase_Implementation()
+{
+	SetSpawnPointForBase();
+}
+
 
 void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 {

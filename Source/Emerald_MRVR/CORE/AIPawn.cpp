@@ -14,12 +14,12 @@ AAIPawn::AAIPawn()
 
 void AAIPawn::BeginPlay()
 {
-	if (IsLocallyControlled())
-	{
-		MilitaryBaseComp->SpawnMilitaryBase(this);
-		MilitaryBaseComp->SpawnModules(this);
-	}
+	Super::BeginPlay();
+	
+	MilitaryBaseComp->SpawnMilitaryBase(this);
+	MilitaryBaseComp->SpawnModules(this);
 }
+
 
 void AAIPawn::Tick(float DeltaTime)
 {
