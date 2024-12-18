@@ -114,7 +114,7 @@ void AEK_GameMode::SpawnPlayer(APlayerController* PlayerController)
 	{
 		NewPawn->SetReplicates(true);
 		PlayerController->Possess(NewPawn);
-		UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
+		// UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 	}
 }
 

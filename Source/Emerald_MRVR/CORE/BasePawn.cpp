@@ -30,8 +30,6 @@ ABasePawn::ABasePawn()
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetIsReplicated(true);
 	Camera->SetupAttachment(VR_Proxy);
-	//Camera->bLockToHmd = true;
-	//Camera->bUsePawnControlRotation = false;
 
 	GeneralBody = CreateDefaultSubobject<UStaticMeshComponent>("GeneralBody");
 	GeneralBody->SetupAttachment(VR_Proxy);
