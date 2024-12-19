@@ -118,6 +118,7 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.Instigator = OwningPawn;
 		SpawnParameters.Owner = OwningPawn;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		
 		if (AvailableModules.Num() > 0)
 		{
