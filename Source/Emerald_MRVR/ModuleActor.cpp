@@ -11,18 +11,22 @@ AModuleActor::AModuleActor()
 	bReplicates = true;
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
+
+	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
+	SetRootComponent(SceneRoot);
 	
-	ModuleMesh = CreateDefaultSubobject<UStaticMeshComponent>("ModuleBody");
-	SetRootComponent(ModuleMesh);
+	ModuleMeshRoot = CreateDefaultSubobject<UStaticMeshComponent>("ModuleBody");
+	ModuleMeshRoot->SetupAttachment(SceneRoot);
 }
 
 void AModuleActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AModuleActor, ModuleMesh);
+	DOREPLIFETIME(AModuleActor, ModuleMeshRoot);
 	DOREPLIFETIME(AModuleActor, BuildingDataAsset);
 	DOREPLIFETIME(AModuleActor, OriginalMaterial);
 	DOREPLIFETIME(AModuleActor, HoverMaterial);
+	DOREPLIFETIME(AModuleActor, SceneRoot);
 }
 
 void AModuleActor::BeginPlay()
@@ -42,16 +46,6 @@ void AModuleActor::OnBuildingsDataChanged()
 	General = General ? General : Cast<AMR_General>(GetOwner());
 	if (BuildingDataAsset)
 	{
-		/*ModuleMesh->SetStaticMesh(BuildingDataAsset->SM_Building);
-		if (General)
-		{
-			ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
-			OriginalMaterial = General->PlayerDefaultColor;
-		}*/
-		
-// duplikovano kvuli zakomentaovani
-		// ModuleMesh->SetMaterial(0, General->PlayerDefaultColor);
-		//OriginalMaterial = General->PlayerDefaultColor;
 	}
 	else
 	{
@@ -63,5 +57,5 @@ void AModuleActor::HighlightModule(bool bIsHighlighted)
 {
 	IBuildingsModuleInterface::HighlightModule(bIsHighlighted);
 
-	bIsHighlighted ? ModuleMesh->SetMaterial(0, HoverMaterial) : ModuleMesh->SetMaterial(0, OriginalMaterial);
+	bIsHighlighted ? ModuleMeshRoot->SetMaterial(0, HoverMaterial) : ModuleMeshRoot->SetMaterial(0, OriginalMaterial);
 }

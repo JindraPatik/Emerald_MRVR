@@ -188,32 +188,25 @@ void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle
 
 	FVector CurrentPosition = Player->GetActorLocation();
 
-	// Vypočítej vzdálenost od středu (poloměr kružnice)
 	float Distance = FVector(CurrentPosition.X, CurrentPosition.Y, 0.0f).Size();
 
-	// Aktualizace úhlu na základě rychlosti
-	Angle += Speed * InDelta; // Speed určuje rychlost rotace (např. 1 radian za sekundu)
+	Angle = FMath::Atan2(CurrentPosition.Y, CurrentPosition.X);
+	
+	Angle += Speed * InDelta;
 
-	// Udržení úhlu v rozmezí 0 až 2π
 	if (Angle > 2 * PI)
 	{
 		Angle -= 2 * PI;
 	}
 
-	// Výpočet nové pozice na kružnici
 	FVector NewPosition;
 	NewPosition.X = Distance * FMath::Cos(Angle);
 	NewPosition.Y = Distance * FMath::Sin(Angle);
-	NewPosition.Z = Player->GetActorLocation().Z; // Zachováme aktuální výšku hráče
+	NewPosition.Z = CurrentPosition.Z; 
 
-	// Nastavení pozice hráče
 	Player->SetActorLocation(NewPosition);
 
-	FVector LookAtPosition = Player->GetActorLocation();
-	LookAtPosition.X = 0;
-	LookAtPosition.Y = 0;
-	
-	// Výpočet a nastavení rotace směrem ke středu
+	FVector LookAtPosition(0.0f, 0.0f, CurrentPosition.Z); 
 	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(NewPosition, LookAtPosition);
 	Player->SetActorRotation(LookAtRotation);
 }

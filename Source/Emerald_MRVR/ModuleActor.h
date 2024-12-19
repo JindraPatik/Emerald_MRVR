@@ -30,9 +30,12 @@ protected:
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Components")
 	TObjectPtr<UDownScaleComponent> DownScaleComponent;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
+	TObjectPtr<USceneComponent> SceneRoot;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
-	TObjectPtr<UStaticMeshComponent> ModuleMesh;
+	TObjectPtr<UStaticMeshComponent> ModuleMeshRoot;
 
 	UPROPERTY(ReplicatedUsing=OnBuildingsDataChanged, VisibleAnywhere, Category="Data")
 	TObjectPtr<UBuildingDataAsset> BuildingDataAsset = nullptr;

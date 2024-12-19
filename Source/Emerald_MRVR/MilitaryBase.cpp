@@ -13,13 +13,16 @@ AMilitaryBase::AMilitaryBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
-
-	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
-	SetRootComponent(BaseBody);
 	SetReplicates(true);
+
+	BaseRoot = CreateDefaultSubobject<USceneComponent>("BaseRoot");
+	SetRootComponent(BaseRoot);
+
+	SM_Root = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
+	SM_Root->SetupAttachment(BaseRoot);
 	
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
-	BaseBox->SetupAttachment(BaseBody);
+	BaseBox->SetupAttachment(SM_Root);
 	BaseBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	BaseBox->SetCollisionObjectType(ECC_WorldDynamic);
 	BaseBox->SetCollisionResponseToAllChannels(ECR_Ignore);
@@ -28,13 +31,13 @@ AMilitaryBase::AMilitaryBase()
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	
 	SpawnPoint_Ground = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
-	SpawnPoint_Ground->SetupAttachment(BaseBody);
+	SpawnPoint_Ground->SetupAttachment(BaseRoot);
 	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
-	SpawnPoint_Air->SetupAttachment(BaseBody);
+	SpawnPoint_Air->SetupAttachment(BaseRoot);
 
 	// Modules Locations
 	Positions_Root = CreateDefaultSubobject<USceneComponent>("Positions_Root");
-	Positions_Root->SetupAttachment(BaseBody);
+	Positions_Root->SetupAttachment(BaseRoot);
 	
 	Mine_Position = CreateDefaultSubobject<USceneComponent>("MinePosition");
 	Mine_Position->ComponentTags.Add("Mine");
@@ -111,13 +114,14 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMilitaryBase, General);
-	DOREPLIFETIME(AMilitaryBase, BaseBody)
+	DOREPLIFETIME(AMilitaryBase, SM_Root)
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
 	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
 	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
 	DOREPLIFETIME(AMilitaryBase, OriginalMaterial);
 	DOREPLIFETIME(AMilitaryBase, HoveredMaterial);
+	DOREPLIFETIME(AMilitaryBase, BaseRoot);
 
 	// Modules
 	DOREPLIFETIME(AMilitaryBase, Mine_Position);
