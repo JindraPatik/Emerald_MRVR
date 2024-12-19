@@ -9,12 +9,14 @@
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "MotionControllerComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/ModuleActor.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "GameFramework/GameStateBase.h"
+#include "Kismet/KismetMathLibrary.h"
 
 AMR_General::AMR_General()
 {
@@ -180,6 +182,43 @@ void AMR_General::PerformSphereTrace(
 	}
 }
 
+void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)
+{
+	if (!Player) return;
+
+	FVector CurrentPosition = Player->GetActorLocation();
+
+	// Vypočítej vzdálenost od středu (poloměr kružnice)
+	float Distance = FVector(CurrentPosition.X, CurrentPosition.Y, 0.0f).Size();
+
+	// Aktualizace úhlu na základě rychlosti
+	Angle += Speed * InDelta; // Speed určuje rychlost rotace (např. 1 radian za sekundu)
+
+	// Udržení úhlu v rozmezí 0 až 2π
+	if (Angle > 2 * PI)
+	{
+		Angle -= 2 * PI;
+	}
+
+	// Výpočet nové pozice na kružnici
+	FVector NewPosition;
+	NewPosition.X = Distance * FMath::Cos(Angle);
+	NewPosition.Y = Distance * FMath::Sin(Angle);
+	NewPosition.Z = Player->GetActorLocation().Z; // Zachováme aktuální výšku hráče
+
+	// Nastavení pozice hráče
+	Player->SetActorLocation(NewPosition);
+
+	FVector LookAtPosition = Player->GetActorLocation();
+	LookAtPosition.X = 0;
+	LookAtPosition.Y = 0;
+	
+	// Výpočet a nastavení rotace směrem ke středu
+	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(NewPosition, LookAtPosition);
+	Player->SetActorRotation(LookAtRotation);
+}
+
+
 void AMR_General::SelectModule_L()
 {
 	if (CurrentlyHoveredModule_L)
@@ -239,6 +278,7 @@ void AMR_General::OnSelectedModuleChanged()
 	}
 	SpawnPreviewUnit(SelectedModuleActor);
 }
+
 
 
 

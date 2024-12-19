@@ -42,20 +42,23 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
+	void SelectModule_L();
+	void SelectModule_R();
+	void Action_SpawnUnit();
 	void PerformSphereTrace(
 		TObjectPtr<UMotionControllerComponent> Controller,
 		TObjectPtr<UStaticMeshComponent> ImpactPointer,
 		AModuleActor*& CurrentlyHoveredModule);
-	void SelectModule_L();
-	void SelectModule_R();
-	void Action_SpawnUnit();
+	
 
+	UFUNCTION(BlueprintCallable, Category="Player movement")
+	void MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed);
 	
 public:
+	
 	// CORE
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 		AEK_GameMode* GameMode;
-
 	// ~CORE
 
 	// INPUT
@@ -91,6 +94,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		UInputAction* IA_SelectModule_R;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+		UInputAction* IA_RotatePlayer;
 
 	// Visuals
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly)

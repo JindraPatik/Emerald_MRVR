@@ -94,6 +94,8 @@ void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetim
 	DOREPLIFETIME(ABasePawn, ImpactPointer_R);
 	DOREPLIFETIME(ABasePawn, VR_Proxy);
 	DOREPLIFETIME(ABasePawn, VR_Root);
+	DOREPLIFETIME(ABasePawn, Camera);
+	DOREPLIFETIME(ABasePawn, GeneralBody);
 }
 
 void ABasePawn::Tick(float DeltaTime)
