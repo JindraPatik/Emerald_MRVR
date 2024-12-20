@@ -35,19 +35,26 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category = "Visuals")
-	TObjectPtr<USceneComponent> BaseRoot;
+		TObjectPtr<USceneComponent> BaseRoot;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category = "Visuals")
-	TObjectPtr<UStaticMeshComponent> SM_Root;
+		TObjectPtr<UStaticMeshComponent> SM_Root;
 
 	UPROPERTY(EditAnywhere, Category = "BaseBody")
-	TObjectPtr<UBoxComponent> BaseBox;
+		TObjectPtr<UBoxComponent> BaseBox;
 
 	UPROPERTY(VisibleDefaultsOnly, Category="Visuals")
-	UDownScaleComponent* DownScaleComponent;
+		UDownScaleComponent* DownScaleComponent;
+
+	UPROPERTY(EditAnywhere, Category="Widgets")
+		FVector ResourcesWidgetOffset;
+
+	UPROPERTY(EditAnywhere, Category="Widgets")
+		FVector HealthWidgetOffset;
 
 	UPROPERTY(Replicated)
-	APawn* General;
+		APawn* General;
+	
 
 	virtual void PostInitProperties() override;
 	

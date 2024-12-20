@@ -155,10 +155,10 @@ void AMilitaryBase::BeginPlay()
 	if (ensure(General))
 	{
 		SpawnResourcesWidget();
-		if (General->IsLocallyControlled())
+		SpawnHealthWidget();
+		/*if (General->IsLocallyControlled())
 		{
-			SpawnHealthWidget();
-		}
+		}*/
 	} 
 }
 
@@ -176,7 +176,7 @@ void AMilitaryBase::SpawnResourcesWidget()
 		{
 			FActorSpawnParameters SpawnParams;
 			SpawnParams.Owner = GetOwner();
-			FVector Location = GetActorLocation() + FVector(0.f, 0.f, 60.f);
+			FVector Location = GetActorLocation() + ResourcesWidgetOffset;
 			ResourcesWidgetInstance = World->SpawnActor<AActor>(ResourcesWBP, Location, FRotator::ZeroRotator, SpawnParams);
 		}
 	}
@@ -199,7 +199,7 @@ void AMilitaryBase::SpawnHealthWidget()
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
-		FVector Location = GetActorLocation() + FVector(0.f, 0.f, 125.f);
+		FVector Location = GetActorLocation() + HealthWidgetOffset;
 		
 		HealthWidgetInstance = World->SpawnActor<AActor>(HealthWidget, Location, FRotator::ZeroRotator, SpawnParams);
 		if (HealthWidgetInstance)

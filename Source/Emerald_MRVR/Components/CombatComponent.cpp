@@ -117,6 +117,7 @@ void UCombatComponent::BaseFight(AActor* InActor)
 				if (OtherBaseHealthComp)
 				{
 					OtherBaseHealthComp->Health -= Unit->Damage;
+					OtherBaseHealthComp->OnRep_OnHealthChanged();
 					GetOwner()->Destroy();
 				}
 			}

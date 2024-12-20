@@ -30,11 +30,6 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 void UHealthComponent::OnRep_OnHealthChanged()
 {
-	if (GetOwner()->HasAuthority())
-	{
-		OnRep_OnHealthChanged();
-	}
-	
 	if (MilitaryBaseCompInst)
 	{
 		AMilitaryBase* BaseInstance = MilitaryBaseCompInst->GetBaseInstance();
