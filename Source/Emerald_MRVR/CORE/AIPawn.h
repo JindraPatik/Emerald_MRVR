@@ -5,6 +5,7 @@
 #include "GameFramework/Pawn.h"
 #include "AIPawn.generated.h"
 
+class UBehaviorTree;
 class UMilitaryBaseComp;
 class UHealthComponent;
 class UResourcesComponent;
@@ -35,4 +36,5 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
 		AMilitaryBase* BaseInstance;
+
 };

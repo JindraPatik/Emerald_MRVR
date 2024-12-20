@@ -13,8 +13,13 @@ UCLASS()
 class EMERALD_MRVR_API ASingleAIController : public AAIController
 {
 	GENERATED_BODY()
+
+private:
+	ASingleAIController();
 	
-	
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="AI")
+		UBehaviorTree* BehaviorTree;
 	
 	
 };

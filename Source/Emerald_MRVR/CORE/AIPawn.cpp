@@ -1,4 +1,6 @@
 #include "AIPawn.h"
+
+#include "BehaviorTree/BehaviorTree.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
@@ -10,6 +12,7 @@ AAIPawn::AAIPawn()
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
 	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
+
 }
 
 void AAIPawn::BeginPlay()
