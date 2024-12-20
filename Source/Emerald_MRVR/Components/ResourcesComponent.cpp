@@ -30,11 +30,6 @@ void UResourcesComponent::BeginPlay()
 
 void UResourcesComponent::OnRep_ResourcesChanged() const
 {
-	if (GetOwner()->HasAuthority())
-	{
-		OnRep_ResourcesChanged();
-	}
-	
 	if (MilitaryBaseCompInst)
 	{
 		AMilitaryBase* BaseInstance = MilitaryBaseCompInst->GetBaseInstance();
@@ -54,6 +49,8 @@ void UResourcesComponent::UpdateResources(float ResourcesDelta)
 	if (GetOwnerRole() == ROLE_Authority)
 	{
 		AvailableResources = FMath::Max(0, AvailableResources - ResourcesDelta);
+		OnRep_ResourcesChanged();
+		return;
 	}
 	else
 	{
@@ -70,6 +67,7 @@ void UResourcesComponent::GrowResources()
 {
 	float ResourcesGrowAmount = 1.f;
 	AvailableResources += ResourcesGrowAmount;
+	OnRep_ResourcesChanged();
 }
 
 void UResourcesComponent::StartGrowResources()

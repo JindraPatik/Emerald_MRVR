@@ -176,7 +176,7 @@ void AMilitaryBase::SpawnResourcesWidget()
 		{
 			FActorSpawnParameters SpawnParams;
 			SpawnParams.Owner = GetOwner();
-			FVector Location = GetActorLocation() + FVector(0.f, 0.f, 100.f);
+			FVector Location = GetActorLocation() + FVector(0.f, 0.f, 60.f);
 			ResourcesWidgetInstance = World->SpawnActor<AActor>(ResourcesWBP, Location, FRotator::ZeroRotator, SpawnParams);
 		}
 	}
@@ -199,7 +199,7 @@ void AMilitaryBase::SpawnHealthWidget()
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
-		FVector Location = GetActorLocation() + FVector(0.f, 0.f, 110.f);
+		FVector Location = GetActorLocation() + FVector(0.f, 0.f, 125.f);
 		
 		HealthWidgetInstance = World->SpawnActor<AActor>(HealthWidget, Location, FRotator::ZeroRotator, SpawnParams);
 		if (HealthWidgetInstance)
