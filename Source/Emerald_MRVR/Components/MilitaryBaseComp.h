@@ -39,6 +39,13 @@ protected:
 
 	UFUNCTION(Server, Reliable)
 	void Server_SetSpawnPointForBase();
+	void SpawnNotEnoughResWidget();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
+		TSubclassOf<AActor> NotEnoughResourcesWidgetActor;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
+		TObjectPtr<AActor>  NotEnoughResourcesWidgetInst;
 	
 public:	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")

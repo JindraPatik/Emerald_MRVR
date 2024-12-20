@@ -68,6 +68,7 @@ void UMilitaryBaseComp::SetSpawnPointForBase()
 	}
 }
 
+
 void UMilitaryBaseComp::Server_SetSpawnPointForBase_Implementation()
 {
 	SetSpawnPointForBase();
@@ -197,7 +198,7 @@ void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 			}
 			else
 			{
-				DBG(3, "NotEnoughRsources")
+				SpawnNotEnoughResWidget();
 			}
 			return;
 		}
@@ -234,3 +235,22 @@ void UMilitaryBaseComp::Server_HasEnoughResources_Implementation(UBuildingDataAs
 {
 	HasEnoughResources(BuildingDataAsset);
 }
+
+// TODO
+void UMilitaryBaseComp::SpawnNotEnoughResWidget()
+{
+	if (NotEnoughResourcesWidgetInst)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Owner = GetOwner();
+		FVector Location = FVector(0.f, 0.f, 125.f);
+		FRotator Rotation = FRotator::ZeroRotator;
+		GetWorld()->SpawnActor<AActor>(NotEnoughResourcesWidgetActor, Location, Rotation, SpawnParameters);
+	}
+	else
+	{
+		// set visibility ON;
+	}
+}
+
+
