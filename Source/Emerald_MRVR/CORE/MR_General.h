@@ -46,8 +46,8 @@ protected:
 	void SelectModule_R();
 	void Action_SpawnUnit();
 	void PerformSphereTrace(
-		TObjectPtr<UMotionControllerComponent> Controller,
-		TObjectPtr<UStaticMeshComponent> ImpactPointer,
+		UMotionControllerComponent* Controller,
+		UStaticMeshComponent* ImpactPointer,
 		AModuleActor*& CurrentlyHoveredModule);
 	
 

@@ -122,8 +122,8 @@ void AMR_General::SetPlayerColor() // Sets Player Color
 }
 
 void AMR_General::PerformSphereTrace(
-	TObjectPtr<UMotionControllerComponent> UsedController,
-	TObjectPtr<UStaticMeshComponent> ImpactPointer,
+	UMotionControllerComponent* UsedController,
+	UStaticMeshComponent* ImpactPointer,
 	AModuleActor*& CurrentlyHoveredModule)
 {
 	FHitResult HitResult;

@@ -74,7 +74,7 @@ void UResourcesComponent::GrowResources()
 
 void UResourcesComponent::StartGrowResources()
 {
-	TObjectPtr<UWorld> World = GetWorld();
+	UWorld* World = GetWorld();
 	if (World)
 	{
 		FTimerHandle GrowResourcesTimerHandle;

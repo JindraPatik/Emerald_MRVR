@@ -171,7 +171,7 @@ void AMilitaryBase::SpawnResourcesWidget()
 	
 	if (General && General->IsLocallyControlled())
 	{
-		TObjectPtr<UWorld> World = GetWorld();
+		UWorld* World = GetWorld();
 		if (World)
 		{
 			FActorSpawnParameters SpawnParams;
@@ -195,7 +195,7 @@ void AMilitaryBase::SpawnHealthWidget()
 		return;
 	}
 	
-	TObjectPtr<UWorld> World = GetWorld();
+	UWorld* World = GetWorld();
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;

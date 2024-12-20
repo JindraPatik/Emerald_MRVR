@@ -167,7 +167,7 @@ void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 		if (BuildingDataAsset)
 		{
 			TSubclassOf<AUnit> UnitClassToSpawn = BuildingDataAsset->UnitToSpawn;
-			TObjectPtr<UWorld> World = GetWorld();
+			UWorld* World = GetWorld();
 
 			if (!BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 			{

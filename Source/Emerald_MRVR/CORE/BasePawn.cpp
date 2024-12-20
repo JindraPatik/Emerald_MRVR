@@ -149,7 +149,7 @@ void ABasePawn::SetUpPointer(UMotionControllerComponent* MotionControllerCompone
 	FVector Start = FxrMotionControllerData.AimPosition;
 	FVector End = FxrMotionControllerData.AimRotation.GetForwardVector() * PointerDistance;
 
-	TObjectPtr<UWorld> World = GetWorld();
+	UWorld* World = GetWorld();
 	if (World)
 	{
 		FCollisionQueryParams QueryParams;
