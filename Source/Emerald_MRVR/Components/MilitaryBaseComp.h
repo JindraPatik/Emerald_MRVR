@@ -44,7 +44,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
 		TSubclassOf<AActor> NotEnoughResourcesWidgetActor;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
+	UPROPERTY(BlueprintReadWrite, Category="Widgets")
 		TObjectPtr<AActor>  NotEnoughResourcesWidgetInst;
 	
 public:	
@@ -87,14 +87,8 @@ public:
 	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
 		TArray<UBuildingDataAsset*> AvailableModules;
 
-	UPROPERTY(VisibleAnywhere, Category="UnitSpawning")
+	UPROPERTY()
 		UUnitDataAsset* SelectedUnit;
-
-	/*UFUNCTION()
-	void GetMilitaryBaseSpawnPoint();*/
-
-	/*UFUNCTION(Server, Reliable)
-		void Server_GetMilitaryBaseSpawnPoint();*/
 
 	UPROPERTY(Replicated)
 		FVector UnitSpawnLocation = FVector::ZeroVector;

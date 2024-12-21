@@ -7,6 +7,8 @@
 #include "Engine/TargetPoint.h"
 
 
+
+
 UCrystalSpawnerComp::UCrystalSpawnerComp()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -45,7 +47,8 @@ void UCrystalSpawnerComp::SpawnCrystal()
     FVector RandomCrystalLocation = FMath::Lerp(Target1_Pos, Target2_Pos, RandomAlpha);
     FRotator SpawnRotation = FRotator(0.f,FMath::RandRange(0.f, 360.f), 0.f);
     FActorSpawnParameters SpawnParameters;
-   	GetWorld()->SpawnActor<ACrystal>(CrystalToSpawn, RandomCrystalLocation, SpawnRotation, SpawnParameters);	
+   	GetWorld()->SpawnActor<ACrystal>(CrystalToSpawn, RandomCrystalLocation, SpawnRotation, SpawnParameters);
+	OnCrystalSpawnedDelegate.Broadcast(RandomCrystalLocation);
 		
 }
 

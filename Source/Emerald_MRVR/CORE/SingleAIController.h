@@ -15,6 +15,7 @@ class EMERALD_MRVR_API ASingleAIController : public AAIController
 	GENERATED_BODY()
 
 private:
+	virtual void BeginPlay() override;
 	ASingleAIController();
 	
 protected:

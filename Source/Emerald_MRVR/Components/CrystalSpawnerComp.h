@@ -4,6 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "CrystalSpawnerComp.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCrystalSpawnedSignature, FVector, SpawnedLoc);
 
 class ACrystal;
 
@@ -27,7 +28,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 	float SpawnIntervalMax = 10.f;
 
-
 	FTimerHandle SpawningHandle;
 
 	
@@ -36,5 +36,7 @@ public:
 
 	void SpawnCrystal();
 	void StartSpawning();
+
+	FOnCrystalSpawnedSignature OnCrystalSpawnedDelegate;
 	
 };
