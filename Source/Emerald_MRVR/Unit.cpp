@@ -1,20 +1,12 @@
 #include "Unit.h"
 
-#include "AIHelpers.h"
 #include "BoxComponent.h"
 #include "DebugMacros.h"
-#include "SphereComponent.h"
 #include "Components/CombatComponent.h"
 #include "Components/DownScaleComponent.h"
-#include "Components/MilitaryBaseComp.h"
 #include "Components/UnitMovementComponent.h"
 #include "CORE/MR_General.h"
-#include "CORE/PC_MR_General.h"
-#include "CORE/UnitAIController.h"
-#include "Data/BuildingDataAsset.h"
-#include "Data/UnitDataAsset.h"
 #include "Net/UnrealNetwork.h"
-#include "Runtime/AIModule/Classes/AIController.h"
 
 
 AUnit::AUnit()

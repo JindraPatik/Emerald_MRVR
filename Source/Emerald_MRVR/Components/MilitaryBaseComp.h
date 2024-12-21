@@ -100,7 +100,4 @@ public:
 		FORCEINLINE AMilitaryBase* GetBaseInstance() const { return MyBaseInstance; }
 
 	TSubclassOf<AUnitAIController> AiUnitControllerClass;
-
-	UPROPERTY()
-		AUnitAIController* AIUnitController;
 };
