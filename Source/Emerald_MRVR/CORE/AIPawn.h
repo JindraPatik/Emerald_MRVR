@@ -10,6 +10,7 @@ class UMilitaryBaseComp;
 class UHealthComponent;
 class UResourcesComponent;
 class AMilitaryBase;
+class UAI_Component;
 
 UCLASS()
 class EMERALD_MRVR_API AAIPawn : public APawn
@@ -21,6 +22,9 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(BlueprintReadWrite, Category="AI")
+		TObjectPtr<UAI_Component> AI_Component;
 	
 public:	
 	virtual void Tick(float DeltaTime) override;
@@ -36,5 +40,7 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
 		AMilitaryBase* BaseInstance;
+		
+	
 
 };

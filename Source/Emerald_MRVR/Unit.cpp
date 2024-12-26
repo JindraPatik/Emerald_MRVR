@@ -54,7 +54,6 @@ void AUnit::BeginPlay()
 	{
 		DBG(3, "AUnit failed to cast GENERAL")
 	}
-
 }
 
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

@@ -16,6 +16,7 @@ class AMR_General;
 class AMilitaryBase;
 class AUnit;
 class ATargetPoint;
+class UWidgetAnimation;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UMilitaryBaseComp : public UActorComponent
@@ -46,6 +47,12 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category="Widgets")
 		TObjectPtr<AActor>  NotEnoughResourcesWidgetInst;
+
+	UPROPERTY(VisibleInstanceOnly, Category="Widgets")
+		TObjectPtr<AActor> NotEnoughResInstance;
+
+	UPROPERTY(EditDefaultsOnly, Category="Sounds")
+		TObjectPtr<USoundBase> NotEnoughResSound;
 	
 public:	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
@@ -79,10 +86,10 @@ public:
 		void Server_SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
 
 	UFUNCTION(Category="UnitSpawning")
-		bool HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const;
+		bool HasEnoughResources(UBuildingDataAsset* BuildingDataAsset);
 
 	UFUNCTION(Server, Reliable)
-		void Server_HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const;
+		void Server_HasEnoughResources(UBuildingDataAsset* BuildingDataAsset);
 
 	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
 		TArray<UBuildingDataAsset*> AvailableModules;

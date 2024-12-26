@@ -3,6 +3,9 @@
 #include "EngineUtils.h"
 #include "ResourcesComponent.h"
 #include "UnitMovementComponent.h"
+#include "Animation/WidgetAnimation.h"
+#include "AssetTypeActions/AssetDefinition_SoundBase.h"
+#include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/ModuleActor.h"
@@ -13,6 +16,7 @@
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -185,6 +189,7 @@ void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 			UnitSpawnParams.Owner = InstigatorPawn;
 			UnitSpawnParams.Instigator = InstigatorPawn;
 
+
 			if (HasEnoughResources(BuildingDataAsset))
 			{
 				UUnitDataAsset* SpawnedUnitDataAsset = BuildingDataAsset->UnitToSpawnData;
@@ -196,11 +201,6 @@ void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
 				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
 			}
-			else
-			{
-				SpawnNotEnoughResWidget();
-			}
-			return;
 		}
 	}
 	DBG(3, "MBC: NOT INstigator || BaseInstance || Module")
@@ -213,7 +213,7 @@ void UMilitaryBaseComp::Server_SpawnUnit_Implementation(APawn* InstigatorPawn, A
 }
 
 
-bool UMilitaryBaseComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset) const
+bool UMilitaryBaseComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset)
 {
 		if (!GetOwner()->HasAuthority())
 		{
@@ -226,12 +226,13 @@ bool UMilitaryBaseComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset
 			{
 				return true;
 			}
+			SpawnNotEnoughResWidget();
 			return false;
 		}
-	return false;
+		return false;
 }
 
-void UMilitaryBaseComp::Server_HasEnoughResources_Implementation(UBuildingDataAsset* BuildingDataAsset) const
+void UMilitaryBaseComp::Server_HasEnoughResources_Implementation(UBuildingDataAsset* BuildingDataAsset)
 {
 	HasEnoughResources(BuildingDataAsset);
 }
@@ -241,9 +242,10 @@ void UMilitaryBaseComp::SpawnNotEnoughResWidget()
 {
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.Owner = GetOwner();
-		FVector Location = FVector(0.f, 0.f, 125.f);
+		FVector Location = FVector(0.f, 0.f, 225.f);
 		FRotator Rotation = FRotator::ZeroRotator;
-		GetWorld()->SpawnActor<AActor>(NotEnoughResourcesWidgetActor, Location, Rotation, SpawnParameters);
+		NotEnoughResInstance = GetWorld()->SpawnActor<AActor>(NotEnoughResourcesWidgetActor, Location, Rotation, SpawnParameters);
+		UGameplayStatics::PlaySound2D(this, NotEnoughResSound, 1.f);
 }
 
 
