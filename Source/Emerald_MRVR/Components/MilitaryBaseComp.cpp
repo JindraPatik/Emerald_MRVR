@@ -203,7 +203,6 @@ void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 			}
 		}
 	}
-	DBG(3, "MBC: NOT INstigator || BaseInstance || Module")
 }
 
 
@@ -237,7 +236,6 @@ void UMilitaryBaseComp::Server_HasEnoughResources_Implementation(UBuildingDataAs
 	HasEnoughResources(BuildingDataAsset);
 }
 
-// TODO
 void UMilitaryBaseComp::SpawnNotEnoughResWidget()
 {
 		FActorSpawnParameters SpawnParameters;

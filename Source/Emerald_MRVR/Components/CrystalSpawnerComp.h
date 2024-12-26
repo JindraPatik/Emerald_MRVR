@@ -4,7 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "CrystalSpawnerComp.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCrystalSpawnedSignature, FVector, SpawnedLoc);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCrystalSpawnedSignature, FVector, SpawnedLoc, ACrystal*, CrystalInstance);
 
 class ACrystal;
 
@@ -20,13 +20,16 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, Category="Crystal")
-	TSubclassOf<ACrystal> CrystalToSpawn;
+		TSubclassOf<ACrystal> CrystalToSpawn;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-	float SpawnIntervalMin = 1.f;
+		float SpawnIntervalMin = 1.f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-	float SpawnIntervalMax = 10.f;
+		float SpawnIntervalMax = 10.f;
+
+	UPROPERTY(VisibleInstanceOnly, Category="Crystal")
+		TObjectPtr<ACrystal> CrystalInst;
 
 	FTimerHandle SpawningHandle;
 
