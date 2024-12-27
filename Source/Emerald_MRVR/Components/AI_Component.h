@@ -20,6 +20,10 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void PostInitProperties() override;
+	float GetDistanceBetweenCrystalSpawners() const;
+	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
+
+	UPROPERTY()
 	TObjectPtr<AGameState> AEK_GameStateInst;
 
 	UFUNCTION()
