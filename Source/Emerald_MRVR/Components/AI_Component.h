@@ -1,10 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MilitaryBaseComp.h"
 #include "Components/ActorComponent.h"
 #include "AI_Component.generated.h"
 
 
+class AModuleActor;
+class UBuildingDataAsset;
 class AGameState;
 class ACrystal;
 class AEKGameState;
@@ -22,9 +25,16 @@ protected:
 	virtual void PostInitProperties() override;
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
+	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
 
 	UPROPERTY()
-	TObjectPtr<AGameState> AEK_GameStateInst;
+		TObjectPtr<AGameState> AEK_GameStateInst;
+
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		TObjectPtr<UBuildingDataAsset> MineModule;
+
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		float DistanceToCrystalTolerance = 2;
 
 	UFUNCTION()
 	void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);

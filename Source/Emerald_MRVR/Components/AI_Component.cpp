@@ -2,9 +2,15 @@
 #include "Engine/TargetPoint.h"
 #include "CrystalSpawnerComp.h"
 #include "EngineUtils.h"
+#include "MilitaryBaseComp.h"
+#include "ResourcesComponent.h"
+#include "UnitMovementComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/CORE/Gamemode_Single.h"
+#include "Emerald_MRVR/Data/BuildingDataAsset.h"
+#include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 
 UAI_Component::UAI_Component()
@@ -60,17 +66,51 @@ float UAI_Component::GetDistanceBetweenCrystalSpawners() const
 
 float UAI_Component::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 {
-	float DistanceToCrystal = FVector::Dist(GetOwner()->GetActorLocation(), CrystalLocation);
+	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	float DistanceToCrystal = FVector::Dist(MilitaryBaseComp->GetBaseInstance()->GetActorLocation(), CrystalLocation);
 	return DistanceToCrystal;
+}
+
+void UAI_Component::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
+{
+	APawn* AIPawn = Cast<APawn>(GetOwner());
+	if (AIPawn)
+	{
+		if (MineModule)
+		{
+			TSubclassOf<AUnit> UnitClassToSpawn = MineModule->UnitToSpawn;
+			UWorld* World = GetWorld();
+
+			FVector UnitSpawnLocation = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
+			FRotator UnitSpawnRotation = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
+			FActorSpawnParameters UnitSpawnParams;
+			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			UnitSpawnParams.Owner = GetOwner();
+			UUnitDataAsset* SpawnedUnitDataAsset = MineModule->UnitToSpawnData;
+			AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
+			UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+			UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
+			UnitInstance->Price = SpawnedUnitDataAsset->Price;
+			UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
+			UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
+			UResourcesComponent* ResourcesComponent = AIPawn->FindComponentByClass<UResourcesComponent>();
+			if (ResourcesComponent)
+			{
+				ResourcesComponent->UpdateResources(SpawnedUnitDataAsset->Price);
+			}
+				
+		}
+	}
 }
 
 void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 {
-	bool bShouldSendHarvester = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/1.5; 
+	bool bShouldSendHarvester = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
+	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	
-	if (bShouldSendHarvester)
+	if (MilitaryBaseComp && bShouldSendHarvester && MilitaryBaseComp->HasEnoughResources(MineModule))
 	{
-		
+		SpawnHarvester(MilitaryBaseComp);
 	}
 }
 

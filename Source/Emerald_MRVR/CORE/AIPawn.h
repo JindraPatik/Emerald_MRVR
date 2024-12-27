@@ -23,7 +23,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadWrite, Category="AI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="AI")
 		TObjectPtr<UAI_Component> AI_Component;
 	
 public:	
