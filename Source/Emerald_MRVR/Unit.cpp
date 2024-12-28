@@ -13,9 +13,9 @@ AUnit::AUnit()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	SetRootComponent(UnitRoot);
 	UnitRoot = CreateDefaultSubobject<USceneComponent>("UnitRoot");
 	UnitRoot->SetIsReplicated(true);
+	SetRootComponent(UnitRoot);
 	
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
 	Body->SetIsReplicated(true);
@@ -44,16 +44,6 @@ AUnit::AUnit()
 void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
-
-	AMR_General* General = Cast<AMR_General>(GetInstigator());
-	if (General)
-	{
-		Body->SetMaterial(0, General->PlayerDefaultColor);	
-	}
-	else
-	{
-		DBG(3, "AUnit failed to cast GENERAL")
-	}
 }
 
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -75,7 +65,6 @@ void AUnit::Tick(float DeltaTime)
 	{
 		UnitMovementComponent->MoveTo(DeltaTime);	
 	}
-
 }
 
 void AUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

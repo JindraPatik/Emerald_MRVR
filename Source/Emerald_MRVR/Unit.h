@@ -28,35 +28,34 @@ protected:
 	
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
-	UDownScaleComponent* DownScaleComponent;
+		UDownScaleComponent* DownScaleComponent;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
-	TObjectPtr<USceneComponent> UnitRoot;
-	
+		TObjectPtr<USceneComponent> UnitRoot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Collision")
-	TObjectPtr<UBoxComponent> BoxComponent;
+		TObjectPtr<UBoxComponent> BoxComponent;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
-	TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
+		TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
-	TObjectPtr<UCombatComponent> CombatComponent;
+		TObjectPtr<UCombatComponent> CombatComponent;
 	
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
-	TObjectPtr<UStaticMeshComponent> Body;
+		TObjectPtr<UStaticMeshComponent> Body;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
-	float Speed;
+		float Speed;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
-	float Strenght;
+		float Strenght;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
-	float Price;
+		float Price;
 	
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
-	float Damage;
+		float Damage;
 
 
 	

@@ -88,7 +88,6 @@ void UCombatComponent::UnitFight(AActor* InActor)
 			
 		}
 		return;
-
 	}
 }
 

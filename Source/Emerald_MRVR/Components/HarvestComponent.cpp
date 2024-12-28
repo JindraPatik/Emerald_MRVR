@@ -14,7 +14,6 @@ UHarvestComponent::UHarvestComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
-
 }
 
 void UHarvestComponent::BeginPlay()
@@ -35,6 +34,7 @@ void UHarvestComponent::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, A
 {
 	CollectCrystal(OtherActor);
 	DeliverCrystal(OtherActor);
+	UE_LOG(LogTemp, Warning, TEXT("Harvester overlapped with Base"))
 }
 
 void UHarvestComponent::CollectCrystal(AActor* HittedActor)

@@ -88,6 +88,7 @@ void UAI_Component::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 			UnitSpawnParams.Owner = GetOwner();
 			UUnitDataAsset* SpawnedUnitDataAsset = MineModule->UnitToSpawnData;
 			AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
+			
 			UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
 			UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
 			UnitInstance->Price = SpawnedUnitDataAsset->Price;
@@ -98,7 +99,6 @@ void UAI_Component::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 			{
 				ResourcesComponent->UpdateResources(SpawnedUnitDataAsset->Price);
 			}
-				
 		}
 	}
 }
