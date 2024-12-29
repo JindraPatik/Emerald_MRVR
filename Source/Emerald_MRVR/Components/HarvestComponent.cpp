@@ -75,14 +75,18 @@ void UHarvestComponent::DeliverCrystal(AActor* HitActor)
 	AMilitaryBase* MilitaryBase = Cast<AMilitaryBase>(HitActor);
 	if (MilitaryBase)
 	{
-		AMR_General* General = Cast<AMR_General>(GetOwner()->GetOwner());
-		AMR_General* BaseOwner = Cast<AMR_General>(MilitaryBase->GetOwner());
+		APawn* General = Cast<APawn>(GetOwner()->GetOwner());
+		APawn* BaseOwner = Cast<APawn>(MilitaryBase->GetOwner());
 
 		if (General && BaseOwner && General == BaseOwner && bIsLoaded)
 		{
-			General->ResourcesComponent->AvailableResources += HarvestedValue;
-			bIsLoaded = false;
-			GetOwner()->Destroy();
+			UResourcesComponent* ResourcesComponent = General->FindComponentByClass<UResourcesComponent>();
+			if (ResourcesComponent)
+			{
+				ResourcesComponent->AvailableResources += HarvestedValue;
+				bIsLoaded = false;
+				GetOwner()->Destroy();
+			}
 		}
 	}
 }
