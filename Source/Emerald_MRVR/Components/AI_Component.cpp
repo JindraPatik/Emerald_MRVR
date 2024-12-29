@@ -12,7 +12,6 @@
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
-
 UAI_Component::UAI_Component()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -21,6 +20,9 @@ UAI_Component::UAI_Component()
 void UAI_Component::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetAvailableUnits();
+	
 	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
 	if (AEK_GameStateInst)
 	{
@@ -103,6 +105,28 @@ void UAI_Component::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 	}
 }
 
+void UAI_Component::GetAvailableUnits()
+{
+	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	if (MilitaryBaseComp)
+	{
+		for (UBuildingDataAsset* AvailableUnit : MilitaryBaseComp->AvailableModules)
+		{
+			if (AvailableUnit)
+			{
+				if (!AvailableUnit->UnitToSpawnData->IsFlyingUnit)
+				{
+					AvailableGroundUnits.Add(AvailableUnit->UnitToSpawnData);
+				}
+				else
+				{
+					AvailableFlyingUnits.Add(AvailableUnit->UnitToSpawnData);
+				}
+			}
+		}
+	}
+}
+
 void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 {
 	bool bShouldSendHarvester = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
@@ -118,7 +142,6 @@ void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 			SimulatedDelay,
 			false
 			);
-		//SpawnHarvester(MilitaryBaseComp);
 	}
 }
 

@@ -26,6 +26,7 @@ protected:
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
+	void GetAvailableUnits();
 
 	UPROPERTY()
 		TObjectPtr<AGameState> AEK_GameStateInst;
@@ -38,6 +39,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float MaxSimulatedDelayToSpawnHarvester = 0.8f;
+
+	UPROPERTY(VisibleAnywhere, Category="Spawning")
+		TArray<UUnitDataAsset*> AvailableGroundUnits;
+
+	UPROPERTY(VisibleAnywhere, Category="Spawning")
+		TArray<UUnitDataAsset*> AvailableFlyingUnits; 
 
 	UFUNCTION()
 	void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);

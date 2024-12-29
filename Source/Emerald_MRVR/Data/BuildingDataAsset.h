@@ -16,26 +16,26 @@ class EMERALD_MRVR_API UBuildingDataAsset : public UPrimaryDataAsset
 	
 public:
 	UPROPERTY(EditAnywhere, Category="Info")
-	FName BuildingName;
+		FName BuildingName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Info")
-	EKGBuildings BuildingType;
+		EKGBuildings BuildingType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-	UStaticMesh* SM_Building;
+		UStaticMesh* SM_Building;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-	TSubclassOf<AModuleActor> ModuleClass;
+		TSubclassOf<AModuleActor> ModuleClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Unit")
-	TObjectPtr<UUnitDataAsset> UnitToSpawnData;
+		TObjectPtr<UUnitDataAsset> UnitToSpawnData;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Unit")
-	TSubclassOf<AUnit> UnitToSpawn;
+		TSubclassOf<AUnit> UnitToSpawn;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
-	UMaterialInterface* BaseMaterial;
+		UMaterialInterface* BaseMaterial;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
-	UMaterialInterface* HoverMaterial;
+		UMaterialInterface* HoverMaterial;
 };

@@ -12,28 +12,28 @@ class EMERALD_MRVR_API UUnitDataAsset : public UPrimaryDataAsset
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Info")
-	FName UnitName;
+		FName UnitName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Info")
-	EKGUnits UnitType;
+		EKGUnits UnitType;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Spawning")
-	float Price;
+		float Price;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Movement")
-	float Speed;
+		float Speed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
-	int32 Strength;
+		int32 Strength;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
-	int32 Damage;
+		int32 Damage;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	bool IsFlyingUnit = false;
+		bool IsFlyingUnit = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-	UStaticMesh* SM_Unit;
+		UStaticMesh* SM_Unit;
 
 	
 };
