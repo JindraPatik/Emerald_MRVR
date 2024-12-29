@@ -110,7 +110,15 @@ void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 	
 	if (MilitaryBaseComp && bShouldSendHarvester && MilitaryBaseComp->HasEnoughResources(MineModule))
 	{
-		SpawnHarvester(MilitaryBaseComp);
+		FTimerHandle HarvesterSpawnDelayHandle;
+		float SimulatedDelay = FMath::FRandRange(0.f, MaxSimulatedDelayToSpawnHarvester);
+		GetWorld()->GetTimerManager().SetTimer
+			(HarvesterSpawnDelayHandle,[this, MilitaryBaseComp]()
+			{ this->SpawnHarvester(MilitaryBaseComp); },
+			SimulatedDelay,
+			false
+			);
+		//SpawnHarvester(MilitaryBaseComp);
 	}
 }
 

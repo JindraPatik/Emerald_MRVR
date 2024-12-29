@@ -36,6 +36,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float DistanceToCrystalTolerance = 2;
 
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		float MaxSimulatedDelayToSpawnHarvester = 0.8f;
+
 	UFUNCTION()
 	void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
 
