@@ -139,11 +139,19 @@ void UAI_Component::SpawnUnit(UUnitDataAsset* UnitData, bool bIsFlying)
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = GetOwner();
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	FVector SpawnPoint;
-	bIsFlying ? SpawnPoint = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentLocation() : SpawnPoint = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
+	FVector SpawnPointLoc;
+	FRotator SpawnPointRot;
+	bIsFlying ? SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentLocation() : SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
+	bIsFlying ? SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentRotation() : SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
 
 	// Has enough res??
 	// Spawn Unit !!
+	AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(SpawnPointLoc, SpawnPointRot, SpawnParameters);
+	if (ReactUnit)
+	{
+		// DOPLNIT STATS
+	}
+	
 
 	
 }
