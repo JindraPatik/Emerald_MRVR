@@ -37,6 +37,7 @@ void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME(UMilitaryBaseComp, MyBaseInstance);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnLocation);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnRotation);
+	DOREPLIFETIME(UMilitaryBaseComp, UnitInstance);
 }
 
 void UMilitaryBaseComp::BeginPlay()
@@ -194,12 +195,14 @@ void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 			{
 				UUnitDataAsset* SpawnedUnitDataAsset = BuildingDataAsset->UnitToSpawnData;
 				ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
-				AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
+				UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
 				UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
 				UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
 				UnitInstance->Price = SpawnedUnitDataAsset->Price;
 				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
 				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
+				UnitInstance->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
+				OnUnitSpawnedDelegate.Broadcast(UnitInstance, InstigatorPawn);
 			}
 		}
 	}

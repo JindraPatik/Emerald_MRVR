@@ -44,6 +44,7 @@ AUnit::AUnit()
 void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

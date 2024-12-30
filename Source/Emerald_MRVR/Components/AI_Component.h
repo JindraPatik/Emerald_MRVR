@@ -22,11 +22,12 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void PostInitProperties() override;
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
 	void GetAvailableUnits();
+	void SpawnUnit(UUnitDataAsset* UnitData, bool bIsFlying);
+	
 
 	UPROPERTY()
 		TObjectPtr<AGameState> AEK_GameStateInst;
@@ -44,13 +45,14 @@ protected:
 		TArray<UUnitDataAsset*> AvailableGroundUnits;
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
-		TArray<UUnitDataAsset*> AvailableFlyingUnits; 
+		TArray<UUnitDataAsset*> AvailableFlyingUnits;
+
 
 	UFUNCTION()
-	void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
+		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
 
-public:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+public:
+	UFUNCTION(BlueprintCallable, Category="Events")
+		void OnUnitOccured(AUnit* Unit, AActor* Owner);
 	
 };

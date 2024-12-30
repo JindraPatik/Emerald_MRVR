@@ -4,6 +4,8 @@
 #include "GameFramework/Pawn.h"
 #include "Unit.generated.h"
 
+
+
 class AAIController;
 class AUnitAIController;
 class UCombatComponent;
@@ -57,6 +59,8 @@ public:
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 		float Damage;
 
+	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
+		bool bIsFlyingUnit;
 
 	
 };

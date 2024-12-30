@@ -9,6 +9,7 @@
 #include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/CORE/Gamemode_Single.h"
+#include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
@@ -22,6 +23,7 @@ void UAI_Component::BeginPlay()
 	Super::BeginPlay();
 
 	GetAvailableUnits();
+
 	
 	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
 	if (AEK_GameStateInst)
@@ -34,18 +36,21 @@ void UAI_Component::BeginPlay()
 			 {
 				 CrystalSpawnerComp->OnCrystalSpawnedDelegate.AddDynamic(this, &UAI_Component::OnCrystalOccured);
 			 }
+
+		 	for (TActorIterator<AMR_General> It(GetWorld()); It; ++It)
+		 	{
+		 		AMR_General* General = Cast<AMR_General>(*It);
+			    if (General)
+			    {
+					UMilitaryBaseComp* MilitaryBaseComp = General->FindComponentByClass<UMilitaryBaseComp>();
+						if (MilitaryBaseComp)
+						{
+		 					MilitaryBaseComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAI_Component::OnUnitOccured);
+						}
+			    }
+		 	}
 		 }
 	}
-}
-
-void UAI_Component::PostInitProperties()
-{
-	Super::PostInitProperties();
-}
-
-void UAI_Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
 float UAI_Component::GetDistanceBetweenCrystalSpawners() const
@@ -127,6 +132,22 @@ void UAI_Component::GetAvailableUnits()
 	}
 }
 
+void UAI_Component::SpawnUnit(UUnitDataAsset* UnitData, bool bIsFlying)
+{
+	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = GetOwner();
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	FVector SpawnPoint;
+	bIsFlying ? SpawnPoint = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentLocation() : SpawnPoint = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
+
+	// Has enough res??
+	// Spawn Unit !!
+
+	
+}
+
 void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 {
 	bool bShouldSendHarvester = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
@@ -144,6 +165,42 @@ void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 			);
 	}
 }
+
+// TODO
+void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
+{
+	DBG(4.f, "Unit occured!, Unit occured! Unit occured! Unit occured!")
+
+	if (Owner && Owner != GetOwner()) // If it's not my player
+	{
+		if (Unit && !Unit->bIsFlyingUnit) // React ground Units
+		{
+			for (UUnitDataAsset* ReactUnit : AvailableGroundUnits)
+			{
+				if (Unit->Strenght < ReactUnit->Strength) // Has stronger
+				{
+					
+				}
+				else if (Unit->Strenght == ReactUnit->Strength) // Has same 
+				{
+					
+				}
+				else // Doesn't have propriate ReactUnit 
+				{
+					
+				}
+			}
+		}
+		else // React flying Units
+		{
+			
+		}
+	}
+}
+
+
+
+
 
 
 

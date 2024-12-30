@@ -6,6 +6,8 @@
 #include "Emerald_MRVR/ModuleActor.h"
 #include "MilitaryBaseComp.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);
+
 class UResourcesComponent;
 class AEK_GameMode;
 class AUnitAIController;
@@ -102,6 +104,13 @@ public:
 
 	UPROPERTY(Replicated)
 		FRotator UnitSpawnRotation = FRotator::ZeroRotator;
+
+	UPROPERTY(Replicated)
+		AUnit* UnitInstance;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+		FOnUnitSpawnedSignature OnUnitSpawnedDelegate;
+	
 
 	UFUNCTION()
 		FORCEINLINE AMilitaryBase* GetBaseInstance() const { return MyBaseInstance; }
