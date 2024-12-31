@@ -1,6 +1,7 @@
 #include "AI_Component.h"
 #include "Engine/TargetPoint.h"
 #include "CrystalSpawnerComp.h"
+#include "DownScaleComponent.h"
 #include "EngineUtils.h"
 #include "MilitaryBaseComp.h"
 #include "ResourcesComponent.h"
@@ -144,16 +145,18 @@ void UAI_Component::SpawnUnit(UUnitDataAsset* UnitData, bool bIsFlying)
 	bIsFlying ? SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentLocation() : SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
 	bIsFlying ? SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentRotation() : SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
 
-	// Has enough res??
-	// Spawn Unit !!
 	AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(SpawnPointLoc, SpawnPointRot, SpawnParameters);
 	if (ReactUnit)
 	{
-		// DOPLNIT STATS
+		ReactUnit->Body->SetStaticMesh(UnitData->SM_Unit);
+		ReactUnit->DownScaleComponent->DownscaleFactor = 0.01f;
+		ReactUnit->UnitMovementComponent->UnitSpeed = UnitData->Speed;
+		ReactUnit->Speed = UnitData->Speed;
+		ReactUnit->Price = UnitData->Price;
+		ReactUnit->Strenght = UnitData->Strength;
+		ReactUnit->Damage = UnitData->Damage;
+		ReactUnit->bIsFlyingUnit = UnitData->IsFlyingUnit;
 	}
-	
-
-	
 }
 
 void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
@@ -179,7 +182,9 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 {
 	DBG(4.f, "Unit occured!, Unit occured! Unit occured! Unit occured!")
 
-	if (Owner && Owner != GetOwner()) // If it's not my player
+	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	
+	if (Owner && Owner != GetOwner() && MilitaryBaseComp) // If it's not my player
 	{
 		if (Unit && !Unit->bIsFlyingUnit) // React ground Units
 		{
@@ -187,15 +192,18 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 			{
 				if (Unit->Strenght < ReactUnit->Strength) // Has stronger
 				{
-					
+					// Has Enough res??
+					SpawnUnit(ReactUnit, ReactUnit->IsFlyingUnit);
+					return;
 				}
 				else if (Unit->Strenght == ReactUnit->Strength) // Has same 
 				{
-					
+					SpawnUnit(ReactUnit, ReactUnit->IsFlyingUnit);
+					return;
 				}
 				else // Doesn't have propriate ReactUnit 
 				{
-					
+					DBG(3.f, "Don't have propiate ground unit");
 				}
 			}
 		}

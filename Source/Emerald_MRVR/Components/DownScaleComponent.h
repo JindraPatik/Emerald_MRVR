@@ -14,12 +14,12 @@ class EMERALD_MRVR_API UDownScaleComponent : public UActorComponent
 public:	
 	UDownScaleComponent();
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resize")
+		float DownscaleFactor;
+	
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resize")
-	float DownscaleFactor;
-	
 	void DownscaleOwner();
 
 public:	
