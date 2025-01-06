@@ -122,22 +122,22 @@ void UAI_Component::GetAvailableUnits()
 			{
 				if (!AvailableUnit->UnitToSpawnData->IsFlyingUnit)
 				{
-					AvailableGroundUnits.Add(AvailableUnit->UnitToSpawnData);
+					AvailableGroundUnits.Add(AvailableUnit);
 				}
 				else
 				{
-					AvailableFlyingUnits.Add(AvailableUnit->UnitToSpawnData);
+					AvailableFlyingUnits.Add(AvailableUnit);
 				}
 			}
 		}
 	}
 }
 
-void UAI_Component::SpawnUnit(UUnitDataAsset* UnitData, bool bIsFlying)
+void UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	
-	FActorSpawnParameters SpawnParameters;
+	FActorSpawnParameters SpawnParameters; 
 	SpawnParameters.Owner = GetOwner();
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	FVector SpawnPointLoc;
@@ -145,17 +145,21 @@ void UAI_Component::SpawnUnit(UUnitDataAsset* UnitData, bool bIsFlying)
 	bIsFlying ? SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentLocation() : SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
 	bIsFlying ? SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentRotation() : SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
 
-	AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(SpawnPointLoc, SpawnPointRot, SpawnParameters);
+	AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(ModuleData->UnitToSpawn, SpawnPointLoc, SpawnPointRot, SpawnParameters);
 	if (ReactUnit)
 	{
-		ReactUnit->Body->SetStaticMesh(UnitData->SM_Unit);
-		ReactUnit->DownScaleComponent->DownscaleFactor = 0.01f;
-		ReactUnit->UnitMovementComponent->UnitSpeed = UnitData->Speed;
-		ReactUnit->Speed = UnitData->Speed;
-		ReactUnit->Price = UnitData->Price;
-		ReactUnit->Strenght = UnitData->Strength;
-		ReactUnit->Damage = UnitData->Damage;
-		ReactUnit->bIsFlyingUnit = UnitData->IsFlyingUnit;
+		UResourcesComponent* ResourcesComponentInst = GetOwner()->FindComponentByClass<UResourcesComponent>();
+		UUnitDataAsset* SpawnedUnitDataAsset = ModuleData->UnitToSpawnData;
+		if (SpawnedUnitDataAsset)
+		{
+			ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
+			ReactUnit->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+			ReactUnit->Speed = SpawnedUnitDataAsset->Speed;
+			ReactUnit->Price = SpawnedUnitDataAsset->Price;
+			ReactUnit->Strenght = SpawnedUnitDataAsset->Strength;
+			ReactUnit->Damage = SpawnedUnitDataAsset->Damage;
+			ReactUnit->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
+		}
 	}
 }
 
@@ -188,18 +192,20 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 	{
 		if (Unit && !Unit->bIsFlyingUnit) // React ground Units
 		{
-			for (UUnitDataAsset* ReactUnit : AvailableGroundUnits)
+			for (UBuildingDataAsset* ReactUnit : AvailableGroundUnits)
 			{
-				if (Unit->Strenght < ReactUnit->Strength) // Has stronger
+				if (Unit->Strenght < ReactUnit->UnitToSpawnData->Strength) // Has stronger
 				{
 					// Has Enough res??
-					SpawnUnit(ReactUnit, ReactUnit->IsFlyingUnit);
+					SpawnUnit(ReactUnit, ReactUnit->UnitToSpawnData->IsFlyingUnit);
+					DBG(3, "Send STRONGER unit")
 					return;
 				}
-				else if (Unit->Strenght == ReactUnit->Strength) // Has same 
+				else if (Unit->Strenght == ReactUnit->UnitToSpawnData->Strength) // Has same 
 				{
 					// choose which same?
-					SpawnUnit(ReactUnit, ReactUnit->IsFlyingUnit);
+					SpawnUnit(ReactUnit, ReactUnit->UnitToSpawnData->IsFlyingUnit);
+					DBG(3, "Send SAME unit")
 					return;
 				}
 				else // Doesn't have propriate ReactUnit 
@@ -210,7 +216,7 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 		}
 		else // React flying Units
 		{
-			
+			DBG(3, "React to FLY Unit")
 		}
 	}
 }

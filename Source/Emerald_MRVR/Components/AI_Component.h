@@ -26,7 +26,8 @@ protected:
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
 	void GetAvailableUnits();
-	void SpawnUnit(UUnitDataAsset* UnitData, bool bIsFlying);
+	void GetAvailableModules();
+	void SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying);
 	
 
 	UPROPERTY()
@@ -42,10 +43,10 @@ protected:
 		float MaxSimulatedDelayToSpawnHarvester = 0.8f;
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
-		TArray<UUnitDataAsset*> AvailableGroundUnits;
+		TArray<UBuildingDataAsset*> AvailableGroundUnits;
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
-		TArray<UUnitDataAsset*> AvailableFlyingUnits;
+		TArray<UBuildingDataAsset*> AvailableFlyingUnits;
 
 
 	UFUNCTION()
