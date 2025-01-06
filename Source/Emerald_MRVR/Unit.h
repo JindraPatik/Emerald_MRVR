@@ -61,6 +61,5 @@ public:
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 		bool bIsFlyingUnit;
-
 	
 };

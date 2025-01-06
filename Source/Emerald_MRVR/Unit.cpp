@@ -33,7 +33,7 @@ AUnit::AUnit()
 	CombatComponent = CreateDefaultSubobject<UCombatComponent>("CombatComponent");
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
-	BoxComponent->SetupAttachment(Body);
+	BoxComponent->SetupAttachment(UnitRoot);
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	BoxComponent->SetCollisionObjectType(ECC_Pawn);
 	BoxComponent->SetCollisionResponseToAllChannels(ECR_Ignore);

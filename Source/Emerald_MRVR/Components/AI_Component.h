@@ -42,15 +42,28 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float MaxSimulatedDelayToSpawnHarvester = 0.8f;
 
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		float MaxSimulatedDelayToSpawnreactUnit = 1.8f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		float ProbabilityFactorToSpawnReactUnit = 80.f;
+
+
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
 		TArray<UBuildingDataAsset*> AvailableGroundUnits;
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
 		TArray<UBuildingDataAsset*> AvailableFlyingUnits;
 
-
 	UFUNCTION()
 		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
+	 void ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables);
+
+	UPROPERTY()
+		UBuildingDataAsset* CheapestStronger; // Temp variable for Cheapest stronger Unit
+
+	UPROPERTY()
+		UBuildingDataAsset* CheapestSame; // Temp variable for Cheapest stronger Unit
 
 public:
 	UFUNCTION(BlueprintCallable, Category="Events")

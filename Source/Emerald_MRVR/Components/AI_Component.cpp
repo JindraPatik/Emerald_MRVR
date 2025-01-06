@@ -3,6 +3,7 @@
 #include "CrystalSpawnerComp.h"
 #include "DownScaleComponent.h"
 #include "EngineUtils.h"
+#include "HarvestComponent.h"
 #include "MilitaryBaseComp.h"
 #include "ResourcesComponent.h"
 #include "UnitMovementComponent.h"
@@ -136,6 +137,16 @@ void UAI_Component::GetAvailableUnits()
 void UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+
+	// Add random delay for spawning unit
+	FTimerHandle UnitSpawnDelayHandle;
+	float SimulatedDelay = FMath::FRandRange(0.f, MaxSimulatedDelayToSpawnreactUnit);
+	GetWorld()->GetTimerManager().SetTimer
+		(UnitSpawnDelayHandle,[this, ModuleData, bIsFlying]()
+		{ this->SpawnUnit(ModuleData, bIsFlying); },
+		SimulatedDelay,
+		false
+		);
 	
 	FActorSpawnParameters SpawnParameters; 
 	SpawnParameters.Owner = GetOwner();
@@ -181,42 +192,94 @@ void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 	}
 }
 
-// TODO
-void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
+void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables)
 {
-	DBG(4.f, "Unit occured!, Unit occured! Unit occured! Unit occured!")
-
-	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
-	
-	if (Owner && Owner != GetOwner() && MilitaryBaseComp) // If it's not my player
+	for (UBuildingDataAsset* ReactUnit : Availables)
 	{
-		if (Unit && !Unit->bIsFlyingUnit) // React ground Units
+		if (Unit->Strenght < ReactUnit->UnitToSpawnData->Strength) // Has stronger
 		{
-			for (UBuildingDataAsset* ReactUnit : AvailableGroundUnits)
+			TArray<UBuildingDataAsset*> AvailableStrongerUnits; // All available stronger Units
+			AvailableStrongerUnits.Add(ReactUnit);
+
+			for (UBuildingDataAsset* AvailableStronger : AvailableStrongerUnits)
 			{
-				if (Unit->Strenght < ReactUnit->UnitToSpawnData->Strength) // Has stronger
+				if (CheapestStronger == nullptr)
 				{
-					// Has Enough res??
-					SpawnUnit(ReactUnit, ReactUnit->UnitToSpawnData->IsFlyingUnit);
+					CheapestStronger = AvailableStronger; // If reference not valid add one
+				}
+				else
+				{
+					if (AvailableStronger->UnitToSpawnData->Price < CheapestStronger->UnitToSpawnData->Price) // If there is other unit which is stronger add to temp ref
+					{
+						CheapestStronger = AvailableStronger; 
+					}
+				}
+			}
+					
+			if (MilitaryBaseComp->HasEnoughResources(CheapestStronger)) // Has enough res. to spawn? Do it!
+			{
+				SpawnUnit(ReactUnit, CheapestStronger->UnitToSpawnData->IsFlyingUnit);
+				DBG(3, "Send STRONGER unit")
+				return;
+			}
+		}
+				
+		else if (Unit->Strenght == ReactUnit->UnitToSpawnData->Strength) // Has same 
+		{
+			{
+				TArray<UBuildingDataAsset*> AvailableStrongerUnits; // All available stronger Units
+				AvailableStrongerUnits.Add(ReactUnit);
+
+
+				for (UBuildingDataAsset* AvailableStronger : AvailableStrongerUnits)
+				{
+					if (CheapestSame == nullptr)
+					{
+						CheapestSame = AvailableStronger; // If reference not valid add one
+					}
+					else
+					{
+						if (AvailableStronger->UnitToSpawnData->Price < CheapestSame->UnitToSpawnData->Price) // If there is other unit which is stronger add to temp ref
+						{
+							CheapestSame = AvailableStronger; 
+						}
+					}
+				}
+					
+				if (MilitaryBaseComp->HasEnoughResources(CheapestSame)) // Has enough res. to spawn? Do it!
+				{
+					SpawnUnit(ReactUnit, CheapestSame->UnitToSpawnData->IsFlyingUnit);
 					DBG(3, "Send STRONGER unit")
 					return;
 				}
-				else if (Unit->Strenght == ReactUnit->UnitToSpawnData->Strength) // Has same 
-				{
-					// choose which same?
-					SpawnUnit(ReactUnit, ReactUnit->UnitToSpawnData->IsFlyingUnit);
-					DBG(3, "Send SAME unit")
-					return;
-				}
-				else // Doesn't have propriate ReactUnit 
-				{
-					DBG(3.f, "Don't have propiate ground unit");
-				}
 			}
 		}
-		else // React flying Units
+		else // Doesn't have propriate ReactUnit 
 		{
-			DBG(3, "React to FLY Unit")
+			AUnit* UndefendedUnit = Unit;
+			DBG(3.f, "Don't have propiate ground unit");
+		}
+	}
+}
+
+void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
+{
+	if (Unit->FindComponentByClass<UHarvestComponent>()) return; // If Harvester, don't react;
+	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	CheapestStronger = nullptr;
+	CheapestSame = nullptr;
+	float ProbabilityToSpawn = FMath::FRandRange(0.f, 100.f);
+	
+	if (Owner && Owner != GetOwner() && MilitaryBaseComp && ProbabilityToSpawn <= ProbabilityFactorToSpawnReactUnit) // If it's not my player
+	{
+		if (Unit && !Unit->bIsFlyingUnit) // React ground Units
+		{
+			ChooseOptimalUnit(Unit, MilitaryBaseComp, AvailableGroundUnits);
+		}
+		
+		else // React to flying Units
+		{
+			ChooseOptimalUnit(Unit, MilitaryBaseComp, AvailableFlyingUnits);
 		}
 	}
 }

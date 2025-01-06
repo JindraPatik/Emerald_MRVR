@@ -79,6 +79,8 @@ void UCombatComponent::UnitFight(AActor* InActor)
                 	if (Unit->Strenght == HittedUnit->Strenght) // Tie condition
                 	{
                 		CurrentScenario = ECombatScenarios::E_Tie;
+                		InActor->Destroy();
+                		GetOwner()->Destroy();
                 		return;
                 	}
                 }
