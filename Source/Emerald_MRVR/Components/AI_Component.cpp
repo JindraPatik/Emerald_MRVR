@@ -25,6 +25,7 @@ void UAI_Component::BeginPlay()
 	Super::BeginPlay();
 
 	GetAvailableUnits();
+	HandleRandomSpawn();
 
 	
 	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
@@ -137,16 +138,6 @@ void UAI_Component::GetAvailableUnits()
 void UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
-
-	// Add random delay for spawning unit
-	FTimerHandle UnitSpawnDelayHandle;
-	float SimulatedDelay = FMath::FRandRange(0.f, MaxSimulatedDelayToSpawnreactUnit);
-	GetWorld()->GetTimerManager().SetTimer
-		(UnitSpawnDelayHandle,[this, ModuleData, bIsFlying]()
-		{ this->SpawnUnit(ModuleData, bIsFlying); },
-		SimulatedDelay,
-		false
-		);
 	
 	FActorSpawnParameters SpawnParameters; 
 	SpawnParameters.Owner = GetOwner();
@@ -264,6 +255,7 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 
 void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 {
+	RandomSpawn_Handle.Invalidate(); // Invalidates random spawn timer
 	if (Unit->FindComponentByClass<UHarvestComponent>()) return; // If Harvester, don't react;
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	CheapestStronger = nullptr;
@@ -283,6 +275,32 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 		}
 	}
 }
+
+
+void UAI_Component::SpawnRandomUnit()
+{
+	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	if (MilitaryBaseComp)
+	{
+		if (MilitaryBaseComp->AvailableModules.Num() > 0)
+		{
+			int32 RandomIndex = FMath::RandRange(0, MilitaryBaseComp->AvailableModules.Num() - 1);
+			UBuildingDataAsset* RandomItem = MilitaryBaseComp->AvailableModules[RandomIndex];
+
+			SpawnUnit(RandomItem, MilitaryBaseComp->AvailableModules[RandomIndex]->UnitToSpawnData->IsFlyingUnit);
+			HandleRandomSpawn();
+		}
+	}
+}
+
+void UAI_Component::HandleRandomSpawn()
+{
+	float RandomSpawnInterval = FMath::RandRange(RandomSpawnMin, RandomSpawnMax);
+	GetWorld()->GetTimerManager().SetTimer(RandomSpawn_Handle, this, &UAI_Component::SpawnRandomUnit, RandomSpawnInterval);
+}
+
+
+
 
 
 

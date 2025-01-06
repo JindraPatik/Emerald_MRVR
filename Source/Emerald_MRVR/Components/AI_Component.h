@@ -28,6 +28,8 @@ protected:
 	void GetAvailableUnits();
 	void GetAvailableModules();
 	void SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying);
+	void SpawnRandomUnit();
+	void HandleRandomSpawn();
 	
 
 	UPROPERTY()
@@ -42,11 +44,19 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float MaxSimulatedDelayToSpawnHarvester = 0.8f;
 
-	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+	UPROPERTY(EditDefaultsOnly, Category="Spawning") // unused
 		float MaxSimulatedDelayToSpawnreactUnit = 1.8f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float ProbabilityFactorToSpawnReactUnit = 80.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		float RandomSpawnMin = 2.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		float RandomSpawnMax = 10.f;
+
+	FTimerHandle RandomSpawn_Handle;
 
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
