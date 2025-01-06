@@ -138,29 +138,31 @@ void UAI_Component::GetAvailableUnits()
 void UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
-	
-	FActorSpawnParameters SpawnParameters; 
-	SpawnParameters.Owner = GetOwner();
-	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	FVector SpawnPointLoc;
-	FRotator SpawnPointRot;
-	bIsFlying ? SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentLocation() : SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
-	bIsFlying ? SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentRotation() : SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
-
-	AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(ModuleData->UnitToSpawn, SpawnPointLoc, SpawnPointRot, SpawnParameters);
-	if (ReactUnit)
+	if (MilitaryBaseComp->HasEnoughResources(ModuleData))
 	{
-		UResourcesComponent* ResourcesComponentInst = GetOwner()->FindComponentByClass<UResourcesComponent>();
-		UUnitDataAsset* SpawnedUnitDataAsset = ModuleData->UnitToSpawnData;
-		if (SpawnedUnitDataAsset)
+		FActorSpawnParameters SpawnParameters; 
+		SpawnParameters.Owner = GetOwner();
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector SpawnPointLoc;
+		FRotator SpawnPointRot;
+		bIsFlying ? SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentLocation() : SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
+		bIsFlying ? SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentRotation() : SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
+
+		AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(ModuleData->UnitToSpawn, SpawnPointLoc, SpawnPointRot, SpawnParameters);
+		if (ReactUnit)
 		{
-			ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
-			ReactUnit->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
-			ReactUnit->Speed = SpawnedUnitDataAsset->Speed;
-			ReactUnit->Price = SpawnedUnitDataAsset->Price;
-			ReactUnit->Strenght = SpawnedUnitDataAsset->Strength;
-			ReactUnit->Damage = SpawnedUnitDataAsset->Damage;
-			ReactUnit->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
+			UResourcesComponent* ResourcesComponentInst = GetOwner()->FindComponentByClass<UResourcesComponent>();
+			UUnitDataAsset* SpawnedUnitDataAsset = ModuleData->UnitToSpawnData;
+			if (SpawnedUnitDataAsset)
+			{
+				ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
+				ReactUnit->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+				ReactUnit->Speed = SpawnedUnitDataAsset->Speed;
+				ReactUnit->Price = SpawnedUnitDataAsset->Price;
+				ReactUnit->Strenght = SpawnedUnitDataAsset->Strength;
+				ReactUnit->Damage = SpawnedUnitDataAsset->Damage;
+				ReactUnit->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
+			}
 		}
 	}
 }

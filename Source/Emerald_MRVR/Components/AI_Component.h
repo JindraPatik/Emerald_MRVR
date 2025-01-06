@@ -48,10 +48,10 @@ protected:
 		float MaxSimulatedDelayToSpawnreactUnit = 1.8f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-		float ProbabilityFactorToSpawnReactUnit = 80.f;
+		float ProbabilityFactorToSpawnReactUnit = 65.f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-		float RandomSpawnMin = 2.f;
+		float RandomSpawnMin = 3.f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float RandomSpawnMax = 10.f;
