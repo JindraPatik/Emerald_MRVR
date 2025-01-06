@@ -198,6 +198,7 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 				}
 				else if (Unit->Strenght == ReactUnit->Strength) // Has same 
 				{
+					// choose which same?
 					SpawnUnit(ReactUnit, ReactUnit->IsFlyingUnit);
 					return;
 				}
