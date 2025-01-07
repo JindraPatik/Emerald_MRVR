@@ -13,8 +13,11 @@ UCLASS()
 class EMERALD_MRVR_API AGM : public AGameMode
 {
 	GENERATED_BODY()
-	
-	
-	
+
+protected:
+	int32 CountDownValue = 3;
+	FTimerHandle CountDownHandle;
+	void StartCountdown();
+	void DecreaseCounter();
 	
 };

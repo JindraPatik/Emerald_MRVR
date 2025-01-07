@@ -23,6 +23,7 @@ void AGamemode_Single::BeginPlay()
 	Super::BeginPlay();
 
 	SpawnEnemyAI();
+	StartCountdown();
 	
 	if (CrystalSpawner)
 	{

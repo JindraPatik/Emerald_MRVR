@@ -275,7 +275,7 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 
 void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 {
-	RandomSpawn_Handle.Invalidate(); // Invalidates random spawn timer
+	GetWorld()->GetTimerManager().ClearTimer(RandomSpawn_Handle); // Clears random spawn timer
 	if (Unit->FindComponentByClass<UHarvestComponent>()) return; // If Harvester, don't react;
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	CheapestStronger = nullptr;
@@ -317,7 +317,7 @@ void UAI_Component::SpawnRandomUnit()
 	}
 	if (FightStatus == EUnitFightStatus::EIsDefending)
 	{
-		RandomSpawn_Handle.Invalidate();
+		GetWorld()->GetTimerManager().ClearTimer(RandomSpawn_Handle);
 	}
 }
 
@@ -337,9 +337,9 @@ void UAI_Component::TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBui
 	if (!UndefendedUnit)
 	{
 		FightStatus = EIsAttacking;
-		Defending_Handle.Invalidate();
-		Defending_Delegate.Unbind();
 		SpawnRandomUnit();
+		GetWorld()->GetTimerManager().ClearTimer(Defending_Handle);
+		Defending_Delegate.Unbind();
 		return;
 	}
 }
