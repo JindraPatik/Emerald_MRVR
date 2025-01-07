@@ -15,6 +15,7 @@
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
+
 UAI_Component::UAI_Component()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -211,8 +212,8 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 					
 			if (MilitaryBaseComp->HasEnoughResources(CheapestStronger)) // Has enough res. to spawn? Do it!
 			{
+				FightStatus = EIsDefending;
 				SpawnUnit(ReactUnit, CheapestStronger->UnitToSpawnData->IsFlyingUnit);
-				DBG(3, "Send STRONGER unit")
 				return;
 			}
 		}
@@ -241,15 +242,21 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 					
 				if (MilitaryBaseComp->HasEnoughResources(CheapestSame)) // Has enough res. to spawn? Do it!
 				{
+					FightStatus = EIsDefending;
 					SpawnUnit(ReactUnit, CheapestSame->UnitToSpawnData->IsFlyingUnit);
-					DBG(3, "Send STRONGER unit")
 					return;
 				}
 			}
 		}
 		else // Doesn't have propriate ReactUnit 
 		{
-			AUnit* UndefendedUnit = Unit;
+			FightStatus = EIsDefending;
+			UndefendedUnit = Unit;
+
+			Defending_Delegate.BindUFunction(this, "TryToDefend", MilitaryBaseComp, Availables);
+			GetWorld()->GetTimerManager().SetTimer(Defending_Handle, Defending_Delegate, DefendingRate, false);
+			
+			// TryToDefend(MilitaryBaseComp, Availables);
 			DBG(3.f, "Don't have propiate ground unit");
 		}
 	}
@@ -263,6 +270,7 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 	CheapestStronger = nullptr;
 	CheapestSame = nullptr;
 	float ProbabilityToSpawn = FMath::FRandRange(0.f, 100.f);
+	
 	
 	if (Owner && Owner != GetOwner() && MilitaryBaseComp && ProbabilityToSpawn <= ProbabilityFactorToSpawnReactUnit) // If it's not my player
 	{
@@ -278,20 +286,27 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 	}
 }
 
-
 void UAI_Component::SpawnRandomUnit()
 {
-	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
-	if (MilitaryBaseComp)
+	if (FightStatus == EUnitFightStatus::EIsAttacking)
 	{
-		if (MilitaryBaseComp->AvailableModules.Num() > 0)
+		UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+		if (MilitaryBaseComp)
 		{
-			int32 RandomIndex = FMath::RandRange(0, MilitaryBaseComp->AvailableModules.Num() - 1);
-			UBuildingDataAsset* RandomItem = MilitaryBaseComp->AvailableModules[RandomIndex];
+			if (MilitaryBaseComp->AvailableModules.Num() > 0)
+			{
+				int32 RandomIndex = FMath::RandRange(0, MilitaryBaseComp->AvailableModules.Num() - 1);
+				UBuildingDataAsset* RandomItem = MilitaryBaseComp->AvailableModules[RandomIndex];
 
-			SpawnUnit(RandomItem, MilitaryBaseComp->AvailableModules[RandomIndex]->UnitToSpawnData->IsFlyingUnit);
-			HandleRandomSpawn();
+				SpawnUnit(RandomItem, MilitaryBaseComp->AvailableModules[RandomIndex]->UnitToSpawnData->IsFlyingUnit);
+				FightStatus = EIsAttacking;
+				HandleRandomSpawn();
+			}
 		}
+	}
+	if (FightStatus == EUnitFightStatus::EIsDefending)
+	{
+		RandomSpawn_Handle.Invalidate();
 	}
 }
 
@@ -300,6 +315,29 @@ void UAI_Component::HandleRandomSpawn()
 	float RandomSpawnInterval = FMath::RandRange(RandomSpawnMin, RandomSpawnMax);
 	GetWorld()->GetTimerManager().SetTimer(RandomSpawn_Handle, this, &UAI_Component::SpawnRandomUnit, RandomSpawnInterval);
 }
+
+void UAI_Component::TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables)
+{
+	if (UndefendedUnit)
+	{
+		FightStatus = EIsDefending;
+		ChooseOptimalUnit(UndefendedUnit, MilitaryBaseComp, Availables);
+	}
+	if (UndefendedUnit == nullptr)
+	{
+		FightStatus = EIsAttacking;
+		Defending_Handle.Invalidate();
+		Defending_Delegate.Unbind();
+		SpawnRandomUnit();
+		return;
+	}
+}
+
+
+
+
+
+
 
 
 

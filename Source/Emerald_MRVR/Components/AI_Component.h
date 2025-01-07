@@ -12,6 +12,12 @@ class AGameState;
 class ACrystal;
 class AEKGameState;
 
+enum EUnitFightStatus
+{
+	EIsAttacking,
+	EIsDefending
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UAI_Component : public UActorComponent
 {
@@ -30,7 +36,17 @@ protected:
 	void SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying);
 	void SpawnRandomUnit();
 	void HandleRandomSpawn();
-	
+
+	UFUNCTION()
+		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables);
+
+	float DefendingAgainstValue;
+
+	FTimerHandle RandomSpawn_Handle;
+	FTimerHandle Defending_Handle;
+	FTimerDelegate Defending_Delegate;
+	EUnitFightStatus FightStatus;
+	AUnit* UndefendedUnit;
 
 	UPROPERTY()
 		TObjectPtr<AGameState> AEK_GameStateInst;
@@ -56,9 +72,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float RandomSpawnMax = 10.f;
 
-	FTimerHandle RandomSpawn_Handle;
-
-
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
 		TArray<UBuildingDataAsset*> AvailableGroundUnits;
 
@@ -74,6 +87,9 @@ protected:
 
 	UPROPERTY()
 		UBuildingDataAsset* CheapestSame; // Temp variable for Cheapest stronger Unit
+
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		float DefendingRate = 1.f;
 
 public:
 	UFUNCTION(BlueprintCallable, Category="Events")
