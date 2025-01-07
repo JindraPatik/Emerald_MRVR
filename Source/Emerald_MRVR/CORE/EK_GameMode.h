@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GM.h"
 #include "GameFramework/GameMode.h"
 #include "EK_GameMode.generated.h"
 
@@ -11,7 +12,7 @@ class UCrystalSpawnerComp;
 class AMR_General;
 
 UCLASS()
-class EMERALD_MRVR_API AEK_GameMode : public AGameMode
+class EMERALD_MRVR_API AEK_GameMode : public AGM
 {
 	GENERATED_BODY()
 
