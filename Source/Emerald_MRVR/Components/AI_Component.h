@@ -33,7 +33,7 @@ protected:
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
 	void GetAvailableUnits();
 	void GetAvailableModules();
-	void SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying);
+	AUnit* SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying);
 	void SpawnRandomUnit();
 	void HandleRandomSpawn();
 
@@ -46,7 +46,9 @@ protected:
 	FTimerHandle Defending_Handle;
 	FTimerDelegate Defending_Delegate;
 	EUnitFightStatus FightStatus;
-	AUnit* UndefendedUnit;
+
+	UPROPERTY()
+		AUnit* UndefendedUnit;
 
 	UPROPERTY()
 		TObjectPtr<AGameState> AEK_GameStateInst;

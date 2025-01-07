@@ -136,7 +136,7 @@ void UAI_Component::GetAvailableUnits()
 	}
 }
 
-void UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
+AUnit* UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	if (MilitaryBaseComp->HasEnoughResources(ModuleData))
@@ -165,7 +165,9 @@ void UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 				ReactUnit->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
 			}
 		}
+		return ReactUnit;
 	}
+	return nullptr;
 }
 
 void UAI_Component::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
@@ -213,7 +215,12 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 			if (MilitaryBaseComp->HasEnoughResources(CheapestStronger)) // Has enough res. to spawn? Do it!
 			{
 				FightStatus = EIsDefending;
-				SpawnUnit(ReactUnit, CheapestStronger->UnitToSpawnData->IsFlyingUnit);
+				AUnit* UnitInstance = SpawnUnit(ReactUnit, CheapestStronger->UnitToSpawnData->IsFlyingUnit);
+				if (UnitInstance && UnitInstance->Strenght == UndefendedUnit->Strenght && UnitInstance->bIsFlyingUnit == UndefendedUnit->bIsFlyingUnit)
+				{
+					UndefendedUnit = nullptr;
+					FightStatus = EIsAttacking;
+				}
 				return;
 			}
 		}
@@ -243,7 +250,12 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 				if (MilitaryBaseComp->HasEnoughResources(CheapestSame)) // Has enough res. to spawn? Do it!
 				{
 					FightStatus = EIsDefending;
-					SpawnUnit(ReactUnit, CheapestSame->UnitToSpawnData->IsFlyingUnit);
+					AUnit* UnitInstance = SpawnUnit(ReactUnit, CheapestSame->UnitToSpawnData->IsFlyingUnit);
+					if (UnitInstance && UnitInstance->Strenght == UndefendedUnit->Strenght && UnitInstance->bIsFlyingUnit == UndefendedUnit->bIsFlyingUnit)
+					{
+						UndefendedUnit = nullptr;
+						FightStatus = EIsAttacking;
+					}
 					return;
 				}
 			}
@@ -256,8 +268,7 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 			Defending_Delegate.BindUFunction(this, "TryToDefend", MilitaryBaseComp, Availables);
 			GetWorld()->GetTimerManager().SetTimer(Defending_Handle, Defending_Delegate, DefendingRate, false);
 			
-			// TryToDefend(MilitaryBaseComp, Availables);
-			DBG(3.f, "Don't have propiate ground unit");
+			DBG(3.f, "Don't have propiate defend unit");
 		}
 	}
 }
@@ -323,7 +334,7 @@ void UAI_Component::TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBui
 		FightStatus = EIsDefending;
 		ChooseOptimalUnit(UndefendedUnit, MilitaryBaseComp, Availables);
 	}
-	if (UndefendedUnit == nullptr)
+	if (!UndefendedUnit)
 	{
 		FightStatus = EIsAttacking;
 		Defending_Handle.Invalidate();
