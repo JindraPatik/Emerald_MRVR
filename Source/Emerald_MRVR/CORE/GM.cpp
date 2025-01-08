@@ -5,7 +5,10 @@
 #include "Components/Widget.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/Components/UnitMovementComponent.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void AGM::BeginPlay()
@@ -54,6 +57,7 @@ void AGM::SpawnCountDownWidgetActor()
 	CountDownWidgetActorInstance = GetWorld()->SpawnActor<AActor>(CountDownWidgetActor, Location, Rotation, SpawnParameters);
 }
 
+
 void AGM::StartGame()
 {
 	bGameHasStarted = true;
@@ -62,9 +66,29 @@ void AGM::StartGame()
 void AGM::EndGame(APawn* Looser)
 {
 	bGameHasEnded = true;
+	StopAllUnits();
 	OnGameEndedDelegate.Broadcast(Looser);
+	
 }
 
+void AGM::StopAllUnits()
+{
+	TArray<AActor*> AllUnits;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AUnit::StaticClass(), AllUnits);
+
+	for (AActor* Unit : AllUnits)
+	{
+		AUnit* MovingUnit = Cast<AUnit>(Unit);
+		if (MovingUnit)
+		{
+			UUnitMovementComponent* MovementComponent = Cast<UUnitMovementComponent>(MovingUnit);
+			if (MovementComponent)
+			{
+				MovementComponent->bMovementEnabled = false;
+			}
+		}
+	}
+}
 
 
 

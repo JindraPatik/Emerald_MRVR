@@ -38,7 +38,6 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	
 }
 
-
 void UUnitMovementComponent::MoveTo(float DeltaTime) const
 {
 	AUnit* Unit = Cast<AUnit>(GetOwner());

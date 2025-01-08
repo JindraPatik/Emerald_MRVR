@@ -6,6 +6,7 @@
 #include "GameFramework/GameMode.h"
 #include "GM.generated.h"
 
+class AUnit;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGameStartedSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameEndedSignature, APawn*, Looser);
 
@@ -20,6 +21,7 @@ protected:
 	void StartCountdown();
 	void DecreaseCounter();
 	void SpawnCountDownWidgetActor();
+	void StopAllUnits();
 	
 	FTimerHandle CountDownHandle;
 	bool bGameHasStarted = false;
@@ -30,6 +32,8 @@ protected:
 
 	UPROPERTY()
 		AActor* CountDownWidgetActorInstance;
+
+	
 	
 public:
 	virtual void StartGame();
