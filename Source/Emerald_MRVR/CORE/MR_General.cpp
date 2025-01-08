@@ -10,7 +10,10 @@
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "MotionControllerComponent.h"
+#include "Blueprint/WidgetTree.h"
 #include "Camera/CameraComponent.h"
+#include "Components/TextBlock.h"
+#include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/ModuleActor.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
@@ -42,11 +45,14 @@ void AMR_General::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	AEKGameState* AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
-	AGM* GM = Cast<AGM>(AEK_GameStateInst->AuthorityGameMode);
-	if (GM)
+	if (AEK_GameStateInst)
 	{
-		GM->OnGameStartedDelegate.AddDynamic(this, &AMR_General::StartGame);
-		GM->OnGameEndedDelegate.AddDynamic(this, &AMR_General::EndGame);
+		AGM* GM = Cast<AGM>(AEK_GameStateInst->AuthorityGameMode);
+		if (GM)
+		{
+			GM->OnGameStartedDelegate.AddDynamic(this, &AMR_General::StartGame);
+			GM->OnGameEndedDelegate.AddDynamic(this, &AMR_General::EndGame);
+		}
 	}
 }
 
@@ -89,6 +95,9 @@ void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+
+	PointerStick_L->SetVisibility(false);
+	PointerStick_R->SetVisibility(false);
 	
 	SetPlayerColor();
 
@@ -246,14 +255,48 @@ void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle
 void AMR_General::StartGame()
 {
 	EnablePlayerInput();
+	PointerStick_L->SetVisibility(true);
+	PointerStick_R->SetVisibility(true);
 }
 
 void AMR_General::EndGame(APawn* Looser)
 {
 	EnablePlayerInput();
-	DBG(5, "MRGeneral::EndGame");
-}
 
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = GetOwner();
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	FVector Location = FVector(0.f, 0.f, 200.f);
+	FRotator Rotation = FRotator::ZeroRotator;
+	if (EndGameWidgetActor)
+	{
+		AActor* EndGameActorInst = GetWorld()->SpawnActor<AActor>(EndGameWidgetActor, Location, Rotation, SpawnParameters);
+		bIsMenuActive = true;
+
+		if (EndGameActorInst)
+		{
+			UWidgetComponent* EndGameWidgetInst = EndGameActorInst->FindComponentByClass<UWidgetComponent>();
+			if (EndGameWidgetInst)
+			{
+				UTextBlock* TXT_CountDown = Cast<UTextBlock>(EndGameWidgetInst->GetWidget()->WidgetTree->FindWidget("TXT_Condition"));
+				if (Looser == Cast<APawn>(GetOwner()))
+				{
+					if (TXT_CountDown)
+					{
+						TXT_CountDown->SetText(FText::FromString("You LOOSE!"));
+					}
+				}
+				else
+				{
+					if (TXT_CountDown)
+					{
+						TXT_CountDown->SetText(FText::FromString("You WON!"));
+					}
+				}
+			}
+		}
+	}
+}
 
 void AMR_General::SelectModule_L()
 {

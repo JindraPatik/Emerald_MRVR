@@ -55,6 +55,9 @@ protected:
 	UPROPERTY(Replicated)
 		bool bInputIsEnabled = false;
 
+	UPROPERTY(EditDefaultsOnly, Category="Widgets")
+		TSubclassOf<AActor> EndGameWidgetActor;
+
 	UFUNCTION(BlueprintCallable, Category="Player movement")
 		void MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed);
 

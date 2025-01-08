@@ -74,10 +74,6 @@ ABasePawn::ABasePawn()
 	PointerStick_R->SetIsReplicated(true);
 	PointerStick_R->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
-	//bUseControllerRotationPitch = false;
-	//bUseControllerRotationRoll = false;
-	//bUseControllerRotationYaw = false;
-
 }
 
 void ABasePawn::BeginPlay()
