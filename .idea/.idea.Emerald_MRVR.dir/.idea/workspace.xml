@@ -20,32 +20,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Maps/LVL_SingleResize.umap" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/SM/Island/BP_SceneResizer.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/SM/Island/Island450mn.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool.Tests/net6.0/EpicGames.Horde.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool.Tests/net6.0/EpicGames.Oodle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool.Tests/net6.0/EpicGames.UBA.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool.Tests/net6.0/EpicGames.UHT.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool.Tests/net6.0/Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool.Tests/net6.0/UnrealBuildTool.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CORE/Pawns/BP_BasePawn.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/Pawns/BP_BasePawn.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CORE/Pawns/BP_MR_General.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/Pawns/BP_MR_General.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_ResizeTest.umap" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Widgets/BP/BP_CountDown.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Widgets/UI_Textures/SkillButton01Green_n.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Widgets/WBP/WBP_CountDown.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CORE/BP_EK_GM.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/BP_EK_GM.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CORE/BP_GM_Single.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CORE/BP_GM_Single.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Widgets/BP/BP_NotEnoughRes.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widgets/BP/BP_NotEnoughRes.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Widgets/WBP/BTN.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widgets/WBP/BTN.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Widgets/WBP/WBP_MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widgets/WBP/WBP_MainMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Widgets/WBP/WBP_NotEnoughRes.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widgets/WBP/WBP_NotEnoughRes.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/AIPawn.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/AIPawn.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/MilitaryBaseComp.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Emerald_MRVR.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Emerald_MRVR.Build.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Unit.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Unit.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/Win64/UnrealBuildAccelerator/x64/UbaDetours.exp" beforeDir="false" afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/Win64/UnrealBuildAccelerator/x64/UbaDetours.exp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/Win64/UnrealBuildAccelerator/x64/UbaHost.exp" beforeDir="false" afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Binaries/Win64/UnrealBuildAccelerator/x64/UbaHost.exp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Build/BatchFiles/RunUAT.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Source/Runtime/Engine/Private/Actor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../UE_Oculus/UnrealEngine/Engine/Source/Runtime/Engine/Private/Actor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/GM.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/GM.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/GM.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/GM.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/Gamemode_Single.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/Gamemode_Single.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/Gamemode_Single.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/Gamemode_Single.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/AI_Component.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/AI_Component.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/AI_Component.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/AI_Component.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Widgets/ResourcesWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Widgets/ResourcesWidget.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,9 +186,9 @@
   },
   "keyToStringList": {
     "rider.external.source.directories": [
-      "C:\\Users\\panst\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\panst\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\panst\\AppData\\Local\\Symbols\\src"
+      "C:\\Users\\Ouuly Jindra\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Ouuly Jindra\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\Ouuly Jindra\\AppData\\Local\\Symbols\\src"
     ]
   }
 }]]></component>
@@ -291,10 +283,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\UE_Oculus\UnrealEngine\Engine\Binaries\Win64\UnrealEditor.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="C:\UE_Oculus_Build\UnrealEngine\Engine\Binaries\Win64\UnrealEditor.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -304,10 +296,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient-Android-Debug.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient-Android-Debug.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -317,10 +309,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient-Win64-Debug.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient-Win64-Debug.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -330,10 +322,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\UE_Oculus\UnrealEngine\Engine\Binaries\Android\UnrealEditor-Android-Debug.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="C:\UE_Oculus_Build\UnrealEngine\Engine\Binaries\Android\UnrealEditor-Android-Debug.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -343,10 +335,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\UE_Oculus\UnrealEngine\Engine\Binaries\Win64\UnrealEditor-Win64-Debug.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="C:\UE_Oculus_Build\UnrealEngine\Engine\Binaries\Win64\UnrealEditor-Win64-Debug.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -356,10 +348,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer-Android-Debug.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer-Android-Debug.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -369,10 +361,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer-Win64-Debug.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer-Win64-Debug.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -382,10 +374,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient-Android-DebugGame.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient-Android-DebugGame.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -395,10 +387,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient-Win64-DebugGame.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient-Win64-DebugGame.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -408,10 +400,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\UE_Oculus\UnrealEngine\Engine\Binaries\Android\UnrealEditor-Android-DebugGame.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="C:\UE_Oculus_Build\UnrealEngine\Engine\Binaries\Android\UnrealEditor-Android-DebugGame.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -421,10 +413,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\UE_Oculus\UnrealEngine\Engine\Binaries\Win64\UnrealEditor-Win64-DebugGame.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="C:\UE_Oculus_Build\UnrealEngine\Engine\Binaries\Win64\UnrealEditor-Win64-DebugGame.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -434,10 +426,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer-Android-DebugGame.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer-Android-DebugGame.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -447,10 +439,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer-Win64-DebugGame.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer-Win64-DebugGame.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -460,10 +452,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVR-Android-DebugGame.so" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVR-Android-DebugGame.so" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -473,10 +465,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR-Win64-DebugGame.exe" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR-Win64-DebugGame.exe" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -486,10 +478,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVR-Android-Debug.so" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVR-Android-Debug.so" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -499,10 +491,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR-Win64-Debug.exe" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR-Win64-Debug.exe" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -512,10 +504,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -525,10 +517,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -538,10 +530,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\UE_Oculus\UnrealEngine\Engine\Binaries\Android\UnrealEditor.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="C:\UE_Oculus_Build\UnrealEngine\Engine\Binaries\Android\UnrealEditor.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -551,10 +543,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -564,10 +556,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -577,10 +569,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVR.so" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVR.so" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -590,10 +582,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR.exe" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR.exe" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -603,10 +595,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient-Android-Shipping.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient-Android-Shipping.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -616,10 +608,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient-Win64-Shipping.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient-Win64-Shipping.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -629,10 +621,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer-Android-Shipping.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer-Android-Shipping.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -642,10 +634,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer-Win64-Shipping.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer-Win64-Shipping.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -655,10 +647,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVR-Android-Shipping.so" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVR-Android-Shipping.so" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -668,10 +660,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR-Win64-Shipping.exe" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR-Win64-Shipping.exe" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -681,10 +673,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient-Android-Test.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRClient-Android-Test.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -694,10 +686,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient-Win64-Test.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRClient-Win64-Test.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -707,10 +699,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer-Android-Test.so" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVRServer-Android-Test.so" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -720,10 +712,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer-Win64-Test.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;Z:\OCULUS_Projects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVRServer-Win64-Test.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;E:\UE_OculusProjects\Emerald_MRVR\Emerald_MRVR.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -733,10 +725,10 @@
         <option name="PLATFORM" value="Android" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Android\Emerald_MRVR-Android-Test.so" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Android\Emerald_MRVR-Android-Test.so" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -746,10 +738,10 @@
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Emerald_MRVR.uproject" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="Z:\OCULUS_Projects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR-Win64-Test.exe" />
+        <option name="EXECUTABLE_PATH" value="E:\UE_OculusProjects\Emerald_MRVR\Binaries\Win64\Emerald_MRVR-Win64-Test.exe" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="Z:\UE_Oculus\UnrealEngine" />
+        <option name="WORKING_DIRECTORY" value="C:\UE_Oculus_Build\UnrealEngine" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -1263,6 +1255,7 @@
       <workItem from="1734439738124" duration="10171000" />
       <workItem from="1734527268662" duration="3720000" />
       <workItem from="1735228626192" duration="763000" />
+      <workItem from="1736327340899" duration="2163000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />

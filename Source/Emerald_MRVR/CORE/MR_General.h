@@ -38,6 +38,7 @@ public:
 
 protected:
 	AMR_General();
+	virtual void PostInitializeComponents() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -49,10 +50,16 @@ protected:
 		UMotionControllerComponent* Controller,
 		UStaticMeshComponent* ImpactPointer,
 		AModuleActor*& CurrentlyHoveredModule);
-	
+	void EnableInput();
+
+	UPROPERTY(Replicated)
+		bool bInputIsEnabled = false;
 
 	UFUNCTION(BlueprintCallable, Category="Player movement")
-	void MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed);
+		void MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed);
+
+	UFUNCTION()
+		void StartGame();
 	
 public:
 	

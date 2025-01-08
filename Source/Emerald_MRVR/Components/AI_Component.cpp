@@ -26,13 +26,19 @@ void UAI_Component::BeginPlay()
 	Super::BeginPlay();
 
 	GetAvailableUnits();
-	HandleRandomSpawn();
-
 	
 	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
+	
 	if (AEK_GameStateInst)
 	{
-		 AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(AEK_GameStateInst->AuthorityGameMode);
+		AGM* GM = Cast<AGM>(AEK_GameStateInst->AuthorityGameMode);
+		if (GM)
+		{
+			GM->OnGameStartedDelegate.AddDynamic(this, &UAI_Component::StartGame);
+			DBG(10.f, "AI_Component::BindedEvent")
+		}
+		
+		AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(AEK_GameStateInst->AuthorityGameMode);
 		 if (Gamemode_Single)
 		 {
 			 UCrystalSpawnerComp* CrystalSpawnerComp = Cast<UCrystalSpawnerComp>(Gamemode_Single->FindComponentByClass<UCrystalSpawnerComp>());
@@ -55,6 +61,13 @@ void UAI_Component::BeginPlay()
 		 	}
 		 }
 	}
+}
+
+void UAI_Component::StartGame()
+{
+	HandleRandomSpawn();
+	DBG(10.f, "AI_Component::StartGame")
+	
 }
 
 float UAI_Component::GetDistanceBetweenCrystalSpawners() const
@@ -251,7 +264,7 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 				{
 					FightStatus = EIsDefending;
 					AUnit* UnitInstance = SpawnUnit(ReactUnit, CheapestSame->UnitToSpawnData->IsFlyingUnit);
-					if (UnitInstance && UnitInstance->Strenght == UndefendedUnit->Strenght && UnitInstance->bIsFlyingUnit == UndefendedUnit->bIsFlyingUnit)
+					if (UnitInstance && UndefendedUnit && UnitInstance->Strenght == UndefendedUnit->Strenght && UnitInstance->bIsFlyingUnit == UndefendedUnit->bIsFlyingUnit)
 					{
 						UndefendedUnit = nullptr;
 						FightStatus = EIsAttacking;
@@ -326,6 +339,7 @@ void UAI_Component::HandleRandomSpawn()
 	float RandomSpawnInterval = FMath::RandRange(RandomSpawnMin, RandomSpawnMax);
 	GetWorld()->GetTimerManager().SetTimer(RandomSpawn_Handle, this, &UAI_Component::SpawnRandomUnit, RandomSpawnInterval);
 }
+
 
 void UAI_Component::TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables)
 {

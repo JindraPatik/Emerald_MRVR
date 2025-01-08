@@ -17,9 +17,9 @@ protected:
 	virtual void NativeConstruct() override;
 public:
 	UPROPERTY(meta=(BindWidget))
-	TObjectPtr<UTextBlock> TXT_Resources;
+		TObjectPtr<UTextBlock> TXT_Resources;
 
 	UFUNCTION(BlueprintCallable, Category="Widget")
-	void UpdateResourcesWidget(float Resources);
+		void UpdateResourcesWidget(float Resources);
 	
 };

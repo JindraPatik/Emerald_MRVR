@@ -21,14 +21,8 @@ void AGamemode_Single::InitGame(const FString& MapName, const FString& Options, 
 void AGamemode_Single::BeginPlay()
 {
 	Super::BeginPlay();
-
 	SpawnEnemyAI();
 	StartCountdown();
-	
-	if (CrystalSpawner)
-	{
-		CrystalSpawner->StartSpawning();
-	}
 }
 
 void AGamemode_Single::PostLogin(APlayerController* NewPlayer)
@@ -37,6 +31,15 @@ void AGamemode_Single::PostLogin(APlayerController* NewPlayer)
 	SpawnPlayer(NewPlayer);
 }
 
+void AGamemode_Single::StartGame()
+{
+	Super::StartGame();
+	if (CrystalSpawner)
+	{
+		CrystalSpawner->StartSpawning();
+	}
+	
+}
 
 void AGamemode_Single::FindAllPlayerStarts()
 {

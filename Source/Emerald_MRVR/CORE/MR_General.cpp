@@ -1,5 +1,6 @@
 #include "MR_General.h"
 
+#include "EKGameState.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "EK_GameMode.h"
@@ -37,6 +38,18 @@ AMR_General::AMR_General()
 
 }
 
+void AMR_General::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	AEKGameState* AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
+	AGM* GM = Cast<AGM>(AEK_GameStateInst->AuthorityGameMode);
+	if (GM)
+	{
+		DBG(3, "MR_General::GM->OnGameStartedDelegate.AddDynamic")
+		GM->OnGameStartedDelegate.AddDynamic(this, &AMR_General::StartGame);
+	}
+}
+
 // REPLICATED PROPS
 void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -48,7 +61,7 @@ void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_R);
 	DOREPLIFETIME(AMR_General, MilitaryBaseComp);
 	DOREPLIFETIME(AMR_General, SelectedModuleActor);
-
+	DOREPLIFETIME(AMR_General, bInputIsEnabled);
 }
 // ~REPLICATED PROPS
 
@@ -76,6 +89,7 @@ void AMR_General::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	
 	SetPlayerColor();
 
 	if (IsLocallyControlled())
@@ -91,7 +105,7 @@ void AMR_General::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (IsLocallyControlled())
+	if (IsLocallyControlled() && bInputIsEnabled)
 	{
 		
 		if (!bIsMenuActive)
@@ -104,7 +118,6 @@ void AMR_General::Tick(float DeltaTime)
 			{
 				PerformSphereTrace(MotionController_R, ImpactPointer_R, CurrentlyHoveredModule_R);
 			}
-			
 		}
 	}
 }
@@ -125,38 +138,47 @@ void AMR_General::PerformSphereTrace(
 	UMotionControllerComponent* UsedController,
 	UStaticMeshComponent* ImpactPointer,
 	AModuleActor*& CurrentlyHoveredModule)
-{
-	FHitResult HitResult;
-	FCollisionQueryParams QueryParams;
-	QueryParams.AddIgnoredActor(this);
-	FVector Start = UsedController->GetComponentLocation();
-	FVector End = Start + (UsedController->GetForwardVector() * 3000.f);
-	float Radius = 5.f;
-
-	bool bHit = GetWorld()->SweepSingleByChannel(
-		HitResult,
-		Start,
-		End,
-		FQuat::Identity,
-		ECC_Visibility,
-		FCollisionShape::MakeSphere(Radius),
-		QueryParams);
-
-	AModuleActor* PrevisouslyHighlightedModule = nullptr;
-	if (bHit)
 	{
-		if (ImpactPointer)
-		{
-			ImpactPointer->SetWorldLocation(HitResult.Location);
-		}
+		FHitResult HitResult;
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(this);
+		FVector Start = UsedController->GetComponentLocation();
+		FVector End = Start + (UsedController->GetForwardVector() * 3000.f);
+		float Radius = 5.f;
 
-		AModuleActor* HitModule = Cast<AModuleActor>(HitResult.GetActor());
-		AMR_General* HittedGeneral = Cast<AMR_General>(HitResult.GetActor()->GetOwner());
+		bool bHit = GetWorld()->SweepSingleByChannel(
+			HitResult,
+			Start,
+			End,
+			FQuat::Identity,
+			ECC_Visibility,
+			FCollisionShape::MakeSphere(Radius),
+			QueryParams);
 
-		if (HitModule && HittedGeneral == this)
+		AModuleActor* PrevisouslyHighlightedModule = nullptr;
+		if (bHit)
 		{
-			CurrentlyHoveredModule = HitModule;
-			HitModule->HighlightModule(true);
+			if (ImpactPointer)
+			{
+				ImpactPointer->SetWorldLocation(HitResult.Location);
+			}
+
+			AModuleActor* HitModule = Cast<AModuleActor>(HitResult.GetActor());
+			AMR_General* HittedGeneral = Cast<AMR_General>(HitResult.GetActor()->GetOwner());
+
+			if (HitModule && HittedGeneral == this)
+			{
+				CurrentlyHoveredModule = HitModule;
+				HitModule->HighlightModule(true);
+			}
+			else
+			{
+				if (CurrentlyHoveredModule)
+				{
+					CurrentlyHoveredModule->HighlightModule(false);
+					CurrentlyHoveredModule = nullptr;
+				}
+			}
 		}
 		else
 		{
@@ -165,21 +187,17 @@ void AMR_General::PerformSphereTrace(
 				CurrentlyHoveredModule->HighlightModule(false);
 				CurrentlyHoveredModule = nullptr;
 			}
-		}
-	}
-	else
-	{
-		if (CurrentlyHoveredModule)
-		{
-			CurrentlyHoveredModule->HighlightModule(false);
-			CurrentlyHoveredModule = nullptr;
-		}
 
-		if (ImpactPointer)
-		{
-			ImpactPointer->SetWorldLocation(End);
+			if (ImpactPointer)
+			{
+				ImpactPointer->SetWorldLocation(End);
+			}
 		}
 	}
+
+void AMR_General::EnableInput()
+{
+	bInputIsEnabled = !bInputIsEnabled;
 }
 
 void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)
@@ -209,6 +227,11 @@ void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle
 	FVector LookAtPosition(0.0f, 0.0f, CurrentPosition.Z); 
 	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(NewPosition, LookAtPosition);
 	Player->SetActorRotation(LookAtRotation);
+}
+
+void AMR_General::StartGame()
+{
+	EnableInput();
 }
 
 

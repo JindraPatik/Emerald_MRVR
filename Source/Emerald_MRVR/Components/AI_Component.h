@@ -38,6 +38,9 @@ protected:
 	void HandleRandomSpawn();
 
 	UFUNCTION()
+		void StartGame();
+	
+	UFUNCTION()
 		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables);
 
 	float DefendingAgainstValue;

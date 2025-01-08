@@ -22,6 +22,9 @@ class EMERALD_MRVR_API AGamemode_Single : public AGM
 	GENERATED_BODY()
 	
 protected:
+	UFUNCTION()
+		void StartGame() override;
+	
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
 		TSubclassOf<AMR_General> PawnToSpawn;
 
