@@ -44,6 +44,9 @@ protected:
 public:	
 	void StartGrowResources();
 
+	UFUNCTION()
+		void StopGrowResources(APawn* Looser);
+
 		
 	
 };

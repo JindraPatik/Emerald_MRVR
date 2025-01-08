@@ -26,6 +26,11 @@ void UResourcesComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	AGM* GM = Cast<AGM>(GetWorld()->GetAuthGameMode());
+	if (GM)
+	{
+		GM->OnGameEndedDelegate.AddDynamic(this, &UResourcesComponent::StopGrowResources);
+	}
 }
 
 void UResourcesComponent::OnRep_ResourcesChanged() const
@@ -80,3 +85,9 @@ void UResourcesComponent::StartGrowResources()
 		World->GetTimerManager().SetTimer(GrowResourcesTimerHandle, this, &UResourcesComponent::GrowResources, GrowInterval, true);
 	}
 }
+
+void UResourcesComponent::StopGrowResources(APawn* Looser)
+{
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+}
+

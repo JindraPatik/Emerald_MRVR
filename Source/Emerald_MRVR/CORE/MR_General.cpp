@@ -198,6 +198,20 @@ void AMR_General::PerformSphereTrace(
 void AMR_General::EnablePlayerInput()
 {
 	bInputIsEnabled = !bInputIsEnabled;
+	if (!bInputIsEnabled)
+	{
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+		UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+		Subsystem->ClearAllMappings();
+		Subsystem->AddMappingContext(MenuInputMappingContext, 0);
+	}
+	else
+	{
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+		UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+		Subsystem->ClearAllMappings();
+		Subsystem->AddMappingContext(GameplayInputMappingContext, 1);
+	}
 }
 
 void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)
@@ -237,7 +251,7 @@ void AMR_General::StartGame()
 void AMR_General::EndGame(APawn* Looser)
 {
 	EnablePlayerInput();
-	
+	DBG(5, "MRGeneral::EndGame");
 }
 
 
