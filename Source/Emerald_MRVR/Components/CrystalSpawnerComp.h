@@ -40,6 +40,11 @@ public:
 	void SpawnCrystal();
 	void StartSpawning();
 
+	UFUNCTION()
+	void StopSpawning(APawn* Looser);
+
+	
+
 	FOnCrystalSpawnedSignature OnCrystalSpawnedDelegate;
 	
 };

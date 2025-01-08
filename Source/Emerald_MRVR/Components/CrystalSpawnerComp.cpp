@@ -1,6 +1,7 @@
 #include "CrystalSpawnerComp.h"
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Crystal.h"
+#include "Emerald_MRVR/CORE/GM.h"
 #include "Engine/TargetPoint.h"
 
 
@@ -14,8 +15,12 @@ UCrystalSpawnerComp::UCrystalSpawnerComp()
 void UCrystalSpawnerComp::BeginPlay()
 {
 	Super::BeginPlay();
+	AGM* GM = Cast<AGM>(GetWorld()->GetAuthGameMode());
+	if (GM)
+	{
+		GM->OnGameEndedDelegate.AddDynamic(this, &UCrystalSpawnerComp::StopSpawning);
+	}
 }
-
 
 void UCrystalSpawnerComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -55,4 +60,11 @@ void UCrystalSpawnerComp::StartSpawning()
 		Owner->GetWorldTimerManager().SetTimer(SpawningHandle, this, FTimerDelegate::TMethodPtr<UCrystalSpawnerComp>(&UCrystalSpawnerComp::SpawnCrystal), RandomInterval, true);
 	}
 }
+
+void UCrystalSpawnerComp::StopSpawning(APawn* Looser)
+{
+	GetWorld()->GetTimerManager().ClearTimer(SpawningHandle);
+}
+
+
 

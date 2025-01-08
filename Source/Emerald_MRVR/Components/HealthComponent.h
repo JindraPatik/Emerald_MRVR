@@ -8,6 +8,7 @@ class UHealthBarWidget;
 class AEK_GameMode;
 class UMilitaryBaseComp;
 
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UHealthComponent : public UActorComponent
 {

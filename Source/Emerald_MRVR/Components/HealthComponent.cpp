@@ -40,6 +40,14 @@ void UHealthComponent::OnRep_OnHealthChanged()
 			{
 				HealthBarWidget->UpdateHealthWidget(Health);
 			}
+			if (Health <= 0)
+			{
+				AGM* GM = Cast<AGM>(GetWorld()->GetAuthGameMode());
+				if (GM)
+				{
+					GM->EndGame(Cast<APawn>(GetOwner()));
+				}
+			}
 		}
 	}
 }

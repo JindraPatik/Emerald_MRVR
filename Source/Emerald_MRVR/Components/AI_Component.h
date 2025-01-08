@@ -39,6 +39,9 @@ protected:
 
 	UFUNCTION()
 		void StartGame();
+
+	UFUNCTION()
+		void EndGame(APawn* Looser);
 	
 	UFUNCTION()
 		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables);

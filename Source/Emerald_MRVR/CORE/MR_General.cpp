@@ -45,8 +45,8 @@ void AMR_General::PostInitializeComponents()
 	AGM* GM = Cast<AGM>(AEK_GameStateInst->AuthorityGameMode);
 	if (GM)
 	{
-		DBG(3, "MR_General::GM->OnGameStartedDelegate.AddDynamic")
 		GM->OnGameStartedDelegate.AddDynamic(this, &AMR_General::StartGame);
+		GM->OnGameEndedDelegate.AddDynamic(this, &AMR_General::EndGame);
 	}
 }
 
@@ -195,7 +195,7 @@ void AMR_General::PerformSphereTrace(
 		}
 	}
 
-void AMR_General::EnableInput()
+void AMR_General::EnablePlayerInput()
 {
 	bInputIsEnabled = !bInputIsEnabled;
 }
@@ -231,7 +231,13 @@ void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle
 
 void AMR_General::StartGame()
 {
-	EnableInput();
+	EnablePlayerInput();
+}
+
+void AMR_General::EndGame(APawn* Looser)
+{
+	EnablePlayerInput();
+	
 }
 
 

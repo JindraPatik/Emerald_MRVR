@@ -59,6 +59,12 @@ void AGM::StartGame()
 	bGameHasStarted = true;
 }
 
+void AGM::EndGame(APawn* Looser)
+{
+	bGameHasEnded = true;
+	OnGameEndedDelegate.Broadcast(Looser);
+}
+
 
 
 

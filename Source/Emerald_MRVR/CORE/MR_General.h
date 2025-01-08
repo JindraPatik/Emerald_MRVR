@@ -50,7 +50,7 @@ protected:
 		UMotionControllerComponent* Controller,
 		UStaticMeshComponent* ImpactPointer,
 		AModuleActor*& CurrentlyHoveredModule);
-	void EnableInput();
+	void EnablePlayerInput();
 
 	UPROPERTY(Replicated)
 		bool bInputIsEnabled = false;
@@ -60,6 +60,9 @@ protected:
 
 	UFUNCTION()
 		void StartGame();
+
+	UFUNCTION()
+		void EndGame(APawn* Looser);
 	
 public:
 	
