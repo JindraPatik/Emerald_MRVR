@@ -99,7 +99,7 @@ void AMR_General::BeginPlay()
 	PointerStick_L->SetVisibility(false);
 	PointerStick_R->SetVisibility(false);
 	
-	SetPlayerColor();
+	// SetPlayerColor();
 
 	if (IsLocallyControlled())
 	{
@@ -132,16 +132,7 @@ void AMR_General::Tick(float DeltaTime)
 }
 // ~TICK
 
-void AMR_General::SetPlayerColor() // Sets Player Color
-{
-	if (GameMode && GameMode->PlayersColors.Num() > 0)
-	{
-		PlayerDefaultColor = GameMode->PlayersColors.Pop();
-	}
-	GeneralBody->SetMaterial(0, PlayerDefaultColor);
-	PointerStick_L->SetMaterial(0, PlayerDefaultColor);
-	PointerStick_R->SetMaterial(0, PlayerDefaultColor);
-}
+
 
 void AMR_General::PerformSphereTrace(
 	UMotionControllerComponent* UsedController,
@@ -164,7 +155,7 @@ void AMR_General::PerformSphereTrace(
 			FCollisionShape::MakeSphere(Radius),
 			QueryParams);
 
-		AModuleActor* PrevisouslyHighlightedModule = nullptr;
+		// AModuleActor* PrevisouslyHighlightedModule = nullptr;
 		if (bHit)
 		{
 			if (ImpactPointer)
@@ -178,13 +169,13 @@ void AMR_General::PerformSphereTrace(
 			if (HitModule && HittedGeneral == this)
 			{
 				CurrentlyHoveredModule = HitModule;
-				HitModule->HighlightModule(true);
+				// HitModule->HighlightModule(true);
 			}
 			else
 			{
 				if (CurrentlyHoveredModule)
 				{
-					CurrentlyHoveredModule->HighlightModule(false);
+					//CurrentlyHoveredModule->HighlightModule(false);
 					CurrentlyHoveredModule = nullptr;
 				}
 			}
@@ -193,7 +184,7 @@ void AMR_General::PerformSphereTrace(
 		{
 			if (CurrentlyHoveredModule)
 			{
-				CurrentlyHoveredModule->HighlightModule(false);
+				//CurrentlyHoveredModule->HighlightModule(false);
 				CurrentlyHoveredModule = nullptr;
 			}
 

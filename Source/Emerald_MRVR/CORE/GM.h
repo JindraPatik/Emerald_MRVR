@@ -32,8 +32,6 @@ protected:
 
 	UPROPERTY()
 		AActor* CountDownWidgetActorInstance;
-
-	
 	
 public:
 	virtual void StartGame();

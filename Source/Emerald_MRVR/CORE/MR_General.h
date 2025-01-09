@@ -33,8 +33,6 @@ class EMERALD_MRVR_API AMR_General : public ABasePawn
 	GENERATED_BODY()
 
 public:
-	
-	void SetPlayerColor();
 
 protected:
 	AMR_General();
