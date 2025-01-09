@@ -1,5 +1,6 @@
 #include "AIPawn.h"
 
+#include "EKGameState.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Emerald_MRVR/Components/AI_Component.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
@@ -23,8 +24,29 @@ void AAIPawn::BeginPlay()
 	
 	MilitaryBaseComp->SpawnMilitaryBase(this);
 	MilitaryBaseComp->SpawnModules(this);
+
+	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
+	if (AEK_GameStateInst)
+	{
+		AGM* GM = Cast<AGM>(AEK_GameStateInst->AuthorityGameMode);
+		if (GM)
+		{
+			GM->OnGameStartedDelegate.AddDynamic(this, &AAIPawn::StartGame);
+			GM->OnGameEndedDelegate.AddDynamic(this, &AAIPawn::EndGame);
+		}
+	}
 }
 
+void AAIPawn::StartGame()
+{
+	AI_Component->HandleRandomSpawn();
+	ResourcesComponent->StartGrowResources();
+}
+
+void AAIPawn::EndGame(APawn* Looser)
+{
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(AI_Component);
+}
 
 void AAIPawn::Tick(float DeltaTime)
 {

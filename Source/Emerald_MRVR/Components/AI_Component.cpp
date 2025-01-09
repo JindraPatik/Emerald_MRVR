@@ -31,13 +31,6 @@ void UAI_Component::BeginPlay()
 	
 	if (AEK_GameStateInst)
 	{
-		AGM* GM = Cast<AGM>(AEK_GameStateInst->AuthorityGameMode);
-		if (GM)
-		{
-			GM->OnGameStartedDelegate.AddDynamic(this, &UAI_Component::StartGame);
-			GM->OnGameEndedDelegate.AddDynamic(this, &UAI_Component::EndGame);
-		}
-		
 		AGamemode_Single* Gamemode_Single = Cast<AGamemode_Single>(AEK_GameStateInst->AuthorityGameMode);
 		 if (Gamemode_Single)
 		 {
@@ -61,16 +54,6 @@ void UAI_Component::BeginPlay()
 		 	}
 		 }
 	}
-}
-
-void UAI_Component::StartGame()
-{
-	HandleRandomSpawn();
-}
-
-void UAI_Component::EndGame(APawn* Looser)
-{
-	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 }
 
 float UAI_Component::GetDistanceBetweenCrystalSpawners() const

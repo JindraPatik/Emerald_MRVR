@@ -81,7 +81,7 @@ void AGM::StopAllUnits()
 		AUnit* MovingUnit = Cast<AUnit>(Unit);
 		if (MovingUnit)
 		{
-			UUnitMovementComponent* MovementComponent = Cast<UUnitMovementComponent>(MovingUnit);
+			UUnitMovementComponent* MovementComponent = MovingUnit->FindComponentByClass<UUnitMovementComponent>();
 			if (MovementComponent)
 			{
 				MovementComponent->bMovementEnabled = false;

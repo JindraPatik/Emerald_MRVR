@@ -35,13 +35,10 @@ protected:
 	void GetAvailableModules();
 	AUnit* SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying);
 	void SpawnRandomUnit();
-	void HandleRandomSpawn();
 
-	UFUNCTION()
-		void StartGame();
 
-	UFUNCTION()
-		void EndGame(APawn* Looser);
+
+
 	
 	UFUNCTION()
 		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables);
@@ -102,5 +99,7 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable, Category="Events")
 		void OnUnitOccured(AUnit* Unit, AActor* Owner);
+
+	void HandleRandomSpawn();
 	
 };

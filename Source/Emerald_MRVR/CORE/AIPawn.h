@@ -11,6 +11,7 @@ class UHealthComponent;
 class UResourcesComponent;
 class AMilitaryBase;
 class UAI_Component;
+class AGameState;
 
 UCLASS()
 class EMERALD_MRVR_API AAIPawn : public APawn
@@ -22,6 +23,12 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+	void StartGame();
+
+	UFUNCTION()
+	void EndGame(APawn* Looser);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="AI")
 		TObjectPtr<UAI_Component> AI_Component;
@@ -40,6 +47,8 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
 		AMilitaryBase* BaseInstance;
+
+	TObjectPtr<AGameState> AEK_GameStateInst;
 		
 	
 

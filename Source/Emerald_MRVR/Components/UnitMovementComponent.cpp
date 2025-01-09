@@ -45,10 +45,12 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 	{
 		return;
 	}
-	
-	FVector MovementDirection = Unit->GetActorForwardVector();
-	FVector DeltaLocation = MovementDirection.GetSafeNormal() * (UnitSpeed * DeltaTime);
-	Unit->AddActorWorldOffset(DeltaLocation);
-	
+
+	if (bMovementEnabled)
+	{
+		FVector MovementDirection = Unit->GetActorForwardVector();
+		FVector DeltaLocation = MovementDirection.GetSafeNormal() * (UnitSpeed * DeltaTime);
+		Unit->AddActorWorldOffset(DeltaLocation);
+	}
 }
 

@@ -257,6 +257,7 @@ void AMR_General::StartGame()
 	EnablePlayerInput();
 	PointerStick_L->SetVisibility(true);
 	PointerStick_R->SetVisibility(true);
+	ResourcesComponent->StartGrowResources();
 }
 
 void AMR_General::EndGame(APawn* Looser)
@@ -264,7 +265,7 @@ void AMR_General::EndGame(APawn* Looser)
 	EnablePlayerInput();
 
 	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.Owner = GetOwner();
+	SpawnParameters.Owner = this;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	FVector Location = FVector(0.f, 0.f, 200.f);
 	FRotator Rotation = FRotator::ZeroRotator;
@@ -279,7 +280,7 @@ void AMR_General::EndGame(APawn* Looser)
 			if (EndGameWidgetInst)
 			{
 				UTextBlock* TXT_CountDown = Cast<UTextBlock>(EndGameWidgetInst->GetWidget()->WidgetTree->FindWidget("TXT_Condition"));
-				if (Looser == Cast<APawn>(GetOwner()))
+				if (Looser == Cast<APawn>(this))
 				{
 					if (TXT_CountDown)
 					{
