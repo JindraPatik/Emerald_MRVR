@@ -42,6 +42,8 @@ void AModuleActor::Tick(float DeltaTime)
 
 }
 
+
+
 void AModuleActor::SpawnInfoWidget()
 {
 	FActorSpawnParameters SpawnParameters;
@@ -51,6 +53,8 @@ void AModuleActor::SpawnInfoWidget()
 	FVector Location = GetActorLocation() + FVector(0.f, 0.f, InfoWidgetHeight);
 	InfoWidgetActorInst = GetWorld()->SpawnActor<AActor>(InfoWidgetActor, Location, Rotation, SpawnParameters);
 	SetInfoWidgetStats(InfoWidgetActorInst);
+	
+	DisableInfoWidget();
 }
 
 void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
@@ -94,3 +98,26 @@ void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
 		}
 	}
 }
+
+void AModuleActor::EnableInfoWidget()
+{
+	InfoWidgetActorInst->SetActorHiddenInGame(false);
+	InfoWidgetActorInst->SetActorTickEnabled(true);
+	UWidgetComponent* WidgetComponent = InfoWidgetActorInst->FindComponentByClass<UWidgetComponent>();
+	if (WidgetComponent)
+	{
+		WidgetComponent->PrimaryComponentTick.bCanEverTick = true;
+	}
+}
+
+void AModuleActor::DisableInfoWidget()
+{
+	InfoWidgetActorInst->SetActorHiddenInGame(true);
+	InfoWidgetActorInst->SetActorTickEnabled(false);
+	UWidgetComponent* WidgetComponent = InfoWidgetActorInst->FindComponentByClass<UWidgetComponent>();
+	if (WidgetComponent)
+	{
+		WidgetComponent->PrimaryComponentTick.bCanEverTick = false;
+	}
+}
+

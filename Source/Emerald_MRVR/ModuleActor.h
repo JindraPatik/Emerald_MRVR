@@ -24,6 +24,9 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 public:
+	void DisableInfoWidget();
+	void EnableInfoWidget();
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Components")
 	TObjectPtr<UDownScaleComponent> DownScaleComponent;
 

@@ -153,7 +153,6 @@ void AMR_General::PerformSphereTrace(
 			FCollisionShape::MakeSphere(Radius),
 			QueryParams);
 
-		// AModuleActor* PrevisouslyHighlightedModule = nullptr;
 		if (bHit)
 		{
 			if (ImpactPointer)
@@ -167,13 +166,15 @@ void AMR_General::PerformSphereTrace(
 			if (HitModule && HittedGeneral == this)
 			{
 				CurrentlyHoveredModule = HitModule;
-				// HitModule->HighlightModule(true);
+				ImpactPointer->SetWorldLocation(CurrentlyHoveredModule->GetActorLocation() + FVector(0.f, 0.f, 5.f));
+				PrevisouslyHighlightedModule = HitModule;
+				CurrentlyHoveredModule->EnableInfoWidget();
 			}
 			else
 			{
 				if (CurrentlyHoveredModule)
 				{
-					//CurrentlyHoveredModule->HighlightModule(false);
+					CurrentlyHoveredModule->DisableInfoWidget();
 					CurrentlyHoveredModule = nullptr;
 				}
 			}
@@ -182,15 +183,23 @@ void AMR_General::PerformSphereTrace(
 		{
 			if (CurrentlyHoveredModule)
 			{
-				//CurrentlyHoveredModule->HighlightModule(false);
+				CurrentlyHoveredModule->DisableInfoWidget();
 				CurrentlyHoveredModule = nullptr;
 			}
 
 			if (ImpactPointer)
 			{
 				ImpactPointer->SetWorldLocation(End);
+				if (PrevisouslyHighlightedModule)
+				{
+					PrevisouslyHighlightedModule->DisableInfoWidget();
+				}
 			}
 		}
+		/*if (PrevisouslyHighlightedModule)
+		{
+			PrevisouslyHighlightedModule->DisableInfoWidget();
+		}*/
 	}
 
 void AMR_General::EnablePlayerInput()

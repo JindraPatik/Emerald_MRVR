@@ -64,6 +64,9 @@ protected:
 
 	UFUNCTION()
 		void EndGame(APawn* Looser);
+
+	UPROPERTY()
+	AModuleActor* PrevisouslyHighlightedModule;
 	
 public:
 	
