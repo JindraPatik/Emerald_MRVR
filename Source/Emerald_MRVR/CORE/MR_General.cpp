@@ -166,9 +166,13 @@ void AMR_General::PerformSphereTrace(
 			if (HitModule && HittedGeneral == this)
 			{
 				CurrentlyHoveredModule = HitModule;
-				ImpactPointer->SetWorldLocation(CurrentlyHoveredModule->GetActorLocation() + FVector(0.f, 0.f, 5.f));
+				ImpactPointer->SetWorldLocation(CurrentlyHoveredModule->GetActorLocation() + FVector(0.f, 0.f, 8.f));
 				PrevisouslyHighlightedModule = HitModule;
 				CurrentlyHoveredModule->EnableInfoWidget();
+				if (CurrentlyHoveredModule != PrevisouslyHighlightedModule)
+				{
+					PrevisouslyHighlightedModule->DisableInfoWidget();
+				}
 			}
 			else
 			{
@@ -176,6 +180,7 @@ void AMR_General::PerformSphereTrace(
 				{
 					CurrentlyHoveredModule->DisableInfoWidget();
 					CurrentlyHoveredModule = nullptr;
+					PrevisouslyHighlightedModule->DisableInfoWidget();
 				}
 			}
 		}
