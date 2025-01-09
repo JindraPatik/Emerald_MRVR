@@ -6,10 +6,6 @@
 
 // Add default functionality here for any IBuildingsModuleInterface functions that are not pure virtual.
 
-void IBuildingsModuleInterface::HighlightModule(bool bIsHighlighted)
-{
-	
-}
 
 UBuildingsModuleComponent* IBuildingsModuleInterface::SelectModule()
 {

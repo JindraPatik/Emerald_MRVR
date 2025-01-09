@@ -52,10 +52,3 @@ void AModuleActor::OnBuildingsDataChanged()
 		DBG(5, "NOT BuildingDataAsset")
 	}
 }
-
-void AModuleActor::HighlightModule(bool bIsHighlighted)
-{
-	IBuildingsModuleInterface::HighlightModule(bIsHighlighted);
-
-	bIsHighlighted ? ModuleMeshRoot->SetMaterial(0, HoverMaterial) : ModuleMeshRoot->SetMaterial(0, OriginalMaterial);
-}

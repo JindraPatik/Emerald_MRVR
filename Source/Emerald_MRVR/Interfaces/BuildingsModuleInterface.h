@@ -27,8 +27,6 @@ class EMERALD_MRVR_API IBuildingsModuleInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void HighlightModule(bool bIsHighlighted);
 	virtual UBuildingsModuleComponent* SelectModule();
 	virtual void DeployUnit(AMR_General* InPawn, AMilitaryBase* BaseInstance);
-	
 };

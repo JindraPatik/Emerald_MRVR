@@ -34,14 +34,8 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Building")
 	UStaticMeshComponent* ModuleMeshInstance;
 
-	UFUNCTION()
-	virtual void HighlightModule(bool bIsHighlighted) override;
-	
 	virtual UBuildingsModuleComponent* SelectModule() override;
 	
 	bool CurrentlyHighlightedState = false;
-	
-
-
 	
 };

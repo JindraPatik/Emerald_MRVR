@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/BuildingsModuleInterface.h"
+#include "Interfaces/InteractionInterface.h"
 #include "ModuleActor.generated.h"
 
 class UDownScaleComponent;
@@ -10,7 +11,7 @@ class UBuildingDataAsset;
 class AMR_General;
 
 UCLASS()
-class EMERALD_MRVR_API AModuleActor : public AActor, public IBuildingsModuleInterface
+class EMERALD_MRVR_API AModuleActor : public AActor, public IBuildingsModuleInterface, public IInteractionInterface
 {
 	GENERATED_BODY()
 	
@@ -46,6 +47,4 @@ public:
 	UPROPERTY(Replicated, EditDefaultsOnly, Category="Color")
 	UMaterialInterface* HoverMaterial;
 
-	UFUNCTION()
-	virtual void HighlightModule(bool bIsHighlighted) override;
 };

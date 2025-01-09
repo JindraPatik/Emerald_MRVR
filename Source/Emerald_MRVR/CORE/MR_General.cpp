@@ -132,8 +132,6 @@ void AMR_General::Tick(float DeltaTime)
 }
 // ~TICK
 
-
-
 void AMR_General::PerformSphereTrace(
 	UMotionControllerComponent* UsedController,
 	UStaticMeshComponent* ImpactPointer,
