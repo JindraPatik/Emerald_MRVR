@@ -100,7 +100,6 @@ void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 		if (OwningPawn)
 		{
 			MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
-			// ResourcesComponentInst->StartGrowResources();
 		}
 	}	
 }
@@ -143,6 +142,7 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 							if (ModuleInstance)
 							{
 								ModuleInstance->BuildingDataAsset = Module;
+								ModuleInstance->SpawnInfoWidget();
 							}
 							ModuleInstance->SetReplicates(true);
 

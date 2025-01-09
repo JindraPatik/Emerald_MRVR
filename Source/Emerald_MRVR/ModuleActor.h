@@ -17,16 +17,11 @@ class EMERALD_MRVR_API AModuleActor : public AActor, public IBuildingsModuleInte
 	
 public:	
 	AModuleActor();
-	AMR_General* General;
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
-	UFUNCTION()
-	void OnBuildingsDataChanged();
-	
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Components")
@@ -38,13 +33,21 @@ public:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 	TObjectPtr<UStaticMeshComponent> ModuleMeshRoot;
 
-	UPROPERTY(ReplicatedUsing=OnBuildingsDataChanged, VisibleAnywhere, Category="Data")
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Data")
 	TObjectPtr<UBuildingDataAsset> BuildingDataAsset = nullptr;
 
-	UPROPERTY(Replicated)
-	UMaterialInterface* OriginalMaterial;
+	UPROPERTY(EditDefaultsOnly, Category="Widgets")
+	TSubclassOf<AActor> InfoWidgetActor;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, Category="Color")
-	UMaterialInterface* HoverMaterial;
+	UPROPERTY()
+	AActor* InfoWidgetActorInst;
 
+	UFUNCTION()
+	void SpawnInfoWidget();
+
+	UFUNCTION()
+	void SetInfoWidgetStats(AActor* WidgetActor);
+
+	UPROPERTY(EditAnywhere, Category="Widgets")
+	float InfoWidgetHeight = 25.f;
 };

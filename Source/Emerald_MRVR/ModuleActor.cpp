@@ -1,8 +1,12 @@
 #include "ModuleActor.h"
 #include "DebugMacros.h"
+#include "Blueprint/WidgetTree.h"
 #include "Components/DownScaleComponent.h"
+#include "Components/TextBlock.h"
+#include "Components/WidgetComponent.h"
 #include "CORE/MR_General.h"
 #include "Data/BuildingDataAsset.h"
+#include "Data/UnitDataAsset.h"
 #include "Net/UnrealNetwork.h"
 
 AModuleActor::AModuleActor()
@@ -24,15 +28,12 @@ void AModuleActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AModuleActor, ModuleMeshRoot);
 	DOREPLIFETIME(AModuleActor, BuildingDataAsset);
-	DOREPLIFETIME(AModuleActor, OriginalMaterial);
-	DOREPLIFETIME(AModuleActor, HoverMaterial);
 	DOREPLIFETIME(AModuleActor, SceneRoot);
 }
 
 void AModuleActor::BeginPlay()
 {
 	Super::BeginPlay();
-	General = General ? General : Cast<AMR_General>(GetOwner());
 }
 
 void AModuleActor::Tick(float DeltaTime)
@@ -41,14 +42,55 @@ void AModuleActor::Tick(float DeltaTime)
 
 }
 
-void AModuleActor::OnBuildingsDataChanged()
+void AModuleActor::SpawnInfoWidget()
 {
-	General = General ? General : Cast<AMR_General>(GetOwner());
-	if (BuildingDataAsset)
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParameters.Owner = GetOwner();
+;	FRotator Rotation = FRotator::ZeroRotator;
+	FVector Location = GetActorLocation() + FVector(0.f, 0.f, InfoWidgetHeight);
+	InfoWidgetActorInst = GetWorld()->SpawnActor<AActor>(InfoWidgetActor, Location, Rotation, SpawnParameters);
+	SetInfoWidgetStats(InfoWidgetActorInst);
+}
+
+void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
+{
+	UWidgetComponent* WidgetComponent = WidgetActor->FindComponentByClass<UWidgetComponent>();
+	if (WidgetComponent)
 	{
-	}
-	else
-	{
-		DBG(5, "NOT BuildingDataAsset")
+		UTextBlock* TXT_Unit = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Unit"));
+		if (TXT_Unit && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
+		{
+			FName UnitFName = BuildingDataAsset->UnitToSpawnData->UnitName;
+			FText UnitName = FText::FromName(UnitFName);
+			TXT_Unit->SetText(UnitName);
+		}
+		
+		UTextBlock* TXT_Price = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Price"));
+		if (TXT_Price && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
+		{
+			float UnitPrice = BuildingDataAsset->UnitToSpawnData->Price;
+			FString UnitPriceString = FString::SanitizeFloat(UnitPrice);
+			FText UnitPriceText = FText::FromString(UnitPriceString);
+			TXT_Price->SetText(UnitPriceText);
+		}
+		
+		UTextBlock* TXT_Strenght = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Strenght"));
+		if (TXT_Strenght && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
+		{
+			float UnitStrenght = BuildingDataAsset->UnitToSpawnData->Strength;
+			FString UnitStrenghtString = FString::SanitizeFloat(UnitStrenght);
+			FText UnitStrenghtText = FText::FromString(UnitStrenghtString);
+			TXT_Strenght->SetText(UnitStrenghtText);
+		}
+
+		UTextBlock* TXT_Speed = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Speed"));
+		if (TXT_Speed && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
+		{
+			float UnitSpeed = BuildingDataAsset->UnitToSpawnData->Speed;
+			FString UnitSpeedString = FString::SanitizeFloat(UnitSpeed);
+			FText UnitSpeedText = FText::FromString(UnitSpeedString);
+			TXT_Speed->SetText(UnitSpeedText);
+		}
 	}
 }
