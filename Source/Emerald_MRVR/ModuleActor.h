@@ -52,5 +52,5 @@ public:
 	void SetInfoWidgetStats(AActor* WidgetActor);
 
 	UPROPERTY(EditAnywhere, Category="Widgets")
-	float InfoWidgetHeight = 35.f;
+	float InfoWidgetHeight = 25.f;
 };

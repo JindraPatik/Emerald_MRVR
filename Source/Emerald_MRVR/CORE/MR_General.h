@@ -139,8 +139,5 @@ public:
 
 	UFUNCTION()
 	void OnSelectedModuleChanged();
-
-	FVector ImpactPointerOriginalSize;
-	bool bIsImpactPointerUpsaceled = false;
 };
 

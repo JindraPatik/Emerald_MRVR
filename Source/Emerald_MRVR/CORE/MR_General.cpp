@@ -54,7 +54,6 @@ void AMR_General::PostInitializeComponents()
 			GM->OnGameEndedDelegate.AddDynamic(this, &AMR_General::EndGame);
 		}
 	}
-	ImpactPointerOriginalSize = ImpactPointer_R->GetRelativeScale3D();
 }
 
 // REPLICATED PROPS
@@ -100,6 +99,8 @@ void AMR_General::BeginPlay()
 	PointerStick_L->SetVisibility(false);
 	PointerStick_R->SetVisibility(false);
 	
+	// SetPlayerColor();
+
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->SpawnMilitaryBase(this);
@@ -141,7 +142,7 @@ void AMR_General::PerformSphereTrace(
 		QueryParams.AddIgnoredActor(this);
 		FVector Start = UsedController->GetComponentLocation();
 		FVector End = Start + (UsedController->GetForwardVector() * 3000.f);
-		float Radius = 12.f;
+		float Radius = 5.f;
 
 		bool bHit = GetWorld()->SweepSingleByChannel(
 			HitResult,
@@ -165,18 +166,9 @@ void AMR_General::PerformSphereTrace(
 			if (HitModule && HittedGeneral == this)
 			{
 				CurrentlyHoveredModule = HitModule;
-				ImpactPointer->SetWorldLocation(CurrentlyHoveredModule->GetActorLocation() + FVector(0.f, 0.f, 0.f));
+				ImpactPointer->SetWorldLocation(CurrentlyHoveredModule->GetActorLocation() + FVector(0.f, 0.f, 5.f));
 				PrevisouslyHighlightedModule = HitModule;
 				CurrentlyHoveredModule->EnableInfoWidget();
-				if (CurrentlyHoveredModule != PrevisouslyHighlightedModule)
-				{
-					PrevisouslyHighlightedModule->DisableInfoWidget();
-				}
-				/*if (!bIsImpactPointerUpsaceled)
-				{
-					ImpactPointer->SetRelativeScale3D(ImpactPointerOriginalSize * 3.f);
-					bIsImpactPointerUpsaceled = true;
-				}*/
 			}
 			else
 			{
@@ -184,11 +176,6 @@ void AMR_General::PerformSphereTrace(
 				{
 					CurrentlyHoveredModule->DisableInfoWidget();
 					CurrentlyHoveredModule = nullptr;
-					/*if (bIsImpactPointerUpsaceled)
-					{
-						ImpactPointer->SetRelativeScale3D(ImpactPointerOriginalSize);
-						bIsImpactPointerUpsaceled = false;
-					}*/
 				}
 			}
 		}
@@ -198,11 +185,6 @@ void AMR_General::PerformSphereTrace(
 			{
 				CurrentlyHoveredModule->DisableInfoWidget();
 				CurrentlyHoveredModule = nullptr;
-				/*if (bIsImpactPointerUpsaceled)
-				{
-					ImpactPointer->SetRelativeScale3D(ImpactPointerOriginalSize);
-					bIsImpactPointerUpsaceled = false;
-				}*/
 			}
 
 			if (ImpactPointer)
@@ -211,14 +193,13 @@ void AMR_General::PerformSphereTrace(
 				if (PrevisouslyHighlightedModule)
 				{
 					PrevisouslyHighlightedModule->DisableInfoWidget();
-					/*if (bIsImpactPointerUpsaceled)
-					{
-						ImpactPointer->SetRelativeScale3D(ImpactPointerOriginalSize);
-						bIsImpactPointerUpsaceled = false;
-					}*/
 				}
 			}
 		}
+		/*if (PrevisouslyHighlightedModule)
+		{
+			PrevisouslyHighlightedModule->DisableInfoWidget();
+		}*/
 	}
 
 void AMR_General::EnablePlayerInput()
