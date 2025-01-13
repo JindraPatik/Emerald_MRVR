@@ -2,6 +2,7 @@
 #include "DebugMacros.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/DownScaleComponent.h"
+#include "Components/ResourcesComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "CORE/MR_General.h"
@@ -41,8 +42,6 @@ void AModuleActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-
 
 void AModuleActor::SpawnInfoWidget()
 {
@@ -107,6 +106,22 @@ void AModuleActor::EnableInfoWidget()
 	if (WidgetComponent)
 	{
 		WidgetComponent->PrimaryComponentTick.bCanEverTick = true;
+		UTextBlock* TXT_Price = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Price"));
+		UResourcesComponent* ResourcesComponent = GetOwner()->FindComponentByClass<UResourcesComponent>();
+		if (ResourcesComponent)
+		{
+			if (ResourcesComponent->AvailableResources < BuildingDataAsset->UnitToSpawnData->Price)
+			{
+				FSlateColor Red = FColor::Red;
+				TXT_Price->SetColorAndOpacity(Red);
+			}
+			else
+			{
+				FSlateColor Green = FColor::Green;
+				TXT_Price->SetColorAndOpacity(Green);
+			}
+		}
+		
 	}
 }
 

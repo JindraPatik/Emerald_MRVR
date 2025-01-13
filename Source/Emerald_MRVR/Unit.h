@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Interfaces/InteractionInterface.h"
 #include "Unit.generated.h"
 
 class AAIController;
@@ -14,7 +13,7 @@ class USphereComponent;
 class UUnitMovementComponent;
 
 UCLASS()
-class EMERALD_MRVR_API AUnit : public APawn, public IInteractionInterface
+class EMERALD_MRVR_API AUnit : public APawn
 {
 	GENERATED_BODY()
 

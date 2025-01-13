@@ -3,7 +3,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/BuildingsModuleInterface.h"
-#include "Interfaces/InteractionInterface.h"
 #include "ModuleActor.generated.h"
 
 class UDownScaleComponent;
@@ -11,7 +10,7 @@ class UBuildingDataAsset;
 class AMR_General;
 
 UCLASS()
-class EMERALD_MRVR_API AModuleActor : public AActor, public IBuildingsModuleInterface, public IInteractionInterface
+class EMERALD_MRVR_API AModuleActor : public AActor, public IBuildingsModuleInterface
 {
 	GENERATED_BODY()
 	
