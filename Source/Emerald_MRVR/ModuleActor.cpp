@@ -2,6 +2,7 @@
 #include "DebugMacros.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/DownScaleComponent.h"
+#include "Components/ProgressBar.h"
 #include "Components/ResourcesComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
@@ -9,6 +10,7 @@
 #include "Data/BuildingDataAsset.h"
 #include "Data/UnitDataAsset.h"
 #include "Net/UnrealNetwork.h"
+#include "Widgets/CooldownActor.h"
 
 AModuleActor::AModuleActor()
 {
@@ -40,6 +42,34 @@ void AModuleActor::BeginPlay()
 void AModuleActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	// Cooldown progress
+	if (CooldownWidgetInstance && CooldownDuration > 0.0f)
+	{
+		CooldownWidgetInstance->SetActorHiddenInGame(false);
+		ElapsedTime += DeltaTime;
+
+		float Progress = FMath::Clamp(ElapsedTime / CooldownDuration, 0.0f, 1.0f);
+
+		UWidgetComponent* WidgetComp = CooldownWidgetInstance->FindComponentByClass<UWidgetComponent>();
+		if (WidgetComp)
+		{
+			UUserWidget* UserWidget = Cast<UUserWidget>(WidgetComp->GetWidget());
+			if (UserWidget)
+			{
+				UProgressBar* CooldownProgress = Cast<UProgressBar>(UserWidget->WidgetTree->FindWidget("Progress_CoolDown"));
+				if (CooldownProgress)
+				{
+					CooldownProgress->SetPercent(Progress);
+				}
+			}
+		}
+		if (ElapsedTime >= CooldownDuration)
+		{
+			CooldownWidgetInstance->SetActorHiddenInGame(true);
+			SetActorTickEnabled(false);
+		}
+	}
 }
 
 void AModuleActor::EnableSpawning()
@@ -50,7 +80,14 @@ void AModuleActor::EnableSpawning()
 
 void AModuleActor::Cooldown(float CD_Time)
 {
+	CooldownDuration = CD_Time;
+	ElapsedTime = 0.f;
 	GetWorld()->GetTimerManager().SetTimer(CD_Handle, this, &AModuleActor::EnableSpawning, CD_Time, false);
+	SetActorTickEnabled(true);
+	if (CooldownWidgetInstance)
+	{
+		CooldownWidgetInstance->SetActorHiddenInGame(false);
+	}
 }
 
 void AModuleActor::SpawnInfoWidget()
@@ -58,7 +95,7 @@ void AModuleActor::SpawnInfoWidget()
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParameters.Owner = GetOwner();
-;	FRotator Rotation = FRotator::ZeroRotator;
+	FRotator Rotation = FRotator::ZeroRotator;
 	FVector Location = GetActorLocation() + FVector(0.f, 0.f, InfoWidgetHeight);
 	InfoWidgetActorInst = GetWorld()->SpawnActor<AActor>(InfoWidgetActor, Location, Rotation, SpawnParameters);
 	SetInfoWidgetStats(InfoWidgetActorInst);
@@ -133,6 +170,16 @@ void AModuleActor::EnableInfoWidget()
 		}
 		
 	}
+}
+
+void AModuleActor::SpawnCooldownWidget()
+{
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = GetOwner();
+	FVector SpawnLoc = GetActorLocation() + FVector(0, 0, CooldownWidgetHeight);
+	FRotator SpawnRot = FRotator::ZeroRotator;
+	CooldownWidgetInstance = GetWorld()->SpawnActor<ACooldownActor>(CooldownWidgetClass, SpawnLoc, SpawnRot, SpawnParameters);
+	
 }
 
 void AModuleActor::DisableInfoWidget()

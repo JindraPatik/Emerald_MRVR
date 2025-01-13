@@ -150,8 +150,8 @@ AUnit* UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 
 		AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(ModuleData->UnitToSpawn, SpawnPointLoc, SpawnPointRot, SpawnParameters);
 		if (ReactUnit)
-		bSpawningEnabled = false;
-		Cooldown(ModuleData->Cooldown);
+		bSpawningEnabled = false; // Má sdílenej zákaz pro všechny jednotky
+		Cooldown(ModuleData->Cooldown); // Upravit! 
 		
 		{
 			UResourcesComponent* ResourcesComponentInst = GetOwner()->FindComponentByClass<UResourcesComponent>();

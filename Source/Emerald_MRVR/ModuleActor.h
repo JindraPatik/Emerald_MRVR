@@ -8,6 +8,7 @@
 class UDownScaleComponent;
 class UBuildingDataAsset;
 class AMR_General;
+class ACooldownActor;
 
 UCLASS()
 class EMERALD_MRVR_API AModuleActor : public AActor, public IBuildingsModuleInterface
@@ -25,6 +26,15 @@ protected:
 public:
 	void DisableInfoWidget();
 	void EnableInfoWidget();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
+		TSubclassOf<ACooldownActor> CooldownWidgetClass; // priradit v Editoru!
+
+	UPROPERTY()
+		TObjectPtr<ACooldownActor> CooldownWidgetInstance;
+
+	UFUNCTION()
+		void SpawnCooldownWidget();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Components")
 		TObjectPtr<UDownScaleComponent> DownScaleComponent;
@@ -63,4 +73,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="Widgets")
 		float InfoWidgetHeight = 25.f;
+
+	UPROPERTY(EditAnywhere, Category="Widgets")
+		float CooldownWidgetHeight = 15.f;
+
+	float CooldownDuration;
+	float ElapsedTime;
 };

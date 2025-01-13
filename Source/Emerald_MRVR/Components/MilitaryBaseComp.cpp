@@ -47,6 +47,7 @@ void UMilitaryBaseComp::BeginPlay()
 	
 	MyOwner = Cast<APawn>(GetOwner());
 	ResourcesComponentInst = Cast<UResourcesComponent>(GetOwner()->FindComponentByClass<UResourcesComponent>());
+	
 }
 
 void UMilitaryBaseComp::SetSpawnPointForBase()
@@ -143,6 +144,7 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 							{
 								ModuleInstance->BuildingDataAsset = Module;
 								ModuleInstance->SpawnInfoWidget();
+								ModuleInstance->SpawnCooldownWidget();
 							}
 							ModuleInstance->SetReplicates(true);
 

@@ -44,6 +44,7 @@ protected:
 	void Server_SetSpawnPointForBase();
 	void SpawnNotEnoughResWidget();
 
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
 		TSubclassOf<AActor> NotEnoughResourcesWidgetActor;
 
