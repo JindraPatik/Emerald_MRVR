@@ -38,4 +38,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
 		UMaterialInterface* HoverMaterial;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+		float Cooldown = 0.f;
+
+	
 };

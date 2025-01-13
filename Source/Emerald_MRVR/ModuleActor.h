@@ -27,29 +27,40 @@ public:
 	void EnableInfoWidget();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Components")
-	TObjectPtr<UDownScaleComponent> DownScaleComponent;
+		TObjectPtr<UDownScaleComponent> DownScaleComponent;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
-	TObjectPtr<USceneComponent> SceneRoot;
+		TObjectPtr<USceneComponent> SceneRoot;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
-	TObjectPtr<UStaticMeshComponent> ModuleMeshRoot;
+		TObjectPtr<UStaticMeshComponent> ModuleMeshRoot;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Data")
-	TObjectPtr<UBuildingDataAsset> BuildingDataAsset = nullptr;
+		TObjectPtr<UBuildingDataAsset> BuildingDataAsset = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
-	TSubclassOf<AActor> InfoWidgetActor;
+		TSubclassOf<AActor> InfoWidgetActor;
 
 	UPROPERTY()
-	AActor* InfoWidgetActorInst;
+		AActor* InfoWidgetActorInst;
+	
+	UPROPERTY()
+		bool bSpawningEnabled = true;
 
 	UFUNCTION()
-	void SpawnInfoWidget();
+		void EnableSpawning();
+	
+	UFUNCTION()
+		void Cooldown(float CD_Time);
+	
+	UFUNCTION()
+		void SpawnInfoWidget();
+
+	FTimerHandle CD_Handle;
 
 	UFUNCTION()
-	void SetInfoWidgetStats(AActor* WidgetActor);
+		void SetInfoWidgetStats(AActor* WidgetActor);
 
 	UPROPERTY(EditAnywhere, Category="Widgets")
-	float InfoWidgetHeight = 25.f;
+		float InfoWidgetHeight = 25.f;
 };

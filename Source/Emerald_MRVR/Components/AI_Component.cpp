@@ -138,7 +138,7 @@ void UAI_Component::GetAvailableUnits()
 AUnit* UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
-	if (MilitaryBaseComp->HasEnoughResources(ModuleData))
+	if (MilitaryBaseComp->HasEnoughResources(ModuleData) && bSpawningEnabled)
 	{
 		FActorSpawnParameters SpawnParameters; 
 		SpawnParameters.Owner = GetOwner();
@@ -150,6 +150,9 @@ AUnit* UAI_Component::SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying)
 
 		AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(ModuleData->UnitToSpawn, SpawnPointLoc, SpawnPointRot, SpawnParameters);
 		if (ReactUnit)
+		bSpawningEnabled = false;
+		Cooldown(ModuleData->Cooldown);
+		
 		{
 			UResourcesComponent* ResourcesComponentInst = GetOwner()->FindComponentByClass<UResourcesComponent>();
 			UUnitDataAsset* SpawnedUnitDataAsset = ModuleData->UnitToSpawnData;
@@ -270,6 +273,16 @@ void UAI_Component::ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBa
 			DBG(3.f, "Don't have propiate defend unit");
 		}
 	}
+}
+
+void UAI_Component::EnableSpawning()
+{
+	bSpawningEnabled = true;
+}
+
+void UAI_Component::Cooldown(float CD_Time)
+{
+	GetWorld()->GetTimerManager().SetTimer(CD_Handle, this, &UAI_Component::EnableSpawning, CD_Time, false);
 }
 
 void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)

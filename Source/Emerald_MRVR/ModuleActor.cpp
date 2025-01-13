@@ -40,7 +40,17 @@ void AModuleActor::BeginPlay()
 void AModuleActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void AModuleActor::EnableSpawning()
+{
+	bSpawningEnabled = true;
+	DBG(2, "Spawning Enabled")
+}
+
+void AModuleActor::Cooldown(float CD_Time)
+{
+	GetWorld()->GetTimerManager().SetTimer(CD_Handle, this, &AModuleActor::EnableSpawning, CD_Time, false);
 }
 
 void AModuleActor::SpawnInfoWidget()

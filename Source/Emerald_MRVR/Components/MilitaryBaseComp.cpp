@@ -191,9 +191,11 @@ void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 			UnitSpawnParams.Instigator = InstigatorPawn;
 
 
-			if (HasEnoughResources(BuildingDataAsset))
+			if (HasEnoughResources(BuildingDataAsset) && Module->bSpawningEnabled)
 			{
+				Module->bSpawningEnabled = false;
 				UUnitDataAsset* SpawnedUnitDataAsset = BuildingDataAsset->UnitToSpawnData;
+				Module->Cooldown(BuildingDataAsset->Cooldown);
 				ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
 				UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
 				UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;

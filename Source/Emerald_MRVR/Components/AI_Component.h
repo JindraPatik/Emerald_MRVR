@@ -47,8 +47,11 @@ protected:
 
 	FTimerHandle RandomSpawn_Handle;
 	FTimerHandle Defending_Handle;
+	FTimerHandle CD_Handle;
 	FTimerDelegate Defending_Delegate;
 	EUnitFightStatus FightStatus;
+	bool bSpawningEnabled = true;
+	
 
 	UPROPERTY()
 		AUnit* UndefendedUnit;
@@ -95,6 +98,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float DefendingRate = 1.f;
+
+	UFUNCTION()
+	void EnableSpawning();
+	
+	UFUNCTION()
+	void Cooldown(float CD_Time);
 
 public:
 	UFUNCTION(BlueprintCallable, Category="Events")
