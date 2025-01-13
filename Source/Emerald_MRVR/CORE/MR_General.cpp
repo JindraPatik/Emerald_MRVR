@@ -190,6 +190,11 @@ void AMR_General::PerformSphereTrace(
 			{
 				CurrentlyHoveredModule->DisableInfoWidget();
 				CurrentlyHoveredModule = nullptr;
+				PrevisouslyHighlightedModule->DisableInfoWidget();
+				if (PrevisouslyHighlightedModule)
+				{
+					PrevisouslyHighlightedModule->DisableInfoWidget();
+				}
 			}
 
 			if (ImpactPointer)
@@ -201,10 +206,6 @@ void AMR_General::PerformSphereTrace(
 				}
 			}
 		}
-		/*if (PrevisouslyHighlightedModule)
-		{
-			PrevisouslyHighlightedModule->DisableInfoWidget();
-		}*/
 	}
 
 void AMR_General::EnablePlayerInput()
