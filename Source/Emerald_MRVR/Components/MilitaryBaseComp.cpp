@@ -140,6 +140,7 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 							FRotator ModuleSpawnRot = ModulePos->GetComponentRotation();
 							
 							AModuleActor* ModuleInstance = GetWorld()->SpawnActor<AModuleActor>(Module->ModuleClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
+							AvailableModulesActors.Add(ModuleInstance);
 							if (ModuleInstance)
 							{
 								ModuleInstance->BuildingDataAsset = Module;
@@ -161,12 +162,12 @@ void UMilitaryBaseComp::Server_SpawnModule_Implementation(APawn* OwningPawn)
 	SpawnModules(OwningPawn);
 }
 
-void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
+AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 {
 	if (!GetOwner()->HasAuthority())
 	{
 		Server_SpawnUnit(InstigatorPawn, Module);
-		return;
+		return nullptr;
 	}
 	
 	if (InstigatorPawn && MyBaseInstance && Module)
@@ -207,9 +208,11 @@ void UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
 				UnitInstance->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
 				OnUnitSpawnedDelegate.Broadcast(UnitInstance, InstigatorPawn);
+				return UnitInstance;
 			}
 		}
 	}
+	return nullptr;
 }
 
 

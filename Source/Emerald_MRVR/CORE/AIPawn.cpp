@@ -15,7 +15,6 @@ AAIPawn::AAIPawn()
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
 	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
 	AI_Component = CreateDefaultSubobject<UAI_Component>("AI_Component");
-
 }
 
 void AAIPawn::BeginPlay()
@@ -24,6 +23,7 @@ void AAIPawn::BeginPlay()
 	
 	MilitaryBaseComp->SpawnMilitaryBase(this);
 	MilitaryBaseComp->SpawnModules(this);
+	AI_Component->GetAvailableAttackingUnits();;
 
 	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
 	if (AEK_GameStateInst)

@@ -25,15 +25,15 @@ class EMERALD_MRVR_API UAI_Component : public UActorComponent
 
 public:	
 	UAI_Component();
+	void GetAvailableAttackingUnits();
 
 protected:
 	virtual void BeginPlay() override;
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
-	void GetAvailableAttackingUnits();
 	void GetAvailableModules();
-	AUnit* SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying);
+	AUnit* SpawnUnit(AModuleActor* Module);
 	void SpawnRandomUnit();
 
 
@@ -41,7 +41,7 @@ protected:
 
 	
 	UFUNCTION()
-		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables);
+		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<AModuleActor*> Availables);
 
 	float DefendingAgainstValue;
 
@@ -51,7 +51,9 @@ protected:
 	FTimerDelegate Defending_Delegate;
 	EUnitFightStatus FightStatus;
 	bool bSpawningEnabled = true;
-	
+
+	UPROPERTY()
+		APawn* AI_Pawn;
 
 	UPROPERTY()
 		AUnit* UndefendedUnit;
@@ -81,20 +83,22 @@ protected:
 		float RandomSpawnMax = 10.f;
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
-		TArray<UBuildingDataAsset*> AvailableGroundUnits;
+		TArray<AModuleActor*> AvailableGroundUnits;
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
-		TArray<UBuildingDataAsset*> AvailableFlyingUnits;
+		TArray<AModuleActor*> AvailableFlyingUnits;
 
 	UFUNCTION()
 		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
-	 void ChooseOptimalUnit(AUnit* Unit, UMilitaryBaseComp* MilitaryBaseComp, TArray<UBuildingDataAsset*> Availables);
+	
+	UFUNCTION()
+		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryBaseComp* MilitaryBaseComp, TArray<AModuleActor*> Availables);
 
 	UPROPERTY()
-		UBuildingDataAsset* CheapestStronger; // Temp variable for Cheapest stronger Unit
+		AModuleActor* CheapestStronger; // Temp variable for Cheapest stronger Unit
 
 	UPROPERTY()
-		UBuildingDataAsset* CheapestSame; // Temp variable for Cheapest stronger Unit
+		AModuleActor* CheapestSame; // Temp variable for Cheapest stronger Unit
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float DefendingRate = 1.f;

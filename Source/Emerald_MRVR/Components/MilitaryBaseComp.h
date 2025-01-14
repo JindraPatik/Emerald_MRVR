@@ -83,7 +83,7 @@ public:
 		void Server_SpawnModule(APawn* OwningPawn);
 
 	UFUNCTION()
-		void SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
+		AUnit* SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
 
 	UFUNCTION(Server, Reliable, Category="UnitSpawning")
 		void Server_SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
@@ -96,6 +96,9 @@ public:
 
 	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
 		TArray<UBuildingDataAsset*> AvailableModules;
+
+	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
+		TArray<AModuleActor*> AvailableModulesActors;
 
 	UPROPERTY()
 		UUnitDataAsset* SelectedUnit;

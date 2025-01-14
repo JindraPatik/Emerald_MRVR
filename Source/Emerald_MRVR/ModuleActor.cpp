@@ -168,7 +168,6 @@ void AModuleActor::EnableInfoWidget()
 				TXT_Price->SetColorAndOpacity(Green);
 			}
 		}
-		
 	}
 }
 
