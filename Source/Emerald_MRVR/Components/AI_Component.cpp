@@ -25,7 +25,7 @@ void UAI_Component::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetAvailableUnits();
+	GetAvailableAttackingUnits();
 	
 	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
 	
@@ -113,7 +113,7 @@ void UAI_Component::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 	}
 }
 
-void UAI_Component::GetAvailableUnits()
+void UAI_Component::GetAvailableAttackingUnits()
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	if (MilitaryBaseComp)
@@ -124,11 +124,17 @@ void UAI_Component::GetAvailableUnits()
 			{
 				if (!AvailableUnit->UnitToSpawnData->IsFlyingUnit)
 				{
-					AvailableGroundUnits.Add(AvailableUnit);
+					if (AvailableUnit->UnitToSpawnData->IsAttacker)
+					{
+						AvailableGroundUnits.Add(AvailableUnit);
+					}
 				}
 				else
 				{
-					AvailableFlyingUnits.Add(AvailableUnit);
+					if (AvailableUnit->UnitToSpawnData->IsAttacker)
+					{
+						AvailableFlyingUnits.Add(AvailableUnit);
+					}
 				}
 			}
 		}
@@ -293,7 +299,6 @@ void UAI_Component::OnUnitOccured(AUnit* Unit, AActor* Owner)
 	CheapestStronger = nullptr;
 	CheapestSame = nullptr;
 	float ProbabilityToSpawn = FMath::FRandRange(0.f, 100.f);
-	
 	
 	if (Owner && Owner != GetOwner() && MilitaryBaseComp && ProbabilityToSpawn <= ProbabilityFactorToSpawnReactUnit) // If it's not my player
 	{

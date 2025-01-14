@@ -31,7 +31,7 @@ protected:
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
-	void GetAvailableUnits();
+	void GetAvailableAttackingUnits();
 	void GetAvailableModules();
 	AUnit* SpawnUnit(UBuildingDataAsset* ModuleData, bool bIsFlying);
 	void SpawnRandomUnit();
