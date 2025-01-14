@@ -1,7 +1,9 @@
 #include "CombatComponent.h"
 
 #include "BoxComponent.h"
+#include "HarvestComponent.h"
 #include "HealthComponent.h"
+#include "ThiefComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
@@ -54,6 +56,13 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	
 	if (InActor)
 	{
+		UHarvestComponent* HarvestComponent = InActor->FindComponentByClass<UHarvestComponent>();
+		UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
+		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded)
+		{
+			return;
+		}
+		
 		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
 		if (HittedUnit)
@@ -105,8 +114,17 @@ void UCombatComponent::BaseFight(AActor* InActor)
 		Server_BaseFight(InActor);
 		return;
 	}
+
 	APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
 	AMilitaryBase* HittedBase = Cast<AMilitaryBase>(InActor);
+	
+	UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
+	
+	if (ThiefComponent && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner()) // If Im a thief dont kill me
+	{
+		return;
+	}
+	
 	if (HittedBase)
 	{
 		APawn* OtherBaseOwner = Cast<APawn>(HittedBase->GetOwner());

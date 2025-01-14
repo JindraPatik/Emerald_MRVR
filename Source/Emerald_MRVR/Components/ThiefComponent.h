@@ -29,6 +29,10 @@ protected:
 	UFUNCTION()
 		void HarvesterRobbery(AActor* OtherActor);
 
+	UFUNCTION()
+		void BaseRobbery(AActor* OtherActor);
+
+
 	UPROPERTY()
 		TObjectPtr<AUnit> Unit;
 public:	
@@ -40,5 +44,8 @@ public:
 
 	UPROPERTY()
 		float StealedValue = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category="Stealing")
+		float AmountToStealFromBase = 10.f;
 	
 };

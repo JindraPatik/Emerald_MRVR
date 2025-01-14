@@ -1,13 +1,11 @@
 #include "AI_Component.h"
 #include "Engine/TargetPoint.h"
 #include "CrystalSpawnerComp.h"
-#include "DownScaleComponent.h"
 #include "EngineUtils.h"
 #include "HarvestComponent.h"
 #include "MilitaryBaseComp.h"
 #include "ResourcesComponent.h"
 #include "UnitMovementComponent.h"
-#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Unit.h"
 #include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/CORE/Gamemode_Single.h"
@@ -167,40 +165,6 @@ AUnit* UAI_Component::SpawnUnit(AModuleActor* Module)
 			AUnit* Unit = MilitaryBaseComp->SpawnUnit(AI_Pawn, Module);
 			return Unit;
 		}
-		
-		/*
-		FActorSpawnParameters SpawnParameters; 
-		SpawnParameters.Owner = GetOwner();
-		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		FVector SpawnPointLoc;
-		FRotator SpawnPointRot;
-		bIsFlying ? SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentLocation() : SpawnPointLoc = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
-		bIsFlying ? SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Air->GetComponentRotation() : SpawnPointRot = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
-
-		AUnit* ReactUnit = GetWorld()->SpawnActor<AUnit>(ModuleData->UnitToSpawn, SpawnPointLoc, SpawnPointRot, SpawnParameters);
-		if (ReactUnit)
-		bSpawningEnabled = false; // Má sdílenej zákaz pro všechny jednotky
-		Cooldown(ModuleData->Cooldown); // Upravit! 
-		*/
-		
-		/*
-		{
-			UResourcesComponent* ResourcesComponentInst = GetOwner()->FindComponentByClass<UResourcesComponent>();
-			UUnitDataAsset* SpawnedUnitDataAsset = ModuleData->UnitToSpawnData;
-			if (SpawnedUnitDataAsset)
-			{
-				ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
-				ReactUnit->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
-				ReactUnit->Speed = SpawnedUnitDataAsset->Speed;
-				ReactUnit->Price = SpawnedUnitDataAsset->Price;
-				ReactUnit->Strenght = SpawnedUnitDataAsset->Strength;
-				ReactUnit->Damage = SpawnedUnitDataAsset->Damage;
-				ReactUnit->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
-			}
-		}
-		return ReactUnit;
-	}
-	return nullptr;*/
 	}
 	return nullptr;
 }
