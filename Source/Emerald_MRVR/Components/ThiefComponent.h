@@ -5,6 +5,8 @@
 #include "ThiefComponent.generated.h"
 
 
+class AUnit;
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UThiefComponent : public UActorComponent
 {
@@ -16,9 +18,27 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void OnBoxOverlapped(	UPrimitiveComponent* OverlappedComponent,
+							AActor* OtherActor,
+							UPrimitiveComponent* OtherComp,
+							int32 OtherBodyIndex,
+							bool bFromSweep,
+							const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void HarvesterRobbery(AActor* OtherActor);
+
+	UPROPERTY()
+		TObjectPtr<AUnit> Unit;
 public:	
+	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	UPROPERTY()
+		bool bIsloaded = false;
+
+	UPROPERTY()
+		float StealedValue = 0;
 	
 };

@@ -6,7 +6,6 @@
 #include "Components/ResourcesComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
-#include "CORE/MR_General.h"
 #include "Data/BuildingDataAsset.h"
 #include "Data/UnitDataAsset.h"
 #include "Net/UnrealNetwork.h"

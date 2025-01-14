@@ -3,16 +3,9 @@
 #include "EngineUtils.h"
 #include "ResourcesComponent.h"
 #include "UnitMovementComponent.h"
-#include "Animation/WidgetAnimation.h"
-#include "AssetTypeActions/AssetDefinition_SoundBase.h"
-#include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/ModuleActor.h"
 #include "Emerald_MRVR/Unit.h"
-#include "Emerald_MRVR/CORE/EKGameState.h"
-#include "Emerald_MRVR/CORE/EK_GameMode.h"
-#include "Emerald_MRVR/CORE/Gamemode_Single.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
@@ -130,7 +123,7 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 		{
 			for (UBuildingDataAsset* Module : AvailableModules)
 			{
-				if (MyBaseInstance && MyBaseInstance->ModulePositions.Num() > 0)
+				if (MyBaseInstance && MyBaseInstance->ModulePositions.Num() >= 0)
 				{
 					for (USceneComponent* ModulePos : MyBaseInstance->ModulePositions)
 					{
