@@ -61,7 +61,7 @@ void UCombatComponent::UnitFight(AActor* InActor)
 			APawn* OtherOwner = Cast<APawn>(HittedUnit->GetOwner());
 			if (OtherOwner)
 			{
-				if (MyGeneral && HittedUnit && OtherOwner && MyGeneral != OtherOwner) 	// Is that Other players Unit? 
+				if (MyGeneral && HittedUnit && OtherOwner && MyGeneral != OtherOwner && bWillFight) 	// Is that Other players Unit? 
                 {
                 	if (Unit->Strenght > HittedUnit->Strenght) // Win condition
                 	{

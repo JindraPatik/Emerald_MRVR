@@ -29,6 +29,20 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		float OscillationFrequency = 2.0f;      // Frekvence oscilací
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		float OscillationAmplitudeX = 0.03f;   // Amplituda pohybu do stran
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		float OscillationAmplitudeZ = 0.005f;   // Amplituda pohybu nahoru/dolů
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		float RollFactor = 75.0f;               // Míra naklonění na základě pohybu do stran
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		float RollInterpolationSpeed = 5.0f;   // Rychlost změny Roll
 
 
 public:	

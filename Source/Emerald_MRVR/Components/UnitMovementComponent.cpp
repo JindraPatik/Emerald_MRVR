@@ -48,9 +48,34 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 
 	if (bMovementEnabled)
 	{
-		FVector MovementDirection = Unit->GetActorForwardVector();
-		FVector DeltaLocation = MovementDirection.GetSafeNormal() * (UnitSpeed * DeltaTime);
-		Unit->AddActorWorldOffset(DeltaLocation);
+		FVector ForwardDirection = Unit->GetActorForwardVector(); // Směr vpřed
+		ForwardDirection.Normalize();
+
+		// Konstantní rychlost vpřed
+		FVector ForwardMovement = ForwardDirection * (UnitSpeed * DeltaTime);
+
+		// Oscilace do stran a nahoru/dolů
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			float Time = GetWorld()->GetTimeSeconds(); // Aktuální čas ve hře
+			float SidewaysOscillation = FMath::Sin(Time * OscillationFrequency) * OscillationAmplitudeX; // Oscilace do stran
+			float VerticalOscillation = FMath::Sin(Time * OscillationFrequency * 0.5f) * OscillationAmplitudeZ; // Oscilace nahoru/dolů
+
+			FVector OscillationOffset = FVector(SidewaysOscillation, 0.f, VerticalOscillation);
+
+			// Spočítání celkového pohybu
+			FVector DeltaLocation = ForwardMovement + OscillationOffset;
+			Unit->AddActorWorldOffset(DeltaLocation);
+
+			// Simulace Roll na základě pohybu do stran
+			float TargetRoll = SidewaysOscillation * RollFactor;
+			FRotator CurrentRotation = Unit->GetActorRotation();
+			FRotator NewRotation = FRotator(CurrentRotation.Pitch, CurrentRotation.Yaw, TargetRoll);
+
+			// Nastavení nové rotace
+			Unit->SetActorRotation(NewRotation);
+		}
 	}
 }
 
