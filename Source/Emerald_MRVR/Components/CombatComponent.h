@@ -35,6 +35,7 @@ public:
 	ECombatScenarios CurrentScenario;
 
 
+
 protected:
 	virtual void BeginPlay() override;
 

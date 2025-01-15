@@ -57,7 +57,10 @@ void UThiefComponent::HarvesterRobbery(AActor* OtherActor)
 				OtherActor->Destroy(); // Destroy enemy loaded harvester
 				if (UnitMovementComponent)
 				{
-					UnitMovementComponent->UnitSpeed = -UnitMovementComponent->UnitSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
+					ReturnSpeed = UnitMovementComponent->UnitSpeed - (UnitMovementComponent->UnitSpeed / 100) * ReturnSlowdownPercent;
+					FRotator BackwardRotation = Unit->GetActorRotation() + FRotator(0, 180, 0);
+					Unit->SetActorRotation(BackwardRotation);
+					UnitMovementComponent->UnitSpeed = ReturnSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
 				}
 			}
 		}
@@ -81,7 +84,10 @@ void UThiefComponent::BaseRobbery(AActor* OtherActor)
 				UUnitMovementComponent* UnitMovementComponent = GetOwner()->FindComponentByClass<UUnitMovementComponent>();
 				if (UnitMovementComponent)
 				{
-					UnitMovementComponent->UnitSpeed = -UnitMovementComponent->UnitSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
+					ReturnSpeed = UnitMovementComponent->UnitSpeed - (UnitMovementComponent->UnitSpeed / 100) * ReturnSlowdownPercent;
+					FRotator BackwardRotation = Unit->GetActorRotation() + FRotator(0, 180, 0);
+					Unit->SetActorRotation(BackwardRotation);
+					UnitMovementComponent->UnitSpeed = ReturnSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
 				}
 			}
 			else
@@ -93,12 +99,15 @@ void UThiefComponent::BaseRobbery(AActor* OtherActor)
 				UUnitMovementComponent* UnitMovementComponent = GetOwner()->FindComponentByClass<UUnitMovementComponent>();
 				if (UnitMovementComponent)
 				{
-					UnitMovementComponent->UnitSpeed = -UnitMovementComponent->UnitSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
+					ReturnSpeed = UnitMovementComponent->UnitSpeed - (UnitMovementComponent->UnitSpeed / 100) * ReturnSlowdownPercent;
+					FRotator BackwardRotation = Unit->GetActorRotation() + FRotator(0, 180, 0);
+					Unit->SetActorRotation(BackwardRotation);
+					UnitMovementComponent->UnitSpeed = ReturnSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
 				}
 			}
 		}
 	}
-	else if (OtherActor && OtherActor->GetOwner() == GetOwner()->GetOwner() && bIsloaded)
+	else if (OtherActor && OtherActor->GetOwner() == GetOwner()->GetOwner() && bIsloaded) // Deliver
 	{
 		AMilitaryBase* MilitaryBase = Cast<AMilitaryBase>(OtherActor);
 		if (MilitaryBase)

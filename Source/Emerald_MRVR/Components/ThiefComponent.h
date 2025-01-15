@@ -35,6 +35,12 @@ protected:
 
 	UPROPERTY()
 		TObjectPtr<AUnit> Unit;
+
+	UPROPERTY(EditAnywhere, Category="Speed")
+		float ReturnSlowdownPercent = 20.f;
+
+	float ReturnSpeed;
+	
 public:	
 	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
