@@ -85,3 +85,11 @@ void UUnitMovementComponent::Turn180()
 	GetOwner()->SetActorRotation(BackwardRotation);
 }
 
+void UUnitMovementComponent::TurnRandom()
+{
+	float RandYaw = FMath::RandRange(-90, 90);
+	float RandPitch = FMath::RandRange(10, 45);
+	FRotator RandomTurn = GetOwner()->GetActorRotation() + FRotator(RandPitch, RandYaw, 0);
+	GetOwner()->SetActorRotation(RandomTurn);
+}
+

@@ -25,6 +25,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Moving")
 		void Turn180();
 
+	UFUNCTION(BlueprintCallable, Category="Moving")
+		void TurnRandom();
+	
+
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		float UnitSpeed;

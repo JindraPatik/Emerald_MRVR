@@ -1,6 +1,7 @@
 #include "CombatComponent.h"
 
 #include "BoxComponent.h"
+#include "CollaborantComponent.h"
 #include "HarvestComponent.h"
 #include "HealthComponent.h"
 #include "ThiefComponent.h"
@@ -60,10 +61,11 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
 		UHarvestComponent* HarvestComponent = InActor->FindComponentByClass<UHarvestComponent>();
 		UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
-		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded)
-		{
-			return;
-		}
+		UCollaborantComponent* CollaborantComponent = InActor->FindComponentByClass<UCollaborantComponent>();
+		
+		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded) return; 
+		if (CollaborantComponent) return; // Ignore fight for Collaborant
+
 		AUnit* MyUnit = Cast<AUnit>(InActor);
 		
 		if (MyUnit && MyUnit->GetOwner() == GetOwner()->GetOwner()) // If it is my loaded thief

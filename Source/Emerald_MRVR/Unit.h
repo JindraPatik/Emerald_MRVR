@@ -39,8 +39,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
 		TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
-		TObjectPtr<UCombatComponent> CombatComponent;
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
+		TObjectPtr<UCombatComponent> CombatComponent;*/
 	
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 		TObjectPtr<UStaticMeshComponent> Body;

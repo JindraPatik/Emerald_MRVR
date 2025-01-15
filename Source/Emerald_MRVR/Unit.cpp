@@ -27,7 +27,7 @@ AUnit::AUnit()
 	UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
 	UnitMovementComponent->SetIsReplicated(true);
 
-	CombatComponent = CreateDefaultSubobject<UCombatComponent>("CombatComponent");
+	// CombatComponent = CreateDefaultSubobject<UCombatComponent>("CombatComponent");
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
 	BoxComponent->SetupAttachment(UnitRoot);
