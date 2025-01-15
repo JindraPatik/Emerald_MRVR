@@ -176,11 +176,18 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 				UnitSpawnLocation = MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
 				UnitSpawnRotation = MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
 			}
-			else
+			if (BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 			{
 				UnitSpawnLocation = MyBaseInstance->SpawnPoint_Air->GetComponentLocation();
 				UnitSpawnRotation = MyBaseInstance->SpawnPoint_Air->GetComponentRotation();
 			}
+
+			if (BuildingDataAsset->UnitToSpawnData->IsRocket)
+			{
+				UnitSpawnLocation = Module->GetActorLocation() + FVector(0,0,8.f);
+				UnitSpawnRotation = FRotator(90.f, 0.f, 0.f);
+			}
+			
 			FActorSpawnParameters UnitSpawnParams;
 			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			UnitSpawnParams.Owner = GetOwner();
@@ -194,12 +201,15 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 				Module->Cooldown(BuildingDataAsset->Cooldown);
 				ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
 				UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
-				UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
 				UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
 				UnitInstance->Price = SpawnedUnitDataAsset->Price;
 				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
 				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
 				UnitInstance->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
+				if (UnitInstance->UnitMovementComponent)
+				{
+					UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+				}
 				OnUnitSpawnedDelegate.Broadcast(UnitInstance, InstigatorPawn);
 				return UnitInstance;
 			}

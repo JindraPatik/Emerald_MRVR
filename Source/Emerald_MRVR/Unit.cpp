@@ -23,11 +23,6 @@ AUnit::AUnit()
 	bNetLoadOnClient = true;
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
-	
-	UnitMovementComponent = CreateDefaultSubobject<UUnitMovementComponent>("UnitMovementComponent");
-	UnitMovementComponent->SetIsReplicated(true);
-
-	// CombatComponent = CreateDefaultSubobject<UCombatComponent>("CombatComponent");
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
 	BoxComponent->SetupAttachment(UnitRoot);
@@ -41,6 +36,7 @@ AUnit::AUnit()
 void AUnit::BeginPlay()
 {
 	Super::BeginPlay();
+	UnitMovementComponent = FindComponentByClass<UUnitMovementComponent>();
 
 }
 
@@ -59,7 +55,7 @@ void AUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (UnitMovementComponent->bMovementEnabled)
+	if (UnitMovementComponent && UnitMovementComponent->bMovementEnabled)
 	{
 		UnitMovementComponent->MoveTo(DeltaTime);	
 	}

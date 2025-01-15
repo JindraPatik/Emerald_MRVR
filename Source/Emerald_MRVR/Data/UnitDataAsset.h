@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 		bool IsAttacker = false;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+		bool IsRocket = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
 		UStaticMesh* SM_Unit;
 

@@ -21,6 +21,7 @@ public:
 	AUnit();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UUnitMovementComponent* UnitMovementComponent;
 
 protected:
 	virtual void BeginPlay() override;
@@ -35,12 +36,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Collision")
 		TObjectPtr<UBoxComponent> BoxComponent;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
-		TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
-		TObjectPtr<UCombatComponent> CombatComponent;*/
 	
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 		TObjectPtr<UStaticMeshComponent> Body;
