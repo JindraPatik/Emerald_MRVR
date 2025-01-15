@@ -44,7 +44,7 @@ void UAI_Component::BeginPlay()
 					UMilitaryBaseComp* MilitaryBaseComp = General->FindComponentByClass<UMilitaryBaseComp>();
 						if (MilitaryBaseComp)
 						{
-		 					// MilitaryBaseComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAI_Component::OnUnitOccured);
+		 					MilitaryBaseComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAI_Component::OnUnitOccured);
 						}
 			    }
 		 	}
