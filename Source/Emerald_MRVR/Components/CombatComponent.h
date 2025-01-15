@@ -33,7 +33,6 @@ public:
 		void Server_BaseFight(AActor* InActor);
 
 	ECombatScenarios CurrentScenario;
-	bool bWillFight = true;
 
 
 protected:

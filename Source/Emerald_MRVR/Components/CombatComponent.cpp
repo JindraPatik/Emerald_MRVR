@@ -56,21 +56,27 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	
 	if (InActor)
 	{
+		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
+		AUnit* HittedUnit = Cast<AUnit>(InActor);
 		UHarvestComponent* HarvestComponent = InActor->FindComponentByClass<UHarvestComponent>();
 		UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
 		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded)
 		{
 			return;
 		}
+		AUnit* MyUnit = Cast<AUnit>(InActor);
 		
-		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
-		AUnit* HittedUnit = Cast<AUnit>(InActor);
+		if (MyUnit && MyUnit->GetOwner() == GetOwner()->GetOwner()) // If it is my loaded thief
+		{
+			return;
+		}
+		
 		if (HittedUnit)
 		{
 			APawn* OtherOwner = Cast<APawn>(HittedUnit->GetOwner());
 			if (OtherOwner)
 			{
-				if (MyGeneral && HittedUnit && OtherOwner && MyGeneral != OtherOwner && bWillFight) 	// Is that Other players Unit? 
+				if (MyGeneral && HittedUnit && OtherOwner && MyGeneral != OtherOwner) 	// Is that Other players Unit? 
                 {
                 	if (Unit->Strenght > HittedUnit->Strenght) // Win condition
                 	{
@@ -120,10 +126,7 @@ void UCombatComponent::BaseFight(AActor* InActor)
 	
 	UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
 	
-	if (ThiefComponent && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner()) // If Im a thief dont kill me
-	{
-		return;
-	}
+	if (ThiefComponent && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner()) return; // If Im a thief dont kill me
 	
 	if (HittedBase)
 	{

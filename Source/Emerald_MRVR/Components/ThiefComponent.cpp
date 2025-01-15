@@ -5,6 +5,8 @@
 #include "HarvestComponent.h"
 #include "ResourcesComponent.h"
 #include "UnitMovementComponent.h"
+#include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
 
 UThiefComponent::UThiefComponent()
@@ -50,7 +52,6 @@ void UThiefComponent::HarvesterRobbery(AActor* OtherActor)
 		{
 			if (CombatComponent && HarvestComponent->bIsLoaded) // Loaded harvester
 			{
-				CombatComponent->bWillFight = false; // Disable Combat
 				StealedValue = HarvestComponent->HarvestedValue; // Get stealed amount
 				bIsloaded = true;
 				OtherActor->Destroy(); // Destroy enemy loaded harvester
@@ -67,12 +68,6 @@ void UThiefComponent::BaseRobbery(AActor* OtherActor)
 {
 	if (OtherActor && OtherActor->GetOwner() && OtherActor->GetOwner() != GetOwner()->GetOwner()) // Not me
 	{
-		/*UHarvestComponent* HarvestComponent = OtherActor->FindComponentByClass<UHarvestComponent>();
-		if (HarvestComponent)
-		{
-			return;
-		}*/
-
 		UResourcesComponent* EnemyResourcesComponent = OtherActor->GetOwner()->FindComponentByClass<UResourcesComponent>();
 		
 		if (EnemyResourcesComponent)
@@ -105,13 +100,16 @@ void UThiefComponent::BaseRobbery(AActor* OtherActor)
 	}
 	else if (OtherActor && OtherActor->GetOwner() == GetOwner()->GetOwner() && bIsloaded)
 	{
-		UResourcesComponent* MyResourcesComponent = GetOwner()->GetOwner()->FindComponentByClass<UResourcesComponent>();
-		if (MyResourcesComponent)
+		AMilitaryBase* MilitaryBase = Cast<AMilitaryBase>(OtherActor);
+		if (MilitaryBase)
 		{
-			MyResourcesComponent->AvailableResources += StealedValue;
-			GetOwner()->Destroy();
+			UResourcesComponent* MyResourcesComponent = GetOwner()->GetOwner()->FindComponentByClass<UResourcesComponent>();
+			if (MyResourcesComponent)
+			{
+				MyResourcesComponent->AvailableResources += StealedValue;
+				GetOwner()->Destroy();
+			}
 		}
-		
 	}
 }
 

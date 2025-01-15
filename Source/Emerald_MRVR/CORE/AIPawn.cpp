@@ -39,7 +39,7 @@ void AAIPawn::BeginPlay()
 
 void AAIPawn::StartGame()
 {
-	AI_Component->HandleRandomSpawn();
+	// AI_Component->HandleRandomSpawn();
 	ResourcesComponent->StartGrowResources();
 }
 

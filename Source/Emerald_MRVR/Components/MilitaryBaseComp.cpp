@@ -183,7 +183,7 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 			}
 			FActorSpawnParameters UnitSpawnParams;
 			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-			UnitSpawnParams.Owner = InstigatorPawn;
+			UnitSpawnParams.Owner = GetOwner();
 			UnitSpawnParams.Instigator = InstigatorPawn;
 
 
