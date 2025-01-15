@@ -58,8 +58,7 @@ void UThiefComponent::HarvesterRobbery(AActor* OtherActor)
 				if (UnitMovementComponent)
 				{
 					ReturnSpeed = UnitMovementComponent->UnitSpeed - (UnitMovementComponent->UnitSpeed / 100) * ReturnSlowdownPercent;
-					FRotator BackwardRotation = Unit->GetActorRotation() + FRotator(0, 180, 0);
-					Unit->SetActorRotation(BackwardRotation);
+					UnitMovementComponent->Turn180();
 					UnitMovementComponent->UnitSpeed = ReturnSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
 				}
 			}
@@ -85,8 +84,7 @@ void UThiefComponent::BaseRobbery(AActor* OtherActor)
 				if (UnitMovementComponent)
 				{
 					ReturnSpeed = UnitMovementComponent->UnitSpeed - (UnitMovementComponent->UnitSpeed / 100) * ReturnSlowdownPercent;
-					FRotator BackwardRotation = Unit->GetActorRotation() + FRotator(0, 180, 0);
-					Unit->SetActorRotation(BackwardRotation);
+					UnitMovementComponent->Turn180();
 					UnitMovementComponent->UnitSpeed = ReturnSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
 				}
 			}
@@ -100,8 +98,7 @@ void UThiefComponent::BaseRobbery(AActor* OtherActor)
 				if (UnitMovementComponent)
 				{
 					ReturnSpeed = UnitMovementComponent->UnitSpeed - (UnitMovementComponent->UnitSpeed / 100) * ReturnSlowdownPercent;
-					FRotator BackwardRotation = Unit->GetActorRotation() + FRotator(0, 180, 0);
-					Unit->SetActorRotation(BackwardRotation);
+					UnitMovementComponent->Turn180();
 					UnitMovementComponent->UnitSpeed = ReturnSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
 				}
 			}

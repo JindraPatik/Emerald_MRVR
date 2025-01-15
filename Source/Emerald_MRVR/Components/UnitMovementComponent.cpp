@@ -79,3 +79,9 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 	}
 }
 
+void UUnitMovementComponent::Turn180()
+{
+	FRotator BackwardRotation = GetOwner()->GetActorRotation() + FRotator(0, 180, 0);
+	GetOwner()->SetActorRotation(BackwardRotation);
+}
+

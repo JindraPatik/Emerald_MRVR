@@ -17,13 +17,17 @@ public:
 	UUnitMovementComponent();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
-	bool bMovementEnabled = true;
+		bool bMovementEnabled = true;
 	   
 	UFUNCTION(BlueprintCallable, Category="Moving")
-	void MoveTo(float DeltaTime) const;
+		void MoveTo(float DeltaTime) const;
+
+	UFUNCTION(BlueprintCallable, Category="Moving")
+		void Turn180();
+
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
-	float UnitSpeed;
+		float UnitSpeed;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -43,7 +47,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		float RollInterpolationSpeed = 5.0f;   // Rychlost změny Roll
-
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
