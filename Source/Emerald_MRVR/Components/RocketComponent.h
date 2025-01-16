@@ -18,6 +18,14 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void OnBoxOverlapped(	UPrimitiveComponent* OverlappedComponent,
+							AActor* OtherActor,
+							UPrimitiveComponent* OtherComp,
+							int32 OtherBodyIndex,
+							bool bFromSweep,
+							const FHitResult& SweepResult);
+
 	UPROPERTY()
 		TObjectPtr<AUnit> Target;
 
@@ -30,14 +38,26 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Speed")
 		float MaxSpeed = 100.f;
 
+	UPROPERTY(EditDefaultsOnly, Category="Speed")
+		float MaxLaunchSpeed = 50.f;
+
 	UPROPERTY(VisibleAnywhere, Category="Speed")
 		float CurrentSpeed = 3.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Speed")
+		float StartAccelerationRate = 0.2f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Speed")
 		float AccelerationRate = 2.f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Speed")
-		float LaunchTime = 3.f;
+		float LaunchTime = 0.5f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Speed")
+		float RotationSpeed = 6.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Life")
+		float Lifetime = 20.f;
 
 	FVector CurrentDirection;
 
@@ -62,6 +82,12 @@ protected:
 	UFUNCTION()
 		void FindAndSelect();
 
+	UFUNCTION()
+		void KillMe();
+
+	UFUNCTION()
+		void Missed();
+
 	UPROPERTY()
 		bool bRocketHasLaunched = false;
 
@@ -70,6 +96,10 @@ protected:
 
 	UPROPERTY()
 		FTimerHandle SearchHandle;
+
+	UPROPERTY()
+		FTimerHandle MissedHandle;
+
 
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,

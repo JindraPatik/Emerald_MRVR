@@ -1,6 +1,8 @@
 #include "RocketComponent.h"
 
+#include "BoxComponent.h"
 #include "EngineUtils.h"
+#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Unit.h"
 
 URocketComponent::URocketComponent()
@@ -11,11 +13,25 @@ URocketComponent::URocketComponent()
 void URocketComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	AUnit* Unit = Cast<AUnit>(GetOwner());
+	if (Unit)
+	{
+		Unit->BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &URocketComponent::OnBoxOverlapped);
+	}
 	CurrentSpeed = 0.0f; // Startovní rychlost
 	CurrentDirection = GetOwner()->GetActorForwardVector().GetSafeNormal(); // Výchozí směr letu
 	SearchTargets();
-
 	GetWorld()->GetTimerManager().SetTimer(LaunchHandle, this, &URocketComponent::RocketStarted, LaunchTime, false);
+	Missed();
+}
+
+void URocketComponent::OnBoxOverlapped(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor)
+	{
+		KillMe();
+	}
 }
 
 void URocketComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -59,7 +75,7 @@ void URocketComponent::SelectTarget()
 void URocketComponent::LaunchRocket(float DeltaTime)
 {
 	AActor* Owner = GetOwner();
-	CurrentSpeed += DeltaTime; 
+	CurrentSpeed = FMath::FInterpTo(CurrentSpeed, MaxLaunchSpeed, DeltaTime, StartAccelerationRate);
 	FVector DeltaLocation = CurrentDirection * CurrentSpeed * DeltaTime;
 	Owner->AddActorWorldOffset(DeltaLocation);
 }
@@ -86,13 +102,16 @@ void URocketComponent::MoveToTarget(float DeltaTime)
 		CurrentDirection = (TargetLocation - CurrentLocation).GetSafeNormal();
 	}
 
-	// Pohyb ve směru `CurrentDirection`
+	// Pohyb ve směru `CurrentDirection
 	FVector DeltaLocation = CurrentDirection * CurrentSpeed * DeltaTime;
-	Owner->AddActorWorldOffset(DeltaLocation); // true = s kolizí
+	Owner->AddActorWorldOffset(DeltaLocation); // Posun s kolizí (true)
 
-	// Nastavení rotace ve směru letu
+	// Plynulá rotace směrem k cíli
+	FRotator CurrentRotation = Owner->GetActorRotation();
 	FRotator TargetRotation = CurrentDirection.Rotation();
-	Owner->SetActorRotation(TargetRotation);
+	FRotator SmoothRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, RotationSpeed);
+
+	Owner->SetActorRotation(SmoothRotation);
 }
 
 void URocketComponent::SearchTargets()
@@ -111,5 +130,16 @@ void URocketComponent::FindAndSelect()
 {
 	FindTarget();
 	SelectTarget();
+}
+
+void URocketComponent::KillMe()
+{
+	DBG(5, "KILLED")
+	GetOwner()->Destroy();
+}
+
+void URocketComponent::Missed()
+{
+	GetWorld()->GetTimerManager().SetTimer(MissedHandle, this, &URocketComponent::KillMe, Lifetime, false);
 }
 
