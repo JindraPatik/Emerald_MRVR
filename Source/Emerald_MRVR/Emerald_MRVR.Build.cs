@@ -8,7 +8,7 @@ public class Emerald_MRVR : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "OnlineSubsystem", "OnlineSubsystemSteam", "HeadMountedDisplay", "OculusXRInput", "OculusXRHMD", "XRBase", "AIModule", "GameplayTags" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "OnlineSubsystem", "OnlineSubsystemSteam", "HeadMountedDisplay", "OculusXRInput", "OculusXRHMD", "XRBase", "AIModule", "GameplayTags", "Niagara", "NiagaraCore", "NiagaraEditor", "NiagaraShader" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

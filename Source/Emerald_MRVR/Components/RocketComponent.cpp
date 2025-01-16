@@ -4,6 +4,8 @@
 #include "EngineUtils.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Unit.h"
+#include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
 
 URocketComponent::URocketComponent()
 {
@@ -98,6 +100,7 @@ void URocketComponent::RocketStarted()
 
 void URocketComponent::MoveToTarget(float DeltaTime)
 {
+	/*
 	AActor* Owner = GetOwner();
 
 	// Zrychlení
@@ -124,7 +127,52 @@ void URocketComponent::MoveToTarget(float DeltaTime)
 	FRotator SmoothRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, RotationSpeed);
 
 	Owner->SetActorRotation(SmoothRotation);
-		
+	*/
+
+	AActor* Owner = GetOwner();
+	if (!Owner) return;
+
+	// Zrychlení
+	CurrentSpeed = FMath::FInterpTo(CurrentSpeed, MaxSpeed, DeltaTime, AccelerationRate);
+
+	// Pokud je Target platný, nastav směr k němu
+	if (Target && !bLaunched)
+	{
+		FVector TargetLocation = Target->GetActorLocation();
+		FVector CurrentLocation = Owner->GetActorLocation();
+
+		// Vypočítat počáteční směr s ohledem na oblouk (přidání vertikální složky)
+		FVector LaunchDirection = FVector(0, 0, 1); // Start kolmo vzhůru
+		CurrentVelocity = LaunchDirection * CurrentSpeed;
+
+		bLaunched = true; // Raketa byla vystřelena
+	}
+
+	// Pokud je Target platný, postupně zaměřuj na něj
+	if (Target)
+	{
+		FVector TargetLocation = Target->GetActorLocation();
+		FVector CurrentLocation = Owner->GetActorLocation();
+
+		FVector TargetDirection = (TargetLocation - CurrentLocation).GetSafeNormal();
+		CurrentDirection = FMath::VInterpTo(CurrentDirection, TargetDirection, DeltaTime, DirectionChangeSpeed);
+	}
+
+	// Přidání gravitace do aktuální rychlosti
+	CurrentVelocity.Z -= Gravity * DeltaTime;
+
+	// Pohyb rakety na základě aktuální rychlosti a směru
+	FVector DeltaLocation = CurrentDirection * CurrentSpeed * DeltaTime;
+	Owner->AddActorWorldOffset(DeltaLocation, true); // Pohyb s kolizí
+
+	// Plynulá rotace ve směru pohybu
+	if (!CurrentVelocity.IsNearlyZero())
+	{
+		FRotator CurrentRotation = Owner->GetActorRotation();
+		FRotator TargetRotation = CurrentDirection.Rotation();
+		FRotator SmoothRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, RotationSpeed);
+		Owner->SetActorRotation(SmoothRotation);
+	}
 }
 
 void URocketComponent::SearchTargets()
@@ -147,7 +195,25 @@ void URocketComponent::FindAndSelect()
 
 void URocketComponent::KillMe()
 {
-	DBG(5, "KILLED")
+	AUnit* Ownerunit = Cast<AUnit>(GetOwner());
+	if (Ownerunit)
+	{
+		Ownerunit->BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Ownerunit->Body->SetVisibility(false);
+
+		if (Explosion)
+		{
+			UNiagaraComponent* ExplosionEffect = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), Explosion, GetOwner()->GetActorLocation(), FRotator::ZeroRotator, FVector(0.001,0.001,0.001), true);
+			DestroyMe();
+		}
+		
+		//GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &URocketComponent::DestroyMe, 2.f, false);
+	}
+
+}
+
+void URocketComponent::DestroyMe()
+{
 	GetOwner()->Destroy();
 }
 
@@ -161,7 +227,7 @@ void URocketComponent::KillTarget(AActor* TargetActor)
 	if (TargetActor)
 	{
 		AUnit* TargetEnemy = Cast<AUnit>(TargetActor);
-		if (TargetActor && TargetEnemy->GetOwner()&& TargetEnemy->GetOwner() != GetOwner()->GetOwner())
+		if (TargetEnemy && TargetEnemy->GetOwner() && TargetEnemy->GetOwner() != GetOwner()->GetOwner())
 		{
 			TargetEnemy->Destroy();
 		}

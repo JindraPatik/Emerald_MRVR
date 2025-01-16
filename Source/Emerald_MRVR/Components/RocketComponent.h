@@ -6,6 +6,7 @@
 
 
 class AUnit;
+class UNiagaraSystem;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class EMERALD_MRVR_API URocketComponent : public UActorComponent
@@ -86,6 +87,9 @@ protected:
 
 	UFUNCTION()
 		void KillMe();
+	
+	UFUNCTION()
+		void DestroyMe();
 
 	UFUNCTION()
 		void Missed();
@@ -104,6 +108,20 @@ protected:
 
 	UPROPERTY()
 		FTimerHandle MissedHandle;
+
+	UPROPERTY()
+		FTimerHandle DestroyHandle;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
+		UNiagaraSystem* Explosion;
+
+	
+	FVector CurrentVelocity; // Aktuální rychlost
+	bool bLaunched = false; // Indikátor, zda byla raketa vystřelena
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rocket")
+	float DirectionChangeSpeed = 1.0f; // Rychlost změny směru
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rocket")
+	float Gravity = 9.80f; // Gravitace (cm/s^2)
 
 
 public:
