@@ -54,10 +54,12 @@ protected:
 		float LaunchTime = 0.5f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Speed")
-		float RotationSpeed = 6.f;
+		float RotationSpeed = 1.f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Life")
 		float Lifetime = 20.f;
+
+	bool bHasTargeted = false;
 
 	FVector CurrentDirection;
 
@@ -87,7 +89,10 @@ protected:
 
 	UFUNCTION()
 		void Missed();
-
+	
+	UFUNCTION()
+		void KillTarget(AActor* TargetActor);
+	
 	UPROPERTY()
 		bool bRocketHasLaunched = false;
 

@@ -30,6 +30,7 @@ void URocketComponent::OnBoxOverlapped(UPrimitiveComponent* OverlappedComponent,
 {
 	if (OtherActor)
 	{
+		KillTarget(OtherActor);
 		KillMe();
 	}
 }
@@ -41,6 +42,12 @@ void URocketComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	if (!GetOwner()) return;
 
 	!bRocketHasLaunched ? LaunchRocket(DeltaTime) : MoveToTarget(DeltaTime);
+
+	if (bHasTargeted && !Target)
+	{
+		PreviousTarget = nullptr;
+		KillMe();
+	}
 }
 
 void URocketComponent::FindTarget()
@@ -69,6 +76,10 @@ void URocketComponent::SelectTarget()
 		int ItemsInArray = ListOfTargets.Num() - 1;
 		int Index = FMath::RandRange(0, ItemsInArray);
 		Target = ListOfTargets[Index];
+		if (Target)
+		{
+			bHasTargeted = true;
+		}
 	}
 }
 
@@ -97,6 +108,7 @@ void URocketComponent::MoveToTarget(float DeltaTime)
 	{
 		FVector TargetLocation = Target->GetActorLocation();
 		FVector CurrentLocation = Owner->GetActorLocation();
+		PreviousTarget = Target;
 
 		// Aktualizace směru k cíli
 		CurrentDirection = (TargetLocation - CurrentLocation).GetSafeNormal();
@@ -112,6 +124,7 @@ void URocketComponent::MoveToTarget(float DeltaTime)
 	FRotator SmoothRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, RotationSpeed);
 
 	Owner->SetActorRotation(SmoothRotation);
+		
 }
 
 void URocketComponent::SearchTargets()
@@ -141,5 +154,17 @@ void URocketComponent::KillMe()
 void URocketComponent::Missed()
 {
 	GetWorld()->GetTimerManager().SetTimer(MissedHandle, this, &URocketComponent::KillMe, Lifetime, false);
+}
+
+void URocketComponent::KillTarget(AActor* TargetActor)
+{
+	if (TargetActor)
+	{
+		AUnit* TargetEnemy = Cast<AUnit>(TargetActor);
+		if (TargetActor && TargetEnemy->GetOwner()&& TargetEnemy->GetOwner() != GetOwner()->GetOwner())
+		{
+			TargetEnemy->Destroy();
+		}
+	}
 }
 
