@@ -200,12 +200,13 @@ void URocketComponent::KillMe()
 	{
 		Ownerunit->BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		Ownerunit->Body->SetVisibility(false);
+		DestroyMe();
 
-		if (Explosion)
+		/*if (Explosion)
 		{
 			UNiagaraComponent* ExplosionEffect = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), Explosion, GetOwner()->GetActorLocation(), FRotator::ZeroRotator, FVector(0.001,0.001,0.001), true);
 			DestroyMe();
-		}
+		}*/
 		
 		//GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &URocketComponent::DestroyMe, 2.f, false);
 	}

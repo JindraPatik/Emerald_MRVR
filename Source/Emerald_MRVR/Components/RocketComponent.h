@@ -116,12 +116,14 @@ protected:
 		UNiagaraSystem* Explosion;
 
 	
-	FVector CurrentVelocity; // Aktuální rychlost
-	bool bLaunched = false; // Indikátor, zda byla raketa vystřelena
+	FVector CurrentVelocity;
+	bool bLaunched = false;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rocket")
-	float DirectionChangeSpeed = 1.0f; // Rychlost změny směru
+		float DirectionChangeSpeed = 1.0f; 
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rocket")
-	float Gravity = 9.80f; // Gravitace (cm/s^2)
+		float Gravity = 9.80f; 
 
 
 public:
