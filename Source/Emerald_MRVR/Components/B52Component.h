@@ -5,6 +5,7 @@
 #include "B52Component.generated.h"
 
 
+class AProjectile;
 class AUnit;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -22,6 +23,9 @@ protected:
 
 	UPROPERTY()
 		TObjectPtr<AUnit> Target;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+		TSubclassOf<AProjectile> ProjectileClass;
 	
 	UFUNCTION()
 		void PerformSphereTrace(FHitResult& OutHit);

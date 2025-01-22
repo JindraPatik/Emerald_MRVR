@@ -1,5 +1,7 @@
 #include "B52Component.h"
 
+#include "Emerald_MRVR/DebugMacros.h"
+#include "Emerald_MRVR/Projectile.h"
 #include "Emerald_MRVR/Unit.h"
 
 
@@ -21,7 +23,11 @@ void UB52Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
 	FHitResult HitResult;
-	PerformSphereTrace(HitResult);
+	if (!bFoundValidTarget)
+	{
+		PerformSphereTrace(HitResult);
+	}
+	
 	AActor* HittedActor = HitResult.GetActor();
 	if (HittedActor)
 	{
@@ -33,39 +39,49 @@ void UB52Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 void UB52Component::PerformSphereTrace(FHitResult& OutHit)
 {
 	UWorld* World = GetWorld();
-	if (World && GetOwner() && !bFoundValidTarget)
+	if (World && GetOwner())
 	{
 		FVector Start = GetOwner()->GetActorLocation();
 		FVector ForwardVector = GetOwner()->GetActorLocation().ForwardVector;
 		FRotator Downwardrotation = FRotator(-60.f, -90.f,0.f);
 		FVector RotatedDirection = Downwardrotation.RotateVector(ForwardVector);
 		FVector End = Start + RotatedDirection * 30000.f;
-		float SphereRadius = 100.f;
+		float SphereRadius = 10.f;
 		
 		FCollisionQueryParams CollisionQueryParams;
 		CollisionQueryParams.bDebugQuery = true;
 		
-		bool bHit = World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity, ECC_WorldDynamic, FCollisionShape::MakeSphere(SphereRadius), CollisionQueryParams);
+		bool bHit = World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity, ECC_Pawn, FCollisionShape::MakeSphere(SphereRadius), CollisionQueryParams);
 		
-	/*FColor TraceColor = bHit ? FColor::Red : FColor::Green;
+	FColor TraceColor = bHit ? FColor::Red : FColor::Green;
 	DrawDebugLine(World, Start, End, TraceColor, false, 1.f);
-	DrawDebugSphere(World, End, SphereRadius, 12, TraceColor, false, 1.f);*/
+	DrawDebugSphere(World, End, SphereRadius, 12, TraceColor, false, 1.f);
 	}
 }
 
 void UB52Component::FindValidTarget(AActor* Unit)
 {
-	AUnit* ValidClass = Cast<AUnit>(Unit);
-	UB52Component* ValidUB52Component = Unit->FindComponentByClass<UB52Component>();
-	if (ValidClass && ValidUB52Component && !bFoundValidTarget)
+	AUnit* ValidClass = Cast<AUnit>(Unit); // toto musí být empty
+	DBG(1.f, "Valid calss: %s", *ValidClass); //
+	if (ValidClass && GetOwner()->GetOwner() != ValidClass->GetOwner())
 	{
-		bFoundValidTarget = true;
 		SpawnProjectile();
+		bFoundValidTarget = true;
 	}
 }
 
 void UB52Component::SpawnProjectile()
 {
-	
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector Location = GetOwner()->GetActorLocation();
+		FRotator Rotation = FRotator::ZeroRotator;
+		
+		World->SpawnActor<AProjectile>(ProjectileClass, Location, Rotation, SpawnParameters);
+		DBG(5, "Spawned bomb");
+	}
 }
 
