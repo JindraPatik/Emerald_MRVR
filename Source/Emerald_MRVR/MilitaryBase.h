@@ -53,80 +53,80 @@ protected:
 		FVector HealthWidgetOffset;
 
 	UPROPERTY(Replicated)
-		APawn* General;
+		TObjectPtr<APawn> General;
 
 public:	
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	USceneComponent* SpawnPoint_Ground;
+		USceneComponent* SpawnPoint_Ground;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	USceneComponent* SpawnPoint_Air;
+		USceneComponent* SpawnPoint_Air;
 
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
-	TSubclassOf<AActor> ResourcesWBP;
+		TSubclassOf<AActor> ResourcesWBP;
 
 	UPROPERTY(Replicated)
-	AActor* ResourcesWidgetInstance;
+		AActor* ResourcesWidgetInstance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Widgets")
-	TSubclassOf<AActor> HealthWidget;
+		TSubclassOf<AActor> HealthWidget;
 
 	UPROPERTY(Replicated)
-	AActor* HealthWidgetInstance;
+		AActor* HealthWidgetInstance;
 	
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
-	UMaterialInterface* OriginalMaterial;
+		UMaterialInterface* OriginalMaterial;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
-	UMaterialInterface* HoveredMaterial;
+		UMaterialInterface* HoveredMaterial;
 
 	// Modules 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Positions_Root;
+		TObjectPtr<USceneComponent> Positions_Root;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Mine_Position;
+		TObjectPtr<USceneComponent> Mine_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Prison_Position;
+		TObjectPtr<USceneComponent> Prison_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Bank_Position;
+		TObjectPtr<USceneComponent> Bank_Position;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> UVKSC_Position;
+		TObjectPtr<USceneComponent> UVKSC_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Microsoft_Position;
+		TObjectPtr<USceneComponent> Microsoft_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Barracs_Position;
+		TObjectPtr<USceneComponent> Barracs_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Garage_Position;
+		TObjectPtr<USceneComponent> Garage_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> LPlatform_Position;
+		TObjectPtr<USceneComponent> LPlatform_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Minecraft_Position;
+		TObjectPtr<USceneComponent> Minecraft_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Heliport_Position;
+		TObjectPtr<USceneComponent> Heliport_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Runway_Position;
+		TObjectPtr<USceneComponent> Runway_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Aerial_Position;
+		TObjectPtr<USceneComponent> Aerial_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> Hangar_Position;
+		TObjectPtr<USceneComponent> Hangar_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-	TObjectPtr<USceneComponent> RocketLauncher_Position;
+		TObjectPtr<USceneComponent> RocketLauncher_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, Category="Spawning")
-	TArray<USceneComponent*> ModulePositions;
+		TArray<USceneComponent*> ModulePositions;
 };

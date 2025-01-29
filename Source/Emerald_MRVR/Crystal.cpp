@@ -4,7 +4,7 @@
 
 ACrystal::ACrystal()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
@@ -16,6 +16,7 @@ ACrystal::ACrystal()
 	SM_Bottom = CreateDefaultSubobject<UStaticMeshComponent>("BottomMesh");
 	SM_Bottom->SetupAttachment(RootComponent);
 
+	// Collision Box
 	CrystalBox = CreateDefaultSubobject<UBoxComponent>("CrystalBox");
 	CrystalBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	CrystalBox->SetCollisionObjectType(ECC_WorldDynamic);

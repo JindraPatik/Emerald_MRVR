@@ -1,17 +1,14 @@
 
 #include "MilitaryBase.h"
 #include "BoxComponent.h"
-#include "DebugMacros.h"
 #include "Components/DownScaleComponent.h"
-#include "CORE/MR_General.h"
 #include "Net/UnrealNetwork.h"
 
 #define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()
 
-
 AMilitaryBase::AMilitaryBase()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
 	SetReplicates(true);
 
@@ -146,14 +143,12 @@ void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
 	General = Cast<APawn>(GetOwner());
-	
+
+	// Initialize widgets
 	if (ensure(General))
 	{
 		SpawnResourcesWidget();
 		SpawnHealthWidget();
-		/*if (General->IsLocallyControlled())
-		{
-		}*/
 	} 
 }
 

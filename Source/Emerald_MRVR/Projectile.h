@@ -27,7 +27,6 @@ protected:
 		TObjectPtr<UDownScaleComponent> DownScaleComponent;
 
 public:	
-	virtual void Tick(float DeltaTime) override;
 
 	
 	

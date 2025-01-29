@@ -20,16 +20,17 @@ class EMERALD_MRVR_API AUnit : public APawn
 public:
 	AUnit();
 	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	UUnitMovementComponent* UnitMovementComponent;
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
-public:	
+public:
+	UPROPERTY()
+		TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
-		UDownScaleComponent* DownScaleComponent;
+		TObjectPtr<UDownScaleComponent> DownScaleComponent;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 		TObjectPtr<USceneComponent> UnitRoot;

@@ -1,10 +1,8 @@
 #include "Unit.h"
 #include "BoxComponent.h"
-#include "Components/CombatComponent.h"
 #include "Components/DownScaleComponent.h"
 #include "Components/UnitMovementComponent.h"
 #include "Net/UnrealNetwork.h"
-
 
 AUnit::AUnit()
 {
@@ -24,6 +22,7 @@ AUnit::AUnit()
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 
+	// Collision
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
 	BoxComponent->SetupAttachment(UnitRoot);
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
@@ -60,10 +59,3 @@ void AUnit::Tick(float DeltaTime)
 		UnitMovementComponent->MoveTo(DeltaTime);	
 	}
 }
-
-void AUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-

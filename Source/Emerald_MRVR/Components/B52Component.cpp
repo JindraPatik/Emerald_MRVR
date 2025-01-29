@@ -62,7 +62,6 @@ void UB52Component::PerformSphereTrace(FHitResult& OutHit)
 void UB52Component::FindValidTarget(AActor* Unit)
 {
 	AUnit* ValidClass = Cast<AUnit>(Unit); // toto musí být empty
-	DBG(1.f, "Valid calss: %s", *ValidClass); //
 	if (ValidClass && GetOwner()->GetOwner() != ValidClass->GetOwner())
 	{
 		SpawnProjectile();

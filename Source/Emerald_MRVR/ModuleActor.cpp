@@ -74,7 +74,6 @@ void AModuleActor::Tick(float DeltaTime)
 void AModuleActor::EnableSpawning()
 {
 	bSpawningEnabled = true;
-	DBG(2, "Spawning Enabled")
 }
 
 void AModuleActor::Cooldown(float CD_Time)
@@ -107,6 +106,7 @@ void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
 	UWidgetComponent* WidgetComponent = WidgetActor->FindComponentByClass<UWidgetComponent>();
 	if (WidgetComponent)
 	{
+		// Unit name
 		UTextBlock* TXT_Unit = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Unit"));
 		if (TXT_Unit && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
 		{
@@ -114,7 +114,8 @@ void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
 			FText UnitName = FText::FromName(UnitFName);
 			TXT_Unit->SetText(UnitName);
 		}
-		
+
+		// Unit Price
 		UTextBlock* TXT_Price = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Price"));
 		if (TXT_Price && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
 		{
@@ -123,7 +124,8 @@ void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
 			FText UnitPriceText = FText::FromString(UnitPriceString);
 			TXT_Price->SetText(UnitPriceText);
 		}
-		
+
+		// Unit Strenght
 		UTextBlock* TXT_Strenght = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Strenght"));
 		if (TXT_Strenght && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
 		{
@@ -133,6 +135,7 @@ void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
 			TXT_Strenght->SetText(UnitStrenghtText);
 		}
 
+		// Unit Speed
 		UTextBlock* TXT_Speed = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Speed"));
 		if (TXT_Speed && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
 		{

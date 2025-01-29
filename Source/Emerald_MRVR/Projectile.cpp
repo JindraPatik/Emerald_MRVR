@@ -1,11 +1,10 @@
 #include "Projectile.h"
-
 #include "Components/DownScaleComponent.h"
 
 
 AProjectile::AProjectile()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	RootComp = CreateDefaultSubobject<USceneComponent>("RootComponent");
 	SetRootComponent(RootComp);
@@ -21,11 +20,5 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-
-void AProjectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
