@@ -142,11 +142,6 @@ void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(AMilitaryBase, ModulePositions);
 }
 
-void AMilitaryBase::PostInitProperties()
-{
-	Super::PostInitProperties();
-}
-
 void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();

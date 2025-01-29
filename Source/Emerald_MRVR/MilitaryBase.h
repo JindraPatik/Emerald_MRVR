@@ -20,15 +20,15 @@ class EMERALD_MRVR_API AMilitaryBase : public AActor
 	
 public:	
 	AMilitaryBase();
-	void SpawnResourcesWidget();
+		void SpawnResourcesWidget();
 
 	UFUNCTION(Server, Reliable)
-	void Server_SpawnResourcesWidget();
+		void Server_SpawnResourcesWidget();
 
 	void SpawnHealthWidget();
 
 	UFUNCTION(Server, Reliable)
-	void Server_SpawnHealthWidget();
+		void Server_SpawnHealthWidget();
 
 protected:
 	virtual void BeginPlay() override;
@@ -54,10 +54,6 @@ protected:
 
 	UPROPERTY(Replicated)
 		APawn* General;
-	
-
-	virtual void PostInitProperties() override;
-	
 
 public:	
 

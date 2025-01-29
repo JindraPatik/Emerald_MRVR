@@ -21,24 +21,23 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, Category="Body")
-	USceneComponent* SceneRoot;
+		USceneComponent* SceneRoot;
 
 	UPROPERTY(EditDefaultsOnly, Category="Body")
-	UStaticMeshComponent* SM_Crystal;
+		UStaticMeshComponent* SM_Crystal;
 
 	UPROPERTY(EditDefaultsOnly, Category="Body")
-	UStaticMeshComponent* SM_Bottom;
+		UStaticMeshComponent* SM_Bottom;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Body")
-	UBoxComponent* CrystalBox;
+		UBoxComponent* CrystalBox;
 
 	UPROPERTY(EditDefaultsOnly, Category="Scale")
-	UDownScaleComponent* DownScaleComponent;
+		UDownScaleComponent* DownScaleComponent;
 
 public:	
-	// Called every frame
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
-	float CrystalValue;
+		float CrystalValue;
 	
 	
 };

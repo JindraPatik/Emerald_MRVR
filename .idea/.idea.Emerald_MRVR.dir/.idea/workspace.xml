@@ -19,13 +19,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="Added Projectile.cpp">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Unit/BP_B52.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Unit/BP_B52.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/B52Component.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/B52Component.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/B52Component.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/B52Component.h" afterDir="false" />
-    </list>
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -123,6 +117,7 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/UE_OculusProjects/Emerald_MRVR/Source/Emerald_MRVR/Components/B52Component.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -1224,7 +1219,7 @@
       <workItem from="1734527268662" duration="3720000" />
       <workItem from="1735228626192" duration="763000" />
       <workItem from="1736327340899" duration="2163000" />
-      <workItem from="1737548019099" duration="8395000" />
+      <workItem from="1737548019099" duration="8462000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1394,7 +1389,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737553146607</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Messed B52">
+      <option name="closed" value="true" />
+      <created>1737556536374</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1737556536374</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1446,6 +1449,7 @@
     <MESSAGE value="Combat corrected" />
     <MESSAGE value="B52 Component added" />
     <MESSAGE value="Added Projectile.cpp" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Projectile.cpp" />
+    <MESSAGE value="Messed B52" />
+    <option name="LAST_COMMIT_MESSAGE" value="Messed B52" />
   </component>
 </project>

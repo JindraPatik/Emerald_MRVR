@@ -1,8 +1,6 @@
 #include "Crystal.h"
-
 #include "BoxComponent.h"
 #include "Components/DownScaleComponent.h"
-
 
 ACrystal::ACrystal()
 {
