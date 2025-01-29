@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Projectile.generated.h"
 
+class UUnitMovementComponent;
 class UDownScaleComponent;
 
 UCLASS()
@@ -17,6 +18,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void Tick(float DeltaSeconds) override;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 		TObjectPtr<USceneComponent> RootComp;
 
@@ -26,7 +29,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 		TObjectPtr<UDownScaleComponent> DownScaleComponent;
 
+
 public:	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		TObjectPtr<UUnitMovementComponent> MovementComponent;
 
 	
 	

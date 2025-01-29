@@ -34,14 +34,20 @@ protected:
 		void FindValidTarget(AActor* Unit);
 
 	UFUNCTION()
+		void StartBombingSequence();
+
+	UFUNCTION()
 		void SpawnProjectile();
 
+	UPROPERTY(EditDefaultsOnly, Category="Bombing")
+		float MaxBombInterval = 2.f;
+
+	FTimerHandle BombingSequence;
+	int32 BombsCount = 0;
 	
 
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 	
 };

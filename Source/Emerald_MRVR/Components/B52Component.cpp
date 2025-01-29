@@ -1,5 +1,6 @@
 #include "B52Component.h"
 
+#include "UnitMovementComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/Projectile.h"
 #include "Emerald_MRVR/Unit.h"
@@ -21,6 +22,7 @@ void UB52Component::BeginPlay()
 void UB52Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
 	
 	FHitResult HitResult;
 	if (!bFoundValidTarget)
@@ -42,17 +44,28 @@ void UB52Component::PerformSphereTrace(FHitResult& OutHit)
 	if (World && GetOwner())
 	{
 		FVector Start = GetOwner()->GetActorLocation();
-		FVector ForwardVector = GetOwner()->GetActorLocation().ForwardVector;
-		FRotator Downwardrotation = FRotator(-60.f, -90.f,0.f);
+		FVector ForwardVector = GetOwner()->GetActorForwardVector();
+		FRotator Downwardrotation = FRotator(0.f, 0.f,-60.f);
 		FVector RotatedDirection = Downwardrotation.RotateVector(ForwardVector);
 		FVector End = Start + RotatedDirection * 30000.f;
-		float SphereRadius = 10.f;
+		
+		float SphereRadius = 5.f;
 		
 		FCollisionQueryParams CollisionQueryParams;
+		CollisionQueryParams.AddIgnoredActor(GetOwner());
+		FCollisionResponseParams CollisionResponseParams;
+		CollisionResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);
+		CollisionResponseParams.CollisionResponse.SetResponse(ECC_WorldDynamic,ECR_Block);
+		CollisionResponseParams.CollisionResponse.SetResponse(ECC_Pawn, ECR_Block);
 		CollisionQueryParams.bDebugQuery = true;
 		
-		bool bHit = World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity, ECC_Pawn, FCollisionShape::MakeSphere(SphereRadius), CollisionQueryParams);
-		
+		bool bHit = World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(SphereRadius), CollisionQueryParams, CollisionResponseParams);
+		if (bHit)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Hitted Object: %s"), *OutHit.GetActor()->GetName());
+			GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Green, FString::Printf(TEXT("Hitted Object: %s"), *OutHit.GetActor()->GetName()));
+		}
+
 	FColor TraceColor = bHit ? FColor::Red : FColor::Green;
 	DrawDebugLine(World, Start, End, TraceColor, false, 1.f);
 	DrawDebugSphere(World, End, SphereRadius, 12, TraceColor, false, 1.f);
@@ -64,9 +77,15 @@ void UB52Component::FindValidTarget(AActor* Unit)
 	AUnit* ValidClass = Cast<AUnit>(Unit); // toto musí být empty
 	if (ValidClass && GetOwner()->GetOwner() != ValidClass->GetOwner())
 	{
-		SpawnProjectile();
+		StartBombingSequence();
 		bFoundValidTarget = true;
 	}
+}
+
+void UB52Component::StartBombingSequence()
+{
+	float Rate = FMath::RandRange(0.5f, MaxBombInterval);
+	GetWorld()->GetTimerManager().SetTimer(BombingSequence, this, &UB52Component::SpawnProjectile, Rate, true);
 }
 
 void UB52Component::SpawnProjectile()
@@ -75,12 +94,30 @@ void UB52Component::SpawnProjectile()
 	if (World)
 	{
 		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Owner = GetOwner();
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		FVector Location = GetOwner()->GetActorLocation();
-		FRotator Rotation = FRotator::ZeroRotator;
+		FVector Location = GetOwner()->GetActorLocation() - FVector(0, 0 , 10.f) - GetOwner()->GetActorForwardVector() * 3.f; // Offset
+		FRotator Rotation = GetOwner()->GetActorForwardVector().Rotation();
 		
-		World->SpawnActor<AProjectile>(ProjectileClass, Location, Rotation, SpawnParameters);
-		DBG(5, "Spawned bomb");
+		AProjectile* ProjectileInst = World->SpawnActor<AProjectile>(ProjectileClass, Location, Rotation, SpawnParameters);
+		if (ProjectileInst)
+		{
+			AUnit* OwnerUnit = Cast<AUnit>(GetOwner());
+			if (OwnerUnit)
+			{
+				ProjectileInst->MovementComponent->UnitSpeed = OwnerUnit->Speed;
+				BombsCount++;
+				if (BombsCount > 2)
+				{
+					GetWorld()->GetTimerManager().ClearTimer(BombingSequence);
+					UUnitMovementComponent* MovementComponent = GetOwner()->FindComponentByClass<UUnitMovementComponent>();
+					if (MovementComponent)
+					{
+						MovementComponent->TurnRandom();
+					}
+				}
+			}
+		}
 	}
 }
 

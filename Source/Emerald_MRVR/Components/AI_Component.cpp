@@ -15,7 +15,7 @@
 
 UAI_Component::UAI_Component()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UAI_Component::BeginPlay()
@@ -112,17 +112,21 @@ void UAI_Component::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 			UnitSpawnParams.Owner = GetOwner();
 			UUnitDataAsset* SpawnedUnitDataAsset = MineModule->UnitToSpawnData;
 			AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
-			
-			UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
-			UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
-			UnitInstance->Price = SpawnedUnitDataAsset->Price;
-			UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
-			UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
-			UResourcesComponent* ResourcesComponent = AIPawn->FindComponentByClass<UResourcesComponent>();
-			if (ResourcesComponent)
+
+			if (UnitInstance)
 			{
-				ResourcesComponent->UpdateResources(SpawnedUnitDataAsset->Price);
+				UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+				UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
+				UnitInstance->Price = SpawnedUnitDataAsset->Price;
+				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
+				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
+				UResourcesComponent* ResourcesComponent = AIPawn->FindComponentByClass<UResourcesComponent>();
+				if (ResourcesComponent)
+				{
+					ResourcesComponent->UpdateResources(SpawnedUnitDataAsset->Price);
+				}
 			}
+			
 		}
 	}
 }

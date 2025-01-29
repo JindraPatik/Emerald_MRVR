@@ -201,17 +201,20 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 				Module->Cooldown(BuildingDataAsset->Cooldown);
 				ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
 				UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
-				UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
-				UnitInstance->Price = SpawnedUnitDataAsset->Price;
-				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
-				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
-				UnitInstance->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
-				if (UnitInstance->UnitMovementComponent)
+				if (UnitInstance)
 				{
-					UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+					UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
+					UnitInstance->Price = SpawnedUnitDataAsset->Price;
+					UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
+					UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
+					UnitInstance->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
+					if (UnitInstance->UnitMovementComponent)
+					{
+						UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+					}
+					OnUnitSpawnedDelegate.Broadcast(UnitInstance, InstigatorPawn);
+					return UnitInstance;
 				}
-				OnUnitSpawnedDelegate.Broadcast(UnitInstance, InstigatorPawn);
-				return UnitInstance;
 			}
 		}
 	}

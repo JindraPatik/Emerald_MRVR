@@ -32,18 +32,14 @@ protected:
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
-	void GetAvailableModules();
 	AUnit* SpawnUnit(AModuleActor* Module);
 	void SpawnRandomUnit();
-
-
-
-
 	
 	UFUNCTION()
 		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<AModuleActor*> Availables);
 
-	float DefendingAgainstValue;
+	UPROPERTY()
+		float DefendingAgainstValue;
 
 	FTimerHandle RandomSpawn_Handle;
 	FTimerHandle Defending_Handle;
@@ -53,10 +49,10 @@ protected:
 	bool bSpawningEnabled = true;
 
 	UPROPERTY()
-		APawn* AI_Pawn;
+		TObjectPtr<APawn> AI_Pawn;
 
 	UPROPERTY()
-		AUnit* UndefendedUnit;
+		TObjectPtr<AUnit> UndefendedUnit;
 
 	UPROPERTY()
 		TObjectPtr<AGameState> AEK_GameStateInst;
@@ -95,19 +91,19 @@ protected:
 		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryBaseComp* MilitaryBaseComp, TArray<AModuleActor*> Availables);
 
 	UPROPERTY()
-		AModuleActor* CheapestStronger; // Temp variable for Cheapest stronger Unit
+		TObjectPtr<AModuleActor> CheapestStronger; // Temp variable for Cheapest stronger Unit
 
 	UPROPERTY()
-		AModuleActor* CheapestSame; // Temp variable for Cheapest stronger Unit
+		TObjectPtr<AModuleActor> CheapestSame; // Temp variable for Cheapest stronger Unit
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float DefendingRate = 1.f;
 
 	UFUNCTION()
-	void EnableSpawning();
+		void EnableSpawning();
 	
 	UFUNCTION()
-	void Cooldown(float CD_Time);
+		void Cooldown(float CD_Time);
 
 public:
 	UFUNCTION(BlueprintCallable, Category="Events")

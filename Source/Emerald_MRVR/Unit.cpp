@@ -24,12 +24,14 @@ AUnit::AUnit()
 
 	// Collision
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
-	BoxComponent->SetupAttachment(UnitRoot);
+	BoxComponent->SetupAttachment(RootComponent);
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	BoxComponent->SetCollisionObjectType(ECC_Pawn);
 	BoxComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+	BoxComponent->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block); // upr
 	BoxComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	BoxComponent->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
+	BoxComponent->SetGenerateOverlapEvents(true);
 }
 
 void AUnit::BeginPlay()

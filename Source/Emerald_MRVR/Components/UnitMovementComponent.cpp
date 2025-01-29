@@ -29,7 +29,10 @@ void UUnitMovementComponent::BeginPlay()
 	Super::BeginPlay();
 	
 	AUnit* Unit = Cast<AUnit>(GetOwner());
-	UnitSpeed = Unit->Speed;
+	if (Unit)
+	{
+		UnitSpeed = Unit->Speed;
+	}
 }
 
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -40,7 +43,7 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UUnitMovementComponent::MoveTo(float DeltaTime) const
 {
-	AUnit* Unit = Cast<AUnit>(GetOwner());
+	AActor* Unit = Cast<AActor>(GetOwner());
 	if (!Unit)
 	{
 		return;
@@ -91,5 +94,6 @@ void UUnitMovementComponent::TurnRandom()
 	float RandPitch = FMath::RandRange(10, 45);
 	FRotator RandomTurn = GetOwner()->GetActorRotation() + FRotator(RandPitch, RandYaw, 0);
 	GetOwner()->SetActorRotation(RandomTurn);
+	// Add destroy timer or return Location;
 }
 
