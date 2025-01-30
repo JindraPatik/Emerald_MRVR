@@ -18,8 +18,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void Tick(float DeltaSeconds) override;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 		TObjectPtr<USceneComponent> RootComp;
 
@@ -29,11 +27,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 		TObjectPtr<UDownScaleComponent> DownScaleComponent;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		float ProjectileImpulseMultiplier = 1;
+
 
 public:	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
-		TObjectPtr<UUnitMovementComponent> MovementComponent;
-
+		float Speed;
 	
 	
 };

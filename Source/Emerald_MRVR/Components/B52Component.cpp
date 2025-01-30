@@ -105,7 +105,7 @@ void UB52Component::SpawnProjectile()
 			AUnit* OwnerUnit = Cast<AUnit>(GetOwner());
 			if (OwnerUnit)
 			{
-				ProjectileInst->MovementComponent->UnitSpeed = OwnerUnit->Speed;
+				ProjectileInst->Speed = OwnerUnit->Speed;
 				BombsCount++;
 				if (BombsCount > 2)
 				{
