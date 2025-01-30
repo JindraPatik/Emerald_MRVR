@@ -1,5 +1,4 @@
 #include "ModuleActor.h"
-#include "DebugMacros.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/DownScaleComponent.h"
 #include "Components/ProgressBar.h"
@@ -23,6 +22,9 @@ AModuleActor::AModuleActor()
 	
 	ModuleMeshRoot = CreateDefaultSubobject<UStaticMeshComponent>("ModuleBody");
 	ModuleMeshRoot->SetupAttachment(SceneRoot);
+
+	InfoWidgetSpawnPoint = CreateDefaultSubobject<USceneComponent>("InfowidgetSpawnPoint");
+	InfoWidgetSpawnPoint->SetupAttachment(RootComponent);
 }
 
 void AModuleActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -94,7 +96,8 @@ void AModuleActor::SpawnInfoWidget()
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParameters.Owner = GetOwner();
 	FRotator Rotation = FRotator::ZeroRotator;
-	FVector Location = GetActorLocation() + FVector(0.f, 0.f, InfoWidgetHeight);
+	//FVector Location = GetActorLocation() + FVector(0.f, 0.f, InfoWidgetHeight);
+	FVector Location = InfoWidgetSpawnPoint->GetComponentLocation();
 	InfoWidgetActorInst = GetWorld()->SpawnActor<AActor>(InfoWidgetActor, Location, Rotation, SpawnParameters);
 	SetInfoWidgetStats(InfoWidgetActorInst);
 	

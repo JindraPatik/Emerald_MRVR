@@ -51,6 +51,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 		TSubclassOf<AActor> InfoWidgetActor;
 
+	UPROPERTY(EditDefaultsOnly, Category="Widgets")
+		TObjectPtr<USceneComponent> InfoWidgetSpawnPoint;
+
+
 	UPROPERTY()
 		AActor* InfoWidgetActorInst;
 	
