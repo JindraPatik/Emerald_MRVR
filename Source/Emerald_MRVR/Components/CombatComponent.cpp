@@ -97,12 +97,7 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		                }
                 		return;
                 	}
-                	else if (Unit->Strenght < HittedUnit->Strenght) // Loose condition
-                	{
-                		CurrentScenario = ECombatScenarios::E_Loose;
-                		GetOwner()->Destroy();
-                		return;
-                	}
+
                 	if (Unit->Strenght == HittedUnit->Strenght) // Tie condition
                 	{
                 		CurrentScenario = ECombatScenarios::E_Tie;
