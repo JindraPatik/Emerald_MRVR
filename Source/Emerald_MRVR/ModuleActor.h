@@ -54,6 +54,17 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 		TObjectPtr<USceneComponent> InfoWidgetSpawnPoint;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
+		TObjectPtr<UMaterialInterface> OverlayMaterial;
+
+	UFUNCTION(BlueprintCallable, Category="Visuals")
+		void SetOverlayMaterial();
+
+	UFUNCTION(BlueprintCallable, Category="Visuals")
+		void RemoveOverlayMaterial();
+	
+	
+
 
 	UPROPERTY()
 		AActor* InfoWidgetActorInst;

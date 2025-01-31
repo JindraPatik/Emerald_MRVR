@@ -197,3 +197,42 @@ void AModuleActor::DisableInfoWidget()
 	}
 }
 
+
+void AModuleActor::SetOverlayMaterial()
+{
+	if (!OverlayMaterial) return;
+
+	TArray<UStaticMeshComponent*> MeshComponents;
+	GetComponents<UStaticMeshComponent>(MeshComponents);
+
+	for (UStaticMeshComponent* MeshComponent : MeshComponents)
+	{
+		if (MeshComponent)
+		{
+			for (int32 i = 0; i < MeshComponent->GetNumMaterials(); i++)
+			{
+				MeshComponent->SetMaterial(i, OverlayMaterial);
+			}
+		}
+	}
+}
+
+void AModuleActor::RemoveOverlayMaterial()
+{
+	TArray<UStaticMeshComponent*> MeshComponents;
+	GetComponents<UStaticMeshComponent>(MeshComponents);
+
+	for (UStaticMeshComponent* MeshComponent : MeshComponents)
+	{
+		if (MeshComponent)
+		{
+			for (int32 i = 0; i < MeshComponent->GetNumMaterials(); i++)
+			{
+				UMaterialInterface* DefaultMaterial = MeshComponent->GetStaticMesh()->GetMaterial(i);
+				MeshComponent->SetMaterial(i, DefaultMaterial);
+			}
+		}
+	}
+}
+
+

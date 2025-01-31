@@ -169,9 +169,11 @@ void AMR_General::PerformSphereTrace(
 				ImpactPointer->SetWorldLocation(CurrentlyHoveredModule->GetActorLocation() + FVector(0.f, 0.f, 8.f));
 				PrevisouslyHighlightedModule = HitModule;
 				CurrentlyHoveredModule->EnableInfoWidget();
+				CurrentlyHoveredModule->SetOverlayMaterial();
 				if (CurrentlyHoveredModule != PrevisouslyHighlightedModule)
 				{
 					PrevisouslyHighlightedModule->DisableInfoWidget();
+					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
 				}
 			}
 			else
@@ -181,6 +183,8 @@ void AMR_General::PerformSphereTrace(
 					CurrentlyHoveredModule->DisableInfoWidget();
 					CurrentlyHoveredModule = nullptr;
 					PrevisouslyHighlightedModule->DisableInfoWidget();
+					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
+					
 				}
 			}
 		}
@@ -189,11 +193,14 @@ void AMR_General::PerformSphereTrace(
 			if (CurrentlyHoveredModule)
 			{
 				CurrentlyHoveredModule->DisableInfoWidget();
+				CurrentlyHoveredModule->RemoveOverlayMaterial();
 				CurrentlyHoveredModule = nullptr;
 				PrevisouslyHighlightedModule->DisableInfoWidget();
+				PrevisouslyHighlightedModule->RemoveOverlayMaterial();
 				if (PrevisouslyHighlightedModule)
 				{
 					PrevisouslyHighlightedModule->DisableInfoWidget();
+					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
 				}
 			}
 
@@ -203,6 +210,7 @@ void AMR_General::PerformSphereTrace(
 				if (PrevisouslyHighlightedModule)
 				{
 					PrevisouslyHighlightedModule->DisableInfoWidget();
+					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
 				}
 			}
 		}
