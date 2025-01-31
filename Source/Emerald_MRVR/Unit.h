@@ -54,6 +54,9 @@ public:
 		float Damage;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
+		float FightDelay;
+
+	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 		bool bIsFlyingUnit;
 	
 };

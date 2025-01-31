@@ -18,15 +18,36 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		bool bMovementEnabled = true;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		bool bIsRestartingMovement = false;
 	   
-	UFUNCTION(BlueprintCallable, Category="Moving")
+	UFUNCTION(BlueprintCallable, Category="Movement")
 		void MoveTo(float DeltaTime) const;
 
-	UFUNCTION(BlueprintCallable, Category="Moving")
+	UFUNCTION(BlueprintCallable, Category="Movement")
 		void Turn180();
 
-	UFUNCTION(BlueprintCallable, Category="Moving")
+	UFUNCTION(BlueprintCallable, Category="Movement")
 		void TurnRandom();
+
+	UFUNCTION(BlueprintCallable, Category="Movement")
+		void StopUnit();
+
+	UFUNCTION(BlueprintCallable, Category="Movement")
+		void Accelerate(float DeltaTime);
+
+	UFUNCTION(BlueprintCallable, Category="Movement")
+		void RestartMovement();
+
+	float StartingSpeed = 0;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+		float Acceleration = 10.f; // Maybe add to Data asset?
+
+	
+
+
 	
 
 

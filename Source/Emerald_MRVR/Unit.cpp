@@ -28,7 +28,7 @@ AUnit::AUnit()
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	BoxComponent->SetCollisionObjectType(ECC_Pawn);
 	BoxComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
-	BoxComponent->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block); // upr
+	BoxComponent->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block); 
 	BoxComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	BoxComponent->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 	BoxComponent->SetGenerateOverlapEvents(true);
@@ -56,8 +56,8 @@ void AUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (UnitMovementComponent && UnitMovementComponent->bMovementEnabled)
+	/*if (UnitMovementComponent && UnitMovementComponent->bMovementEnabled)
 	{
 		UnitMovementComponent->MoveTo(DeltaTime);	
-	}
+	}*/
 }

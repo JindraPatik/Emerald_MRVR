@@ -5,6 +5,7 @@
 #include "HarvestComponent.h"
 #include "HealthComponent.h"
 #include "ThiefComponent.h"
+#include "UnitMovementComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
@@ -66,9 +67,9 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded) return; 
 		if (CollaborantComponent) return; // Ignore fight for Collaborant
 
-		AUnit* MyUnit = Cast<AUnit>(InActor);
+		AUnit* InUnit = Cast<AUnit>(InActor);
 		
-		if (MyUnit && MyUnit->GetOwner() == GetOwner()->GetOwner()) // If it is my loaded thief
+		if (InUnit && InUnit->GetOwner() == GetOwner()->GetOwner()) // If it is my loaded thief
 		{
 			return;
 		}
@@ -83,11 +84,20 @@ void UCombatComponent::UnitFight(AActor* InActor)
                 	if (Unit->Strenght > HittedUnit->Strenght) // Win condition
                 	{
                 		CurrentScenario = ECombatScenarios::E_Win;
-                		InActor->Destroy();
-                		
+		                if (!InUnit->bIsFlyingUnit)
+		                {
+		                	UUnitMovementComponent* MyUnitMovementComponent = Unit->FindComponentByClass<UUnitMovementComponent>();
+		                	if (MyUnitMovementComponent)
+		                	{
+								MyUnitMovementComponent->bMovementEnabled = false;
+		                		MyUnitMovementComponent->StopUnit();
+                				InActor->Destroy();
+		                		GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
+		                	}
+		                }
                 		return;
                 	}
-                	if (Unit->Strenght < HittedUnit->Strenght) // Loose condition
+                	else if (Unit->Strenght < HittedUnit->Strenght) // Loose condition
                 	{
                 		CurrentScenario = ECombatScenarios::E_Loose;
                 		GetOwner()->Destroy();

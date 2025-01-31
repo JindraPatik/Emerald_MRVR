@@ -28,6 +28,9 @@ public:
  
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 		int32 Damage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Movement")
+		float FightDelay;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 		bool IsFlyingUnit = false;

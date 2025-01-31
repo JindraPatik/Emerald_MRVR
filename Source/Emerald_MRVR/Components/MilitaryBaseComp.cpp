@@ -208,6 +208,7 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 					UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
 					UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
 					UnitInstance->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
+					UnitInstance->FightDelay = SpawnedUnitDataAsset->FightDelay;
 					if (UnitInstance->UnitMovementComponent)
 					{
 						UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;

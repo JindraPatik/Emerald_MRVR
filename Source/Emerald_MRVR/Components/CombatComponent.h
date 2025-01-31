@@ -29,6 +29,9 @@ public:
 
 	void BaseFight(AActor* InActor);
 
+	FTimerHandle FightSequenceHandle;
+
+
 	UFUNCTION(Server, Reliable)
 		void Server_BaseFight(AActor* InActor);
 

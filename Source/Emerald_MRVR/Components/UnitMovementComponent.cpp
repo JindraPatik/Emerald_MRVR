@@ -1,4 +1,6 @@
 #include "UnitMovementComponent.h"
+
+#include "CombatComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
@@ -38,6 +40,16 @@ void UUnitMovementComponent::BeginPlay()
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (bMovementEnabled)
+	{
+		MoveTo(DeltaTime);	
+	}
+
+	if (bIsRestartingMovement)
+	{
+		Accelerate(DeltaTime);
+	}
 	
 }
 
@@ -95,5 +107,44 @@ void UUnitMovementComponent::TurnRandom()
 	FRotator RandomTurn = GetOwner()->GetActorRotation() + FRotator(RandPitch, RandYaw, 0);
 	GetOwner()->SetActorRotation(RandomTurn);
 	// Add destroy timer or return Location;
+}
+
+void UUnitMovementComponent::StopUnit()
+{
+	bMovementEnabled = false;
+}
+
+void UUnitMovementComponent::Accelerate(float DeltaTime)
+{
+	// Restart Movement
+	AActor* Unit = Cast<AActor>(GetOwner());
+	if (!Unit)
+	{
+		return;
+	}
+	FVector ForwardDirection = Unit->GetActorForwardVector();
+	StartingSpeed += DeltaTime * Acceleration;
+	FVector ForwardMovement = ForwardDirection * (StartingSpeed * DeltaTime); // *??
+	FVector DeltaLocation = ForwardMovement;
+	if (StartingSpeed < UnitSpeed)
+	{
+		Unit->AddActorWorldOffset(DeltaLocation);
+	}
+	else
+	{
+		UCombatComponent* CombatComponent = Unit->FindComponentByClass<UCombatComponent>();
+		if (CombatComponent)
+		{
+			GetWorld()->GetTimerManager().ClearTimer(CombatComponent->FightSequenceHandle);
+			bIsRestartingMovement = false;
+			bMovementEnabled = true;
+			
+		}
+	}
+}
+
+void UUnitMovementComponent::RestartMovement()
+{
+	bIsRestartingMovement = true;
 }
 

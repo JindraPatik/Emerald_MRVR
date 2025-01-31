@@ -47,6 +47,7 @@ void UB52Component::PerformSphereTrace(FHitResult& OutHit)
 		FVector ForwardVector = GetOwner()->GetActorForwardVector();
 		FRotator Downwardrotation = FRotator(0.f, 0.f,-60.f);
 		FVector RotatedDirection = Downwardrotation.RotateVector(ForwardVector);
+
 		FVector End = Start + RotatedDirection * 30000.f;
 		
 		float SphereRadius = 5.f;
@@ -60,11 +61,6 @@ void UB52Component::PerformSphereTrace(FHitResult& OutHit)
 		CollisionQueryParams.bDebugQuery = true;
 		
 		bool bHit = World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(SphereRadius), CollisionQueryParams, CollisionResponseParams);
-		if (bHit)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Hitted Object: %s"), *OutHit.GetActor()->GetName());
-			GEngine->AddOnScreenDebugMessage(1, 0.5f, FColor::Green, FString::Printf(TEXT("Hitted Object: %s"), *OutHit.GetActor()->GetName()));
-		}
 
 	FColor TraceColor = bHit ? FColor::Red : FColor::Green;
 	DrawDebugLine(World, Start, End, TraceColor, false, 1.f);
