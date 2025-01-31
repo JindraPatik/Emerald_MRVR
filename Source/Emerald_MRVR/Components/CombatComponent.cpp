@@ -64,7 +64,7 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
 		UCollaborantComponent* CollaborantComponent = InActor->FindComponentByClass<UCollaborantComponent>();
 		
-		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded) return; 
+		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded) return; // 
 		if (CollaborantComponent) return; // Ignore fight for Collaborant
 
 		AUnit* InUnit = Cast<AUnit>(InActor);

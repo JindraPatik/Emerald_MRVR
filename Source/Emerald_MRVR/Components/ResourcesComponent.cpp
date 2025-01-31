@@ -81,7 +81,7 @@ void UResourcesComponent::StartGrowResources()
 	if (World)
 	{
 		FTimerHandle GrowResourcesTimerHandle;
-		float GrowInterval = 1.f;
+		float GrowInterval = 2.f;
 		World->GetTimerManager().SetTimer(GrowResourcesTimerHandle, this, &UResourcesComponent::GrowResources, GrowInterval, true);
 	}
 }

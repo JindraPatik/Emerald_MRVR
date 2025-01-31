@@ -188,6 +188,7 @@ void AMR_General::PerformSphereTrace(
 				}
 			}
 		}
+	
 		else
 		{
 			if (CurrentlyHoveredModule)
@@ -212,6 +213,11 @@ void AMR_General::PerformSphereTrace(
 					PrevisouslyHighlightedModule->DisableInfoWidget();
 					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
 				}
+			}
+			if (PrevisouslyHighlightedModule)
+			{
+				PrevisouslyHighlightedModule->DisableInfoWidget(); // upr
+				PrevisouslyHighlightedModule->RemoveOverlayMaterial(); // upr
 			}
 		}
 	}
