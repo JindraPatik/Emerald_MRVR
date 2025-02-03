@@ -19,24 +19,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Data/Units/Pickers/BoostPicker.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Data/Units/Pickers/BoostPicker.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Data/Units/Pickers/Harvester.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Data/Units/Pickers/Harvester.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Data/Units/Pickers/Thief.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Data/Units/Pickers/Thief.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/MainMenu.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/CORE/MR_General.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HarvestComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HarvestComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/ResourcesComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/ResourcesComponent.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="C:/UE_Oculus_Build/UnrealEngine" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -148,7 +138,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Uproject.Emerald_MRVR.executor": "Debug",
-    "git-widget-placeholder": "oculus-5.4",
+    "git-widget-placeholder": "Pawn-Control",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -1230,7 +1220,7 @@
       <workItem from="1735228626192" duration="763000" />
       <workItem from="1736327340899" duration="2163000" />
       <workItem from="1737548019099" duration="8462000" />
-      <workItem from="1738321571131" duration="2177000" />
+      <workItem from="1738321571131" duration="3567000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1408,7 +1398,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737556536374</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary=":: Projectile collisions adjusted">
+      <option name="closed" value="true" />
+      <created>1738333252655</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1738333252655</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1461,6 +1459,7 @@
     <MESSAGE value="B52 Component added" />
     <MESSAGE value="Added Projectile.cpp" />
     <MESSAGE value="Messed B52" />
-    <option name="LAST_COMMIT_MESSAGE" value="Messed B52" />
+    <MESSAGE value=":: Projectile collisions adjusted" />
+    <option name="LAST_COMMIT_MESSAGE" value=":: Projectile collisions adjusted" />
   </component>
 </project>
