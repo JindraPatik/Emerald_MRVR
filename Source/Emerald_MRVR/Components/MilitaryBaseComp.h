@@ -82,7 +82,7 @@ public:
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
 		void Server_SpawnModule(APawn* OwningPawn);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category="Spawning")
 		AUnit* SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
 
 	UFUNCTION(Server, Reliable, Category="UnitSpawning")
@@ -94,10 +94,10 @@ public:
 	UFUNCTION(Server, Reliable)
 		void Server_HasEnoughResources(UBuildingDataAsset* BuildingDataAsset);
 
-	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
+	UPROPERTY(Replicated, EditAnywhere,Category="UnitSpawning")
 		TArray<UBuildingDataAsset*> AvailableModules;
 
-	UPROPERTY(Replicated, EditAnywhere, Category="UnitSpawning")
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadOnly, Category="UnitSpawning")
 		TArray<AModuleActor*> AvailableModulesActors;
 
 	UPROPERTY()

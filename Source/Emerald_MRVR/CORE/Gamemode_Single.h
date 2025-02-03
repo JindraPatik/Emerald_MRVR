@@ -26,7 +26,10 @@ protected:
 		void StartGame() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
-		TSubclassOf<AMR_General> PawnToSpawn;
+		TSubclassOf<AMR_General> Mr_General_Class;
+
+	UPROPERTY(EditDefaultsOnly, Category="Pawn")
+		TSubclassOf<AMR_General> SpectatorPawn;
 
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 		TSubclassOf<AAIPawn> EnemyToSpawn;
@@ -47,7 +50,10 @@ protected:
 		void SpawnEnemyAI();
 
 	UPROPERTY()
-	TObjectPtr<APlayerController> PC;
+		TObjectPtr<APlayerController> PC;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawning")
+		bool bIsSpectator = false;
 	
 public:
 	AGamemode_Single();

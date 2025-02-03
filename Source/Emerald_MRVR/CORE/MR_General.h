@@ -43,7 +43,10 @@ protected:
 	virtual void BeginPlay() override;
 	void SelectModule_L();
 	void SelectModule_R();
-	void Action_SpawnUnit();
+
+	UFUNCTION(BlueprintCallable, Category="Spawning")
+		void Action_SpawnUnit();
+	
 	void PerformSphereTrace(
 		UMotionControllerComponent* Controller,
 		UStaticMeshComponent* ImpactPointer,
@@ -134,7 +137,7 @@ public:
 
 	bool bPossesed = false;
 
-	UPROPERTY(ReplicatedUsing=OnSelectedModuleChanged, VisibleAnywhere, Category="MilitaryBase")
+	UPROPERTY(ReplicatedUsing=OnSelectedModuleChanged, VisibleAnywhere, BlueprintReadWrite, Category="MilitaryBase")
 		AModuleActor* SelectedModuleActor = nullptr;
 
 	UFUNCTION()

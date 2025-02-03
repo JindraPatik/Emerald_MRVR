@@ -9,7 +9,7 @@
 AGamemode_Single::AGamemode_Single()
 {
 	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
-	PawnToSpawn = AMR_General::StaticClass();
+	Mr_General_Class = AMR_General::StaticClass();
 }
 
 void AGamemode_Single::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
@@ -98,6 +98,9 @@ void AGamemode_Single::SpawnPlayer(APlayerController* PlayerController)
 	{
 		ExistingPawn->Destroy();
 	}
+
+	// Spawn spectator player?
+	UClass* PawnToSpawn = bIsSpectator ? SpectatorPawn : Mr_General_Class;
 
 	AMR_General* NewPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, SpawnParams);
 	if (NewPawn)
