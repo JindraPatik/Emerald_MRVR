@@ -19,7 +19,7 @@ AProjectile::AProjectile()
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("CapsuleComponent");
-	BoxComponent->SetupAttachment(RootComponent);
+	BoxComponent->SetupAttachment(BaseBody);
 	
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	BoxComponent->SetCollisionObjectType(ECC_WorldDynamic);
@@ -28,6 +28,7 @@ AProjectile::AProjectile()
 	BoxComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
 	BoxComponent->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	BoxComponent->SetGenerateOverlapEvents(true);
+	BoxComponent->IgnoreActorWhenMoving(GetOwner(), true);
 }
 
 void AProjectile::BeginPlay()

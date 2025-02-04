@@ -5,6 +5,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "BasePawn.generated.h"
 
+class USplineMeshComponent;
 class UCapsuleComponent;
 class UWidgetInteractionComponent;
 class UMotionControllerComponent;
@@ -87,6 +88,9 @@ protected:
 	//INPUT ACTIONS
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		UInputAction* Click;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SplineMeshComp")
+		USplineMeshComponent* SplineMeshComponent;
 
 public:	
 	

@@ -6,6 +6,8 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
 #include "PC_MR_General.h"
+#include "SplineComponent.h"
+#include "SplineMeshComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetInteractionComponent.h"
 #include "Emerald_MRVR/DebugMacros.h"

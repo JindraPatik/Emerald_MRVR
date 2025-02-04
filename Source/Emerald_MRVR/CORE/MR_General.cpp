@@ -337,9 +337,14 @@ void AMR_General::SelectModule_R()
 
 void AMR_General::Action_SpawnUnit()
 {
-	if (IsLocallyControlled())
+	AGM* GM = Cast<AGM>(GetWorld()->GetAuthGameMode());
+	if (GM && GM->bGameHasStarted)
 	{
-		MilitaryBaseComp->SpawnUnit(this, SelectedModuleActor);
+		if (IsLocallyControlled())
+		{
+			MilitaryBaseComp->SpawnUnit(this, SelectedModuleActor);
+		}
+		
 	}
 }
 

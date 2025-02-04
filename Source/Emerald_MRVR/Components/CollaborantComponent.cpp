@@ -1,6 +1,7 @@
 #include "CollaborantComponent.h"
 
 #include "BoxComponent.h"
+#include "MortarComponent.h"
 #include "UnitMovementComponent.h"
 #include "Emerald_MRVR/Unit.h"
 
@@ -18,7 +19,6 @@ void UCollaborantComponent::BeginPlay()
 	{
 		Unit->BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &UCollaborantComponent::OnBoxOverlapped);
 	}
-	
 }
 
 void UCollaborantComponent::KillMe()
@@ -37,6 +37,16 @@ void UCollaborantComponent::OnBoxOverlapped(UPrimitiveComponent* OverlappedCompo
 	AUnit* OtherUnit = Cast<AUnit>(OtherActor);
 	if (OtherUnit && OtherUnit->GetOwner() != GetOwner()->GetOwner())
 	{
+		UMortarComponent* OtherUnitMortarComponent = OtherUnit->FindComponentByClass<UMortarComponent>();
+		if (OtherUnitMortarComponent)
+		{
+			if (OtherUnitMortarComponent->bMortarIsTransformed)
+			{
+				OtherUnitMortarComponent->Explode(GetOwner());
+				return;
+			}
+		}
+		
 		OtherActor->Owner = GetOwner()->GetOwner();
 		UUnitMovementComponent* OtherUnitMovementComp = OtherActor->FindComponentByClass<UUnitMovementComponent>();
 		if (OtherUnitMovementComp)

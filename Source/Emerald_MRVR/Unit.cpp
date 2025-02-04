@@ -16,6 +16,7 @@ AUnit::AUnit()
 	Body->SetIsReplicated(true);
 	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
 	Body->SetupAttachment(UnitRoot);
+	// Body->SetGenerateOverlapEvents(true);
 	
 	bReplicates = true;
 	bNetLoadOnClient = true;
@@ -32,6 +33,7 @@ AUnit::AUnit()
 	BoxComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	BoxComponent->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 	BoxComponent->SetGenerateOverlapEvents(true);
+	BoxComponent->IgnoreActorWhenMoving(GetOwner(), true);
 }
 
 void AUnit::BeginPlay()

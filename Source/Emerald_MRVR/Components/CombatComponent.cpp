@@ -60,14 +60,9 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	{
 		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
-		// UHarvestComponent* HarvestComponent = InActor->FindComponentByClass<UHarvestComponent>();
 		UHarvestComponent* HarvestComponent = GetOwner()->FindComponentByClass<UHarvestComponent>();
 		UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
 		UCollaborantComponent* CollaborantComponent = InActor->FindComponentByClass<UCollaborantComponent>();
-		
-		//if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded) return; // 
-
-
 		AUnit* InUnit = Cast<AUnit>(InActor);
 		
 		if (InUnit && InUnit->GetOwner() == GetOwner()->GetOwner()) // If it is my loaded thief
@@ -101,7 +96,6 @@ void UCombatComponent::UnitFight(AActor* InActor)
 									}
                 					InActor->Destroy();
 				                	GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
-								// MyUnitMovementComponent->bMovementEnabled = false;
 					                
 				                }
 		                	}

@@ -33,7 +33,7 @@ protected:
 			TObjectPtr<UBoxComponent> BoxComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
-		float ProjectileImpulseMultiplier = 1;
+		float ProjectileImpulseMultiplier = 10;
 
 public:	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")

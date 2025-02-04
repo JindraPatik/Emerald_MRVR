@@ -22,8 +22,6 @@ protected:
 	void StopAllUnits();
 	
 	FTimerHandle CountDownHandle;
-	bool bGameHasStarted = false;
-	bool bGameHasEnded = false;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
 		TSubclassOf<AActor> CountDownWidgetActor;
@@ -34,10 +32,16 @@ protected:
 public:
 	virtual void StartGame();
 	virtual void EndGame(APawn* Looser);
+
+	UPROPERTY(BlueprintReadWrite, Category="Gameplay")
+		bool bGameHasStarted = false;
+
+	UPROPERTY(BlueprintReadWrite, Category="Gameplay")
+		bool bGameHasEnded = false;
 	
 	FOnGameStartedSignature OnGameStartedDelegate;
 	FOnGameEndedSignature OnGameEndedDelegate;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CountDown")
-		int32 CountDownValue = 5;
+		int32 CountDownValue = 3;
 };
