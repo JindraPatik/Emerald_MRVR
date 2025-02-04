@@ -42,6 +42,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Behavior")
 		void Explode(AActor* OtherActor);
 
+	UFUNCTION(BlueprintCallable, Category="Behavior")
+		void Autodestruction();
+
+	UPROPERTY(EditDefaultsOnly, Category="Behavior")
+		float AutodestructionTime = 30.f;
+
+	UPROPERTY()
+		FTimerHandle AutodestructionHandle;
+
 	UPROPERTY(BlueprintReadWrite, Category="Behavior")
 		bool bMortarIsTransformed = false;
 

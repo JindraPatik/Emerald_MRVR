@@ -58,5 +58,7 @@ public:
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 		bool bIsFlyingUnit;
-	
+
+	UFUNCTION(BlueprintNativeEvent, Category="Combat")
+		void KillMe();
 };

@@ -50,6 +50,8 @@ void UMortarComponent::TransformToMine()
 		MortarInstance->Body->SetStaticMesh(TransformedSM);
 		MortarMovementComponent->DestroyComponent();
 		MortarInstance->Strenght = 4.f;
+
+		GetWorld()->GetTimerManager().SetTimer(AutodestructionHandle, this, &UMortarComponent::Autodestruction, AutodestructionTime, false);
 	}
 }
 
@@ -62,6 +64,7 @@ void UMortarComponent::OnOwnerOverlap(UPrimitiveComponent* OverlappedComponent, 
 void UMortarComponent::Explode(AActor* OtherActor)
 {
 	AUnit* Unit = Cast<AUnit>(OtherActor);
+	AUnit* Owner = Cast<AUnit>(GetOwner());
 	if (Unit)
 	{
 		if (Unit->GetOwner() != GetOwner()->GetOwner())
@@ -69,11 +72,22 @@ void UMortarComponent::Explode(AActor* OtherActor)
 			// Play Explosion
 			if (Unit->Strenght < MineStrenght)
 			{
-				Unit->Destroy();
-				GetOwner()->Destroy();
-				UE_LOG(LogTemp, Log, TEXT("Mine Exploded"))
+				Unit->KillMe();
+				if (Owner)
+				{
+					Owner->KillMe();
+				}
 			}
 		}
+	}
+}
+
+void UMortarComponent::Autodestruction()
+{
+	AUnit* Owner = Cast<AUnit>(GetOwner());
+	if (Owner)
+	{
+		Owner->KillMe();
 	}
 }
 

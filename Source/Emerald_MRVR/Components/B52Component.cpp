@@ -15,9 +15,7 @@ UB52Component::UB52Component()
 void UB52Component::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
-
 
 void UB52Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -45,8 +43,10 @@ void UB52Component::PerformSphereTrace(FHitResult& OutHit)
 	{
 		FVector Start = GetOwner()->GetActorLocation();
 		FVector ForwardVector = GetOwner()->GetActorForwardVector();
-		FRotator Downwardrotation = FRotator(0.f, 0.f,-60.f);
-		FVector RotatedDirection = Downwardrotation.RotateVector(ForwardVector);
+		FVector RightVector = GetOwner()->GetActorRightVector();
+
+		FQuat DownwardRotation = FQuat(RightVector, FMath::DegreesToRadians(60.f));
+		FVector RotatedDirection = DownwardRotation.RotateVector(ForwardVector);
 
 		FVector End = Start + RotatedDirection * 30000.f;
 		

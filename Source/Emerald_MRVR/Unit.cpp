@@ -54,12 +54,12 @@ void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimePro
 	DOREPLIFETIME(AUnit, UnitRoot);
 }
 
+void AUnit::KillMe_Implementation()
+{
+	Destroy();
+}
+
 void AUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	/*if (UnitMovementComponent && UnitMovementComponent->bMovementEnabled)
-	{
-		UnitMovementComponent->MoveTo(DeltaTime);	
-	}*/
 }
