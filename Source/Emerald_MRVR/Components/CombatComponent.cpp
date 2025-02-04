@@ -60,12 +60,13 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	{
 		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
-		UHarvestComponent* HarvestComponent = InActor->FindComponentByClass<UHarvestComponent>();
+		// UHarvestComponent* HarvestComponent = InActor->FindComponentByClass<UHarvestComponent>();
+		UHarvestComponent* HarvestComponent = GetOwner()->FindComponentByClass<UHarvestComponent>();
 		UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
 		UCollaborantComponent* CollaborantComponent = InActor->FindComponentByClass<UCollaborantComponent>();
 		
-		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded) return; // 
-		if (CollaborantComponent) return; // Ignore fight for Collaborant
+		//if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded) return; // 
+
 
 		AUnit* InUnit = Cast<AUnit>(InActor);
 		
@@ -84,15 +85,25 @@ void UCombatComponent::UnitFight(AActor* InActor)
                 	if (Unit->Strenght > HittedUnit->Strenght) // Win condition
                 	{
                 		CurrentScenario = ECombatScenarios::E_Win;
-		                if (!InUnit->bIsFlyingUnit)
 		                {
 		                	UUnitMovementComponent* MyUnitMovementComponent = Unit->FindComponentByClass<UUnitMovementComponent>();
 		                	if (MyUnitMovementComponent)
 		                	{
-								MyUnitMovementComponent->bMovementEnabled = false;
-		                		MyUnitMovementComponent->StopUnit();
-                				InActor->Destroy();
-		                		GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
+		                		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded || CollaborantComponent)
+		                		{
+		                			return;
+		                		}
+				                else
+				                {
+									if (!InUnit->bIsFlyingUnit)
+									{
+		                				MyUnitMovementComponent->StopUnit();
+									}
+                					InActor->Destroy();
+				                	GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
+								// MyUnitMovementComponent->bMovementEnabled = false;
+					                
+				                }
 		                	}
 		                }
                 		return;
