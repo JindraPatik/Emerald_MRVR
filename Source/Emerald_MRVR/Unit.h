@@ -58,9 +58,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category="Stats")
 		bool bIsAttacker;
-	
-	UPROPERTY(BlueprintReadWrite, Category="Stats")
-		bool bIsAttacker;
 
 	UFUNCTION(BlueprintNativeEvent, Category="Combat")
 		void KillMe();

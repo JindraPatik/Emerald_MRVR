@@ -95,7 +95,8 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		                			MyUnitMovementComponent->StopUnit();
 									GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
 								}
-                				InActor->Destroy();
+                				//InActor->Destroy();
+		                		HittedUnit->KillMe();
 				                
 		                	}
 		                }
@@ -105,8 +106,10 @@ void UCombatComponent::UnitFight(AActor* InActor)
                 	if (Unit->Strenght == HittedUnit->Strenght) // Tie condition
                 	{
                 		CurrentScenario = ECombatScenarios::E_Tie;
-                		InActor->Destroy();
-                		GetOwner()->Destroy();
+                		// InActor->Destroy();
+                		//GetOwner()->Destroy();
+                		HittedUnit->KillMe();
+                		Unit->KillMe();
                 		return;
                 	}
                 }
