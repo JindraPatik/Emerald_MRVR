@@ -15,7 +15,9 @@ UB52Component::UB52Component()
 void UB52Component::BeginPlay()
 {
 	Super::BeginPlay();
+	
 }
+
 
 void UB52Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -33,6 +35,7 @@ void UB52Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	{
 		FindValidTarget(HittedActor);
 	}
+
 }
 
 void UB52Component::PerformSphereTrace(FHitResult& OutHit)
@@ -40,10 +43,8 @@ void UB52Component::PerformSphereTrace(FHitResult& OutHit)
 	UWorld* World = GetWorld();
 	if (World && GetOwner())
 	{
-		FVector Start = GetOwner()->GetActorLocation();
-		FVector ForwardVector = GetOwner()->GetActorForwardVector();
-		FVector RightVector = GetOwner()->GetActorRightVector();
-
+		FVector Start = GetOwner()->GetActorLocation();FVector ForwardVector = GetOwner()->GetActorForwardVector();
+		FVector RightVector = GetOwner()->GetActorRightVector(); // Osa X
 		FQuat DownwardRotation = FQuat(RightVector, FMath::DegreesToRadians(60.f));
 		FVector RotatedDirection = DownwardRotation.RotateVector(ForwardVector);
 
