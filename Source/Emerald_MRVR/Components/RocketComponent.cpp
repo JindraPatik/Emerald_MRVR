@@ -18,7 +18,7 @@ void URocketComponent::BeginPlay()
 	AUnit* Unit = Cast<AUnit>(GetOwner());
 	if (Unit)
 	{
-		Unit->BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &URocketComponent::OnBoxOverlapped);
+		Unit->Body->OnComponentBeginOverlap.AddDynamic(this, &URocketComponent::OnBoxOverlapped);
 	}
 	CurrentSpeed = 0.0f; // Startovní rychlost
 	CurrentDirection = GetOwner()->GetActorForwardVector().GetSafeNormal(); // Výchozí směr letu
@@ -198,7 +198,7 @@ void URocketComponent::KillMe()
 	AUnit* Ownerunit = Cast<AUnit>(GetOwner());
 	if (Ownerunit)
 	{
-		Ownerunit->BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Ownerunit->Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		Ownerunit->Body->SetVisibility(false);
 		DestroyMe();
 

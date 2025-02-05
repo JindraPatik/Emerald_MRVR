@@ -35,9 +35,6 @@ public:
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 		TObjectPtr<USceneComponent> UnitRoot;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Collision")
-		TObjectPtr<UBoxComponent> BoxComponent;
-	
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 		TObjectPtr<UStaticMeshComponent> Body;
 
@@ -58,6 +55,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category="Stats")
 		bool bIsFlyingUnit;
+
+	UPROPERTY(BlueprintReadWrite, Category="Stats")
+		bool bIsAttacker;
 	
 	UPROPERTY(BlueprintReadWrite, Category="Stats")
 		bool bIsAttacker;

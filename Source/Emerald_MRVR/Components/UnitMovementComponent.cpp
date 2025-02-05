@@ -1,14 +1,7 @@
 #include "UnitMovementComponent.h"
 
 #include "CombatComponent.h"
-#include "Emerald_MRVR/DebugMacros.h"
-#include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
-#include "Emerald_MRVR/CORE/PC_MR_General.h"
-#include "GameFramework/Character.h"
-#include "GameFramework/GameState.h"
-#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 

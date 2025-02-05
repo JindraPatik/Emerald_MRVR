@@ -17,7 +17,7 @@ void UCollaborantComponent::BeginPlay()
 	AUnit* Unit = Cast<AUnit>(GetOwner());
 	if (Unit)
 	{
-		Unit->BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &UCollaborantComponent::OnBoxOverlapped);
+		Unit->Body->OnComponentBeginOverlap.AddDynamic(this, &UCollaborantComponent::OnBoxOverlapped);
 	}
 }
 

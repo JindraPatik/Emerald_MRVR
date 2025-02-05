@@ -21,7 +21,7 @@ void UThiefComponent::BeginPlay()
 	Unit = Cast<AUnit>(GetOwner());
 	if (Unit)
 	{
-		Unit->BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &UThiefComponent::OnBoxOverlapped);
+		Unit->Body->OnComponentBeginOverlap.AddDynamic(this, &UThiefComponent::OnBoxOverlapped);
 	}
 }
 

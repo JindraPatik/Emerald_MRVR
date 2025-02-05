@@ -32,9 +32,10 @@ void UCombatComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Unit = Cast<AUnit>(GetOwner());
+	
 	if (Unit)
 	{
-		Unit->BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &UCombatComponent::OnBoxOverlapped);
+		Unit->Body->OnComponentBeginOverlap.AddDynamic(this, &UCombatComponent::OnBoxOverlapped);
 	}
 }
 
@@ -62,12 +63,21 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
 		UHarvestComponent* MyHarvestComponent = GetOwner()->FindComponentByClass<UHarvestComponent>();
 		UThiefComponent* MyThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
+		UHarvestComponent* OtherHarvestComponent = InActor->FindComponentByClass<UHarvestComponent>();
+		UThiefComponent* OtherThiefComponent = InActor->FindComponentByClass<UThiefComponent>();
 		UCollaborantComponent* CollaborantComponent = InActor->FindComponentByClass<UCollaborantComponent>();
 		
 		if (HittedUnit && HittedUnit->GetOwner() == GetOwner()->GetOwner()) 
 		{
 			return;
 		}
+
+		if (MyThiefComponent && OtherHarvestComponent && OtherHarvestComponent->bIsLoaded)
+		{
+			return;
+		}
+
+			
 		
 		if (HittedUnit)
 		{
@@ -86,9 +96,9 @@ void UCombatComponent::UnitFight(AActor* InActor)
 								if (!HittedUnit->bIsFlyingUnit)
 								{
 		                			MyUnitMovementComponent->StopUnit();
+									GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
 								}
                 				InActor->Destroy();
-				                GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
 				                
 		                	}
 		                }

@@ -23,8 +23,8 @@ void UHarvestComponent::BeginPlay()
 	Unit = Cast<AUnit>(GetOwner());
 	if (Unit)
 	{
-		BoxComponent = Unit->BoxComponent;
-		BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &UHarvestComponent::OnBoxOverlap);
+		
+		Unit->Body->OnComponentBeginOverlap.AddDynamic(this, &UHarvestComponent::OnBoxOverlap);
 	}
 }
 
