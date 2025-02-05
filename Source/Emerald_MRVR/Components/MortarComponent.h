@@ -4,6 +4,8 @@
 #include "ActorComponent.h"
 #include "MortarComponent.generated.h"
 
+class AUnit;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class EMERALD_MRVR_API UMortarComponent : public UActorComponent
 {
@@ -62,6 +64,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="Combat")
 		float MineStrenght = 4;
+	
+	UPROPERTY()
+		AUnit* OwnerUnit; 
 
 	
 };

@@ -62,6 +62,10 @@ void UThiefComponent::HarvesterRobbery(AActor* OtherActor)
 					UnitMovementComponent->UnitSpeed = ReturnSpeed; // Change Unit direction. LATER SUBSTITUTE WITH TURN180 FUNCTION!!
 				}
 			}
+			else
+			{
+				Unit->KillMe();
+			}
 		}
 	}
 }

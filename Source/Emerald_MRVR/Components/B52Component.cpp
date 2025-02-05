@@ -33,7 +33,6 @@ void UB52Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	{
 		FindValidTarget(HittedActor);
 	}
-
 }
 
 void UB52Component::PerformSphereTrace(FHitResult& OutHit)

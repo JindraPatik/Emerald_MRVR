@@ -53,12 +53,16 @@ public:
 	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
 		float Damage;
 
-	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(BlueprintReadWrite, Category="Stats")
 		float FightDelay;
 
-	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(BlueprintReadWrite, Category="Stats")
 		bool bIsFlyingUnit;
+	
+	UPROPERTY(BlueprintReadWrite, Category="Stats")
+		bool bIsAttacker;
 
 	UFUNCTION(BlueprintNativeEvent, Category="Combat")
 		void KillMe();
+
 };

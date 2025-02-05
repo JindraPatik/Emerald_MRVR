@@ -14,6 +14,7 @@ void UMortarComponent::BeginPlay()
 	Super::BeginPlay();
 
 	AActor* OwnerActor = GetOwner();
+	OwnerUnit = Cast<AUnit>(GetOwner());
 	if (OwnerActor)
 	{
 		UPrimitiveComponent* Collisioncomp = Cast<UPrimitiveComponent>(OwnerActor->GetComponentByClass(UPrimitiveComponent::StaticClass()));
@@ -49,7 +50,11 @@ void UMortarComponent::TransformToMine()
 	{
 		MortarInstance->Body->SetStaticMesh(TransformedSM);
 		MortarMovementComponent->DestroyComponent();
-		MortarInstance->Strenght = 4.f;
+		if (OwnerUnit)
+		{
+			OwnerUnit->bIsAttacker = true;
+			MortarInstance->Strenght = 4.f;
+		}
 
 		GetWorld()->GetTimerManager().SetTimer(AutodestructionHandle, this, &UMortarComponent::Autodestruction, AutodestructionTime, false);
 	}

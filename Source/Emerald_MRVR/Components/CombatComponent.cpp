@@ -49,7 +49,7 @@ void UCombatComponent::OnBoxOverlapped(UPrimitiveComponent* OverlappedComponent,
 }
 
 void UCombatComponent::UnitFight(AActor* InActor)
-{
+ {
 	if (GetOwnerRole() != ROLE_Authority)
 	{
 		Server_UnitFight(InActor);
@@ -60,12 +60,17 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	{
 		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
+		AUnit* MyUnit = Cast<AUnit>(GetOwner());
 		UHarvestComponent* HarvestComponent = GetOwner()->FindComponentByClass<UHarvestComponent>();
 		UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
 		UCollaborantComponent* CollaborantComponent = InActor->FindComponentByClass<UCollaborantComponent>();
-		AUnit* InUnit = Cast<AUnit>(InActor);
 		
-		if (InUnit && InUnit->GetOwner() == GetOwner()->GetOwner()) // If it is my loaded thief
+		if (HittedUnit && HittedUnit->GetOwner() == GetOwner()->GetOwner() && HarvestComponent && HarvestComponent->bIsLoaded) // If it is my loaded harvester
+		{
+			return;
+		}
+
+		if (HittedUnit && HittedUnit->GetOwner() == GetOwner()->GetOwner() && ThiefComponent && ThiefComponent->bIsloaded) // If it is my loaded thief
 		{
 			return;
 		}
@@ -77,32 +82,23 @@ void UCombatComponent::UnitFight(AActor* InActor)
 			{
 				if (MyGeneral && HittedUnit && OtherOwner && MyGeneral != OtherOwner) 	// Is that Other players Unit? 
                 {
-                	if (Unit->Strenght > HittedUnit->Strenght) // Win condition
+                	if (Unit->Strenght > HittedUnit->Strenght && MyUnit && MyUnit->bIsAttacker) // Win condition
                 	{
                 		CurrentScenario = ECombatScenarios::E_Win;
 		                {
 		                	UUnitMovementComponent* MyUnitMovementComponent = Unit->FindComponentByClass<UUnitMovementComponent>();
 		                	if (MyUnitMovementComponent)
-		                	{
-		                		if (HarvestComponent && ThiefComponent && InActor->GetOwner() != GetOwner()->GetOwner() && HarvestComponent->bIsLoaded || CollaborantComponent)
-		                		{
-		                			return;
-		                		}
-				                else
-				                {
-									if (!InUnit->bIsFlyingUnit)
+
+									if (!HittedUnit->bIsFlyingUnit)
 									{
 		                				MyUnitMovementComponent->StopUnit();
 									}
-                					// InActor->Destroy();
 				                	AUnit* EnemyUnit = Cast<AUnit>(InActor);
 				                	if (EnemyUnit)
 				                	{
 				                		EnemyUnit->KillMe();
 				                	}
 				                	GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
-					                
-				                }
 		                	}
 		                }
                 		return;
@@ -111,13 +107,11 @@ void UCombatComponent::UnitFight(AActor* InActor)
                 	if (Unit->Strenght == HittedUnit->Strenght) // Tie condition
                 	{
                 		CurrentScenario = ECombatScenarios::E_Tie;
-                		// InActor->Destroy();
                 		AUnit* EnemyUnit = Cast<AUnit>(InActor);
 		                if (EnemyUnit)
 		                {
 			                EnemyUnit->KillMe();
 		                }
-                		// GetOwner()->Destroy();
                 		Unit->KillMe();
                 		return;
                 	}
@@ -128,7 +122,7 @@ void UCombatComponent::UnitFight(AActor* InActor)
 			
 		}
 		return;
-	}
+	
 }
 
 void UCombatComponent::Server_UnitFight_Implementation(AActor* InActor)
