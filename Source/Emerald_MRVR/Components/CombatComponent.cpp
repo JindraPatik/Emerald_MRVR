@@ -1,15 +1,12 @@
 #include "CombatComponent.h"
 
-#include "BoxComponent.h"
 #include "CollaborantComponent.h"
 #include "HarvestComponent.h"
 #include "HealthComponent.h"
 #include "ThiefComponent.h"
 #include "UnitMovementComponent.h"
-#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)
