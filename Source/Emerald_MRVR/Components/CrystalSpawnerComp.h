@@ -39,6 +39,7 @@ public:
 
 	void SpawnCrystal();
 	void StartSpawning();
+	void ConstructSpline();
 
 	UFUNCTION()
 	void StopSpawning(APawn* Looser);
