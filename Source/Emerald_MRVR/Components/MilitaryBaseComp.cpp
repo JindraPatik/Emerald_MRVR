@@ -81,6 +81,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 		Server_SpawnMilitaryBase(OwningPawn);
 		return;
 	}
+
 	
 	SetSpawnPointForBase();
 	if (SpawnPointForMilitaryBase)
@@ -90,11 +91,15 @@ void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 		SpawnParameters.Owner = OwningPawn;
 		FVector SpawnLocation = SpawnPointForMilitaryBase->GetActorLocation();
 		FRotator SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
+
+		SpawnPointForMilitaryBase->ActorHasTag("Reversed") ? bIsReversed = true : bIsReversed = false; // Set reversed bool
 		
 		if (OwningPawn)
 		{
 			MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
 		}
+
+		
 	}	
 }
 
@@ -141,7 +146,6 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 								ModuleInstance->SpawnCooldownWidget();
 							}
 							ModuleInstance->SetReplicates(true);
-
 						}
 					}
 				}

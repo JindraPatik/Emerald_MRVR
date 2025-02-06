@@ -114,10 +114,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 		FOnUnitSpawnedSignature OnUnitSpawnedDelegate;
-	
 
 	UFUNCTION()
 		FORCEINLINE AMilitaryBase* GetBaseInstance() const { return MyBaseInstance; }
 
 	TSubclassOf<AUnitAIController> AiUnitControllerClass;
+
+	UPROPERTY(BlueprintReadWrite, Category="Spawning")
+		bool bIsReversed;
 };
