@@ -15,15 +15,18 @@ class EMERALD_MRVR_API UEK_BlueprintFunctionLbrary : public UBlueprintFunctionLi
 public:
 	
 	UFUNCTION(BlueprintCallable, Category="Splines")
-	USplineComponent* CreateSplinePath(
+	static USplineComponent* CreateSplinePath(
 		UObject* WorldContextObject,
 		FVector StartPoint,
 		FVector EndPoint,
-		TArray<AActor*> PathPoints,
+		TArray<APathPoint*> PathPoints,
 		AActor* Outer);
 
 	UFUNCTION(BlueprintCallable, Category="Splines")
-	TArray<APathPoint*> SortPathPoints(UObject* WorldContextObject, TSubclassOf<APathPoint> PathPointClass, bool bIsReversed);
+	static TArray<APathPoint*> SortPathPoints(
+			UObject* WorldContextObject,
+			TSubclassOf<APathPoint> PathPointClass,
+			bool bIsReversed);
 
 	
 };

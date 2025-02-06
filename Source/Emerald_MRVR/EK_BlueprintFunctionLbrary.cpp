@@ -1,10 +1,11 @@
 ﻿#include "EK_BlueprintFunctionLbrary.h"
+
+#include "EngineUtils.h"
 #include "PathPoint.h"
 #include "SplineComponent.h"
-#include "Kismet/GameplayStatics.h"
 
 USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldContextObject, FVector StartPoint,
-                                                                FVector EndPoint, TArray<AActor*> PathPoints, AActor* Outer)
+                                                                FVector EndPoint, TArray<APathPoint*> PathPoints, AActor* Outer)
 {
 	if (!WorldContextObject) return nullptr;
 
@@ -21,16 +22,17 @@ USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldCo
 
 	if (!PathPoints.IsEmpty()) // Adds Spline middle points
 	{
-		int32 Index = 1;
-		for (AActor* PathPoint : PathPoints)
+		for (APathPoint* PathPoint : PathPoints)
 		{
+			int32 Index = PathPoint->PathIndex;
 			SplineComponent->AddSplinePointAtIndex(PathPoint->GetActorLocation(), Index, ESplineCoordinateSpace::World);
-			Index++;
 		}
 	}
 
-	int32 LastIndex = SplineComponent->GetNumberOfSplinePoints() - 1;
+	int32 LastIndex = SplineComponent->GetNumberOfSplinePoints();
 	SplineComponent->AddSplinePointAtIndex(EndPoint, LastIndex, ESplineCoordinateSpace::World); // Adds Spline Endpoint
+
+	// SplineComponent->AddSplinePoint(EndPoint, ESplineCoordinateSpace::World);
 	
 	return SplineComponent;
 }
@@ -42,14 +44,13 @@ TArray<APathPoint*> UEK_BlueprintFunctionLbrary::SortPathPoints(UObject* WorldCo
 	UWorld* World = WorldContextObject->GetWorld();
 	if (!World) return {};
 
-	TArray<AActor*> FoundActors; // All actors in the World
-	UGameplayStatics::GetAllActorsOfClass(WorldContextObject, AActor::StaticClass(), FoundActors); 
-
 	TArray<APathPoint*> AllPathPoints; // All PathPoints of selected type in the world
-	for (AActor* FoundedActor : FoundActors)
+	AllPathPoints.Empty();
+	
+	for (TActorIterator<APathPoint> It(World); It; ++It)
 	{
-		APathPoint* PathPoint = Cast<APathPoint>(FoundedActor);
-		if (PathPoint)
+		APathPoint* PathPoint = *It;
+		if (PathPoint && PathPoint->IsA(PathPointClass))
 		{
 			AllPathPoints.Add(PathPoint);
 		}
@@ -60,16 +61,21 @@ TArray<APathPoint*> UEK_BlueprintFunctionLbrary::SortPathPoints(UObject* WorldCo
 	if (!AllPathPoints.IsEmpty())
 	{
 		int32 PointsCount = AllPathPoints.Num();
+		APathPoint* NewPathPoint = nullptr;
 		
 		if (bIsReversed)
 		{
 			for (APathPoint* PathPoint : AllPathPoints)
 			{
-				PathPoint->PathIndex = PointsCount - PathPoint->PathIndex; // Flip all PathIndexes
-				SortedPathPoints.Add(PathPoint);
+				NewPathPoint->PathIndex = PointsCount - PathPoint->PathIndex; // Flip all PathIndexes
+				SortedPathPoints.Add(NewPathPoint);
 			}
 		}
+		else
+		{
+			SortedPathPoints = AllPathPoints;
+		}
 	}
-	
+
 	return SortedPathPoints;
 }

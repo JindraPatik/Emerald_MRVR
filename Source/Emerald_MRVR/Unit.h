@@ -62,4 +62,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category="Combat")
 		void KillMe();
 
+	UPROPERTY(BlueprintReadWrite, Category="Spawning")
+		bool bIsReversed;
+
+	UPROPERTY(BlueprintReadWrite, Category="Spawning")
+		FVector UnitSpawnLocation;
 };

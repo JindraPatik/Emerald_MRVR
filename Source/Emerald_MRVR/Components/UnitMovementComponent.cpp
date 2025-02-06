@@ -1,7 +1,12 @@
 #include "UnitMovementComponent.h"
-
 #include "CombatComponent.h"
+#include "EngineUtils.h"
+#include "MilitaryBaseComp.h"
+#include "SplineComponent.h"
+#include "Emerald_MRVR/EK_BlueprintFunctionLbrary.h"
+#include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/CORE/BasePawn.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -9,8 +14,8 @@ UUnitMovementComponent::UUnitMovementComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
-	bAutoActivate = true;
 	SetIsReplicated(true);
+	bAutoActivate = true;
 }
 
 void UUnitMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -23,11 +28,15 @@ void UUnitMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	AUnit* Unit = Cast<AUnit>(GetOwner());
+	Unit = Cast<AUnit>(GetOwner());
 	if (Unit)
 	{
 		UnitSpeed = Unit->Speed;
 	}
+
+	/*FindPathPoints();
+	CreateMovementPath();*/
+	
 }
 
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -36,19 +45,18 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	if (bMovementEnabled)
 	{
-		MoveTo(DeltaTime);	
+		MoveTo(DeltaTime);
+		// MoveAlongPath(DeltaTime);
 	}
 
 	if (bIsRestartingMovement)
 	{
 		Accelerate(DeltaTime);
 	}
-	
 }
 
 void UUnitMovementComponent::MoveTo(float DeltaTime) const
 {
-	AActor* Unit = Cast<AActor>(GetOwner());
 	if (!Unit)
 	{
 		return;
@@ -87,6 +95,63 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 	}
 }
 
+/*void UUnitMovementComponent::FindPathPoints()
+{
+	if (!Unit) return;
+	
+	PathPoints = UEK_BlueprintFunctionLbrary::SortPathPoints(this, PathPointClass, Unit->bIsReversed);
+}*/
+
+/*void UUnitMovementComponent::CreateMovementPath()
+{
+	FVector Start = Unit->UnitSpawnLocation;
+	FVector End = FVector::ZeroVector;
+
+	UWorld* World = GetWorld();
+	if (!World) return;
+
+	// Najít soupeřovu základnu
+	AMilitaryBase* EnemyBase = nullptr;
+	for (TActorIterator<AMilitaryBase> It(World); It; ++It)
+	{
+		AMilitaryBase* MilitaryBase = *It;
+		if (MilitaryBase && MilitaryBase->GetOwner() != GetOwner()->GetOwner()) // Ověříme, že to není naše základna
+		{
+			EnemyBase = MilitaryBase;
+			break; // Jakmile najdeme soupeře, přestaneme hledat
+		}
+	}
+
+	// Pokud jsme našli soupeře, nastavíme End podle typu jednotky
+	if (EnemyBase)
+	{
+		if (Unit->bIsFlyingUnit) // Pokud je jednotka létající
+		{
+			End = EnemyBase->SpawnPoint_Air->GetComponentLocation();
+		}
+		else // Pozemní jednotka
+		{
+			End = EnemyBase->SpawnPoint_Ground->GetComponentLocation();
+		}
+	}
+
+	// Ověříme, že jsme našli platný EndPoint
+	if (End == FVector::ZeroVector) return;
+	
+	MovementSpline = UEK_BlueprintFunctionLbrary::CreateSplinePath(this, Start, End, PathPoints, GetOwner());
+}*/
+
+/*void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
+{
+	if (!MovementSpline) return;
+
+	SplineDistance += UnitSpeed * DeltaTime;
+
+	FVector NewLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
+	Unit->SetActorLocation(NewLocation);
+	
+}*/
+
 void UUnitMovementComponent::Turn180()
 {
 	FRotator BackwardRotation = GetOwner()->GetActorRotation() + FRotator(0, 180, 0);
@@ -110,7 +175,6 @@ void UUnitMovementComponent::StopUnit()
 void UUnitMovementComponent::Accelerate(float DeltaTime)
 {
 	// Restart Movement
-	AActor* Unit = Cast<AActor>(GetOwner());
 	if (!Unit)
 	{
 		return;

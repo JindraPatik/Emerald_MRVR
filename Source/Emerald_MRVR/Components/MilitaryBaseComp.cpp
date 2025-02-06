@@ -214,10 +214,14 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 					UnitInstance->bIsFlyingUnit = SpawnedUnitDataAsset->IsFlyingUnit;
 					UnitInstance->FightDelay = SpawnedUnitDataAsset->FightDelay;
 					UnitInstance->bIsAttacker = SpawnedUnitDataAsset->IsAttacker;
+					UnitInstance->bIsReversed = bIsReversed;
+					UnitInstance->UnitSpawnLocation = UnitSpawnLocation;
+					
 					if (UnitInstance->UnitMovementComponent)
 					{
 						UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
 					}
+					
 					OnUnitSpawnedDelegate.Broadcast(UnitInstance, InstigatorPawn);
 					return UnitInstance;
 				}

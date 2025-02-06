@@ -4,9 +4,12 @@
 #include "Components/ActorComponent.h"
 #include "UnitMovementComponent.generated.h"
 
+class APathPoint;
+class USplineComponent;
 class AMilitaryBase;
 class APC_MR_General;
 class AMR_General;
+class AUnit;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UUnitMovementComponent : public UActorComponent
@@ -15,13 +18,42 @@ class EMERALD_MRVR_API UUnitMovementComponent : public UActorComponent
 
 public:	
 	UUnitMovementComponent();
+
+	UPROPERTY()
+	TObjectPtr<AUnit> Unit;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		bool bMovementEnabled = true;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		bool bIsRestartingMovement = false;
-	   
+
+	UPROPERTY(BlueprintReadWrite, Category="Movement")
+		TObjectPtr<USplineComponent> MovementSpline;
+	
+	//TODO
+	/*UFUNCTION(BlueprintCallable, Category="Movement")
+		void MoveAlongPath(float DeltaTime);*/
+
+	//TODO
+	/*
+	UFUNCTION(BlueprintCallable, Category="Movement")
+		void CreateMovementPath();
+		*/
+
+	//TODO
+	/*UFUNCTION(BlueprintCallable, Category="Movement")
+		void FindPathPoints();*/
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		TSubclassOf<APathPoint> PathPointClass;
+
+	UPROPERTY(VisibleAnywhere, Category="Movement")
+		TArray<APathPoint*> PathPoints;
+
+	UPROPERTY(VisibleAnywhere, Category="Movement")
+		float SplineDistance = 0.f;
+
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void MoveTo(float DeltaTime) const;
 
@@ -44,12 +76,6 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		float Acceleration = 10.f; // Maybe add to Data asset?
-
-	
-
-
-	
-
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		float UnitSpeed;
