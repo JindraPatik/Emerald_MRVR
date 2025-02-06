@@ -4,6 +4,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "EK_BlueprintFunctionLbrary.generated.h"
 
+class APathPoint;
 class USplineComponent;
 
 UCLASS()
@@ -20,6 +21,9 @@ public:
 		FVector EndPoint,
 		TArray<AActor*> PathPoints,
 		AActor* Outer);
+
+	UFUNCTION(BlueprintCallable, Category="Splines")
+	TArray<APathPoint*> SortPathPoints(UObject* WorldContextObject, TSubclassOf<APathPoint> PathPointClass, bool bIsReversed);
 
 	
 };

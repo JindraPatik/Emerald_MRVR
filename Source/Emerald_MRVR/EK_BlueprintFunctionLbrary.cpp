@@ -1,5 +1,7 @@
 ﻿#include "EK_BlueprintFunctionLbrary.h"
+#include "PathPoint.h"
 #include "SplineComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldContextObject, FVector StartPoint,
                                                                 FVector EndPoint, TArray<AActor*> PathPoints, AActor* Outer)
@@ -31,4 +33,43 @@ USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldCo
 	SplineComponent->AddSplinePointAtIndex(EndPoint, LastIndex, ESplineCoordinateSpace::World); // Adds Spline Endpoint
 	
 	return SplineComponent;
+}
+
+TArray<APathPoint*> UEK_BlueprintFunctionLbrary::SortPathPoints(UObject* WorldContextObject, TSubclassOf<APathPoint> PathPointClass, bool bIsReversed)
+{
+	if (!WorldContextObject) return {};
+
+	UWorld* World = WorldContextObject->GetWorld();
+	if (!World) return {};
+
+	TArray<AActor*> FoundActors; // All actors in the World
+	UGameplayStatics::GetAllActorsOfClass(WorldContextObject, AActor::StaticClass(), FoundActors); 
+
+	TArray<APathPoint*> AllPathPoints; // All PathPoints of selected type in the world
+	for (AActor* FoundedActor : FoundActors)
+	{
+		APathPoint* PathPoint = Cast<APathPoint>(FoundedActor);
+		if (PathPoint)
+		{
+			AllPathPoints.Add(PathPoint);
+		}
+	}
+
+	TArray<APathPoint*> SortedPathPoints;
+
+	if (!AllPathPoints.IsEmpty())
+	{
+		int32 PointsCount = AllPathPoints.Num();
+		
+		if (bIsReversed)
+		{
+			for (APathPoint* PathPoint : AllPathPoints)
+			{
+				PathPoint->PathIndex = PointsCount - PathPoint->PathIndex; // Flip all PathIndexes
+				SortedPathPoints.Add(PathPoint);
+			}
+		}
+	}
+	
+	return SortedPathPoints;
 }
