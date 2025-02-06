@@ -15,6 +15,7 @@ public:
 
 	static USplineComponent* CreateSplinePath(
 		UObject* WorldContextObject,
+		AActor* Outer,
 		FVector StartLocation,
 		FVector EndLocation,
 		bool bIsReversed, TSubclassOf<AActor> PathPointClass);
