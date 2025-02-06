@@ -29,7 +29,7 @@ USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldCo
 		}
 	}
 
-	int32 LastIndex = SplineComponent->GetNumberOfSplinePoints();
+	int32 LastIndex = SplineComponent->GetNumberOfSplinePoints() -1;
 	SplineComponent->AddSplinePointAtIndex(EndPoint, LastIndex, ESplineCoordinateSpace::World); // Adds Spline Endpoint
 
 	// SplineComponent->AddSplinePoint(EndPoint, ESplineCoordinateSpace::World);
