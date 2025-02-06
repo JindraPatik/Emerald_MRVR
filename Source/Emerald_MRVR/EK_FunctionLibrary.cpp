@@ -49,4 +49,5 @@ USplineComponent* UEK_FunctionLibrary::CreateSplinePath(UObject* WorldContextObj
 	SplineComponent->UpdateSpline();
 
 	return SplineComponent;*/
+	return SplineComponent;
 }
