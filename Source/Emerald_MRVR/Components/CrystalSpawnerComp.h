@@ -4,7 +4,9 @@
 #include "Components/ActorComponent.h"
 #include "CrystalSpawnerComp.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCrystalSpawnedSignature, FVector, SpawnedLoc, ACrystal*, CrystalInstance);
+class APathPoint;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCrystalSpawnedSignature, FVector, SpawnedLoc, ACrystal*,
+                                             CrystalInstance);
 
 class ACrystal;
 
@@ -21,6 +23,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Crystal")
 		TSubclassOf<ACrystal> CrystalToSpawn;
+
+	UPROPERTY(EditDefaultsOnly, Category="Crystal")
+		TSubclassOf<APathPoint> PathPointClass;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float SpawnIntervalMin = 1.f;
