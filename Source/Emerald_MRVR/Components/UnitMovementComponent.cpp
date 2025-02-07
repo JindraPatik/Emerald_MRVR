@@ -27,16 +27,15 @@ void UUnitMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 void UUnitMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	/*FindPathPoints();
+	CreateMovementPath();*/
 	
 	Unit = Cast<AUnit>(GetOwner());
 	if (Unit)
 	{
 		UnitSpeed = Unit->Speed;
 	}
-
-	/*FindPathPoints();
-	CreateMovementPath();*/
-	
 }
 
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -45,8 +44,8 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	if (bMovementEnabled)
 	{
-		MoveTo(DeltaTime);
-		// MoveAlongPath(DeltaTime);
+		//MoveTo(DeltaTime);
+		MoveAlongPath(DeltaTime);
 	}
 
 	if (bIsRestartingMovement)
@@ -55,7 +54,7 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	}
 }
 
-void UUnitMovementComponent::MoveTo(float DeltaTime) const
+/*void UUnitMovementComponent::MoveTo(float DeltaTime) const
 {
 	if (!Unit)
 	{
@@ -93,18 +92,18 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 			Unit->SetActorRotation(NewRotation);
 		}
 	}
-}
+}*/
 
-/*void UUnitMovementComponent::FindPathPoints()
+void UUnitMovementComponent::FindPathPoints()
 {
 	if (!Unit) return;
 	
 	PathPoints = UEK_BlueprintFunctionLbrary::SortPathPoints(this, PathPointClass, Unit->bIsReversed);
-}*/
+}
 
-/*void UUnitMovementComponent::CreateMovementPath()
+void UUnitMovementComponent::CreateMovementPath()
 {
-	FVector Start = Unit->UnitSpawnLocation;
+	FVector Start = Unit->GetActorLocation();
 	FVector End = FVector::ZeroVector;
 
 	UWorld* World = GetWorld();
@@ -125,7 +124,7 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 	// Pokud jsme našli soupeře, nastavíme End podle typu jednotky
 	if (EnemyBase)
 	{
-		if (Unit->bIsFlyingUnit) // Pokud je jednotka létající
+ 		if (bIsFlying) // Pokud je jednotka létající
 		{
 			End = EnemyBase->SpawnPoint_Air->GetComponentLocation();
 		}
@@ -138,10 +137,10 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 	// Ověříme, že jsme našli platný EndPoint
 	if (End == FVector::ZeroVector) return;
 	
-	MovementSpline = UEK_BlueprintFunctionLbrary::CreateSplinePath(this, Start, End, PathPoints, GetOwner());
-}*/
+	MovementSpline = UEK_BlueprintFunctionLbrary::CreateSplinePath(this, Start, End, PathPoints, bIsReversed, GetOwner());
+}
 
-/*void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
+void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 {
 	if (!MovementSpline) return;
 
@@ -149,8 +148,7 @@ void UUnitMovementComponent::MoveTo(float DeltaTime) const
 
 	FVector NewLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 	Unit->SetActorLocation(NewLocation);
-	
-}*/
+}
 
 void UUnitMovementComponent::Turn180()
 {

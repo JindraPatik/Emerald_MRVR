@@ -220,6 +220,12 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 					if (UnitInstance->UnitMovementComponent)
 					{
 						UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+						UnitInstance->UnitMovementComponent->bIsFlying = SpawnedUnitDataAsset->IsFlyingUnit;
+						UnitInstance->UnitMovementComponent->bIsReversed = bIsReversed;
+						UnitInstance->UnitMovementComponent->FindPathPoints();
+						UnitInstance->UnitMovementComponent->CreateMovementPath();
+						UnitInstance->UnitMovementComponent->bMovementEnabled = true;
+						
 					}
 					
 					OnUnitSpawnedDelegate.Broadcast(UnitInstance, InstigatorPawn);

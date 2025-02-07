@@ -20,6 +20,7 @@ public:
 		FVector StartPoint,
 		FVector EndPoint,
 		TArray<APathPoint*> PathPoints,
+		bool bIsReversed,
 		AActor* Outer);
 
 	UFUNCTION(BlueprintCallable, Category="Splines")

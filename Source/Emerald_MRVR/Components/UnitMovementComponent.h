@@ -23,7 +23,7 @@ public:
 	TObjectPtr<AUnit> Unit;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
-		bool bMovementEnabled = true;
+		bool bMovementEnabled = false;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		bool bIsRestartingMovement = false;
@@ -32,18 +32,16 @@ public:
 		TObjectPtr<USplineComponent> MovementSpline;
 	
 	//TODO
-	/*UFUNCTION(BlueprintCallable, Category="Movement")
-		void MoveAlongPath(float DeltaTime);*/
+	UFUNCTION(BlueprintCallable, Category="Movement")
+		void MoveAlongPath(float DeltaTime);
 
 	//TODO
-	/*
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void CreateMovementPath();
-		*/
 
 	//TODO
-	/*UFUNCTION(BlueprintCallable, Category="Movement")
-		void FindPathPoints();*/
+	UFUNCTION(BlueprintCallable, Category="Movement")
+		void FindPathPoints();
 
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 		TSubclassOf<APathPoint> PathPointClass;
@@ -54,8 +52,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 		float SplineDistance = 0.f;
 
-	UFUNCTION(BlueprintCallable, Category="Movement")
-		void MoveTo(float DeltaTime) const;
+	/*UFUNCTION(BlueprintCallable, Category="Movement")
+		void MoveTo(float DeltaTime) const;*/
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void Turn180();
@@ -73,6 +71,8 @@ public:
 		void RestartMovement();
 
 	float StartingSpeed = 0;
+	bool bIsFlying;
+	bool bIsReversed;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		float Acceleration = 10.f; // Maybe add to Data asset?
