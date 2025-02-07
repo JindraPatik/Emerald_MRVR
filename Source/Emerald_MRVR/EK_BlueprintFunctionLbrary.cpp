@@ -4,7 +4,7 @@
 #include "SplineComponent.h"
 
 USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldContextObject, FVector StartPoint,
-                                                                FVector EndPoint, TArray<APathPoint*> PathPoints, bool bIsReversed, AActor* Outer)
+																FVector EndPoint, TArray<APathPoint*> PathPoints, AActor* Outer)
 {
 	if (!WorldContextObject) return nullptr;
 
@@ -15,21 +15,20 @@ USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldCo
 	if (!SplineComponent) return nullptr;
 
 	SplineComponent->RegisterComponent();
-
 	SplineComponent->ClearSplinePoints();
-	SplineComponent->AddSplinePointAtIndex(StartPoint, 0, ESplineCoordinateSpace::World); // Adds Spline Starting point
 
-	if (!PathPoints.IsEmpty()) // Adds Spline middle points
+	SplineComponent->AddSplinePointAtIndex(StartPoint, 0, ESplineCoordinateSpace::World);
+
+	if (!PathPoints.IsEmpty())
 	{
 		for (APathPoint* PathPoint : PathPoints)
 		{
-			int32 Index = PathPoint->PathIndex;
-			SplineComponent->AddSplinePointAtIndex(PathPoint->GetActorLocation(), Index, ESplineCoordinateSpace::World);
+			SplineComponent->AddSplinePoint(PathPoint->GetActorLocation(), ESplineCoordinateSpace::World);
 		}
 	}
 
 	SplineComponent->AddSplinePoint(EndPoint, ESplineCoordinateSpace::World);
-	
+
 	return SplineComponent;
 }
 
@@ -40,11 +39,7 @@ TArray<APathPoint*> UEK_BlueprintFunctionLbrary::SortPathPoints(UObject* WorldCo
 	UWorld* World = WorldContextObject->GetWorld();
 	if (!World) return {};
 
-	
-	TArray<APathPoint*> AllPathPoints; // All PathPoints of selected type in the world
-	TArray<APathPoint*> SortedPathPoints;
-	AllPathPoints.Empty();
-	SortedPathPoints.Empty();
+	TArray<APathPoint*> AllPathPoints;
 	
 	for (TActorIterator<APathPoint> It(World); It; ++It)
 	{
@@ -55,23 +50,17 @@ TArray<APathPoint*> UEK_BlueprintFunctionLbrary::SortPathPoints(UObject* WorldCo
 		}
 	}
 
-	int32 PointsCount = AllPathPoints.Num();
-	APathPoint* NewPathPoint = nullptr;
+	if (AllPathPoints.IsEmpty()) return {};
 
-	SortedPathPoints = AllPathPoints;
-
-
-	if (SortedPathPoints.IsEmpty()) return {};
-
-	Algo::Sort(SortedPathPoints, [](const APathPoint* A, const APathPoint* B)
+	Algo::Sort(AllPathPoints, [](const APathPoint* A, const APathPoint* B)
 	{
 		return A->PathIndex < B->PathIndex;
 	});
 
 	if (bIsReversed)
 	{
-		Algo::Reverse(SortedPathPoints);
+		Algo::Reverse(AllPathPoints);
 	}
 
-	return SortedPathPoints;
+	return AllPathPoints;
 }

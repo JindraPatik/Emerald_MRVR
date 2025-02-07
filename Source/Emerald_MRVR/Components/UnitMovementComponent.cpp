@@ -1,12 +1,10 @@
 #include "UnitMovementComponent.h"
 #include "CombatComponent.h"
 #include "EngineUtils.h"
-#include "MilitaryBaseComp.h"
 #include "SplineComponent.h"
 #include "Emerald_MRVR/EK_BlueprintFunctionLbrary.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
-#include "Emerald_MRVR/CORE/BasePawn.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -28,9 +26,6 @@ void UUnitMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*FindPathPoints();
-	CreateMovementPath();*/
-	
 	Unit = Cast<AUnit>(GetOwner());
 	if (Unit)
 	{
@@ -44,7 +39,6 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	if (bMovementEnabled)
 	{
-		//MoveTo(DeltaTime);
 		MoveAlongPath(DeltaTime);
 	}
 
@@ -137,7 +131,7 @@ void UUnitMovementComponent::CreateMovementPath()
 	// Ověříme, že jsme našli platný EndPoint
 	if (End == FVector::ZeroVector) return;
 	
-	MovementSpline = UEK_BlueprintFunctionLbrary::CreateSplinePath(this, Start, End, PathPoints, bIsReversed, GetOwner());
+	MovementSpline = UEK_BlueprintFunctionLbrary::CreateSplinePath(this, Start, End, PathPoints,GetOwner());
 }
 
 void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
