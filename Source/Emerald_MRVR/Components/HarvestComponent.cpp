@@ -3,6 +3,7 @@
 #include "BoxComponent.h"
 #include "ComponentUtils.h"
 #include "ResourcesComponent.h"
+#include "UnitMovementComponent.h"
 #include "Emerald_MRVR/Crystal.h"
 #include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
@@ -53,8 +54,9 @@ void UHarvestComponent::CollectCrystal(AActor* HittedActor)
 		Crystal->Destroy();
 		
 		bIsLoaded = true;
-		FRotator RotateBackwards = FRotator(0.f, Unit->GetActorRotation().Yaw + 180.f, 0.f);
-		Unit->SetActorRotation(RotateBackwards);
+		//FRotator RotateBackwards = FRotator(0.f, Unit->GetActorRotation().Yaw + 180.f, 0.f);
+		//Unit->SetActorRotation(RotateBackwards);
+		Unit->UnitMovementComponent->Turn180();
 	}
 }
 

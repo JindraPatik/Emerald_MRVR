@@ -22,11 +22,14 @@ public:
 	UPROPERTY()
 	TObjectPtr<AUnit> Unit;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Movement")
 		bool bMovementEnabled = false;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category="Movement")
 		bool bIsRestartingMovement = false;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category="Movement")
+		bool bIsReversedMovement = false;
 
 	UPROPERTY(BlueprintReadWrite, Category="Movement")
 		TObjectPtr<USplineComponent> MovementSpline;

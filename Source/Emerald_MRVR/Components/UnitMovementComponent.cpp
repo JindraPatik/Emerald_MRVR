@@ -5,6 +5,7 @@
 #include "Emerald_MRVR/EK_BlueprintFunctionLbrary.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
+#include "Math/UnitConversion.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -138,7 +139,8 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 {
 	if (!MovementSpline) return;
 
-	SplineDistance += UnitSpeed * DeltaTime;
+	SplineDistance += (bIsReversedMovement ? -UnitSpeed : UnitSpeed) * DeltaTime;
+	SplineDistance = FMath::Clamp(SplineDistance, 0.0f, MovementSpline->GetSplineLength());
 
 	FVector NewLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 	Unit->SetActorLocation(NewLocation);
@@ -148,6 +150,7 @@ void UUnitMovementComponent::Turn180()
 {
 	FRotator BackwardRotation = GetOwner()->GetActorRotation() + FRotator(0, 180, 0);
 	GetOwner()->SetActorRotation(BackwardRotation);
+	bIsReversedMovement = !bIsReversedMovement;
 }
 
 void UUnitMovementComponent::TurnRandom()
