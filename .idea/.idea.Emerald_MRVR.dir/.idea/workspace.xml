@@ -19,7 +19,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="AI Harvester spawn correction">
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="Hervester Turn180 is bugged. Repair it">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_Single002.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/LVL_Single002.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HarvestComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HarvestComponent.cpp" afterDir="false" />
@@ -40,6 +40,7 @@
     <setting file="mock://E:/UE_OculusProjects/Emerald_MRVR/Source/Emerald_MRVR/Components/AI_Component.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/UE_OculusProjects/Emerald_MRVR/Source/Emerald_MRVR/Components/AI_Component.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://E:/UE_OculusProjects/Emerald_MRVR/Source/Emerald_MRVR/Components/AI_Component.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://E:/UE_OculusProjects/Emerald_MRVR/Source/Emerald_MRVR/Components/HarvestComponent.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -1144,7 +1145,7 @@
       <workItem from="1737548019099" duration="8462000" />
       <workItem from="1738321571131" duration="3567000" />
       <workItem from="1738938909120" duration="703000" />
-      <workItem from="1738940004986" duration="895000" />
+      <workItem from="1738940004986" duration="1279000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1378,7 +1379,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738940228698</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Hervester Turn180 is bugged. Repair it">
+      <option name="closed" value="true" />
+      <created>1738941287732</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1738941287732</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1412,7 +1421,6 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="MilitaryBaseComp.h added" />
     <MESSAGE value="MilitaryBaseComp spawns Unit" />
     <MESSAGE value="Spawning base works" />
     <MESSAGE value="Custom movement comp, JustForward for now" />
@@ -1437,6 +1445,7 @@
     <MESSAGE value="rebased" />
     <MESSAGE value="ParticlesTest" />
     <MESSAGE value="AI Harvester spawn correction" />
-    <option name="LAST_COMMIT_MESSAGE" value="AI Harvester spawn correction" />
+    <MESSAGE value="Hervester Turn180 is bugged. Repair it" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hervester Turn180 is bugged. Repair it" />
   </component>
 </project>
