@@ -19,15 +19,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="ParticlesTest">
-      <change afterPath="$PROJECT_DIR$/Content/BP/BP_PathPoint.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/PathPoint.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/PathPoint.h" afterDir="false" />
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Unit/BP_Brigade.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Unit/BP_Brigade.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_Single002.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/LVL_Single002.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/CombatComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/AI_Component.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/AI_Component.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1176,6 +1172,7 @@
       <workItem from="1736327340899" duration="2163000" />
       <workItem from="1737548019099" duration="8462000" />
       <workItem from="1738321571131" duration="3567000" />
+      <workItem from="1738938909120" duration="703000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />

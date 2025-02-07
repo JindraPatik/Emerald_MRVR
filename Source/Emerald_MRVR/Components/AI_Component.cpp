@@ -100,45 +100,17 @@ void UAI_Component::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 	APawn* AIPawn = Cast<APawn>(GetOwner());
 	if (AIPawn)
 	{
-		if (MineModule)
+		for (AModuleActor* Module : MilitaryBaseComp->AvailableModulesActors)
 		{
-			TSubclassOf<AUnit> UnitClassToSpawn = MineModule->UnitToSpawn;
-			UWorld* World = GetWorld();
-
-			FVector UnitSpawnLocation = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
-			FRotator UnitSpawnRotation = MilitaryBaseComp->MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
-			FActorSpawnParameters UnitSpawnParams;
-			UnitSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-			UnitSpawnParams.Owner = GetOwner();
-			UUnitDataAsset* SpawnedUnitDataAsset = MineModule->UnitToSpawnData;
-			AUnit* UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
-
-			if (UnitInstance)
+			if (Module->BuildingDataAsset == MineModule)
 			{
-				UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
-				UnitInstance->Speed = SpawnedUnitDataAsset->Speed;
-				UnitInstance->Price = SpawnedUnitDataAsset->Price;
-				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
-				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
-				if (UnitInstance->UnitMovementComponent)
-				{
-					UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
-					UnitInstance->UnitMovementComponent->bIsFlying = SpawnedUnitDataAsset->IsFlyingUnit;
-					UnitInstance->UnitMovementComponent->bIsReversed = bIsReversed;
-					UnitInstance->UnitMovementComponent->FindPathPoints();
-					UnitInstance->UnitMovementComponent->CreateMovementPath();
-					UnitInstance->UnitMovementComponent->bMovementEnabled = true;
-						
-				}
-				UResourcesComponent* ResourcesComponent = AIPawn->FindComponentByClass<UResourcesComponent>();
-				if (ResourcesComponent)
-				{
-					ResourcesComponent->UpdateResources(SpawnedUnitDataAsset->Price);
-				}
+				SpawnUnit(Module);
+				break;
 			}
-			
 		}
+		
 	}
+	
 }
 
 void UAI_Component::GetAvailableAttackingUnits()
