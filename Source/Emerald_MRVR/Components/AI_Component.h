@@ -110,5 +110,7 @@ public:
 		void OnUnitOccured(AUnit* Unit, AActor* Owner);
 
 	void HandleRandomSpawn();
+
+	bool bIsReversed;
 	
 };

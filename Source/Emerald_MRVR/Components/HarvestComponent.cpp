@@ -1,14 +1,9 @@
 #include "HarvestComponent.h"
-
-#include "BoxComponent.h"
-#include "ComponentUtils.h"
 #include "ResourcesComponent.h"
 #include "UnitMovementComponent.h"
 #include "Emerald_MRVR/Crystal.h"
-#include "Emerald_MRVR/DebugMacros.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
 
 
 UHarvestComponent::UHarvestComponent()

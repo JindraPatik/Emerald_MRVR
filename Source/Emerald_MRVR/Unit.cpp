@@ -28,8 +28,6 @@ AUnit::AUnit()
 	bNetLoadOnClient = true;
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
-
-
 }
 
 void AUnit::BeginPlay()

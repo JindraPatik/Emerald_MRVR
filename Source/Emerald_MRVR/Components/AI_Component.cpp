@@ -120,6 +120,16 @@ void UAI_Component::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 				UnitInstance->Price = SpawnedUnitDataAsset->Price;
 				UnitInstance->Strenght = SpawnedUnitDataAsset->Strength;
 				UnitInstance->Damage = SpawnedUnitDataAsset->Damage;
+				if (UnitInstance->UnitMovementComponent)
+				{
+					UnitInstance->UnitMovementComponent->UnitSpeed = SpawnedUnitDataAsset->Speed;
+					UnitInstance->UnitMovementComponent->bIsFlying = SpawnedUnitDataAsset->IsFlyingUnit;
+					UnitInstance->UnitMovementComponent->bIsReversed = bIsReversed;
+					UnitInstance->UnitMovementComponent->FindPathPoints();
+					UnitInstance->UnitMovementComponent->CreateMovementPath();
+					UnitInstance->UnitMovementComponent->bMovementEnabled = true;
+						
+				}
 				UResourcesComponent* ResourcesComponent = AIPawn->FindComponentByClass<UResourcesComponent>();
 				if (ResourcesComponent)
 				{
@@ -135,28 +145,29 @@ void UAI_Component::GetAvailableAttackingUnits()
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	if (MilitaryBaseComp)
-	{
-		for (AModuleActor* AvailableUnit : MilitaryBaseComp->AvailableModulesActors)
+		bIsReversed = MilitaryBaseComp->bIsReversed;
 		{
-			if (AvailableUnit)
+			for (AModuleActor* AvailableUnit : MilitaryBaseComp->AvailableModulesActors)
 			{
-				if (!AvailableUnit->BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
+				if (AvailableUnit)
 				{
-					if (AvailableUnit->BuildingDataAsset->UnitToSpawnData->IsAttacker)
+					if (!AvailableUnit->BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 					{
-						AvailableGroundUnits.Add(AvailableUnit);
+						if (AvailableUnit->BuildingDataAsset->UnitToSpawnData->IsAttacker)
+						{
+							AvailableGroundUnits.Add(AvailableUnit);
+						}
 					}
-				}
-				else
-				{
-					if (AvailableUnit->BuildingDataAsset->UnitToSpawnData->IsAttacker)
+					else
 					{
-						AvailableFlyingUnits.Add(AvailableUnit);
+						if (AvailableUnit->BuildingDataAsset->UnitToSpawnData->IsAttacker)
+						{
+							AvailableFlyingUnits.Add(AvailableUnit);
+						}
 					}
 				}
 			}
 		}
-	}
 }
 
 AUnit* UAI_Component::SpawnUnit(AModuleActor* Module)

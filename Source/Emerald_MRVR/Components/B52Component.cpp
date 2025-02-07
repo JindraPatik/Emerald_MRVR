@@ -62,9 +62,9 @@ void UB52Component::PerformSphereTrace(FHitResult& OutHit)
 		
 		bool bHit = World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(SphereRadius), CollisionQueryParams, CollisionResponseParams);
 
-	FColor TraceColor = bHit ? FColor::Red : FColor::Green;
+	/*FColor TraceColor = bHit ? FColor::Red : FColor::Green;
 	DrawDebugLine(World, Start, End, TraceColor, false, 1.f);
-	DrawDebugSphere(World, End, SphereRadius, 12, TraceColor, false, 1.f);
+	DrawDebugSphere(World, End, SphereRadius, 12, TraceColor, false, 1.f);*/
 	}
 }
 

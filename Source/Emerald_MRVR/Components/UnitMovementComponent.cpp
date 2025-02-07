@@ -5,7 +5,6 @@
 #include "Emerald_MRVR/EK_BlueprintFunctionLbrary.h"
 #include "Emerald_MRVR/MilitaryBase.h"
 #include "Emerald_MRVR/Unit.h"
-#include "Math/UnitConversion.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -48,46 +47,6 @@ void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		Accelerate(DeltaTime);
 	}
 }
-
-/*void UUnitMovementComponent::MoveTo(float DeltaTime) const
-{
-	if (!Unit)
-	{
-		return;
-	}
-
-	if (bMovementEnabled)
-	{
-		FVector ForwardDirection = Unit->GetActorForwardVector(); // Směr vpřed
-		ForwardDirection.Normalize();
-
-		// Konstantní rychlost vpřed
-		FVector ForwardMovement = ForwardDirection * (UnitSpeed * DeltaTime);
-
-		// Oscilace do stran a nahoru/dolů
-		UWorld* World = GetWorld();
-		if (World)
-		{
-			float Time = GetWorld()->GetTimeSeconds(); // Aktuální čas ve hře
-			float SidewaysOscillation = FMath::Sin(Time * OscillationFrequency) * OscillationAmplitudeX; // Oscilace do stran
-			float VerticalOscillation = FMath::Sin(Time * OscillationFrequency * 0.5f) * OscillationAmplitudeZ; // Oscilace nahoru/dolů
-
-			FVector OscillationOffset = FVector(SidewaysOscillation, 0.f, VerticalOscillation);
-
-			// Spočítání celkového pohybu
-			FVector DeltaLocation = ForwardMovement + OscillationOffset;
-			Unit->AddActorWorldOffset(DeltaLocation);
-
-			// Simulace Roll na základě pohybu do stran
-			float TargetRoll = SidewaysOscillation * RollFactor;
-			FRotator CurrentRotation = Unit->GetActorRotation();
-			FRotator NewRotation = FRotator(CurrentRotation.Pitch, CurrentRotation.Yaw, TargetRoll);
-
-			// Nastavení nové rotace
-			Unit->SetActorRotation(NewRotation);
-		}
-	}
-}*/
 
 void UUnitMovementComponent::FindPathPoints()
 {
@@ -137,12 +96,41 @@ void UUnitMovementComponent::CreateMovementPath()
 
 void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 {
-	if (!MovementSpline) return;
+	if (!MovementSpline || !Unit) return;
 
+	// Posun po spline
 	SplineDistance += (bIsReversedMovement ? -UnitSpeed : UnitSpeed) * DeltaTime;
 	SplineDistance = FMath::Clamp(SplineDistance, 0.0f, MovementSpline->GetSplineLength());
 
+	// Získání nové pozice na spline
 	FVector NewLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
+
+	// Směrový vektor (kam jednotka míří)
+	FVector ForwardVector = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
+
+	// Přidání sklonu (např. -20° dolů)
+	FRotator TargetRotation = ForwardVector.Rotation();
+	TargetRotation.Pitch += -2.0f; // Udržení mírného předklonu
+
+	// Výpočet náklonu křídel (Roll)
+	FVector FutureDirection = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance + 10.0f, ESplineCoordinateSpace::World);
+	float Curvature = FVector::CrossProduct(ForwardVector, FutureDirection).Z;
+
+	// Invertujeme, aby letadlo naklánělo křídla správně
+	float RollAmount = RollAmountMultiplier * FMath::Pow(FMath::Abs(Curvature), 1.5f) * FMath::Sign(Curvature);
+	TargetRotation.Roll = RollAmount; 
+
+	// Pokud je jednotka létající, ponecháme původní Yaw (nebude se otáčet okolo osy)
+	if (Unit->bIsFlyingUnit)
+	{
+		 TargetRotation.Pitch += -15.0f;
+	}
+
+	// Plynulá interpolace rotace
+	FRotator SmoothRotation = FMath::RInterpTo(GetOwner()->GetActorRotation(), TargetRotation, DeltaTime, SmoothRotationInterpSpeed);
+
+	// Aplikace nové rotace a pozice
+	Unit->SetActorRotation(SmoothRotation);
 	Unit->SetActorLocation(NewLocation);
 }
 

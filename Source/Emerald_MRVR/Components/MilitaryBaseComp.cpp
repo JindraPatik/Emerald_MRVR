@@ -93,7 +93,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 		FRotator SpawnRotation = SpawnPointForMilitaryBase->GetActorRotation();
 
 		SpawnPointForMilitaryBase->ActorHasTag("Reversed") ? bIsReversed = true : bIsReversed = false; // Set reversed bool
-		
+				
 		if (OwningPawn)
 		{
 			MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
