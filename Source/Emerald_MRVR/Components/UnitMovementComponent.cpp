@@ -123,7 +123,7 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 	// Pokud je jednotka létající, ponecháme původní Yaw (nebude se otáčet okolo osy)
 	if (Unit->bIsFlyingUnit)
 	{
-		 TargetRotation.Pitch += -15.0f;
+		 TargetRotation.Pitch += -8.0f;
 	}
 
 	// Plynulá interpolace rotace
