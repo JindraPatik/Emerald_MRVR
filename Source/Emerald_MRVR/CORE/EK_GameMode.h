@@ -12,7 +12,7 @@ class UCrystalSpawnerComp;
 class AMR_General;
 
 UCLASS()
-class EMERALD_MRVR_API AEK_GameMode : public AGM
+class EMERALD_MRVR_API AEK_GameMode : public AGM				//pb: co znamena EK? proc je tady a jinde ne? :)
 {
 	GENERATED_BODY()
 

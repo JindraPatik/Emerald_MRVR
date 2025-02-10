@@ -30,7 +30,7 @@ public:
 
 private:
 	UPROPERTY()
-		TObjectPtr<APawn> MyOwner;
+		TObjectPtr<APawn> MyOwner;				//pb: staci Owner, pripadne Parent nebo OwningPawn
 
 	UPROPERTY()
 		TObjectPtr<UResourcesComponent> ResourcesComponentInst;
@@ -65,13 +65,14 @@ public:
 		ATargetPoint* SpawnPointForMilitaryBase;
 
 	UPROPERTY(Replicated)
-		AMilitaryBase* MyBaseInstance;
+		AMilitaryBase* MyBaseInstance;		//pb: nedoporucuju nazvy typu My..., krom toho slovo Base se obvykle pouziva pro bazove tridy, takze toto na prvni pohled vypada, jako instance nejake bazovew tridy, 
+											//    coz je nesmysl
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
 		TSubclassOf<AUnit> UnitToSpawn;
 	
 	UFUNCTION(Category="SpawnBase")
-		void SpawnMilitaryBase(APawn* OwningPawn);
+		void SpawnMilitaryBase(APawn* OwningPawn);				//pb: pozor na konzistenci nazvu, zde OwningPawn, nize InOwner
 	
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
 		void Server_SpawnMilitaryBase(APawn* InOwner);

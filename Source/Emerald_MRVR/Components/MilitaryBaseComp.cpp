@@ -18,6 +18,9 @@ class AEKGameState;
 UMilitaryBaseComp::UMilitaryBaseComp()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
+	//pb: tady by mohla byt ta zavislost na Editoru, kvuli ktere nejde zcookovat hra!
+	//	ATargetPoint je  primarne editorovy helper objekt - viz. #if WITH_EDITORONLY_DATA v TargetPoint.h
 	SpawnPointForMilitaryBase = CreateDefaultSubobject<ATargetPoint>("MilitaryBaseTargetPoint");
 	SetIsReplicatedByDefault(true);
 }
@@ -51,6 +54,7 @@ void UMilitaryBaseComp::SetSpawnPointForBase()
 		return;
 	}
 	
+	//pb: potreboval bych vedet, jaka je zamyslena logika spawn pointu - zatim to takto nema vyznam, protoze se vybere vzdy ten prvni nalezeny
 	TArray<ATargetPoint*> AllBaseTargetPoints;
 	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
 	{

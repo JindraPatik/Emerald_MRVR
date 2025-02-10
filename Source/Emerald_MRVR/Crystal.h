@@ -24,7 +24,7 @@ protected:
 		USceneComponent* SceneRoot;
 
 	UPROPERTY(EditDefaultsOnly, Category="Body")
-		UStaticMeshComponent* SM_Crystal;
+		UStaticMeshComponent* SM_Crystal;			//pb: promenne SM_* - viz. obecny komentar v docu Coding + Naming Standards
 
 	UPROPERTY(EditDefaultsOnly, Category="Body")
 		UStaticMeshComponent* SM_Bottom;

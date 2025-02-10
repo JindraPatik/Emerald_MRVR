@@ -17,7 +17,7 @@ class UCrystalSpawnerComp;
 class AMR_General;
 
 UCLASS()
-class EMERALD_MRVR_API AGamemode_Single : public AGM
+class EMERALD_MRVR_API AGamemode_Single : public AGM				//pb: konzistence nazvu... AGameMode_Single
 {
 	GENERATED_BODY()
 	

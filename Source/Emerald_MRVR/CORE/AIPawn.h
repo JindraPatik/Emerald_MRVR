@@ -31,13 +31,13 @@ protected:
 	void EndGame(APawn* Looser);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="AI")
-		TObjectPtr<UAI_Component> AI_Component;
+		TObjectPtr<UAI_Component> AI_Component;						//pb: pozor na konzistenci nazvu: AI_Component vs HealthComponent vs MilitaryBaseComp
 	
 public:	
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		UMilitaryBaseComp* MilitaryBaseComp;
+		UMilitaryBaseComp* MilitaryBaseComp;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UHealthComponent> HealthComponent;

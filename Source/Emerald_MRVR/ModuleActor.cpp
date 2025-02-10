@@ -107,6 +107,14 @@ void AModuleActor::SpawnInfoWidget()
 void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
 {
 	UWidgetComponent* WidgetComponent = WidgetActor->FindComponentByClass<UWidgetComponent>();
+
+	//pb: v pripade delsich bloku uvnitr if { } je vhodnejsi podminku udelat s opacnou logikou a blok pak nemusi byt uvnitr { }, je to prehlednejsi. V tomto pripade bych to zmenil na:
+	//if (!WidgetComponent)		<<<
+	//	return;
+	//a zbytek muze zustat bez indentace v ramci tela funkce
+	//UTextBlock* TXT_Unit = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Unit"));
+	//... atd.
+
 	if (WidgetComponent)
 	{
 		// Unit name
@@ -200,6 +208,7 @@ void AModuleActor::DisableInfoWidget()
 
 void AModuleActor::SetOverlayMaterial()
 {
+	//pb: jeno?ádkové podmínky je lepší nedávat na jeden ?ádek, kv?li breakpoint?m, viz. doc
 	if (!OverlayMaterial) return;
 
 	TArray<UStaticMeshComponent*> MeshComponents;

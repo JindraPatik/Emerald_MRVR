@@ -38,6 +38,7 @@ public:
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 		TObjectPtr<UStaticMeshComponent> Body;
 
+	//pb: tyhle data jsou zaroven soucasti UUnitDataAsset. Bylo by dobre to sjednotit - mit pouze jednu strukturu a tu pak vyuzit na vsech mistech, kde je treba
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
 		float Speed;
 

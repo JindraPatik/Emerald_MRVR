@@ -7,10 +7,10 @@ enum class EKGUnits : uint8
 	E_Harvester		UMETA(DisplayName="Harvester"),
 	E_Thief			UMETA(DisplayName="Thief"),
 	E_BoostPicker	UMETA(DisplayName="BoostPicker"),
-	E_Colaborant	UMETA(DisplayName="Colaborant"),
+	E_Colaborant	UMETA(DisplayName="Colaborant"),		//pb: pozor na Colaborat vs Collaborant
 
 	// Ground Units
-	E_Explorel		UMETA(DisplayName="Explorel"),
+	E_Explorel		UMETA(DisplayName="Explorel"),			//pb: Explorer
 	E_Brigade		UMETA(DisplayName="Brigade"),
 	E_Tank			UMETA(DisplayName="Tank"),
 	E_ATACSM		UMETA(DisplayName="ATACSM"),
@@ -36,11 +36,11 @@ enum class EKGBuildings : uint8
 	E_UVKSC				UMETA(DisplayName="UVKSC"),
 	
 	// Ground Units
-	E_Microsoft			UMETA(DisplayName="Microsoft"),
+	E_Microsoft			UMETA(DisplayName="Microsoft"),			//pb: pozor na trademark
 	E_Barracs			UMETA(DisplayName="Barracs"),
 	E_Garage			UMETA(DisplayName="Garage"),
 	E_LPlatform			UMETA(DisplayName="LaunchPlatform"),
-	E_Minecraft			UMETA(DisplayName="Minecraft"),
+	E_Minecraft			UMETA(DisplayName="Minecraft"),			//pb: pozor na trademark
 	
 	// Aircraft
 	E_Heliport			UMETA(DisplayName="Heliport"),

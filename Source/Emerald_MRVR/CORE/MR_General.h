@@ -28,7 +28,7 @@ class AModuleActor;
 class AActor;
 
 UCLASS()
-class EMERALD_MRVR_API AMR_General : public ABasePawn
+class EMERALD_MRVR_API AMR_General : public ABasePawn			//pb: asi bych se klonil k jinemu nazvu nez General, ktery se pouziva v jinem smyslu
 {
 	GENERATED_BODY()
 
@@ -69,7 +69,7 @@ protected:
 		void EndGame(APawn* Looser);
 
 	UPROPERTY()
-	AModuleActor* PrevisouslyHighlightedModule;
+	AModuleActor* PrevisouslyHighlightedModule;		//pb: pozor na preklepy ;)
 	
 public:
 	
@@ -127,7 +127,7 @@ public:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryBase* BaseInstance;
+		AMilitaryBase* BaseInstance;					//pb: viz. commenty ke konzistenci nazvu
 
 	UPROPERTY(BlueprintReadOnly, Category="CORE")
 	bool bGameInitialized = false;

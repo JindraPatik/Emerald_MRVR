@@ -9,7 +9,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGameStartedSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameEndedSignature, APawn*, Looser);
 
 UCLASS()
-class EMERALD_MRVR_API AGM : public AGameMode
+class EMERALD_MRVR_API AGM : public AGameMode			//pb: pozor na tyhle zkratky (AGM), to neni dobre :)
 {
 	GENERATED_BODY()
 
@@ -34,7 +34,9 @@ public:
 	virtual void EndGame(APawn* Looser);
 
 	UPROPERTY(BlueprintReadWrite, Category="Gameplay")
-		bool bGameHasStarted = false;
+		bool bGameHasStarted = false;						//pb: proc mit bGameHasStarted a bGameHasEnded? muze vzniknout nekonzistentni stav. 
+															//	  Lepsi je mit napr. Enum E_MatchState {WaitingForPlayers, Ready, Started, InProgress, Ended}
+															//	  Nejlepe bych ale tento stav presunul do GameState - probereme Tvuj zamer, proc to mas zde
 
 	UPROPERTY(BlueprintReadWrite, Category="Gameplay")
 		bool bGameHasEnded = false;

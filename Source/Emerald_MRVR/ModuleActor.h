@@ -10,6 +10,8 @@ class UBuildingDataAsset;
 class AMR_General;
 class ACooldownActor;
 
+
+//pb: doporucoval bych jiny nazev nez ModuleActor, protoze pojem Module se v UE pouziva pro herni moduly (architektonicky prvek), viz. https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-modules
 UCLASS()
 class EMERALD_MRVR_API AModuleActor : public AActor, public IBuildingsModuleInterface
 {
