@@ -5,7 +5,7 @@
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Building.h"
-#include "Emerald_MRVR/Actors/Unit.h"
+#include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
