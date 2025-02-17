@@ -19,12 +19,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="Hervester Turn180 is bugged. Repair it">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/LVL_Single002.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/LVL_Single002.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HarvestComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/HarvestComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/UnitMovementComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Emerald_MRVR/Components/UnitMovementComponent.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="fcac7754-7cd4-4fb6-ba1a-6e7578762908" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -1145,7 +1140,7 @@
       <workItem from="1737548019099" duration="8462000" />
       <workItem from="1738321571131" duration="3567000" />
       <workItem from="1738938909120" duration="703000" />
-      <workItem from="1738940004986" duration="1279000" />
+      <workItem from="1738940004986" duration="1322000" />
     </task>
     <task id="LOCAL-00001" summary="JP::Spawn Military base added">
       <option name="closed" value="true" />
@@ -1387,7 +1382,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738941287732</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="xml">
+      <option name="closed" value="true" />
+      <created>1738941321978</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1738941321978</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1421,7 +1424,6 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="MilitaryBaseComp spawns Unit" />
     <MESSAGE value="Spawning base works" />
     <MESSAGE value="Custom movement comp, JustForward for now" />
     <MESSAGE value="Provizorni Combat v BP" />
@@ -1446,6 +1448,7 @@
     <MESSAGE value="ParticlesTest" />
     <MESSAGE value="AI Harvester spawn correction" />
     <MESSAGE value="Hervester Turn180 is bugged. Repair it" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hervester Turn180 is bugged. Repair it" />
+    <MESSAGE value="xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="xml" />
   </component>
 </project>
