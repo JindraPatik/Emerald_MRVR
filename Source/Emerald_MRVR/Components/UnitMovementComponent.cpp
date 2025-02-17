@@ -2,9 +2,9 @@
 #include "CombatComponent.h"
 #include "EngineUtils.h"
 #include "SplineComponent.h"
-#include "Emerald_MRVR/EK_BlueprintFunctionLbrary.h"
-#include "Emerald_MRVR/MilitaryBase.h"
-#include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/Support/EK_BlueprintFunctionLbrary.h"
+#include "Emerald_MRVR/Actors/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/Unit.h"
 #include "Net/UnrealNetwork.h"
 
 

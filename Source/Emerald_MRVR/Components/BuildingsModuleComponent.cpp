@@ -1,5 +1,5 @@
 #include "BuildingsModuleComponent.h"
-#include "Emerald_MRVR/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Net/UnrealNetwork.h"
 

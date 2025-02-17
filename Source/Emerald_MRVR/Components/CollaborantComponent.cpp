@@ -3,7 +3,7 @@
 #include "BoxComponent.h"
 #include "MortarComponent.h"
 #include "UnitMovementComponent.h"
-#include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/Actors/Unit.h"
 
 UCollaborantComponent::UCollaborantComponent()
 {

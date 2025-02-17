@@ -1,11 +1,7 @@
 #include "RocketComponent.h"
 
-#include "BoxComponent.h"
 #include "EngineUtils.h"
-#include "Emerald_MRVR/DebugMacros.h"
-#include "Emerald_MRVR/Unit.h"
-#include "Kismet/GameplayStatics.h"
-#include "NiagaraFunctionLibrary.h"
+#include "Emerald_MRVR/Actors/Unit.h"
 
 URocketComponent::URocketComponent()
 {

@@ -1,6 +1,6 @@
 ﻿#include "EK_BlueprintFunctionLbrary.h"
 #include "EngineUtils.h"
-#include "PathPoint.h"
+#include "Emerald_MRVR/Actors/PathPoint.h"
 #include "SplineComponent.h"
 
 USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldContextObject, FVector StartPoint,

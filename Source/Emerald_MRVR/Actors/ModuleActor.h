@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Interfaces/BuildingsModuleInterface.h"
+#include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
 #include "ModuleActor.generated.h"
 
 class UDownScaleComponent;

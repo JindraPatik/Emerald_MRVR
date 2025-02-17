@@ -1,9 +1,8 @@
 #include "B52Component.h"
 
 #include "UnitMovementComponent.h"
-#include "Emerald_MRVR/DebugMacros.h"
-#include "Emerald_MRVR/Projectile.h"
-#include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/Actors/Projectile.h"
+#include "Emerald_MRVR/Actors/Unit.h"
 
 
 UB52Component::UB52Component()

@@ -1,6 +1,6 @@
 #include "Crystal.h"
 #include "BoxComponent.h"
-#include "Components/DownScaleComponent.h"
+#include "Emerald_MRVR/Components/DownScaleComponent.h"
 
 ACrystal::ACrystal()
 {

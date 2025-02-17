@@ -1,9 +1,8 @@
 #include "Projectile.h"
 
 #include "BoxComponent.h"
-#include "CapsuleComponent.h"
 #include "Unit.h"
-#include "Components/DownScaleComponent.h"
+#include "Emerald_MRVR/Components/DownScaleComponent.h"
 
 
 AProjectile::AProjectile()

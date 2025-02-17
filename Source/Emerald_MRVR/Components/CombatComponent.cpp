@@ -5,8 +5,8 @@
 #include "HealthComponent.h"
 #include "ThiefComponent.h"
 #include "UnitMovementComponent.h"
-#include "Emerald_MRVR/MilitaryBase.h"
-#include "Emerald_MRVR/Unit.h"
+#include "Emerald_MRVR/Actors/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/Unit.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)

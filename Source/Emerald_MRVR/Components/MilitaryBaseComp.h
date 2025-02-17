@@ -2,8 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Emerald_MRVR/MilitaryBase.h"
-#include "Emerald_MRVR/ModuleActor.h"
+#include "Emerald_MRVR/Actors/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/ModuleActor.h"
 #include "MilitaryBaseComp.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);

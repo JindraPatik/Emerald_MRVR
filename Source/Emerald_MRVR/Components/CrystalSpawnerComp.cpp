@@ -1,9 +1,8 @@
 #include "CrystalSpawnerComp.h"
 #include "EngineUtils.h"
 #include "SplineComponent.h"
-#include "VectorTypes.h"
-#include "Emerald_MRVR/Crystal.h"
-#include "Emerald_MRVR/EK_BlueprintFunctionLbrary.h"
+#include "Emerald_MRVR/Actors/Crystal.h"
+#include "Emerald_MRVR/Support/EK_BlueprintFunctionLbrary.h"
 #include "Emerald_MRVR/CORE/GM.h"
 #include "Engine/TargetPoint.h"
 

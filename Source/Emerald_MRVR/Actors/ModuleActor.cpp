@@ -1,14 +1,14 @@
 #include "ModuleActor.h"
 #include "Blueprint/WidgetTree.h"
-#include "Components/DownScaleComponent.h"
+#include "Emerald_MRVR/Components/DownScaleComponent.h"
 #include "Components/ProgressBar.h"
-#include "Components/ResourcesComponent.h"
+#include "Emerald_MRVR/Components/ResourcesComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
-#include "Data/BuildingDataAsset.h"
-#include "Data/UnitDataAsset.h"
+#include "Emerald_MRVR/Data/BuildingDataAsset.h"
+#include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Net/UnrealNetwork.h"
-#include "Widgets/CooldownActor.h"
+#include "Emerald_MRVR/Widgets/CooldownActor.h"
 
 AModuleActor::AModuleActor()
 {
@@ -208,7 +208,7 @@ void AModuleActor::DisableInfoWidget()
 
 void AModuleActor::SetOverlayMaterial()
 {
-	//pb: jeno?ádkové podmínky je lepší nedávat na jeden ?ádek, kv?li breakpoint?m, viz. doc
+	//pb: jeno?ï¿½dkovï¿½ podmï¿½nky je lepï¿½ï¿½ nedï¿½vat na jeden ?ï¿½dek, kv?li breakpoint?m, viz. doc
 	if (!OverlayMaterial) return;
 
 	TArray<UStaticMeshComponent*> MeshComponents;

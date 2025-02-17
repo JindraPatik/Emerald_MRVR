@@ -2,8 +2,7 @@
 
 #include "MilitaryBaseComp.h"
 #include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/DebugMacros.h"
-#include "Emerald_MRVR/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/CORE/MR_General.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Net/UnrealNetwork.h"

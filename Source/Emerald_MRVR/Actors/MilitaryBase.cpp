@@ -1,7 +1,7 @@
 
 #include "MilitaryBase.h"
 #include "BoxComponent.h"
-#include "Components/DownScaleComponent.h"
+#include "Emerald_MRVR/Components/DownScaleComponent.h"
 #include "Net/UnrealNetwork.h"
 
 #define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()

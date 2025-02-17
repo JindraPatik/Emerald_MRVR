@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Emerald_MRVR/EKG_Enums.h"
+#include "Emerald_MRVR/Support/EKG_Enums.h"
 #include "Engine/DataAsset.h"
 #include "BuildingDataAsset.generated.h"
 
