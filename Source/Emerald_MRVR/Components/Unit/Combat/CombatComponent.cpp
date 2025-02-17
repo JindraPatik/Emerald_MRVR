@@ -1,10 +1,10 @@
 #include "CombatComponent.h"
 
-#include "CollaborantComponent.h"
-#include "HarvestComponent.h"
-#include "HealthComponent.h"
-#include "ThiefComponent.h"
-#include "UnitMovementComponent.h"
+#include "Emerald_MRVR/Components/CollaborantComponent.h"
+#include "Emerald_MRVR/Components/HarvesterComponent.h"
+#include "Emerald_MRVR/Components/Health/HealthComponent.h"
+#include "Emerald_MRVR/Components/ThiefComponent.h"
+#include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Unit.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
@@ -58,9 +58,9 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	{
 		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
-		UHarvestComponent* MyHarvestComponent = GetOwner()->FindComponentByClass<UHarvestComponent>();
+		UHarvesterComponent* MyHarvestComponent = GetOwner()->FindComponentByClass<UHarvesterComponent>();
 		UThiefComponent* MyThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
-		UHarvestComponent* OtherHarvestComponent = InActor->FindComponentByClass<UHarvestComponent>();
+		UHarvesterComponent* OtherHarvestComponent = InActor->FindComponentByClass<UHarvesterComponent>();
 		UThiefComponent* OtherThiefComponent = InActor->FindComponentByClass<UThiefComponent>();
 		UCollaborantComponent* CollaborantComponent = InActor->FindComponentByClass<UCollaborantComponent>();
 		

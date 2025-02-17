@@ -6,7 +6,7 @@
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Support/DebugMacros.h"
 #include "Emerald_MRVR/Actors/Unit.h"
-#include "Emerald_MRVR/Components/UnitMovementComponent.h"
+#include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 

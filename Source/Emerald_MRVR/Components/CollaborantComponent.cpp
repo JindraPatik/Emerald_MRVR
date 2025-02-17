@@ -1,8 +1,7 @@
 #include "CollaborantComponent.h"
 
-#include "BoxComponent.h"
 #include "MortarComponent.h"
-#include "UnitMovementComponent.h"
+#include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/Unit.h"
 
 UCollaborantComponent::UCollaborantComponent()

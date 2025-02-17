@@ -1,7 +1,7 @@
 #include "Unit.h"
 #include "BoxComponent.h"
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
-#include "Emerald_MRVR/Components/UnitMovementComponent.h"
+#include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Net/UnrealNetwork.h"
 
 AUnit::AUnit()

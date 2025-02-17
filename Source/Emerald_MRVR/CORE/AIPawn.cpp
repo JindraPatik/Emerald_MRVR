@@ -1,11 +1,10 @@
 #include "AIPawn.h"
 
 #include "EKGameState.h"
-#include "BehaviorTree/BehaviorTree.h"
-#include "Emerald_MRVR/Components/AIComponent.h"
-#include "Emerald_MRVR/Components/HealthComponent.h"
-#include "Emerald_MRVR/Components/MilitaryBaseComp.h"
-#include "Emerald_MRVR/Components/ResourcesComponent.h"
+#include "Emerald_MRVR/Components/AI/AIComponent.h"
+#include "Emerald_MRVR/Components/Health/HealthComponent.h"
+#include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 
 AAIPawn::AAIPawn()
 {

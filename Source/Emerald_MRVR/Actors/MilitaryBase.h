@@ -9,7 +9,7 @@ class UBuildingDataAsset;
 class AVRPlayerController;
 class AUnit;
 class UHealthComponent;
-class UBuildingsModuleComponent;
+class UBuildingsComponent;
 class UDownScaleComponent;
 class UBoxComponent;
 

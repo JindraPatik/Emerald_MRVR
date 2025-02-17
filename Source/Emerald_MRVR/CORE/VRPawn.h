@@ -7,7 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "VRPawn.generated.h"
 
-class UBuildingsModuleComponent;
+class UBuildingsComponent;
 class UWidgetInteractionComponent;
 class UBuildingDataAsset;
 class UMilitaryBaseComp;

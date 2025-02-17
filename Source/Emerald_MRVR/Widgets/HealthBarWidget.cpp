@@ -2,8 +2,7 @@
 
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
-#include "Emerald_MRVR/Components/HealthComponent.h"
-#include "Emerald_MRVR/Components/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/CORE/VRPawn.h"
 
 

@@ -4,7 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
 #include "Emerald_MRVR/CORE/VRPawn.h"
-#include "BuildingsModuleComponent.generated.h"
+#include "BuildingsComponent.generated.h"
 
 
 class AMilitaryBase;
@@ -13,12 +13,12 @@ class UStaticMeshComponent;
 class AVRPawn;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class EMERALD_MRVR_API UBuildingsModuleComponent : public UPrimitiveComponent, public IBuildingsModuleInterface
+class EMERALD_MRVR_API UBuildingsComponent : public UPrimitiveComponent, public IBuildingsModuleInterface
 {
 	GENERATED_BODY()
 
 public:	
-	UBuildingsModuleComponent();
+	UBuildingsComponent();
 
 protected:
 	virtual void BeginPlay() override;
@@ -34,7 +34,7 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Building")
 	UStaticMeshComponent* ModuleMeshInstance;
 
-	virtual UBuildingsModuleComponent* SelectModule() override;
+	virtual UBuildingsComponent* SelectModule() override;
 	
 	bool CurrentlyHighlightedState = false;
 	

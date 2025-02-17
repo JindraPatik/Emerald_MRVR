@@ -7,7 +7,7 @@
 // Add default functionality here for any IBuildingsModuleInterface functions that are not pure virtual.
 
 
-UBuildingsModuleComponent* IBuildingsModuleInterface::SelectModule()
+UBuildingsComponent* IBuildingsModuleInterface::SelectModule()
 {
 	return nullptr;
 }

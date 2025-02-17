@@ -1,5 +1,5 @@
 #include "UnitMovementComponent.h"
-#include "CombatComponent.h"
+#include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
 #include "EngineUtils.h"
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"

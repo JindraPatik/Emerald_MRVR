@@ -1,9 +1,9 @@
 #include "ThiefComponent.h"
 
-#include "CombatComponent.h"
-#include "HarvestComponent.h"
-#include "ResourcesComponent.h"
-#include "UnitMovementComponent.h"
+#include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
+#include "HarvesterComponent.h"
+#include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
+#include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Unit.h"
 
@@ -42,7 +42,7 @@ void UThiefComponent::HarvesterRobbery(AActor* OtherActor)
 {
 	if (OtherActor && (OtherActor->GetOwner() != GetOwner()->GetOwner())) // Not my Unit
 	{
-		UHarvestComponent* HarvestComponent = OtherActor->FindComponentByClass<UHarvestComponent>();
+		UHarvesterComponent* HarvestComponent = OtherActor->FindComponentByClass<UHarvesterComponent>();
 		UCombatComponent* CombatComponent = OtherActor->FindComponentByClass<UCombatComponent>();
 		UUnitMovementComponent* UnitMovementComponent = GetOwner()->FindComponentByClass<UUnitMovementComponent>();
 		

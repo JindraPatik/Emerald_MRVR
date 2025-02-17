@@ -5,7 +5,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "VRPawn.h"
 #include "VRPlayerController.h"
-#include "Emerald_MRVR/Components/CrystalSpawnerComp.h"
+#include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
 #include "Engine/TargetPoint.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerStart.h"

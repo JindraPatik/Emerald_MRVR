@@ -1,7 +1,7 @@
 #include "ResourcesWidget.h"
 
 #include "Components/TextBlock.h"
-#include "Emerald_MRVR/Components/ResourcesComponent.h"
+#include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/CORE/VRPawn.h"
 
 

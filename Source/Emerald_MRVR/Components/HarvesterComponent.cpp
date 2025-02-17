@@ -1,18 +1,18 @@
-#include "HarvestComponent.h"
-#include "ResourcesComponent.h"
-#include "UnitMovementComponent.h"
+#include "HarvesterComponent.h"
+#include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
+#include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/Crystal.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Unit.h"
 
 
-UHarvestComponent::UHarvestComponent()
+UHarvesterComponent::UHarvesterComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
 }
 
-void UHarvestComponent::BeginPlay()
+void UHarvesterComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
@@ -20,19 +20,19 @@ void UHarvestComponent::BeginPlay()
 	if (Unit)
 	{
 		
-		Unit->Body->OnComponentBeginOverlap.AddDynamic(this, &UHarvestComponent::OnBoxOverlap);
+		Unit->Body->OnComponentBeginOverlap.AddDynamic(this, &UHarvesterComponent::OnBoxOverlap);
 	}
 }
 
 
-void UHarvestComponent::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+void UHarvesterComponent::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	CollectCrystal(OtherActor);
 	DeliverCrystal(OtherActor);
 }
 
-void UHarvestComponent::CollectCrystal(AActor* HittedActor)
+void UHarvesterComponent::CollectCrystal(AActor* HittedActor)
 {
 	if (GetOwnerRole() != ROLE_Authority)
 	{
@@ -53,12 +53,12 @@ void UHarvestComponent::CollectCrystal(AActor* HittedActor)
 	}
 }
 
-void UHarvestComponent::Server_CollectCrystal_Implementation(AActor* HitActor)
+void UHarvesterComponent::Server_CollectCrystal_Implementation(AActor* HitActor)
 {
 	CollectCrystal(HitActor);
 }
 
-void UHarvestComponent::DeliverCrystal(AActor* HitActor)
+void UHarvesterComponent::DeliverCrystal(AActor* HitActor)
 {
 	if (GetOwnerRole() != ROLE_Authority)
 	{
@@ -85,7 +85,7 @@ void UHarvestComponent::DeliverCrystal(AActor* HitActor)
 	}
 }
 
-void UHarvestComponent::Server_DeliverCrystal_Implementation(AActor* HitActor)
+void UHarvesterComponent::Server_DeliverCrystal_Implementation(AActor* HitActor)
 {
 	DeliverCrystal(HitActor);
 }

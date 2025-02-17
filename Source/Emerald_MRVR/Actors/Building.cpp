@@ -2,7 +2,7 @@
 #include "Blueprint/WidgetTree.h"
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
 #include "Components/ProgressBar.h"
-#include "Emerald_MRVR/Components/ResourcesComponent.h"
+#include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"

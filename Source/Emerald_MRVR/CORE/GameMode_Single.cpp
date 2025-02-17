@@ -3,7 +3,7 @@
 #include "EngineUtils.h"
 #include "GameFramework/PlayerStart.h"
 #include "VRPawn.h"
-#include "Emerald_MRVR/Components/CrystalSpawnerComp.h"
+#include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
 
 
 AGameMode_Single::AGameMode_Single()

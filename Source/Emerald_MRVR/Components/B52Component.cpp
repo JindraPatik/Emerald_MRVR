@@ -1,6 +1,6 @@
 #include "B52Component.h"
 
-#include "UnitMovementComponent.h"
+#include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/Projectile.h"
 #include "Emerald_MRVR/Actors/Unit.h"
 

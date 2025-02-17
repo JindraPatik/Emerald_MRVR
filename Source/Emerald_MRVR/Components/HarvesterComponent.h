@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "HarvestComponent.generated.h"
+#include "HarvesterComponent.generated.h"
 
 class UBoxComponent;
 class AUnit;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class EMERALD_MRVR_API UHarvestComponent : public UActorComponent
+class EMERALD_MRVR_API UHarvesterComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	UHarvestComponent();
+	UHarvesterComponent();
 
 	UFUNCTION()
 	void OnBoxOverlap(

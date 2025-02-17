@@ -1,7 +1,6 @@
 #include "ResourcesComponent.h"
-
-#include "MilitaryBaseComp.h"
 #include "Components/WidgetComponent.h"
+#include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
 #include "Emerald_MRVR/CORE/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"

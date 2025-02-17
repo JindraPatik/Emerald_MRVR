@@ -1,8 +1,8 @@
 #include "MilitaryBaseComp.h"
 
 #include "EngineUtils.h"
-#include "ResourcesComponent.h"
-#include "UnitMovementComponent.h"
+#include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
+#include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Building.h"
 #include "Emerald_MRVR/Actors/Unit.h"
