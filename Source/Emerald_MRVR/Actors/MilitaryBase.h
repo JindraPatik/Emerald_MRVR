@@ -4,9 +4,9 @@
 #include "GameFramework/Actor.h"
 #include "MilitaryBase.generated.h"
 
-class AMR_General;
+class AVRPawn;
 class UBuildingDataAsset;
-class APC_MR_General;
+class AVRPlayerController;
 class AUnit;
 class UHealthComponent;
 class UBuildingsModuleComponent;

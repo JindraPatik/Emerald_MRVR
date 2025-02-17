@@ -4,7 +4,7 @@
 #include "ResourcesComponent.h"
 #include "UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
-#include "Emerald_MRVR/Actors/ModuleActor.h"
+#include "Emerald_MRVR/Actors/Building.h"
 #include "Emerald_MRVR/Actors/Unit.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
@@ -141,7 +141,7 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 							FVector ModuleSpawnLoc = ModulePos->GetComponentLocation();
 							FRotator ModuleSpawnRot = ModulePos->GetComponentRotation();
 							
-							AModuleActor* ModuleInstance = GetWorld()->SpawnActor<AModuleActor>(Module->ModuleClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
+							ABuilding* ModuleInstance = GetWorld()->SpawnActor<ABuilding>(Module->ModuleClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
 							AvailableModulesActors.Add(ModuleInstance);
 							if (ModuleInstance)
 							{
@@ -163,7 +163,7 @@ void UMilitaryBaseComp::Server_SpawnModule_Implementation(APawn* OwningPawn)
 	SpawnModules(OwningPawn);
 }
 
-AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
+AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Module)
 {
 	if (!GetOwner()->HasAuthority())
 	{
@@ -242,7 +242,7 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module)
 }
 
 
-void UMilitaryBaseComp::Server_SpawnUnit_Implementation(APawn* InstigatorPawn, AModuleActor* Module)
+void UMilitaryBaseComp::Server_SpawnUnit_Implementation(APawn* InstigatorPawn, ABuilding* Module)
 {
 	SpawnUnit(InstigatorPawn, Module);
 }

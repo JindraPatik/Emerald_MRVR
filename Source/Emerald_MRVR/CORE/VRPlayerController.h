@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "PC_MR_General.generated.h"
+#include "VRPlayerController.generated.h"
 
-class AMR_General;
+class AVRPawn;
 
 UCLASS()
-class EMERALD_MRVR_API APC_MR_General : public APlayerController
+class EMERALD_MRVR_API AVRPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
@@ -20,9 +20,9 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 	UPROPERTY()
-	AMR_General* General;
+	AVRPawn* General;
 
 public:
 	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere, Category = "CORE")
-	APC_MR_General* OtherPlayerPC;
+	AVRPlayerController* OtherPlayerPC;
 };

@@ -3,14 +3,14 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Emerald_MRVR/Interfaces/BuildingsModuleInterface.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/CORE/VRPawn.h"
 #include "BuildingsModuleComponent.generated.h"
 
 
 class AMilitaryBase;
 class UBuildingDataAsset;
 class UStaticMeshComponent;
-class AMR_General;
+class AVRPawn;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UBuildingsModuleComponent : public UPrimitiveComponent, public IBuildingsModuleInterface

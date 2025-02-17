@@ -2,7 +2,7 @@
 #include "CombatComponent.h"
 #include "EngineUtils.h"
 #include "SplineComponent.h"
-#include "Emerald_MRVR/Support/EK_BlueprintFunctionLbrary.h"
+#include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Unit.h"
 #include "Net/UnrealNetwork.h"
@@ -52,7 +52,7 @@ void UUnitMovementComponent::FindPathPoints()
 {
 	if (!Unit) return;
 	
-	PathPoints = UEK_BlueprintFunctionLbrary::SortPathPoints(this, PathPointClass, Unit->bIsReversed);
+	PathPoints = UEmeraldBlueprintFunctionLibrary::SortPathPoints(this, PathPointClass, Unit->bIsReversed);
 }
 
 void UUnitMovementComponent::CreateMovementPath()
@@ -91,7 +91,7 @@ void UUnitMovementComponent::CreateMovementPath()
 	// Ověříme, že jsme našli platný EndPoint
 	if (End == FVector::ZeroVector) return;
 	
-	MovementSpline = UEK_BlueprintFunctionLbrary::CreateSplinePath(this, Start, End, PathPoints,GetOwner());
+	MovementSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, Start, End, PathPoints,GetOwner());
 }
 
 void UUnitMovementComponent::MoveAlongPath(float DeltaTime)

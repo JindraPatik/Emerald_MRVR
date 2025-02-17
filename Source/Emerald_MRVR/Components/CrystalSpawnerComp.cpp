@@ -2,8 +2,8 @@
 #include "EngineUtils.h"
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Actors/Crystal.h"
-#include "Emerald_MRVR/Support/EK_BlueprintFunctionLbrary.h"
-#include "Emerald_MRVR/CORE/GM.h"
+#include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
+#include "Emerald_MRVR/CORE/GameModeCommon.h"
 #include "Engine/TargetPoint.h"
 
 
@@ -17,7 +17,7 @@ UCrystalSpawnerComp::UCrystalSpawnerComp()
 void UCrystalSpawnerComp::BeginPlay()
 {
 	Super::BeginPlay();
-	AGM* GM = Cast<AGM>(GetWorld()->GetAuthGameMode());
+	AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
 	if (GM)
 	{
 		GM->OnGameEndedDelegate.AddDynamic(this, &UCrystalSpawnerComp::StopSpawning);
@@ -50,14 +50,14 @@ void UCrystalSpawnerComp::SpawnCrystal()
 	FVector Target2_Pos = Targets[1]->GetActorLocation();
 
 	// Bacha, bIsreversed asi záleží na načtení pole bodů v levlu
-	TArray<APathPoint*> SplinePoints = UEK_BlueprintFunctionLbrary::SortPathPoints(this, PathPointClass, true);
+	TArray<APathPoint*> SplinePoints = UEmeraldBlueprintFunctionLibrary::SortPathPoints(this, PathPointClass, true);
 
 	if (SplinePoints.IsEmpty())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("No PathPoints found for Crystal spline."));
 	}
 	
-	USplineComponent* CrystalSpline = UEK_BlueprintFunctionLbrary::CreateSplinePath(this, Target1_Pos, Target2_Pos, SplinePoints, GetOwner());
+	USplineComponent* CrystalSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, Target1_Pos, Target2_Pos, SplinePoints, GetOwner());
 
 	if (!CrystalSpline)
 	{

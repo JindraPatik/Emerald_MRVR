@@ -2,7 +2,7 @@
 
 #include "MilitaryBaseComp.h"
 #include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/CORE/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
 #include "Net/UnrealNetwork.h"
@@ -25,7 +25,7 @@ void UResourcesComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
-	AGM* GM = Cast<AGM>(GetWorld()->GetAuthGameMode());
+	AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
 	if (GM)
 	{
 		GM->OnGameEndedDelegate.AddDynamic(this, &UResourcesComponent::StopGrowResources);

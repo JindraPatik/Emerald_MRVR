@@ -1,28 +1,28 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GM.h"
+#include "GameModeCommon.h"
 #include "GameFramework/GameMode.h"
-#include "EK_GameMode.generated.h"
+#include "Multiplayer_GameMode.generated.h"
 
-class APC_MR_General;
+class AVRPlayerController;
 class ATargetPoint;
 class APlayerStart;
 class UCrystalSpawnerComp;
-class AMR_General;
+class AVRPawn;
 
 UCLASS()
-class EMERALD_MRVR_API AEK_GameMode : public AGM				//pb: co znamena EK? proc je tady a jinde ne? :)
+class EMERALD_MRVR_API AMultiplayer_GameMode : public AGameModeCommon				//pb: co znamena EK? proc je tady a jinde ne? :)
 {
 	GENERATED_BODY()
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
-		TSubclassOf<AMR_General> PawnToSpawn;
+		TSubclassOf<AVRPawn> PawnToSpawn;
 
 	
 public:
-	AEK_GameMode();
+	AMultiplayer_GameMode();
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;

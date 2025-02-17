@@ -3,21 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GM.h"
+#include "GameModeCommon.h"
 #include "GameFramework/GameMode.h"
-#include "Gamemode_Single.generated.h"
+#include "GameMode_Single.generated.h"
 
 
 class AUnitAIController;
 class AAIPawn;
-class APC_MR_General;
+class AVRPlayerController;
 class ATargetPoint;
 class APlayerStart;
 class UCrystalSpawnerComp;
-class AMR_General;
+class AVRPawn;
 
 UCLASS()
-class EMERALD_MRVR_API AGamemode_Single : public AGM				//pb: konzistence nazvu... AGameMode_Single
+class EMERALD_MRVR_API AGameMode_Single : public AGameModeCommon				//pb: konzistence nazvu... AGameMode_Single
 {
 	GENERATED_BODY()
 	
@@ -26,10 +26,10 @@ protected:
 		void StartGame() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
-		TSubclassOf<AMR_General> Mr_General_Class;
+		TSubclassOf<AVRPawn> Mr_General_Class;
 
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
-		TSubclassOf<AMR_General> SpectatorPawn;
+		TSubclassOf<AVRPawn> SpectatorPawn;
 
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 		TSubclassOf<AAIPawn> EnemyToSpawn;
@@ -56,7 +56,7 @@ protected:
 		bool bIsSpectator = false;
 	
 public:
-	AGamemode_Single();
+	AGameMode_Single();
 	virtual void BeginPlay() override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;

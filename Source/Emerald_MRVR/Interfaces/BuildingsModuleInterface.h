@@ -8,7 +8,7 @@
 
 class AMilitaryBase;
 class UBuildingsModuleComponent;
-class AMR_General;
+class AVRPawn;
 class AUnit;
 
 // This class does not need to be modified.
@@ -28,5 +28,5 @@ class EMERALD_MRVR_API IBuildingsModuleInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual UBuildingsModuleComponent* SelectModule();
-	virtual void DeployUnit(AMR_General* InPawn, AMilitaryBase* BaseInstance);
+	virtual void DeployUnit(AVRPawn* InPawn, AMilitaryBase* BaseInstance);
 };

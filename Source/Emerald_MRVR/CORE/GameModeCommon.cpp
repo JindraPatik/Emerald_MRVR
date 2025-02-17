@@ -1,4 +1,4 @@
-#include "GM.h"
+#include "GameModeCommon.h"
 #include "TimerManager.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
@@ -11,18 +11,18 @@
 #include "Kismet/GameplayStatics.h"
 
 
-void AGM::BeginPlay()
+void AGameModeCommon::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void AGM::StartCountdown()
+void AGameModeCommon::StartCountdown()
 {
 	SpawnCountDownWidgetActor();
-	GetWorld()->GetTimerManager().SetTimer(CountDownHandle, this, &AGM::DecreaseCounter, 1.0f, true);
+	GetWorld()->GetTimerManager().SetTimer(CountDownHandle, this, &AGameModeCommon::DecreaseCounter, 1.0f, true);
 }
 
-void AGM::DecreaseCounter()
+void AGameModeCommon::DecreaseCounter()
 {
 	UWidgetComponent* CountdownWidgetInst = CountDownWidgetActorInstance->FindComponentByClass<UWidgetComponent>();
 	UTextBlock* TXT_CountDown = Cast<UTextBlock>(CountdownWidgetInst->GetWidget()->WidgetTree->FindWidget("TXT_CountDown"));
@@ -47,7 +47,7 @@ void AGM::DecreaseCounter()
 	}
 }
 
-void AGM::SpawnCountDownWidgetActor()
+void AGameModeCommon::SpawnCountDownWidgetActor()
 {
 	DBG(5.f, "GM::CD widget spawned")
 	FActorSpawnParameters SpawnParameters;
@@ -58,12 +58,12 @@ void AGM::SpawnCountDownWidgetActor()
 }
 
 
-void AGM::StartGame()
+void AGameModeCommon::StartGame()
 {
 	bGameHasStarted = true;
 }
 
-void AGM::EndGame(APawn* Looser)
+void AGameModeCommon::EndGame(APawn* Looser)
 {
 	bGameHasEnded = true;
 	StopAllUnits();
@@ -71,7 +71,7 @@ void AGM::EndGame(APawn* Looser)
 	
 }
 
-void AGM::StopAllUnits()
+void AGameModeCommon::StopAllUnits()
 {
 	TArray<AActor*> AllUnits;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AUnit::StaticClass(), AllUnits);

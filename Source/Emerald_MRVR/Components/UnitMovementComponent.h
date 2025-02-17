@@ -7,8 +7,8 @@
 class APathPoint;
 class USplineComponent;
 class AMilitaryBase;
-class APC_MR_General;
-class AMR_General;
+class AVRPlayerController;
+class AVRPawn;
 class AUnit;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )

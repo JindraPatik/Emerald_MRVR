@@ -1,4 +1,4 @@
-#include "ModuleActor.h"
+#include "Building.h"
 #include "Blueprint/WidgetTree.h"
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
 #include "Components/ProgressBar.h"
@@ -10,7 +10,7 @@
 #include "Net/UnrealNetwork.h"
 #include "Emerald_MRVR/Widgets/CooldownActor.h"
 
-AModuleActor::AModuleActor()
+ABuilding::ABuilding()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
@@ -27,20 +27,20 @@ AModuleActor::AModuleActor()
 	InfoWidgetSpawnPoint->SetupAttachment(RootComponent);
 }
 
-void AModuleActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AModuleActor, ModuleMeshRoot);
-	DOREPLIFETIME(AModuleActor, BuildingDataAsset);
-	DOREPLIFETIME(AModuleActor, SceneRoot);
+	DOREPLIFETIME(ABuilding, ModuleMeshRoot);
+	DOREPLIFETIME(ABuilding, BuildingDataAsset);
+	DOREPLIFETIME(ABuilding, SceneRoot);
 }
 
-void AModuleActor::BeginPlay()
+void ABuilding::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void AModuleActor::Tick(float DeltaTime)
+void ABuilding::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -73,16 +73,16 @@ void AModuleActor::Tick(float DeltaTime)
 	}
 }
 
-void AModuleActor::EnableSpawning()
+void ABuilding::EnableSpawning()
 {
 	bSpawningEnabled = true;
 }
 
-void AModuleActor::Cooldown(float CD_Time)
+void ABuilding::Cooldown(float CD_Time)
 {
 	CooldownDuration = CD_Time;
 	ElapsedTime = 0.f;
-	GetWorld()->GetTimerManager().SetTimer(CD_Handle, this, &AModuleActor::EnableSpawning, CD_Time, false);
+	GetWorld()->GetTimerManager().SetTimer(CD_Handle, this, &ABuilding::EnableSpawning, CD_Time, false);
 	SetActorTickEnabled(true);
 	if (CooldownWidgetInstance)
 	{
@@ -90,7 +90,7 @@ void AModuleActor::Cooldown(float CD_Time)
 	}
 }
 
-void AModuleActor::SpawnInfoWidget()
+void ABuilding::SpawnInfoWidget()
 {
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -104,7 +104,7 @@ void AModuleActor::SpawnInfoWidget()
 	DisableInfoWidget();
 }
 
-void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
+void ABuilding::SetInfoWidgetStats(AActor* WidgetActor)
 {
 	UWidgetComponent* WidgetComponent = WidgetActor->FindComponentByClass<UWidgetComponent>();
 
@@ -158,7 +158,7 @@ void AModuleActor::SetInfoWidgetStats(AActor* WidgetActor)
 	}
 }
 
-void AModuleActor::EnableInfoWidget()
+void ABuilding::EnableInfoWidget()
 {
 	InfoWidgetActorInst->SetActorHiddenInGame(false);
 	InfoWidgetActorInst->SetActorTickEnabled(true);
@@ -184,7 +184,7 @@ void AModuleActor::EnableInfoWidget()
 	}
 }
 
-void AModuleActor::SpawnCooldownWidget()
+void ABuilding::SpawnCooldownWidget()
 {
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = GetOwner();
@@ -194,7 +194,7 @@ void AModuleActor::SpawnCooldownWidget()
 	
 }
 
-void AModuleActor::DisableInfoWidget()
+void ABuilding::DisableInfoWidget()
 {
 	InfoWidgetActorInst->SetActorHiddenInGame(true);
 	InfoWidgetActorInst->SetActorTickEnabled(false);
@@ -206,7 +206,7 @@ void AModuleActor::DisableInfoWidget()
 }
 
 
-void AModuleActor::SetOverlayMaterial()
+void ABuilding::SetOverlayMaterial()
 {
 	//pb: jeno?�dkov� podm�nky je lep�� ned�vat na jeden ?�dek, kv?li breakpoint?m, viz. doc
 	if (!OverlayMaterial) return;
@@ -226,7 +226,7 @@ void AModuleActor::SetOverlayMaterial()
 	}
 }
 
-void AModuleActor::RemoveOverlayMaterial()
+void ABuilding::RemoveOverlayMaterial()
 {
 	TArray<UStaticMeshComponent*> MeshComponents;
 	GetComponents<UStaticMeshComponent>(MeshComponents);

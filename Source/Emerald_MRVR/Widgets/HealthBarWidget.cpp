@@ -4,14 +4,14 @@
 #include "Components/TextBlock.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/CORE/VRPawn.h"
 
 
 void UHealthBarWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	AMR_General* General = Cast<AMR_General>(GetOwningPlayerPawn());
+	AVRPawn* General = Cast<AVRPawn>(GetOwningPlayerPawn());
     	
 	if (General && General->ResourcesComponent && General->HealthComponent)
 	{
@@ -24,7 +24,7 @@ void UHealthBarWidget::NativeConstruct()
 
 void UHealthBarWidget::UpdateHealthWidget(float NewHealth)
 {
-	AMR_General* General = Cast<AMR_General>(GetOwningPlayerPawn());
+	AVRPawn* General = Cast<AVRPawn>(GetOwningPlayerPawn());
 	
     	if (General && General->HealthComponent)
     	{

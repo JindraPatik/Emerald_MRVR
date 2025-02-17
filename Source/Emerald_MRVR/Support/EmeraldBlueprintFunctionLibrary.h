@@ -2,13 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "EK_BlueprintFunctionLbrary.generated.h"
+#include "EmeraldBlueprintFunctionLibrary.generated.h"
 
 class APathPoint;
 class USplineComponent;
 
 UCLASS()
-class EMERALD_MRVR_API UEK_BlueprintFunctionLbrary : public UBlueprintFunctionLibrary
+class EMERALD_MRVR_API UEmeraldBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 

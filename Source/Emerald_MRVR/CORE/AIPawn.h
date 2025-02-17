@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MR_General.h"
+#include "VRPawn.h"
 #include "GameFramework/Pawn.h"
 #include "AIPawn.generated.h"
 
@@ -10,7 +10,7 @@ class UMilitaryBaseComp;
 class UHealthComponent;
 class UResourcesComponent;
 class AMilitaryBase;
-class UAI_Component;
+class UAIComponent;
 class AGameState;
 
 UCLASS()
@@ -31,7 +31,7 @@ protected:
 	void EndGame(APawn* Looser);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="AI")
-		TObjectPtr<UAI_Component> AI_Component;						//pb: pozor na konzistenci nazvu: AI_Component vs HealthComponent vs MilitaryBaseComp
+		TObjectPtr<UAIComponent> AI_Component;						//pb: pozor na konzistenci nazvu: AI_Component vs HealthComponent vs MilitaryBaseComp
 	
 public:	
 	virtual void Tick(float DeltaTime) override;

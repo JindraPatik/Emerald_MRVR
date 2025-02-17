@@ -1,6 +1,6 @@
 #include "BuildingsModuleComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/CORE/VRPawn.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -13,7 +13,7 @@ UBuildingsModuleComponent::UBuildingsModuleComponent()
 void UBuildingsModuleComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	AMR_General* General = Cast<AMR_General>(GetOwner()->GetOwner());
+	AVRPawn* General = Cast<AVRPawn>(GetOwner()->GetOwner());
 	MyBaseInstance = Cast<AMilitaryBase>(GetOwner());
 }
 

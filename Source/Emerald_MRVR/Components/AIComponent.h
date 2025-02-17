@@ -3,10 +3,10 @@
 #include "CoreMinimal.h"
 #include "MilitaryBaseComp.h"
 #include "Components/ActorComponent.h"
-#include "AI_Component.generated.h"
+#include "AIComponent.generated.h"
 
 
-class AModuleActor;
+class ABuilding;
 class UBuildingDataAsset;
 class AGameState;
 class ACrystal;
@@ -19,12 +19,12 @@ enum EUnitFightStatus
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class EMERALD_MRVR_API UAI_Component : public UActorComponent
+class EMERALD_MRVR_API UAIComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	UAI_Component();
+	UAIComponent();
 	void GetAvailableAttackingUnits();
 
 protected:
@@ -32,11 +32,11 @@ protected:
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
-	AUnit* SpawnUnit(AModuleActor* Module);
+	AUnit* SpawnUnit(ABuilding* Module);
 	void SpawnRandomUnit();
 	
 	UFUNCTION()
-		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<AModuleActor*> Availables);
+		void TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
 
 	UPROPERTY()
 		float DefendingAgainstValue;
@@ -79,22 +79,22 @@ protected:
 		float RandomSpawnMax = 10.f;
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
-		TArray<AModuleActor*> AvailableGroundUnits;
+		TArray<ABuilding*> AvailableGroundUnits;
 
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
-		TArray<AModuleActor*> AvailableFlyingUnits;
+		TArray<ABuilding*> AvailableFlyingUnits;
 
 	UFUNCTION()
 		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
 	
 	UFUNCTION()
-		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryBaseComp* MilitaryBaseComp, TArray<AModuleActor*> Availables);
+		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryBaseComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
 
 	UPROPERTY()
-		TObjectPtr<AModuleActor> CheapestStronger; // Temp variable for Cheapest stronger Unit
+		TObjectPtr<ABuilding> CheapestStronger; // Temp variable for Cheapest stronger Unit
 
 	UPROPERTY()
-		TObjectPtr<AModuleActor> CheapestSame; // Temp variable for Cheapest stronger Unit
+		TObjectPtr<ABuilding> CheapestSame; // Temp variable for Cheapest stronger Unit
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float DefendingRate = 1.f;

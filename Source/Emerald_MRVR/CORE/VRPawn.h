@@ -2,17 +2,17 @@
 
 #include "CoreMinimal.h"
 #include "BasePawn.h"
-#include "EK_GameMode.h"
+#include "Multiplayer_GameMode.h"
 #include "GameFramework/Pawn.h"
 #include "EnhancedInputSubsystems.h"
-#include "MR_General.generated.h"
+#include "VRPawn.generated.h"
 
 class UBuildingsModuleComponent;
 class UWidgetInteractionComponent;
 class UBuildingDataAsset;
 class UMilitaryBaseComp;
 class AUnit;
-class APC_MR_General;
+class AVRPlayerController;
 class UResourcesComponent;
 class UHealthComponent;
 class UCharacterMovementComponent;
@@ -24,18 +24,18 @@ class UStaticMeshComponent;
 class ATargetPoint;
 class UInputMappingContext;
 class UInputAction;
-class AModuleActor;
+class ABuilding;
 class AActor;
 
 UCLASS()
-class EMERALD_MRVR_API AMR_General : public ABasePawn			//pb: asi bych se klonil k jinemu nazvu nez General, ktery se pouziva v jinem smyslu
+class EMERALD_MRVR_API AVRPawn : public ABasePawn			//pb: asi bych se klonil k jinemu nazvu nez General, ktery se pouziva v jinem smyslu
 {
 	GENERATED_BODY()
 
 public:
 
 protected:
-	AMR_General();
+	AVRPawn();
 	virtual void PostInitializeComponents() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -50,7 +50,7 @@ protected:
 	void PerformSphereTrace(
 		UMotionControllerComponent* Controller,
 		UStaticMeshComponent* ImpactPointer,
-		AModuleActor*& CurrentlyHoveredModule);
+		ABuilding*& CurrentlyHoveredModule);
 	void EnablePlayerInput();
 
 	UPROPERTY(Replicated)
@@ -69,13 +69,13 @@ protected:
 		void EndGame(APawn* Looser);
 
 	UPROPERTY()
-	AModuleActor* PrevisouslyHighlightedModule;		//pb: pozor na preklepy ;)
+	ABuilding* PrevisouslyHighlightedModule;		//pb: pozor na preklepy ;)
 	
 public:
 	
 	// CORE
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
-		AEK_GameMode* GameMode;
+		AMultiplayer_GameMode* GameMode;
 	// ~CORE
 
 	// INPUT
@@ -89,10 +89,10 @@ public:
 		UMilitaryBaseComp* MilitaryBaseComp;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-		AModuleActor* CurrentlyHoveredModule_L;
+		ABuilding* CurrentlyHoveredModule_L;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-		AModuleActor* CurrentlyHoveredModule_R;
+		ABuilding* CurrentlyHoveredModule_R;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
 		TSubclassOf<AActor> PreviewUnitClass;
@@ -101,7 +101,7 @@ public:
 		AActor* PreviewInstance;
 
 	UFUNCTION()
-		void SpawnPreviewUnit(AModuleActor* ModuleActor);
+		void SpawnPreviewUnit(ABuilding* ModuleActor);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		UInputAction* IA_SpawnUnit;
@@ -138,7 +138,7 @@ public:
 	bool bPossesed = false;
 
 	UPROPERTY(ReplicatedUsing=OnSelectedModuleChanged, VisibleAnywhere, BlueprintReadWrite, Category="MilitaryBase")
-		AModuleActor* SelectedModuleActor = nullptr;
+		ABuilding* SelectedModuleActor = nullptr;
 
 	UFUNCTION()
 	void OnSelectedModuleChanged();

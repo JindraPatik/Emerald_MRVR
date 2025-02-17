@@ -1,9 +1,9 @@
-﻿#include "EK_BlueprintFunctionLbrary.h"
+﻿#include "EmeraldBlueprintFunctionLibrary.h"
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Actors/PathPoint.h"
 #include "SplineComponent.h"
 
-USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldContextObject, FVector StartPoint,
+USplineComponent* UEmeraldBlueprintFunctionLibrary::CreateSplinePath(UObject* WorldContextObject, FVector StartPoint,
 																FVector EndPoint, TArray<APathPoint*> PathPoints, AActor* Outer)
 {
 	if (!WorldContextObject) return nullptr;
@@ -32,7 +32,7 @@ USplineComponent* UEK_BlueprintFunctionLbrary::CreateSplinePath(UObject* WorldCo
 	return SplineComponent;
 }
 
-TArray<APathPoint*> UEK_BlueprintFunctionLbrary::SortPathPoints(UObject* WorldContextObject, TSubclassOf<APathPoint> PathPointClass, bool bIsReversed)
+TArray<APathPoint*> UEmeraldBlueprintFunctionLibrary::SortPathPoints(UObject* WorldContextObject, TSubclassOf<APathPoint> PathPointClass, bool bIsReversed)
 {
 	if (!WorldContextObject) return {};
 

@@ -5,7 +5,7 @@
 #include "HealthComponent.generated.h"
 
 class UHealthBarWidget;
-class AEK_GameMode;
+class AMultiplayer_GameMode;
 class UMilitaryBaseComp;
 
 

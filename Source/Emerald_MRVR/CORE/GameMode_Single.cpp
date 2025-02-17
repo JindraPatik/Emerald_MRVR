@@ -1,37 +1,37 @@
-#include "Gamemode_Single.h"
+#include "GameMode_Single.h"
 #include "AIPawn.h"
 #include "EngineUtils.h"
 #include "GameFramework/PlayerStart.h"
-#include "MR_General.h"
+#include "VRPawn.h"
 #include "Emerald_MRVR/Components/CrystalSpawnerComp.h"
 
 
-AGamemode_Single::AGamemode_Single()
+AGameMode_Single::AGameMode_Single()
 {
 	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
-	Mr_General_Class = AMR_General::StaticClass();
+	Mr_General_Class = AVRPawn::StaticClass();
 }
 
-void AGamemode_Single::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+void AGameMode_Single::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
 	FindAllPlayerStarts();
 }
 
-void AGamemode_Single::BeginPlay()
+void AGameMode_Single::BeginPlay()
 {
 	Super::BeginPlay();
 	SpawnEnemyAI();
 	StartCountdown();
 }
 
-void AGamemode_Single::PostLogin(APlayerController* NewPlayer)
+void AGameMode_Single::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 	SpawnPlayer(NewPlayer);
 }
 
-void AGamemode_Single::StartGame()
+void AGameMode_Single::StartGame()
 {
 	Super::StartGame();
 	if (CrystalSpawner)
@@ -41,7 +41,7 @@ void AGamemode_Single::StartGame()
 	
 }
 
-void AGamemode_Single::FindAllPlayerStarts()
+void AGameMode_Single::FindAllPlayerStarts()
 {
 	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
 	{
@@ -59,7 +59,7 @@ void AGamemode_Single::FindAllPlayerStarts()
 }
 
 // Iterate all Player starts and return FTransform
-FTransform AGamemode_Single::FindMyPlayerStart()
+FTransform AGameMode_Single::FindMyPlayerStart()
 {
 	if (AllPlayerStarts.Num() == 0) 
 	{
@@ -80,7 +80,7 @@ FTransform AGamemode_Single::FindMyPlayerStart()
 }
 
 
-void AGamemode_Single::SpawnPlayer(APlayerController* PlayerController)
+void AGameMode_Single::SpawnPlayer(APlayerController* PlayerController)
 {
 	if (!PlayerController) return;
 
@@ -102,14 +102,14 @@ void AGamemode_Single::SpawnPlayer(APlayerController* PlayerController)
 	// Spawn spectator player?
 	UClass* PawnToSpawn = bIsSpectator ? SpectatorPawn : Mr_General_Class;
 
-	AMR_General* NewPawn = GetWorld()->SpawnActor<AMR_General>(PawnToSpawn, Location, Rotation, SpawnParams);
+	AVRPawn* NewPawn = GetWorld()->SpawnActor<AVRPawn>(PawnToSpawn, Location, Rotation, SpawnParams);
 	if (NewPawn)
 	{
 		PlayerController->Possess(NewPawn);
 	}
 }
 
-void AGamemode_Single::SpawnEnemyAI()
+void AGameMode_Single::SpawnEnemyAI()
 {
 	FVector Location = FVector::ZeroVector;
 	FRotator Rotation = FRotator::ZeroRotator;

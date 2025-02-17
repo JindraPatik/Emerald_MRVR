@@ -3,7 +3,7 @@
 #include "MilitaryBaseComp.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
-#include "Emerald_MRVR/CORE/MR_General.h"
+#include "Emerald_MRVR/CORE/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Net/UnrealNetwork.h"
 
@@ -41,7 +41,7 @@ void UHealthComponent::OnRep_OnHealthChanged()
 			}
 			if (Health <= 0)
 			{
-				AGM* GM = Cast<AGM>(GetWorld()->GetAuthGameMode());
+				AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
 				if (GM)
 				{
 					GM->EndGame(Cast<APawn>(GetOwner()));

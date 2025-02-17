@@ -1,9 +1,9 @@
-#include "MR_General.h"
+#include "VRPawn.h"
 
 #include "EKGameState.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
-#include "EK_GameMode.h"
+#include "Multiplayer_GameMode.h"
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/HealthComponent.h"
 #include "Emerald_MRVR/Components/ResourcesComponent.h"
@@ -12,14 +12,14 @@
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/Actors/ModuleActor.h"
+#include "Emerald_MRVR/Actors/Building.h"
 #include "Emerald_MRVR/Components/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "GameFramework/GameStateBase.h"
 #include "Kismet/KismetMathLibrary.h"
 
-AMR_General::AMR_General()
+AVRPawn::AVRPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
@@ -38,39 +38,39 @@ AMR_General::AMR_General()
 
 }
 
-void AMR_General::PostInitializeComponents()
+void AVRPawn::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	AEKGameState* AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
 	if (AEK_GameStateInst)
 	{
-		AGM* GM = Cast<AGM>(AEK_GameStateInst->AuthorityGameMode);
+		AGameModeCommon* GM = Cast<AGameModeCommon>(AEK_GameStateInst->AuthorityGameMode);
 		if (GM)
 		{
-			GM->OnGameStartedDelegate.AddDynamic(this, &AMR_General::StartGame);
-			GM->OnGameEndedDelegate.AddDynamic(this, &AMR_General::EndGame);
+			GM->OnGameStartedDelegate.AddDynamic(this, &AVRPawn::StartGame);
+			GM->OnGameEndedDelegate.AddDynamic(this, &AVRPawn::EndGame);
 		}
 	}
 }
 
 // REPLICATED PROPS
-void AMR_General::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
-	DOREPLIFETIME(AMR_General, BaseInstance);
-	DOREPLIFETIME(AMR_General, PlayerDefaultColor);
-	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_L);
-	DOREPLIFETIME(AMR_General, CurrentlyHoveredModule_R);
-	DOREPLIFETIME(AMR_General, MilitaryBaseComp);
-	DOREPLIFETIME(AMR_General, SelectedModuleActor);
-	DOREPLIFETIME(AMR_General, bInputIsEnabled);
+	DOREPLIFETIME(AVRPawn, BaseInstance);
+	DOREPLIFETIME(AVRPawn, PlayerDefaultColor);
+	DOREPLIFETIME(AVRPawn, CurrentlyHoveredModule_L);
+	DOREPLIFETIME(AVRPawn, CurrentlyHoveredModule_R);
+	DOREPLIFETIME(AVRPawn, MilitaryBaseComp);
+	DOREPLIFETIME(AVRPawn, SelectedModuleActor);
+	DOREPLIFETIME(AVRPawn, bInputIsEnabled);
 }
 // ~REPLICATED PROPS
 
 
 // PLAYER INPUT
-void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	
@@ -80,18 +80,18 @@ void AMR_General::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 	
 	// Bindings
-	Input->BindAction(IA_SpawnUnit, ETriggerEvent::Started, this, &AMR_General::Action_SpawnUnit);
-	Input->BindAction(IA_SelectModule_L, ETriggerEvent::Started, this, &AMR_General::SelectModule_L);
-	Input->BindAction(IA_SelectModule_R, ETriggerEvent::Started, this, &AMR_General::SelectModule_R);
+	Input->BindAction(IA_SpawnUnit, ETriggerEvent::Started, this, &AVRPawn::Action_SpawnUnit);
+	Input->BindAction(IA_SelectModule_L, ETriggerEvent::Started, this, &AVRPawn::SelectModule_L);
+	Input->BindAction(IA_SelectModule_R, ETriggerEvent::Started, this, &AVRPawn::SelectModule_R);
 }
 // ~PLAYER INPUT
 
 
 // BEGIN PLAY
-void AMR_General::BeginPlay()
+void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	GameMode = Cast<AEK_GameMode>(GetWorld()->GetAuthGameMode());
+	GameMode = Cast<AMultiplayer_GameMode>(GetWorld()->GetAuthGameMode());
 
 	PointerStick_L->SetVisibility(false);
 	PointerStick_R->SetVisibility(false);
@@ -107,7 +107,7 @@ void AMR_General::BeginPlay()
 // ~BEGIN PLAY
 
 // TICK
-void AMR_General::Tick(float DeltaTime)
+void AVRPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -129,10 +129,10 @@ void AMR_General::Tick(float DeltaTime)
 }
 // ~TICK
 
-void AMR_General::PerformSphereTrace(
+void AVRPawn::PerformSphereTrace(
 	UMotionControllerComponent* UsedController,
 	UStaticMeshComponent* ImpactPointer,
-	AModuleActor*& CurrentlyHoveredModule)
+	ABuilding*& CurrentlyHoveredModule)
 	{
 		FHitResult HitResult;
 		FCollisionQueryParams QueryParams;
@@ -157,8 +157,8 @@ void AMR_General::PerformSphereTrace(
 				ImpactPointer->SetWorldLocation(HitResult.Location);
 			}
 
-			AModuleActor* HitModule = Cast<AModuleActor>(HitResult.GetActor());
-			AMR_General* HittedGeneral = Cast<AMR_General>(HitResult.GetActor()->GetOwner());
+			ABuilding* HitModule = Cast<ABuilding>(HitResult.GetActor());
+			AVRPawn* HittedGeneral = Cast<AVRPawn>(HitResult.GetActor()->GetOwner());
 
 			if (HitModule && HittedGeneral == this)
 			{
@@ -219,7 +219,7 @@ void AMR_General::PerformSphereTrace(
 		}
 	}
 
-void AMR_General::EnablePlayerInput()
+void AVRPawn::EnablePlayerInput()
 {
 	bInputIsEnabled = !bInputIsEnabled;
 	if (!bInputIsEnabled)
@@ -238,7 +238,7 @@ void AMR_General::EnablePlayerInput()
 	}
 }
 
-void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)
+void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)
 {
 	if (!Player) return;
 
@@ -267,7 +267,7 @@ void AMR_General::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle
 	Player->SetActorRotation(LookAtRotation);
 }
 
-void AMR_General::StartGame()
+void AVRPawn::StartGame()
 {
 	EnablePlayerInput();
 	PointerStick_L->SetVisibility(true);
@@ -275,7 +275,7 @@ void AMR_General::StartGame()
 	ResourcesComponent->StartGrowResources();
 }
 
-void AMR_General::EndGame(APawn* Looser)
+void AVRPawn::EndGame(APawn* Looser)
 {
 	EnablePlayerInput();
 
@@ -314,7 +314,7 @@ void AMR_General::EndGame(APawn* Looser)
 	}
 }
 
-void AMR_General::SelectModule_L()
+void AVRPawn::SelectModule_L()
 {
 	if (CurrentlyHoveredModule_L)
 	{
@@ -323,7 +323,7 @@ void AMR_General::SelectModule_L()
 	}
 }
 
-void AMR_General::SelectModule_R()
+void AVRPawn::SelectModule_R()
 {
 	if (CurrentlyHoveredModule_R)
 	{
@@ -332,9 +332,9 @@ void AMR_General::SelectModule_R()
 	}
 }
 
-void AMR_General::Action_SpawnUnit()
+void AVRPawn::Action_SpawnUnit()
 {
-	AGM* GM = Cast<AGM>(GetWorld()->GetAuthGameMode());
+	AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
 	if (GM && GM->bGameHasStarted)
 	{
 		if (IsLocallyControlled())
@@ -345,7 +345,7 @@ void AMR_General::Action_SpawnUnit()
 	}
 }
 
-void AMR_General::SpawnPreviewUnit(AModuleActor* ModuleActor)
+void AVRPawn::SpawnPreviewUnit(ABuilding* ModuleActor)
 {
 	UWorld* World = GetWorld();
 	if (World)
@@ -369,7 +369,7 @@ void AMR_General::SpawnPreviewUnit(AModuleActor* ModuleActor)
 	}
 }
 
-void AMR_General::OnSelectedModuleChanged()
+void AVRPawn::OnSelectedModuleChanged()
 {
 	if(PreviewInstance)
 	{

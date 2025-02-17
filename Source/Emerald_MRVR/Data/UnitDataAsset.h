@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "Emerald_MRVR/Support/EKG_Enums.h"
+#include "Emerald_MRVR/Support/EmeraldEnums.h"
 #include "UnitDataAsset.generated.h"
 
 UCLASS()

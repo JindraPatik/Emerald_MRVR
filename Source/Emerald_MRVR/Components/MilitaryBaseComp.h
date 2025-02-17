@@ -3,18 +3,18 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
-#include "Emerald_MRVR/Actors/ModuleActor.h"
+#include "Emerald_MRVR/Actors/Building.h"
 #include "MilitaryBaseComp.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);
 
 class UResourcesComponent;
-class AEK_GameMode;
+class AMultiplayer_GameMode;
 class AUnitAIController;
-class AModuleActor;
+class ABuilding;
 class UUnitDataAsset;
 class UBuildingDataAsset;
-class AMR_General;
+class AVRPawn;
 class AMilitaryBase;
 class AUnit;
 class ATargetPoint;
@@ -84,10 +84,10 @@ public:
 		void Server_SpawnModule(APawn* OwningPawn);
 
 	UFUNCTION(BlueprintCallable, Category="Spawning")
-		AUnit* SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
+		AUnit* SpawnUnit(APawn* InstigatorPawn, ABuilding* Module);
 
 	UFUNCTION(Server, Reliable, Category="UnitSpawning")
-		void Server_SpawnUnit(APawn* InstigatorPawn, AModuleActor* Module);
+		void Server_SpawnUnit(APawn* InstigatorPawn, ABuilding* Module);
 
 	UFUNCTION(Category="UnitSpawning")
 		bool HasEnoughResources(UBuildingDataAsset* BuildingDataAsset);
@@ -99,7 +99,7 @@ public:
 		TArray<UBuildingDataAsset*> AvailableModules;
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadOnly, Category="UnitSpawning")
-		TArray<AModuleActor*> AvailableModulesActors;
+		TArray<ABuilding*> AvailableModulesActors;
 
 	UPROPERTY()
 		UUnitDataAsset* SelectedUnit;
