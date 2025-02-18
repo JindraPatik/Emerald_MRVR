@@ -1,7 +1,7 @@
 ﻿#include "MortarComponent.h"
 
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
-#include "Emerald_MRVR/Actors/Unit.h"
+#include "Emerald_MRVR/Actors/Units/Unit.h"
 
 UMortarComponent::UMortarComponent()
 {

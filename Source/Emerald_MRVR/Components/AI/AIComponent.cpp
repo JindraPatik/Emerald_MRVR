@@ -1,7 +1,7 @@
 #include "AIComponent.h"
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
-#include "Emerald_MRVR/Actors/Unit.h"
+#include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Components/HarvesterComponent.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
 #include "Emerald_MRVR/CORE/EKGameState.h"

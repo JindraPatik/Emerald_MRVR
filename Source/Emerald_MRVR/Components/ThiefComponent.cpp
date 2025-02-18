@@ -5,7 +5,7 @@
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
-#include "Emerald_MRVR/Actors/Unit.h"
+#include "Emerald_MRVR/Actors/Units/Unit.h"
 
 UThiefComponent::UThiefComponent()
 {

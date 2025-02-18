@@ -6,7 +6,7 @@
 #include "Emerald_MRVR/Components/ThiefComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
-#include "Emerald_MRVR/Actors/Unit.h"
+#include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)

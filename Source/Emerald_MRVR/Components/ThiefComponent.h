@@ -4,7 +4,6 @@
 #include "Components/ActorComponent.h"
 #include "ThiefComponent.generated.h"
 
-
 class AUnit;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )

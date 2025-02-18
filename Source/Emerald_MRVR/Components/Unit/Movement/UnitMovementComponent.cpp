@@ -4,7 +4,7 @@
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
-#include "Emerald_MRVR/Actors/Unit.h"
+#include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Net/UnrealNetwork.h"
 
 

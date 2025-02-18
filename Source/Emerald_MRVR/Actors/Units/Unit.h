@@ -12,6 +12,7 @@ class UBoxComponent;
 class USphereComponent;
 class UUnitMovementComponent;
 
+/* Base class for Units */
 UCLASS()
 class EMERALD_MRVR_API AUnit : public APawn
 {
@@ -24,48 +25,49 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-	
+
+	/* Component for scaling Actor root*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+		TObjectPtr<UDownScaleComponent> DownScaleComponent;
 public:
 	UPROPERTY()
 		TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite);
-		TObjectPtr<UDownScaleComponent> DownScaleComponent;
 
-	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
 		TObjectPtr<USceneComponent> UnitRoot;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category="Visuals")
 		TObjectPtr<UStaticMeshComponent> Body;
 
 	//pb: tyhle data jsou zaroven soucasti UUnitDataAsset. Bylo by dobre to sjednotit - mit pouze jednu strukturu a tu pak vyuzit na vsech mistech, kde je treba
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Stats")
 		float Speed;
 
-	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Stats")
 		float Strenght;
 
-	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Stats")
 		float Price;
 	
-	UPROPERTY(Replicated, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(Replicated, VisibleAnywhere, Category="Stats")
 		float Damage;
 
-	UPROPERTY(BlueprintReadWrite, Category="Stats")
+	UPROPERTY(VisibleAnywhere, Category="Stats")
 		float FightDelay;
 
-	UPROPERTY(BlueprintReadWrite, Category="Stats")
+	UPROPERTY(VisibleAnywhere, Category="Stats")
 		bool bIsFlyingUnit;
 
-	UPROPERTY(BlueprintReadWrite, Category="Stats")
+	UPROPERTY(VisibleAnywhere, Category="Stats")
 		bool bIsAttacker;
 
-	UFUNCTION(BlueprintNativeEvent, Category="Combat")
-		void KillMe();
-
-	UPROPERTY(BlueprintReadWrite, Category="Spawning")
+	UPROPERTY(VisibleAnywhere, Category="Stats")
 		bool bIsReversed;
 
-	UPROPERTY(BlueprintReadWrite, Category="Spawning")
+	UPROPERTY(VisibleAnywhere, Category="Spawning")
 		FVector UnitSpawnLocation;
+
+	/* Function to handle Death of the Unit Actor */
+	UFUNCTION(BlueprintNativeEvent, Category="Combat")
+		void KillMe();
 };
