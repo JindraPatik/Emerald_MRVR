@@ -1,0 +1,35 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_2_18_2025_10_08_AM_[Changes]" date="1739869710291" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_18_2025_10_08_AM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 2/18/2025 10:08 AM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="Content/CORE/GM_Lobby.uasset" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Content/Maps/LVL_Single002.umap" />
+    <option name="AFTER_PATH" value="Content/Maps/LVL_Single002.umap" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_18_2025_10_08_AM_[Changes]/LVL_Single002.umap" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Content/StarterContent/Architecture/Floor_400x400.uasset" />
+    <option name="AFTER_PATH" value="Content/StarterContent/Architecture/Floor_400x400.uasset" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_18_2025_10_08_AM_[Changes]/Floor_400x400.uasset" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Content/CORE/BP_EK_GM.uasset" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Content/Maps/Lobby.umap" />
+    <option name="AFTER_PATH" value="Content/Maps/Lobby.umap" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_18_2025_10_08_AM_[Changes]/Lobby.umap" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" />
+    <option name="AFTER_PATH" value="Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_18_2025_10_08_AM_[Changes]/HDRI_Epic_Courtyard_Daylight.uasset" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="Content/Maps/LVL_001.umap" />
+    <option name="AFTER_PATH" value="Content/Maps/LVL_001.umap" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.Emerald_MRVR.dir/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_18_2025_10_08_AM_[Changes]/LVL_001.umap" />
+  </binary>
+</changelist>

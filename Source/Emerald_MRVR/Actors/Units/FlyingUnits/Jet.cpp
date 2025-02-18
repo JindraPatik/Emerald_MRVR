@@ -16,8 +16,3 @@ void AJet::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AJet::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
