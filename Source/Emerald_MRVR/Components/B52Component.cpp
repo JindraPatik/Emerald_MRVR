@@ -14,7 +14,6 @@ UB52Component::UB52Component()
 void UB52Component::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 
