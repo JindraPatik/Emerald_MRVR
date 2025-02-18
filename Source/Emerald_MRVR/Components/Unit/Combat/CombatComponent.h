@@ -22,21 +22,15 @@ public:
 							bool bFromSweep,
 							const FHitResult& SweepResult);
 
-	void UnitFight(AActor* InActor);
+	UFUNCTION()
+		void UnitFight(AActor* InActor);
 
-	UFUNCTION(Server, Reliable)
-		void Server_UnitFight(AActor* InActor);
-
-	void BaseFight(AActor* InActor);
+	UFUNCTION()
+		void BaseFight(AActor* InActor);
 
 	FTimerHandle FightSequenceHandle;
 
-
-	UFUNCTION(Server, Reliable)
-		void Server_BaseFight(AActor* InActor);
-
 	ECombatScenarios CurrentScenario;
-
 
 
 protected:

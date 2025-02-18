@@ -40,7 +40,6 @@ void UMilitaryBaseComp::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	
 	MyOwner = Cast<APawn>(GetOwner());
 	ResourcesComponentInst = Cast<UResourcesComponent>(GetOwner()->FindComponentByClass<UResourcesComponent>());
 	

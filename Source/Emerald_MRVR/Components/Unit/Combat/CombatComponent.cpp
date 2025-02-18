@@ -1,12 +1,12 @@
 #include "CombatComponent.h"
 
-#include "Emerald_MRVR/Components/HarvesterComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
-#include "Emerald_MRVR/Components/ThiefComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Collaborator.h"
+#include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
+#include "Emerald_MRVR/Actors/Units/SpecialUnits/Thief.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)
@@ -48,20 +48,18 @@ void UCombatComponent::OnBoxOverlapped(UPrimitiveComponent* OverlappedComponent,
 
 void UCombatComponent::UnitFight(AActor* InActor)
 {
-	if (GetOwnerRole() != ROLE_Authority)
-	{
-		Server_UnitFight(InActor);
-		return;
-	}
 	
 	if (InActor)
 	{
-		APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
+		APawn* VR_Pawn = Cast<APawn>(GetOwner()->GetOwner());
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
-		UHarvesterComponent* MyHarvestComponent = GetOwner()->FindComponentByClass<UHarvesterComponent>();
-		UThiefComponent* MyThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
-		UHarvesterComponent* OtherHarvestComponent = InActor->FindComponentByClass<UHarvesterComponent>();
-		UThiefComponent* OtherThiefComponent = InActor->FindComponentByClass<UThiefComponent>();
+		
+		AHarvester* Harvester = Cast<AHarvester>(GetOwner());
+		AHarvester* OtherHarvester = Cast<AHarvester>(InActor);
+		
+		AThief* Thief = Cast<AThief>(GetOuter());
+		AThief* OtherThief = Cast<AThief>(InActor);
+		
 		ACollaborator* Collaborator = Cast<ACollaborator>(InActor);
 
 		if (Collaborator)
@@ -74,19 +72,17 @@ void UCombatComponent::UnitFight(AActor* InActor)
 			return;
 		}
 
-		if (MyThiefComponent && OtherHarvestComponent && OtherHarvestComponent->bIsLoaded)
+		if (Thief && OtherHarvester && OtherHarvester->bIsLoaded)
 		{
 			return;
 		}
-
-			
 		
 		if (HittedUnit)
 		{
 			APawn* OtherOwner = Cast<APawn>(HittedUnit->GetOwner());
 			if (OtherOwner)
 			{
-				if (MyGeneral && HittedUnit && OtherOwner && MyGeneral != OtherOwner) 	// Is that Other players Unit? 
+				if (VR_Pawn && HittedUnit && OtherOwner && VR_Pawn != OtherOwner) 	// Is that Other players Unit? 
                 {
                 	if (Unit->Strenght > HittedUnit->Strenght) // Win condition
                 	{
@@ -124,52 +120,45 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	}
 }
 
-void UCombatComponent::Server_UnitFight_Implementation(AActor* InActor)
-{
-	UnitFight(InActor);
-}
-
 void UCombatComponent::BaseFight(AActor* InActor)
 {
-	if (GetOwnerRole() != ROLE_Authority)
+	APawn* VR_Pawn = Cast<APawn>(GetOwner()->GetOwner());
+	AMilitaryBase* HittedBase = Cast<AMilitaryBase>(InActor);
+	AThief* Thief = Cast<AThief>(GetOwner());
+
+	if (Thief && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner())
 	{
-		Server_BaseFight(InActor);
+		UE_LOG(LogTemp, Warning, TEXT("Thief && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner()"));
+		return; // If Im a thief dont kill me
+	}
+	
+	if (!HittedBase)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("HittedBase"));
 		return;
 	}
-
-	APawn* MyGeneral = Cast<APawn>(GetOwner()->GetOwner());
-	AMilitaryBase* HittedBase = Cast<AMilitaryBase>(InActor);
 	
-	UThiefComponent* ThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
-	
-	if (ThiefComponent && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner()) return; // If Im a thief dont kill me
-	
-	if (HittedBase)
+	APawn* OtherBaseOwner = Cast<APawn>(HittedBase->GetOwner());
+	if (!OtherBaseOwner)
 	{
-		APawn* OtherBaseOwner = Cast<APawn>(HittedBase->GetOwner());
-		if (OtherBaseOwner)
+		UE_LOG(LogTemp, Warning, TEXT("!OtherBaseOwner"));
+		return;
+	}
+	if (VR_Pawn && HittedBase && OtherBaseOwner && OtherBaseOwner != VR_Pawn)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("VR_Pawn && HittedBase && OtherBaseOwner && OtherBaseOwner != VR_Pawn"));
+		UHealthComponent* OtherBaseHealthComp = OtherBaseOwner->FindComponentByClass<UHealthComponent>();
+
+		if (!OtherBaseHealthComp)
 		{
-			if (MyGeneral && HittedBase && OtherBaseOwner && OtherBaseOwner != MyGeneral)
-			{
-				UHealthComponent* OtherBaseHealthComp = OtherBaseOwner->FindComponentByClass<UHealthComponent>();
-				if (OtherBaseHealthComp)
-				{
-					OtherBaseHealthComp->Health -= Unit->Damage;
-					OtherBaseHealthComp->Health = FMath::Clamp(OtherBaseHealthComp->Health, 0, OtherBaseHealthComp->MaxHealth);
-					OtherBaseHealthComp->OnRep_OnHealthChanged();
-					GetOwner()->Destroy();
-				}
-			}
 			return;
 		}
-		return;
+		
+		OtherBaseHealthComp->Health -= Unit->Damage;
+		OtherBaseHealthComp->Health = FMath::Clamp(OtherBaseHealthComp->Health, 0, OtherBaseHealthComp->MaxHealth);
+		OtherBaseHealthComp->OnRep_OnHealthChanged();
+		GetOwner()->Destroy();
 	}
-	return;
-}
-
-void UCombatComponent::Server_BaseFight_Implementation(AActor* InActor)
-{
-	BaseFight(InActor);
 }
 
 

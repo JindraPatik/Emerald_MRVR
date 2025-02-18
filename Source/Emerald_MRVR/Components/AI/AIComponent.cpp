@@ -2,7 +2,7 @@
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "Emerald_MRVR/Components/HarvesterComponent.h"
+#include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
 #include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/CORE/GameMode_Single.h"
@@ -248,7 +248,12 @@ void UAIComponent::Cooldown(float CD_Time)
 void UAIComponent::OnUnitOccured(AUnit* Unit, AActor* Owner)
 {
 	GetWorld()->GetTimerManager().ClearTimer(RandomSpawn_Handle); // Clears random spawn timer
-	if (Unit->FindComponentByClass<UHarvesterComponent>()) return; // If Harvester, don't react;
+	
+	AHarvester* Harvester = Cast<AHarvester>(Unit);
+	if (!Harvester)
+	{
+		return;
+	}
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	CheapestStronger = nullptr;
 	CheapestSame = nullptr;
@@ -315,21 +320,3 @@ void UAIComponent::TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<ABuil
 		return;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
