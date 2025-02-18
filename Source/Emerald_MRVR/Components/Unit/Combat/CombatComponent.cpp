@@ -1,12 +1,12 @@
 #include "CombatComponent.h"
 
-#include "Emerald_MRVR/Components/CollaborantComponent.h"
 #include "Emerald_MRVR/Components/HarvesterComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/ThiefComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
+#include "Emerald_MRVR/Actors/Units/SpecialUnits/Collaborator.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)
@@ -62,7 +62,12 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		UThiefComponent* MyThiefComponent = GetOwner()->FindComponentByClass<UThiefComponent>();
 		UHarvesterComponent* OtherHarvestComponent = InActor->FindComponentByClass<UHarvesterComponent>();
 		UThiefComponent* OtherThiefComponent = InActor->FindComponentByClass<UThiefComponent>();
-		UCollaborantComponent* CollaborantComponent = InActor->FindComponentByClass<UCollaborantComponent>();
+		ACollaborator* Collaborator = Cast<ACollaborator>(InActor);
+
+		if (Collaborator)
+		{
+			return;
+		}
 		
 		if (HittedUnit && HittedUnit->GetOwner() == GetOwner()->GetOwner()) 
 		{
