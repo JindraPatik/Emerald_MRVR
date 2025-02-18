@@ -76,6 +76,11 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		{
 			return;
 		}
+
+		if (Harvester && Harvester->bIsLoaded && OtherThief)
+		{
+			return;
+		}
 		
 		if (HittedUnit)
 		{
