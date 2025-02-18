@@ -1,8 +1,8 @@
 #include "CollaborantComponent.h"
 
-#include "MortarComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
+#include "Emerald_MRVR/Actors/Units/GroundUnits/Mortar.h"
 
 UCollaborantComponent::UCollaborantComponent()
 {
@@ -36,12 +36,11 @@ void UCollaborantComponent::OnBoxOverlapped(UPrimitiveComponent* OverlappedCompo
 	AUnit* OtherUnit = Cast<AUnit>(OtherActor);
 	if (OtherUnit && OtherUnit->GetOwner() != GetOwner()->GetOwner())
 	{
-		UMortarComponent* OtherUnitMortarComponent = OtherUnit->FindComponentByClass<UMortarComponent>();
-		if (OtherUnitMortarComponent)
+		if (AMortar* MortarUnit = Cast<AMortar>(OtherUnit))
 		{
-			if (OtherUnitMortarComponent->bMortarIsTransformed)
+			if (MortarUnit->bMortarIsTransformed)
 			{
-				OtherUnitMortarComponent->Explode(GetOwner());
+				MortarUnit->Explode(GetOwner());
 				return;
 			}
 		}
