@@ -11,11 +11,10 @@ AUnit::AUnit()
 	UnitRoot->SetIsReplicated(true);
 	SetRootComponent(UnitRoot);
 	
-	Body->SetupAttachment(UnitRoot);
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
 	Body->SetIsReplicated(true);
-	
 	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
+	Body->SetupAttachment(UnitRoot);
 	Body->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	Body->SetCollisionObjectType(ECC_Pawn);
 	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
