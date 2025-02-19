@@ -27,84 +27,84 @@ AMilitaryStation::AMilitaryStation()
 	
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	
-	SpawnPoint_Ground = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
-	SpawnPoint_Ground->SetupAttachment(BaseRoot);
-	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
-	SpawnPoint_Air->SetupAttachment(BaseRoot);
+	SpawnPointGround = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
+	SpawnPointGround->SetupAttachment(BaseRoot);
+	SpawnPointAir = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
+	SpawnPointAir->SetupAttachment(BaseRoot);
 
 	// Buildings Locations
-	Positions_Root = CreateDefaultSubobject<USceneComponent>("Positions_Root");
-	Positions_Root->SetupAttachment(BaseRoot);
+	PositionsRoot = CreateDefaultSubobject<USceneComponent>("Positions_Root");
+	PositionsRoot->SetupAttachment(BaseRoot);
 	
-	Mine_Position = CreateDefaultSubobject<USceneComponent>("MinePosition");
-	Mine_Position->ComponentTags.Add("Mine");
-	BuildingPositions.Add(Mine_Position);
-	Mine_Position->SetupAttachment(Positions_Root);
+	MinePosition = CreateDefaultSubobject<USceneComponent>("MinePosition");
+	MinePosition->ComponentTags.Add("Mine");
+	BuildingPositions.Add(MinePosition);
+	MinePosition->SetupAttachment(PositionsRoot);
 	
-	Prison_Position = CreateDefaultSubobject<USceneComponent>("PrisonPosition");
-	Prison_Position->ComponentTags.Add("PrisonPosition");
-	BuildingPositions.Add(Prison_Position);
-	Prison_Position->SetupAttachment(Positions_Root);
+	PrisonPosition = CreateDefaultSubobject<USceneComponent>("PrisonPosition");
+	PrisonPosition->ComponentTags.Add("PrisonPosition");
+	BuildingPositions.Add(PrisonPosition);
+	PrisonPosition->SetupAttachment(PositionsRoot);
 	
-	Bank_Position = CreateDefaultSubobject<USceneComponent>("BankPosition");
-	Bank_Position->ComponentTags.Add("Bank");
-	BuildingPositions.Add(Bank_Position);
-	Bank_Position->SetupAttachment(Positions_Root);
+	BankPosition = CreateDefaultSubobject<USceneComponent>("BankPosition");
+	BankPosition->ComponentTags.Add("Bank");
+	BuildingPositions.Add(BankPosition);
+	BankPosition->SetupAttachment(PositionsRoot);
 
-	UVKSC_Position = CreateDefaultSubobject<USceneComponent>("UVKSCPosition");
-	UVKSC_Position->ComponentTags.Add("UVKSC");
-	BuildingPositions.Add(UVKSC_Position);
-	UVKSC_Position->SetupAttachment(Positions_Root);
+	UVKSCPosition = CreateDefaultSubobject<USceneComponent>("UVKSCPosition");
+	UVKSCPosition->ComponentTags.Add("UVKSC");
+	BuildingPositions.Add(UVKSCPosition);
+	UVKSCPosition->SetupAttachment(PositionsRoot);
 	
-	Microsoft_Position = CreateDefaultSubobject<USceneComponent>("Microsoft");
-	Microsoft_Position->ComponentTags.Add("Microsoft");
-	BuildingPositions.Add(Microsoft_Position);
-	Microsoft_Position->SetupAttachment(Positions_Root);
+	MicrosoftPosition = CreateDefaultSubobject<USceneComponent>("Microsoft");
+	MicrosoftPosition->ComponentTags.Add("Microsoft");
+	BuildingPositions.Add(MicrosoftPosition);
+	MicrosoftPosition->SetupAttachment(PositionsRoot);
 
-	Barracs_Position = CreateDefaultSubobject<USceneComponent>("BarracsPosition");
-	Barracs_Position->ComponentTags.Add("Barracs");
-	BuildingPositions.Add(Barracs_Position);
-	Barracs_Position->SetupAttachment(Positions_Root);
+	BarracsPosition = CreateDefaultSubobject<USceneComponent>("BarracsPosition");
+	BarracsPosition->ComponentTags.Add("Barracs");
+	BuildingPositions.Add(BarracsPosition);
+	BarracsPosition->SetupAttachment(PositionsRoot);
 	
-	Garage_Position = CreateDefaultSubobject<USceneComponent>("GaragePosition");
-	Garage_Position->ComponentTags.Add("Garage");
-	BuildingPositions.Add(Garage_Position);
-	Garage_Position->SetupAttachment(Positions_Root);
+	GaragePosition = CreateDefaultSubobject<USceneComponent>("GaragePosition");
+	GaragePosition->ComponentTags.Add("Garage");
+	BuildingPositions.Add(GaragePosition);
+	GaragePosition->SetupAttachment(PositionsRoot);
 
-	LPlatform_Position = CreateDefaultSubobject<USceneComponent>("LPlatformPosition");
-	LPlatform_Position->ComponentTags.Add("LPlatform");
-	BuildingPositions.Add(LPlatform_Position);
-	LPlatform_Position->SetupAttachment(Positions_Root);
+	LPlatformPosition = CreateDefaultSubobject<USceneComponent>("LPlatformPosition");
+	LPlatformPosition->ComponentTags.Add("LPlatform");
+	BuildingPositions.Add(LPlatformPosition);
+	LPlatformPosition->SetupAttachment(PositionsRoot);
 
-	Minecraft_Position = CreateDefaultSubobject<USceneComponent>("MinecraftPosition");
-	Minecraft_Position->ComponentTags.Add("Minecraft");
-	BuildingPositions.Add(Minecraft_Position);
-	Minecraft_Position->SetupAttachment(Positions_Root);
+	MinecraftPosition = CreateDefaultSubobject<USceneComponent>("MinecraftPosition");
+	MinecraftPosition->ComponentTags.Add("Minecraft");
+	BuildingPositions.Add(MinecraftPosition);
+	MinecraftPosition->SetupAttachment(PositionsRoot);
 
-	Heliport_Position = CreateDefaultSubobject<USceneComponent>("HeliportPosition");
-	Heliport_Position->ComponentTags.Add("Heliport");
-	BuildingPositions.Add(Heliport_Position);
-	Heliport_Position->SetupAttachment(Positions_Root);
+	HeliportPosition = CreateDefaultSubobject<USceneComponent>("HeliportPosition");
+	HeliportPosition->ComponentTags.Add("Heliport");
+	BuildingPositions.Add(HeliportPosition);
+	HeliportPosition->SetupAttachment(PositionsRoot);
 	
-	Runway_Position = CreateDefaultSubobject<USceneComponent>("Runway_Position");
-	Runway_Position->ComponentTags.Add("Runway");
-	BuildingPositions.Add(Runway_Position);
-	Runway_Position->SetupAttachment(Positions_Root);
+	RunwayPosition = CreateDefaultSubobject<USceneComponent>("Runway_Position");
+	RunwayPosition->ComponentTags.Add("Runway");
+	BuildingPositions.Add(RunwayPosition);
+	RunwayPosition->SetupAttachment(PositionsRoot);
 	
-	Aerial_Position = CreateDefaultSubobject<USceneComponent>("Aerial_Position");
-	Aerial_Position->ComponentTags.Add("Aerial");
-	BuildingPositions.Add(Aerial_Position);
-	Aerial_Position->SetupAttachment(Positions_Root);
+	AerialPosition = CreateDefaultSubobject<USceneComponent>("Aerial_Position");
+	AerialPosition->ComponentTags.Add("Aerial");
+	BuildingPositions.Add(AerialPosition);
+	AerialPosition->SetupAttachment(PositionsRoot);
 
-	Hangar_Position = CreateDefaultSubobject<USceneComponent>("Hangar_Position");
-	Hangar_Position->ComponentTags.Add("Hangar");
-	BuildingPositions.Add(Hangar_Position);
-	Hangar_Position->SetupAttachment(Positions_Root);
+	HangarPosition = CreateDefaultSubobject<USceneComponent>("Hangar_Position");
+	HangarPosition->ComponentTags.Add("Hangar");
+	BuildingPositions.Add(HangarPosition);
+	HangarPosition->SetupAttachment(PositionsRoot);
 
-	RocketLauncher_Position = CreateDefaultSubobject<USceneComponent>("RocketLauncher_Position");
-	RocketLauncher_Position->ComponentTags.Add("RocketLauncher");
-	BuildingPositions.Add(RocketLauncher_Position);
-	RocketLauncher_Position->SetupAttachment(Positions_Root);
+	RocketLauncherPosition = CreateDefaultSubobject<USceneComponent>("RocketLauncher_Position");
+	RocketLauncherPosition->ComponentTags.Add("RocketLauncher");
+	BuildingPositions.Add(RocketLauncherPosition);
+	RocketLauncherPosition->SetupAttachment(PositionsRoot);
 }
 
 void AMilitaryStation::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -112,8 +112,8 @@ void AMilitaryStation::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AMilitaryStation, VR_Pawn);
 	DOREPLIFETIME(AMilitaryStation, Body_Root)
-	DOREPLIFETIME(AMilitaryStation, SpawnPoint_Ground)
-	DOREPLIFETIME(AMilitaryStation, SpawnPoint_Air)
+	DOREPLIFETIME(AMilitaryStation, SpawnPointGround)
+	DOREPLIFETIME(AMilitaryStation, SpawnPointAir)
 	DOREPLIFETIME(AMilitaryStation, ResourcesWidgetInstance);
 	DOREPLIFETIME(AMilitaryStation, HealthWidgetInstance);
 	DOREPLIFETIME(AMilitaryStation, OriginalMaterial);
@@ -121,21 +121,21 @@ void AMilitaryStation::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(AMilitaryStation, BaseRoot);
 
 	// Modules
-	DOREPLIFETIME(AMilitaryStation, Mine_Position);
-	DOREPLIFETIME(AMilitaryStation, Prison_Position);
-	DOREPLIFETIME(AMilitaryStation, Bank_Position);
-	DOREPLIFETIME(AMilitaryStation, Bank_Position);
-	DOREPLIFETIME(AMilitaryStation, UVKSC_Position);
-	DOREPLIFETIME(AMilitaryStation, Microsoft_Position);
-	DOREPLIFETIME(AMilitaryStation, Barracs_Position);
-	DOREPLIFETIME(AMilitaryStation, Garage_Position);
-	DOREPLIFETIME(AMilitaryStation, LPlatform_Position);
-	DOREPLIFETIME(AMilitaryStation, Minecraft_Position);
-	DOREPLIFETIME(AMilitaryStation, Heliport_Position);
-	DOREPLIFETIME(AMilitaryStation, Runway_Position);
-	DOREPLIFETIME(AMilitaryStation, Aerial_Position);
-	DOREPLIFETIME(AMilitaryStation, Hangar_Position);
-	DOREPLIFETIME(AMilitaryStation, RocketLauncher_Position);
+	DOREPLIFETIME(AMilitaryStation, MinePosition);
+	DOREPLIFETIME(AMilitaryStation, PrisonPosition);
+	DOREPLIFETIME(AMilitaryStation, BankPosition);
+	DOREPLIFETIME(AMilitaryStation, BankPosition);
+	DOREPLIFETIME(AMilitaryStation, UVKSCPosition);
+	DOREPLIFETIME(AMilitaryStation, MicrosoftPosition);
+	DOREPLIFETIME(AMilitaryStation, BarracsPosition);
+	DOREPLIFETIME(AMilitaryStation, GaragePosition);
+	DOREPLIFETIME(AMilitaryStation, LPlatformPosition);
+	DOREPLIFETIME(AMilitaryStation, MinecraftPosition);
+	DOREPLIFETIME(AMilitaryStation, HeliportPosition);
+	DOREPLIFETIME(AMilitaryStation, RunwayPosition);
+	DOREPLIFETIME(AMilitaryStation, AerialPosition);
+	DOREPLIFETIME(AMilitaryStation, HangarPosition);
+	DOREPLIFETIME(AMilitaryStation, RocketLauncherPosition);
 	DOREPLIFETIME(AMilitaryStation, BuildingPositions);
 }
 
@@ -162,13 +162,15 @@ void AMilitaryStation::SpawnResourcesWidget()
 	if (VR_Pawn && VR_Pawn->IsLocallyControlled())
 	{
 		UWorld* World = GetWorld();
-		if (World)
+		if (!World)
 		{
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = GetOwner();
-			FVector Location = GetActorLocation() + ResourcesWidgetOffset;
-			ResourcesWidgetInstance = World->SpawnActor<AActor>(ResourcesWBP, Location, FRotator::ZeroRotator, SpawnParams);
+			return;
 		}
+		
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = GetOwner();
+		FVector Location = GetActorLocation() + ResourcesWidgetOffset;
+		ResourcesWidgetInstance = World->SpawnActor<AActor>(ResourcesWBP, Location, FRotator::ZeroRotator, SpawnParams);
 	}
 }
 
@@ -186,18 +188,19 @@ void AMilitaryStation::SpawnHealthWidget()
 	}
 	
 	UWorld* World = GetWorld();
-	if (World)
+	if (!World)
 	{
-		FActorSpawnParameters SpawnParams;
-		FVector Location = GetActorLocation() + HealthWidgetOffset;
-		
-		HealthWidgetInstance = World->SpawnActor<AActor>(HealthWidget, Location, FRotator::ZeroRotator, SpawnParams);
-		if (HealthWidgetInstance)
-		{
-			HealthWidgetInstance->SetReplicates(true);
-		}
 		return;
 	}
+	FActorSpawnParameters SpawnParams;
+	FVector Location = GetActorLocation() + HealthWidgetOffset;
+	
+	HealthWidgetInstance = World->SpawnActor<AActor>(HealthWidget, Location, FRotator::ZeroRotator, SpawnParams);
+	if (!HealthWidgetInstance)
+	{
+		return;
+	}
+	HealthWidgetInstance->SetReplicates(true);
 }
 
 void AMilitaryStation::Server_SpawnHealthWidget_Implementation()

@@ -80,11 +80,11 @@ void UUnitMovementComponent::CreateMovementPath()
 	{
  		if (bIsFlying) // Pokud je jednotka létající
 		{
-			End = EnemyBase->SpawnPoint_Air->GetComponentLocation();
+			End = EnemyBase->SpawnPointAir->GetComponentLocation();
 		}
 		else // Pozemní jednotka
 		{
-			End = EnemyBase->SpawnPoint_Ground->GetComponentLocation();
+			End = EnemyBase->SpawnPointGround->GetComponentLocation();
 		}
 	}
 

@@ -58,10 +58,10 @@ protected:
 public:	
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		USceneComponent* SpawnPoint_Ground;
+		USceneComponent* SpawnPointGround;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		USceneComponent* SpawnPoint_Air;
+		USceneComponent* SpawnPointAir;
 
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 		TSubclassOf<AActor> ResourcesWBP;
@@ -83,49 +83,49 @@ public:
 
 	// Buildings 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Positions_Root;
+		TObjectPtr<USceneComponent> PositionsRoot;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Mine_Position;
+		TObjectPtr<USceneComponent> MinePosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Prison_Position;
+		TObjectPtr<USceneComponent> PrisonPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Bank_Position;
+		TObjectPtr<USceneComponent> BankPosition;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> UVKSC_Position;
+		TObjectPtr<USceneComponent> UVKSCPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Microsoft_Position;
+		TObjectPtr<USceneComponent> MicrosoftPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Barracs_Position;
+		TObjectPtr<USceneComponent> BarracsPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Garage_Position;
+		TObjectPtr<USceneComponent> GaragePosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> LPlatform_Position;
+		TObjectPtr<USceneComponent> LPlatformPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Minecraft_Position;
+		TObjectPtr<USceneComponent> MinecraftPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Heliport_Position;
+		TObjectPtr<USceneComponent> HeliportPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Runway_Position;
+		TObjectPtr<USceneComponent> RunwayPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Aerial_Position;
+		TObjectPtr<USceneComponent> AerialPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> Hangar_Position;
+		TObjectPtr<USceneComponent> HangarPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
-		TObjectPtr<USceneComponent> RocketLauncher_Position;
+		TObjectPtr<USceneComponent> RocketLauncherPosition;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, Category="Spawning")
 		TArray<USceneComponent*> BuildingPositions;

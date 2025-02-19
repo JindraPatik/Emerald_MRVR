@@ -185,13 +185,13 @@ AUnit* UMilitaryStationComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Buildin
 
 			if (!BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 			{
-				UnitSpawnLocation = PlayerMilitaryStationInstance->SpawnPoint_Ground->GetComponentLocation();
-				UnitSpawnRotation = PlayerMilitaryStationInstance->SpawnPoint_Ground->GetComponentRotation();
+				UnitSpawnLocation = PlayerMilitaryStationInstance->SpawnPointGround->GetComponentLocation();
+				UnitSpawnRotation = PlayerMilitaryStationInstance->SpawnPointGround->GetComponentRotation();
 			}
 			if (BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 			{
-				UnitSpawnLocation = PlayerMilitaryStationInstance->SpawnPoint_Air->GetComponentLocation();
-				UnitSpawnRotation = PlayerMilitaryStationInstance->SpawnPoint_Air->GetComponentRotation();
+				UnitSpawnLocation = PlayerMilitaryStationInstance->SpawnPointAir->GetComponentLocation();
+				UnitSpawnRotation = PlayerMilitaryStationInstance->SpawnPointAir->GetComponentRotation();
 			}
 
 			if (BuildingDataAsset->UnitToSpawnData->IsRocket)
