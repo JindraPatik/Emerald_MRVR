@@ -3,7 +3,7 @@
 #include "EngineUtils.h"
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Net/UnrealNetwork.h"
 
@@ -64,10 +64,10 @@ void UUnitMovementComponent::CreateMovementPath()
 	if (!World) return;
 
 	// Najít soupeřovu základnu
-	AMilitaryBase* EnemyBase = nullptr;
-	for (TActorIterator<AMilitaryBase> It(World); It; ++It)
+	AMilitaryStation* EnemyBase = nullptr;
+	for (TActorIterator<AMilitaryStation> It(World); It; ++It)
 	{
-		AMilitaryBase* MilitaryBase = *It;
+		AMilitaryStation* MilitaryBase = *It;
 		if (MilitaryBase && MilitaryBase->GetOwner() != GetOwner()->GetOwner()) // Ověříme, že to není naše základna
 		{
 			EnemyBase = MilitaryBase;

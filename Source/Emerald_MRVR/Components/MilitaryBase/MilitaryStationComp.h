@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
 #include "MilitaryStationComp.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);
@@ -15,7 +15,7 @@ class ABuilding;
 class UUnitDataAsset;
 class UBuildingDataAsset;
 class AVRPawn;
-class AMilitaryBase;
+class AMilitaryStation;
 class AUnit;
 class ATargetPoint;
 class UWidgetAnimation;
@@ -59,13 +59,13 @@ protected:
 	
 public:	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
-		TSubclassOf<AMilitaryBase> MilitaryStation;
+		TSubclassOf<AMilitaryStation> MilitaryStation;
 
 	UPROPERTY(Replicated, BlueprintReadOnly)
 		ATargetPoint* SpawnPointForMilitaryStation;
 
 	UPROPERTY(Replicated)
-		AMilitaryBase* PlayerMilitaryStationInstance;		//pb: nedoporucuju nazvy typu My..., krom toho slovo Base se obvykle pouziva pro bazove tridy, takze toto na prvni pohled vypada, jako instance nejake bazovew tridy, 
+		AMilitaryStation* PlayerMilitaryStationInstance;		//pb: nedoporucuju nazvy typu My..., krom toho slovo Base se obvykle pouziva pro bazove tridy, takze toto na prvni pohled vypada, jako instance nejake bazovew tridy, 
 											//    coz je nesmysl
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
@@ -117,7 +117,7 @@ public:
 		FOnUnitSpawnedSignature OnUnitSpawnedDelegate;
 
 	UFUNCTION()
-		FORCEINLINE AMilitaryBase* GetMilitaryBaseInstance() const { return PlayerMilitaryStationInstance; }
+		FORCEINLINE AMilitaryStation* GetMilitaryBaseInstance() const { return PlayerMilitaryStationInstance; }
 
 	TSubclassOf<AUnitAIController> AiUnitControllerClass;
 

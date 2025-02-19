@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MilitaryBase.generated.h"
+#include "MilitaryStation.generated.h"
 
 class AVRPawn;
 class UBuildingDataAsset;
@@ -14,12 +14,12 @@ class UDownScaleComponent;
 class UBoxComponent;
 
 UCLASS()
-class EMERALD_MRVR_API AMilitaryBase : public AActor
+class EMERALD_MRVR_API AMilitaryStation : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	AMilitaryBase();
+	AMilitaryStation();
 		void SpawnResourcesWidget();
 
 	UFUNCTION(Server, Reliable)

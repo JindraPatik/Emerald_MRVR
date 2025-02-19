@@ -2,7 +2,7 @@
 
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
@@ -103,7 +103,7 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 		return;
 	}
 
-	PlayerMilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
+	PlayerMilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryStation>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
 		
 }
 

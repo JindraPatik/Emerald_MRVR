@@ -35,7 +35,7 @@ void UResourcesComponent::OnRep_ResourcesChanged() const
 {
 	if (MilitaryBaseCompInst)
 	{
-		AMilitaryBase* MilitaryBaseInstance = MilitaryBaseCompInst->GetMilitaryBaseInstance();
+		AMilitaryStation* MilitaryBaseInstance = MilitaryBaseCompInst->GetMilitaryBaseInstance();
 		if (MilitaryBaseInstance && MilitaryBaseInstance->ResourcesWidgetInstance)
 		{
 			UResourcesWidget* ResourcesWidget = Cast<UResourcesWidget>(MilitaryBaseInstance->ResourcesWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());

@@ -9,8 +9,6 @@ class UBuildingDataAsset;
 class AVRPawn;
 class ACooldownActor;
 
-
-//pb: doporucoval bych jiny nazev nez ModuleActor, protoze pojem Module se v UE pouziva pro herni moduly (architektonicky prvek), viz. https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-modules
 UCLASS()
 class EMERALD_MRVR_API ABuilding : public AActor
 {
@@ -63,9 +61,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Visuals")
 		void RemoveOverlayMaterial();
-	
-	
-
 
 	UPROPERTY()
 		AActor* InfoWidgetActorInst;

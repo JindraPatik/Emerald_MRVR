@@ -16,7 +16,7 @@ class AVRPlayerController;
 class UResourcesComponent;
 class UHealthComponent;
 class UCharacterMovementComponent;
-class AMilitaryBase;
+class AMilitaryStation;
 class UOculusXRControllerComponent;
 class UCameraComponent;
 class UMotionControllerComponent;
@@ -127,7 +127,7 @@ public:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryBase* MilitaryStationInstance;					//pb: viz. commenty ke konzistenci nazvu
+		AMilitaryStation* MilitaryStationInstance;					//pb: viz. commenty ke konzistenci nazvu
 
 	UPROPERTY(BlueprintReadOnly, Category="CORE")
 	bool bGameInitialized = false;

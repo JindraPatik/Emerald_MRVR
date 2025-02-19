@@ -1,7 +1,7 @@
 ﻿#include "Thief.h"
 
 #include "Harvester.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
@@ -115,7 +115,7 @@ void AThief::BaseRobbery(AActor* OtherActor)
 	
 	else if (OtherActor && OtherActor->GetOwner() == GetOwner() && bIsloaded) // If is my base and Thief bIsLoaded -> Deliver
 	{
-		AMilitaryBase* MilitaryBase = Cast<AMilitaryBase>(OtherActor);
+		AMilitaryStation* MilitaryBase = Cast<AMilitaryStation>(OtherActor);
 		if (!MilitaryBase)
 		{
 			return;

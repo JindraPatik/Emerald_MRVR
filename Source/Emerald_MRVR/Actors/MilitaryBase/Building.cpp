@@ -53,18 +53,24 @@ void ABuilding::Tick(float DeltaTime)
 		float Progress = FMath::Clamp(ElapsedTime / CooldownDuration, 0.0f, 1.0f);
 
 		UWidgetComponent* WidgetComp = CooldownWidgetInstance->FindComponentByClass<UWidgetComponent>();
-		if (WidgetComp)
+		if (!WidgetComp)
 		{
-			UUserWidget* UserWidget = Cast<UUserWidget>(WidgetComp->GetWidget());
-			if (UserWidget)
-			{
-				UProgressBar* CooldownProgress = Cast<UProgressBar>(UserWidget->WidgetTree->FindWidget("Progress_CoolDown"));
-				if (CooldownProgress)
-				{
-					CooldownProgress->SetPercent(Progress);
-				}
-			}
+			return;
 		}
+		
+		UUserWidget* UserWidget = Cast<UUserWidget>(WidgetComp->GetWidget());
+		if (!UserWidget)
+		{
+			return;
+		}
+		
+		UProgressBar* CooldownProgress = Cast<UProgressBar>(UserWidget->WidgetTree->FindWidget("Progress_CoolDown"));
+		if (!CooldownProgress)
+		{
+			return;
+		}
+		CooldownProgress->SetPercent(Progress);
+		
 		if (ElapsedTime >= CooldownDuration)
 		{
 			CooldownWidgetInstance->SetActorHiddenInGame(true);
@@ -84,10 +90,11 @@ void ABuilding::Cooldown(float CD_Time)
 	ElapsedTime = 0.f;
 	GetWorld()->GetTimerManager().SetTimer(CD_Handle, this, &ABuilding::EnableSpawning, CD_Time, false);
 	SetActorTickEnabled(true);
-	if (CooldownWidgetInstance)
+	if (!CooldownWidgetInstance)
 	{
-		CooldownWidgetInstance->SetActorHiddenInGame(false);
+		return;
 	}
+	CooldownWidgetInstance->SetActorHiddenInGame(false);
 }
 
 void ABuilding::SpawnInfoWidget()
@@ -96,7 +103,6 @@ void ABuilding::SpawnInfoWidget()
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParameters.Owner = GetOwner();
 	FRotator Rotation = FRotator::ZeroRotator;
-	//FVector Location = GetActorLocation() + FVector(0.f, 0.f, InfoWidgetHeight);
 	FVector Location = InfoWidgetSpawnPoint->GetComponentLocation();
 	InfoWidgetActorInst = GetWorld()->SpawnActor<AActor>(InfoWidgetActor, Location, Rotation, SpawnParameters);
 	SetInfoWidgetStats(InfoWidgetActorInst);
@@ -115,46 +121,48 @@ void ABuilding::SetInfoWidgetStats(AActor* WidgetActor)
 	//UTextBlock* TXT_Unit = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Unit"));
 	//... atd.
 
-	if (WidgetComponent)
+	if (!WidgetComponent)
 	{
-		// Unit name
-		UTextBlock* TXT_Unit = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Unit"));
-		if (TXT_Unit && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
-		{
-			FName UnitFName = BuildingDataAsset->UnitToSpawnData->UnitName;
-			FText UnitName = FText::FromName(UnitFName);
-			TXT_Unit->SetText(UnitName);
-		}
+		return;
+	}
+	
+	// Unit name
+	UTextBlock* TXT_Unit = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Unit"));
+	if (TXT_Unit && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
+	{
+		FName UnitFName = BuildingDataAsset->UnitToSpawnData->UnitName;
+		FText UnitName = FText::FromName(UnitFName);
+		TXT_Unit->SetText(UnitName);
+	}
 
-		// Unit Price
-		UTextBlock* TXT_Price = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Price"));
-		if (TXT_Price && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
-		{
-			float UnitPrice = BuildingDataAsset->UnitToSpawnData->Price;
-			FString UnitPriceString = FString::SanitizeFloat(UnitPrice);
-			FText UnitPriceText = FText::FromString(UnitPriceString);
-			TXT_Price->SetText(UnitPriceText);
-		}
+	// Unit Price
+	UTextBlock* TXT_Price = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Price"));
+	if (TXT_Price && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
+	{
+		float UnitPrice = BuildingDataAsset->UnitToSpawnData->Price;
+		FString UnitPriceString = FString::SanitizeFloat(UnitPrice);
+		FText UnitPriceText = FText::FromString(UnitPriceString);
+		TXT_Price->SetText(UnitPriceText);
+	}
 
-		// Unit Strenght
-		UTextBlock* TXT_Strenght = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Strenght"));
-		if (TXT_Strenght && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
-		{
-			float UnitStrenght = BuildingDataAsset->UnitToSpawnData->Strength;
-			FString UnitStrenghtString = FString::SanitizeFloat(UnitStrenght);
-			FText UnitStrenghtText = FText::FromString(UnitStrenghtString);
-			TXT_Strenght->SetText(UnitStrenghtText);
-		}
+	// Unit Strenght
+	UTextBlock* TXT_Strenght = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Strenght"));
+	if (TXT_Strenght && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
+	{
+		float UnitStrenght = BuildingDataAsset->UnitToSpawnData->Strength;
+		FString UnitStrenghtString = FString::SanitizeFloat(UnitStrenght);
+		FText UnitStrenghtText = FText::FromString(UnitStrenghtString);
+		TXT_Strenght->SetText(UnitStrenghtText);
+	}
 
-		// Unit Speed
-		UTextBlock* TXT_Speed = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Speed"));
-		if (TXT_Speed && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
-		{
-			float UnitSpeed = BuildingDataAsset->UnitToSpawnData->Speed;
-			FString UnitSpeedString = FString::SanitizeFloat(UnitSpeed);
-			FText UnitSpeedText = FText::FromString(UnitSpeedString);
-			TXT_Speed->SetText(UnitSpeedText);
-		}
+	// Unit Speed
+	UTextBlock* TXT_Speed = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Speed"));
+	if (TXT_Speed && BuildingDataAsset && BuildingDataAsset->UnitToSpawnData)
+	{
+		float UnitSpeed = BuildingDataAsset->UnitToSpawnData->Speed;
+		FString UnitSpeedString = FString::SanitizeFloat(UnitSpeed);
+		FText UnitSpeedText = FText::FromString(UnitSpeedString);
+		TXT_Speed->SetText(UnitSpeedText);
 	}
 }
 
@@ -163,24 +171,28 @@ void ABuilding::EnableInfoWidget()
 	InfoWidgetActorInst->SetActorHiddenInGame(false);
 	InfoWidgetActorInst->SetActorTickEnabled(true);
 	UWidgetComponent* WidgetComponent = InfoWidgetActorInst->FindComponentByClass<UWidgetComponent>();
-	if (WidgetComponent)
+	if (!WidgetComponent)
 	{
-		WidgetComponent->PrimaryComponentTick.bCanEverTick = true;
-		UTextBlock* TXT_Price = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Price"));
-		UResourcesComponent* ResourcesComponent = GetOwner()->FindComponentByClass<UResourcesComponent>();
-		if (ResourcesComponent)
-		{
-			if (ResourcesComponent->AvailableResources < BuildingDataAsset->UnitToSpawnData->Price)
-			{
-				FSlateColor Red = FColor::Red;
-				TXT_Price->SetColorAndOpacity(Red);
-			}
-			else
-			{
-				FSlateColor Green = FColor::Green;
-				TXT_Price->SetColorAndOpacity(Green);
-			}
-		}
+		return;
+	}
+	
+	WidgetComponent->PrimaryComponentTick.bCanEverTick = true;
+	UTextBlock* TXT_Price = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Price"));
+	UResourcesComponent* ResourcesComponent = GetOwner()->FindComponentByClass<UResourcesComponent>();
+	if (!ResourcesComponent)
+	{
+		return;
+	}
+	
+	if (ResourcesComponent->AvailableResources < BuildingDataAsset->UnitToSpawnData->Price)
+	{
+		FSlateColor Red = FColor::Red;
+		TXT_Price->SetColorAndOpacity(Red);
+	}
+	else
+	{
+		FSlateColor Green = FColor::Green;
+		TXT_Price->SetColorAndOpacity(Green);
 	}
 }
 

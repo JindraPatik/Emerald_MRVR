@@ -9,7 +9,7 @@ class UBehaviorTree;
 class UMilitaryStationComp;
 class UHealthComponent;
 class UResourcesComponent;
-class AMilitaryBase;
+class AMilitaryStation;
 class UAIComponent;
 class AGameState;
 
@@ -46,7 +46,7 @@ public:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryBase* MilitaryBaseInstance;
+		AMilitaryStation* MilitaryBaseInstance;
 
 	TObjectPtr<AGameState> AEK_GameStateInst;
 		

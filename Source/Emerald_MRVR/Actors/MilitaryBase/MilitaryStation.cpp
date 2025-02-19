@@ -1,12 +1,12 @@
 
-#include "MilitaryBase.h"
+#include "MilitaryStation.h"
 #include "BoxComponent.h"
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
 #include "Net/UnrealNetwork.h"
 
 #define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()
 
-AMilitaryBase::AMilitaryBase()
+AMilitaryStation::AMilitaryStation()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
@@ -107,39 +107,39 @@ AMilitaryBase::AMilitaryBase()
 	RocketLauncher_Position->SetupAttachment(Positions_Root);
 }
 
-void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void AMilitaryStation::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMilitaryBase, VR_Pawn);
-	DOREPLIFETIME(AMilitaryBase, Body_Root)
-	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
-	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
-	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
-	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
-	DOREPLIFETIME(AMilitaryBase, OriginalMaterial);
-	DOREPLIFETIME(AMilitaryBase, HoveredMaterial);
-	DOREPLIFETIME(AMilitaryBase, BaseRoot);
+	DOREPLIFETIME(AMilitaryStation, VR_Pawn);
+	DOREPLIFETIME(AMilitaryStation, Body_Root)
+	DOREPLIFETIME(AMilitaryStation, SpawnPoint_Ground)
+	DOREPLIFETIME(AMilitaryStation, SpawnPoint_Air)
+	DOREPLIFETIME(AMilitaryStation, ResourcesWidgetInstance);
+	DOREPLIFETIME(AMilitaryStation, HealthWidgetInstance);
+	DOREPLIFETIME(AMilitaryStation, OriginalMaterial);
+	DOREPLIFETIME(AMilitaryStation, HoveredMaterial);
+	DOREPLIFETIME(AMilitaryStation, BaseRoot);
 
 	// Modules
-	DOREPLIFETIME(AMilitaryBase, Mine_Position);
-	DOREPLIFETIME(AMilitaryBase, Prison_Position);
-	DOREPLIFETIME(AMilitaryBase, Bank_Position);
-	DOREPLIFETIME(AMilitaryBase, Bank_Position);
-	DOREPLIFETIME(AMilitaryBase, UVKSC_Position);
-	DOREPLIFETIME(AMilitaryBase, Microsoft_Position);
-	DOREPLIFETIME(AMilitaryBase, Barracs_Position);
-	DOREPLIFETIME(AMilitaryBase, Garage_Position);
-	DOREPLIFETIME(AMilitaryBase, LPlatform_Position);
-	DOREPLIFETIME(AMilitaryBase, Minecraft_Position);
-	DOREPLIFETIME(AMilitaryBase, Heliport_Position);
-	DOREPLIFETIME(AMilitaryBase, Runway_Position);
-	DOREPLIFETIME(AMilitaryBase, Aerial_Position);
-	DOREPLIFETIME(AMilitaryBase, Hangar_Position);
-	DOREPLIFETIME(AMilitaryBase, RocketLauncher_Position);
-	DOREPLIFETIME(AMilitaryBase, BuildingPositions);
+	DOREPLIFETIME(AMilitaryStation, Mine_Position);
+	DOREPLIFETIME(AMilitaryStation, Prison_Position);
+	DOREPLIFETIME(AMilitaryStation, Bank_Position);
+	DOREPLIFETIME(AMilitaryStation, Bank_Position);
+	DOREPLIFETIME(AMilitaryStation, UVKSC_Position);
+	DOREPLIFETIME(AMilitaryStation, Microsoft_Position);
+	DOREPLIFETIME(AMilitaryStation, Barracs_Position);
+	DOREPLIFETIME(AMilitaryStation, Garage_Position);
+	DOREPLIFETIME(AMilitaryStation, LPlatform_Position);
+	DOREPLIFETIME(AMilitaryStation, Minecraft_Position);
+	DOREPLIFETIME(AMilitaryStation, Heliport_Position);
+	DOREPLIFETIME(AMilitaryStation, Runway_Position);
+	DOREPLIFETIME(AMilitaryStation, Aerial_Position);
+	DOREPLIFETIME(AMilitaryStation, Hangar_Position);
+	DOREPLIFETIME(AMilitaryStation, RocketLauncher_Position);
+	DOREPLIFETIME(AMilitaryStation, BuildingPositions);
 }
 
-void AMilitaryBase::BeginPlay()
+void AMilitaryStation::BeginPlay()
 {
 	Super::BeginPlay();
 	VR_Pawn = Cast<APawn>(GetOwner());
@@ -152,7 +152,7 @@ void AMilitaryBase::BeginPlay()
 	} 
 }
 
-void AMilitaryBase::SpawnResourcesWidget()
+void AMilitaryStation::SpawnResourcesWidget()
 {
 	if (!HasAuthority())
 	{
@@ -172,12 +172,12 @@ void AMilitaryBase::SpawnResourcesWidget()
 	}
 }
 
-void AMilitaryBase::Server_SpawnResourcesWidget_Implementation()
+void AMilitaryStation::Server_SpawnResourcesWidget_Implementation()
 {
 	SpawnResourcesWidget();
 }
 
-void AMilitaryBase::SpawnHealthWidget()
+void AMilitaryStation::SpawnHealthWidget()
 {
 	if (!HasAuthority())
 	{
@@ -200,7 +200,7 @@ void AMilitaryBase::SpawnHealthWidget()
 	}
 }
 
-void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
+void AMilitaryStation::Server_SpawnHealthWidget_Implementation()
 {
 	SpawnHealthWidget();
 }

@@ -2,7 +2,7 @@
 
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Collaborator.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
@@ -121,7 +121,7 @@ void UCombatComponent::UnitFight(AActor* InActor)
 void UCombatComponent::BaseFight(AActor* InActor)
 {
 	APawn* VR_Pawn = Cast<APawn>(GetOwner()->GetOwner());
-	AMilitaryBase* HittedBase = Cast<AMilitaryBase>(InActor);
+	AMilitaryStation* HittedBase = Cast<AMilitaryStation>(InActor);
 	AThief* Thief = Cast<AThief>(GetOwner());
 
 	// If I'm a thief don't kill me
