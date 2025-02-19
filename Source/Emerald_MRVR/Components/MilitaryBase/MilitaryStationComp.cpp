@@ -86,23 +86,25 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 	}
 	
 	SetSpawnPointForStation();
-	if (SpawnPointForMilitaryStation)
+	if (!SpawnPointForMilitaryStation)
 	{
-		FActorSpawnParameters SpawnParameters;
-		SpawnParameters.Instigator = InPawn;
-		SpawnParameters.Owner = InPawn;
-		FVector SpawnLocation = SpawnPointForMilitaryStation->GetActorLocation();
-		FRotator SpawnRotation = SpawnPointForMilitaryStation->GetActorRotation();
+		return;
+	}
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Instigator = InPawn;
+	SpawnParameters.Owner = InPawn;
+	FVector SpawnLocation = SpawnPointForMilitaryStation->GetActorLocation();
+	FRotator SpawnRotation = SpawnPointForMilitaryStation->GetActorRotation();
 
-		SpawnPointForMilitaryStation->ActorHasTag("Reversed") ? bIsReversed = true : bIsReversed = false; // Set reversed bool
-				
-		if (InPawn)
-		{
-			PlayerMilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
-		}
+	SpawnPointForMilitaryStation->ActorHasTag("Reversed") ? bIsReversed = true : bIsReversed = false; // Set reversed bool
+			
+	if (!InPawn)
+	{
+		return;
+	}
 
+	PlayerMilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
 		
-	}	
 }
 
 void UMilitaryStationComp::Server_SpawnMilitaryStation_Implementation(APawn* InPawn)
@@ -119,36 +121,40 @@ void UMilitaryStationComp::SpawnBuildings(APawn* InPawn)
 		return;
 	}
 
-	if (SpawnPointForMilitaryStation)
+	if (!SpawnPointForMilitaryStation)
 	{
-		FActorSpawnParameters SpawnParameters;
-		SpawnParameters.Instigator = InPawn;
-		SpawnParameters.Owner = InPawn;
-		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		
-		if (AvailableBuildings.Num() > 0)
+		return;
+	}
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Instigator = InPawn;
+	SpawnParameters.Owner = InPawn;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+	if (AvailableBuildings.Num() > 0)
+	{
+		for (UBuildingDataAsset* Building : AvailableBuildings)
 		{
-			for (UBuildingDataAsset* Building : AvailableBuildings)
+			if (PlayerMilitaryStationInstance && PlayerMilitaryStationInstance->BuildingPositions.Num() >= 0)
 			{
-				if (PlayerMilitaryStationInstance && PlayerMilitaryStationInstance->BuildingPositions.Num() >= 0)
+				for (USceneComponent* ModulePos : PlayerMilitaryStationInstance->BuildingPositions)
 				{
-					for (USceneComponent* ModulePos : PlayerMilitaryStationInstance->BuildingPositions)
+					if (ModulePos->ComponentHasTag(Building->BuildingName))
 					{
-						if (ModulePos->ComponentHasTag(Building->BuildingName))
+						FVector ModuleSpawnLoc = ModulePos->GetComponentLocation();
+						FRotator ModuleSpawnRot = ModulePos->GetComponentRotation();
+						
+						ABuilding* ModuleInstance = GetWorld()->SpawnActor<ABuilding>(Building->BuildingClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
+						AvailableBuildingsActors.Add(ModuleInstance);
+
+						if (!ModuleInstance)
 						{
-							FVector ModuleSpawnLoc = ModulePos->GetComponentLocation();
-							FRotator ModuleSpawnRot = ModulePos->GetComponentRotation();
-							
-							ABuilding* ModuleInstance = GetWorld()->SpawnActor<ABuilding>(Building->BuildingClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
-							AvailableBuildingsActors.Add(ModuleInstance);
-							if (ModuleInstance)
-							{
-								ModuleInstance->BuildingDataAsset = Building;
-								ModuleInstance->SpawnInfoWidget();
-								ModuleInstance->SpawnCooldownWidget();
-							}
-							ModuleInstance->SetReplicates(true);
+							return;
 						}
+						
+						ModuleInstance->BuildingDataAsset = Building;
+						ModuleInstance->SpawnInfoWidget();
+						ModuleInstance->SpawnCooldownWidget();
+						ModuleInstance->SetReplicates(true);
 					}
 				}
 			}
@@ -248,21 +254,18 @@ void UMilitaryStationComp::Server_SpawnUnit_Implementation(APawn* InstigatorPawn
 
 bool UMilitaryStationComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset)
 {
-		if (!GetOwner()->HasAuthority())
-		{
-			Server_HasEnoughResources(BuildingDataAsset);
-		}
-	
-		if (ResourcesComponentInst)
-		{
-			if (ResourcesComponentInst->AvailableResources >= BuildingDataAsset->UnitToSpawnData->Price)
-			{
-				return true;
-			}
-			SpawnNotEnoughResWidget();
-			return false;
-		}
-		return false;
+	if (!GetOwner()->HasAuthority())
+	{
+		Server_HasEnoughResources(BuildingDataAsset);
+	}
+
+	if (ResourcesComponentInst && ResourcesComponentInst->AvailableResources >= BuildingDataAsset->UnitToSpawnData->Price)
+	{
+		return true;
+	}
+
+	SpawnNotEnoughResWidget();
+	return false;
 }
 
 void UMilitaryStationComp::Server_HasEnoughResources_Implementation(UBuildingDataAsset* BuildingDataAsset)
