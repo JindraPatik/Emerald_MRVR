@@ -90,7 +90,7 @@ void AB52::SpawnProjectile()
 	}
 	
 	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.Owner = GetOwner();
+	SpawnParameters.Owner = this;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	FVector Location = GetActorLocation() - FVector(0, 0 , 10.f) - GetActorForwardVector() * 3.f; // Offset
 	FRotator Rotation = GetActorForwardVector().Rotation();

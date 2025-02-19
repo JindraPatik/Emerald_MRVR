@@ -1,31 +1,24 @@
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
-#include "RocketComponent.generated.h"
+#include "Emerald_MRVR/Actors/Units/Unit.h"
+#include "Rocket.generated.h"
 
 
-class AUnit;
-class UNiagaraSystem;
-
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class EMERALD_MRVR_API URocketComponent : public UActorComponent
+/* Rocket is a special attacking unit looking for random enemy flying target and trying to instantly destoy it when overlaps */
+UCLASS()
+class EMERALD_MRVR_API ARocket : public AUnit
 {
 	GENERATED_BODY()
 
 public:
-	URocketComponent();
+	ARocket();
 
 protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void OnBoxOverlapped(	UPrimitiveComponent* OverlappedComponent,
-							AActor* OtherActor,
-							UPrimitiveComponent* OtherComp,
-							int32 OtherBodyIndex,
-							bool bFromSweep,
-							const FHitResult& SweepResult);
+	void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);
 
 	UPROPERTY()
 		TObjectPtr<AUnit> Target;
@@ -83,11 +76,8 @@ protected:
 		void SearchTargets();
 
 	UFUNCTION()
-		void FindAndSelect();
+		void FindAndSelectTarget();
 
-	UFUNCTION()
-		void KillMe();
-	
 	UFUNCTION()
 		void DestroyMe();
 
@@ -111,10 +101,6 @@ protected:
 
 	UPROPERTY()
 		FTimerHandle DestroyHandle;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
-		UNiagaraSystem* Explosion;
-
 	
 	FVector CurrentVelocity;
 	bool bLaunched = false;
@@ -125,8 +111,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rocket")
 		float Gravity = 9.80f; 
 
-
 public:
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void Tick(float DeltaTime) override;
+
 };
