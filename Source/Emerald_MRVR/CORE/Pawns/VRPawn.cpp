@@ -33,7 +33,6 @@ AVRPawn::AVRPawn()
 	
 	MilitaryStationComp = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryBaseComp");
 	MilitaryStationComp->SetIsReplicated(true);
-
 	// ~COMPONENTS
 
 }
@@ -41,14 +40,15 @@ AVRPawn::AVRPawn()
 void AVRPawn::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	AEKGameState* AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
-	if (AEK_GameStateInst)
+	
+	AEKGameState* AEKGameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
+	if (AEKGameStateInst)
 	{
-		AGameModeCommon* GM = Cast<AGameModeCommon>(AEK_GameStateInst->AuthorityGameMode);
-		if (GM)
+		AGameModeCommon* GameModeCommon = Cast<AGameModeCommon>(AEKGameStateInst->AuthorityGameMode);
+		if (GameModeCommon)
 		{
-			GM->OnGameStartedDelegate.AddDynamic(this, &AVRPawn::StartGame);
-			GM->OnGameEndedDelegate.AddDynamic(this, &AVRPawn::EndGame);
+			GameModeCommon->OnGameStartedDelegate.AddDynamic(this, &AVRPawn::StartGame);
+			GameModeCommon->OnGameEndedDelegate.AddDynamic(this, &AVRPawn::EndGame);
 		}
 	}
 }
@@ -113,7 +113,6 @@ void AVRPawn::Tick(float DeltaTime)
 
 	if (IsLocallyControlled() && bInputIsEnabled)
 	{
-		
 		if (!bIsMenuActive)
 		{
 			if (MotionController_L && ImpactPointer_L)

@@ -28,21 +28,19 @@ public:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category="Movement")
 		bool bIsRestartingMovement = false;
 
+	/* Reversed movement has Enemy to move along path in reversed direction */
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category="Movement")
 		bool bIsReversedMovement = false;
 
 	UPROPERTY(BlueprintReadWrite, Category="Movement")
 		TObjectPtr<USplineComponent> MovementSpline;
 	
-	//TODO
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void MoveAlongPath(float DeltaTime);
 
-	//TODO
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void CreateMovementPath();
 
-	//TODO
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void FindPathPoints();
 
@@ -75,7 +73,7 @@ public:
 	bool bIsReversed;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
-		float Acceleration = 10.f; // Maybe add to Data asset?
+		float Acceleration = 15.f; // Maybe add to Data asset?
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		float UnitSpeed;
@@ -89,6 +87,7 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 		float SmoothRotationInterpSpeed = 5.f;
+	
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
