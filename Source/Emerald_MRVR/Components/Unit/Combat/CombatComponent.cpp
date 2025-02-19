@@ -62,66 +62,60 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		
 		ACollaborator* Collaborator = Cast<ACollaborator>(InActor);
 
+		/* if overlaps with Collaborator baypass fight */
 		if (Collaborator)
 		{
 			return;
 		}
-		
+
+		/* if overlaps with Player Unit baypass fight */
 		if (HittedUnit && HittedUnit->GetOwner() == GetOwner()->GetOwner()) 
 		{
 			return;
 		}
 
-		if (Thief && OtherHarvester && OtherHarvester->bIsLoaded)
-		{
-			return;
-		}
-
-		if (Harvester && Harvester->bIsLoaded && OtherThief)
+		/* if overlaps with Player loaded Harvester baypass fight */
+		if (Thief && OtherHarvester && OtherHarvester->bIsLoaded || Harvester && Harvester->bIsLoaded && OtherThief)
 		{
 			return;
 		}
 		
-		if (HittedUnit)
+		if (!HittedUnit)
 		{
-			APawn* OtherOwner = Cast<APawn>(HittedUnit->GetOwner());
-			if (OtherOwner)
-			{
-				if (VR_Pawn && HittedUnit && OtherOwner && VR_Pawn != OtherOwner) 	// Is that Other players Unit? 
-                {
-                	if (Unit->Strenght > HittedUnit->Strenght) // Win condition
-                	{
-                		CurrentScenario = ECombatScenarios::E_Win;
-		                {
-		                	UUnitMovementComponent* MyUnitMovementComponent = Unit->FindComponentByClass<UUnitMovementComponent>();
-		                	if (MyUnitMovementComponent)
-		                	{
-								if (!HittedUnit->bIsFlyingUnit)
-								{
-		                			MyUnitMovementComponent->StopUnit();
-									GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
-								}
-		                		HittedUnit->KillMe();
-				                
-		                	}
-		                }
-                		return;
-                	}
-
-                	if (Unit->Strenght == HittedUnit->Strenght) // Tie condition
-                	{
-                		CurrentScenario = ECombatScenarios::E_Tie;
-                		HittedUnit->KillMe();
-                		Unit->KillMe();
-                		return;
-                	}
-                }
-				return;
-			}
 			return;
-			
 		}
-		return;
+		APawn* OtherOwner = Cast<APawn>(HittedUnit->GetOwner());
+		if (!OtherOwner)
+		{
+			return;
+		}
+		if (VR_Pawn && HittedUnit && OtherOwner && VR_Pawn != OtherOwner) 	// Is that Other players Unit? 
+        {
+            if (Unit->Strenght > HittedUnit->Strenght) // Win condition
+            {
+                CurrentScenario = ECombatScenarios::E_Win;
+                UUnitMovementComponent* MyUnitMovementComponent = Unit->FindComponentByClass<UUnitMovementComponent>();
+                if (!MyUnitMovementComponent)
+                {
+	                return;
+                }
+                
+				if (!HittedUnit->bIsFlyingUnit)
+				{
+	                MyUnitMovementComponent->StopUnit();
+					GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
+				}
+                HittedUnit->KillMe();
+                return;
+            }
+
+            if (Unit->Strenght == HittedUnit->Strenght) // Tie condition
+            {
+                CurrentScenario = ECombatScenarios::E_Tie;
+                HittedUnit->KillMe();
+                Unit->KillMe();
+            }
+        }
 	}
 }
 
@@ -131,29 +125,27 @@ void UCombatComponent::BaseFight(AActor* InActor)
 	AMilitaryBase* HittedBase = Cast<AMilitaryBase>(InActor);
 	AThief* Thief = Cast<AThief>(GetOwner());
 
+	// If I'm a thief don't kill me
 	if (Thief && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Thief && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner()"));
-		return; // If Im a thief dont kill me
+		return; 
 	}
 	
 	if (!HittedBase)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("HittedBase"));
 		return;
 	}
 	
 	APawn* OtherBaseOwner = Cast<APawn>(HittedBase->GetOwner());
 	if (!OtherBaseOwner)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("!OtherBaseOwner"));
 		return;
 	}
+
+	/* If it is Enemy Base attack */
 	if (VR_Pawn && HittedBase && OtherBaseOwner && OtherBaseOwner != VR_Pawn)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("VR_Pawn && HittedBase && OtherBaseOwner && OtherBaseOwner != VR_Pawn"));
 		UHealthComponent* OtherBaseHealthComp = OtherBaseOwner->FindComponentByClass<UHealthComponent>();
-
 		if (!OtherBaseHealthComp)
 		{
 			return;
