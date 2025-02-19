@@ -50,6 +50,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 		TArray<APathPoint*> PathPoints;
 
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		TArray<APathPoint*> ReturnPathPoints;
+
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 		float SplineDistance = 0.f;
 
@@ -57,7 +60,7 @@ public:
 		void Turn180();
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
-		void TurnRandom();
+		void ReturnHome();
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void StopUnit();
@@ -67,6 +70,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void RestartMovement();
+
+	UFUNCTION(BlueprintCallable, Category="Movement")
+		void GenerateReturnPathPoints();
+
+	
+
 
 	float StartingSpeed = 0;
 	bool bIsFlying;

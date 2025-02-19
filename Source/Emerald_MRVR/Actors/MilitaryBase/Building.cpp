@@ -25,6 +25,9 @@ ABuilding::ABuilding()
 
 	InfoWidgetSpawnPoint = CreateDefaultSubobject<USceneComponent>("InfowidgetSpawnPoint");
 	InfoWidgetSpawnPoint->SetupAttachment(RootComponent);
+
+	UnitReturnPoint = CreateDefaultSubobject<USceneComponent>("UnitReturnPoint");
+	UnitReturnPoint->SetupAttachment(SceneRoot);
 }
 
 void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -113,13 +116,6 @@ void ABuilding::SpawnInfoWidget()
 void ABuilding::SetInfoWidgetStats(AActor* WidgetActor)
 {
 	UWidgetComponent* WidgetComponent = WidgetActor->FindComponentByClass<UWidgetComponent>();
-
-	//pb: v pripade delsich bloku uvnitr if { } je vhodnejsi podminku udelat s opacnou logikou a blok pak nemusi byt uvnitr { }, je to prehlednejsi. V tomto pripade bych to zmenil na:
-	//if (!WidgetComponent)		<<<
-	//	return;
-	//a zbytek muze zustat bez indentace v ramci tela funkce
-	//UTextBlock* TXT_Unit = Cast<UTextBlock>(WidgetComponent->GetWidget()->WidgetTree->FindWidget("TXT_Unit"));
-	//... atd.
 
 	if (!WidgetComponent)
 	{
@@ -211,6 +207,7 @@ void ABuilding::DisableInfoWidget()
 	InfoWidgetActorInst->SetActorHiddenInGame(true);
 	InfoWidgetActorInst->SetActorTickEnabled(false);
 	UWidgetComponent* WidgetComponent = InfoWidgetActorInst->FindComponentByClass<UWidgetComponent>();
+	
 	if (WidgetComponent)
 	{
 		WidgetComponent->PrimaryComponentTick.bCanEverTick = false;
@@ -220,20 +217,24 @@ void ABuilding::DisableInfoWidget()
 
 void ABuilding::SetOverlayMaterial()
 {
-	//pb: jeno?�dkov� podm�nky je lep�� ned�vat na jeden ?�dek, kv?li breakpoint?m, viz. doc
-	if (!OverlayMaterial) return;
-
+	if (!OverlayMaterial)
+	{
+		return;
+	}
+	
 	TArray<UStaticMeshComponent*> MeshComponents;
 	GetComponents<UStaticMeshComponent>(MeshComponents);
 
 	for (UStaticMeshComponent* MeshComponent : MeshComponents)
 	{
-		if (MeshComponent)
+		if (!MeshComponent)
 		{
-			for (int32 i = 0; i < MeshComponent->GetNumMaterials(); i++)
-			{
-				MeshComponent->SetMaterial(i, OverlayMaterial);
-			}
+			return;
+		}
+		
+		for (int32 i = 0; i < MeshComponent->GetNumMaterials(); i++)
+		{
+			MeshComponent->SetMaterial(i, OverlayMaterial);
 		}
 	}
 }
@@ -245,13 +246,15 @@ void ABuilding::RemoveOverlayMaterial()
 
 	for (UStaticMeshComponent* MeshComponent : MeshComponents)
 	{
-		if (MeshComponent)
+		if (!MeshComponent)
 		{
-			for (int32 i = 0; i < MeshComponent->GetNumMaterials(); i++)
-			{
-				UMaterialInterface* DefaultMaterial = MeshComponent->GetStaticMesh()->GetMaterial(i);
-				MeshComponent->SetMaterial(i, DefaultMaterial);
-			}
+			return;
+		}
+		
+		for (int32 i = 0; i < MeshComponent->GetNumMaterials(); i++)
+		{
+			UMaterialInterface* DefaultMaterial = MeshComponent->GetStaticMesh()->GetMaterial(i);
+			MeshComponent->SetMaterial(i, DefaultMaterial);
 		}
 	}
 }

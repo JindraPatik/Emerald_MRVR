@@ -4,6 +4,7 @@
 #include "GameFramework/Pawn.h"
 #include "Unit.generated.h"
 
+class ABuilding;
 class AAIController;
 class AUnitAIController;
 class UCombatComponent;
@@ -64,8 +65,14 @@ public:
 	UPROPERTY(VisibleAnywhere, Category="Stats")
 		bool bIsReversed;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+		bool HasReturnPoint = false;
+
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
 		FVector UnitSpawnLocation;
+
+	UPROPERTY()
+		TObjectPtr<ABuilding> OwningBuilding;
 
 	/* Function to handle Death of the Unit Actor */
 	UFUNCTION(BlueprintNativeEvent, Category="Combat")

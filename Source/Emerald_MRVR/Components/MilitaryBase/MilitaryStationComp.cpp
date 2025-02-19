@@ -224,6 +224,8 @@ AUnit* UMilitaryStationComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Buildin
 					UnitInstance->bIsAttacker = SpawnedUnitDataAsset->IsAttacker;
 					UnitInstance->bIsReversed = bIsReversed;
 					UnitInstance->UnitSpawnLocation = UnitSpawnLocation;
+					UnitInstance->OwningBuilding = Building;
+					UnitInstance->HasReturnPoint = SpawnedUnitDataAsset->HasReturnPoint;
 					
 					if (UnitInstance->UnitMovementComponent)
 					{

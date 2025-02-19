@@ -34,6 +34,9 @@ public:
 
 	UFUNCTION()
 		void SpawnCooldownWidget();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+		TObjectPtr<USceneComponent> UnitReturnPoint;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Components")
 		TObjectPtr<UDownScaleComponent> DownScaleComponent;

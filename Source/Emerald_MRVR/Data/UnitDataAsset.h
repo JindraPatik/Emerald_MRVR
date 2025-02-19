@@ -41,6 +41,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 		bool IsRocket = false;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+		bool HasReturnPoint = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
 		UStaticMesh* UnitBody;
 

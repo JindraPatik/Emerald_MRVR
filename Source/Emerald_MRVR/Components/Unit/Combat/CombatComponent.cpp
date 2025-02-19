@@ -93,16 +93,16 @@ void UCombatComponent::UnitFight(AActor* InActor)
             if (Unit->Strenght > HittedUnit->Strenght) // Win condition
             {
                 CurrentScenario = ECombatScenarios::E_Win;
-                UUnitMovementComponent* MyUnitMovementComponent = Unit->FindComponentByClass<UUnitMovementComponent>();
-                if (!MyUnitMovementComponent)
+                UUnitMovementComponent* UnitMovementComponent = Unit->FindComponentByClass<UUnitMovementComponent>();
+                if (!UnitMovementComponent)
                 {
 	                return;
                 }
                 
 				if (!HittedUnit->bIsFlyingUnit)
 				{
-	                MyUnitMovementComponent->StopUnit();
-					GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, MyUnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
+	                UnitMovementComponent->StopUnit();
+					GetWorld()->GetTimerManager().SetTimer(FightSequenceHandle, UnitMovementComponent, &UUnitMovementComponent::RestartMovement, Unit->FightDelay, false);
 				}
                 HittedUnit->KillMe();
                 return;
@@ -154,6 +154,18 @@ void UCombatComponent::BaseFight(AActor* InActor)
 		OtherBaseHealthComp->Health -= Unit->Damage;
 		OtherBaseHealthComp->Health = FMath::Clamp(OtherBaseHealthComp->Health, 0, OtherBaseHealthComp->MaxHealth);
 		OtherBaseHealthComp->OnRep_OnHealthChanged();
+
+		if (Unit->HasReturnPoint)
+		{
+			UUnitMovementComponent* UnitMovementComponent = Unit->FindComponentByClass<UUnitMovementComponent>();
+			if (!UnitMovementComponent)
+			{
+				return;
+			}
+			UnitMovementComponent->ReturnHome();
+			return;
+		}
+		
 		GetOwner()->Destroy();
 	}
 }

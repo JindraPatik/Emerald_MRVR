@@ -1,9 +1,13 @@
 #include "UnitMovementComponent.h"
 #include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
 #include "EngineUtils.h"
+#include "MovieSceneSection.h"
 #include "SplineComponent.h"
+#include "Chaos/PBDSuspensionConstraintData.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/UnitMovement/PathPoint.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Net/UnrealNetwork.h"
 
@@ -63,7 +67,7 @@ void UUnitMovementComponent::CreateMovementPath()
 	UWorld* World = GetWorld();
 	if (!World) return;
 
-	// Find Enemz Military Station
+	// Find Enemy Military Station
 	AMilitaryStation* EnemyBase = nullptr;
 	for (TActorIterator<AMilitaryStation> It(World); It; ++It)
 	{
@@ -136,10 +140,59 @@ void UUnitMovementComponent::Turn180()
 	bIsReversedMovement = !bIsReversedMovement;
 }
 
-void UUnitMovementComponent::TurnRandom()
+void UUnitMovementComponent::ReturnHome()
 {
+	if (!Unit || !Unit->OwningBuilding || !Unit->OwningBuilding->UnitReturnPoint)
+	{
+		return;
+	}
 
+	if (MovementSpline)
+	{
+		MovementSpline->ClearSplinePoints();
+	}
+
+	ReturnPathPoints.Empty();
+	GenerateReturnPathPoints();
+	
+	FVector Start = Unit->GetActorLocation();
+	FVector End = Unit->OwningBuilding->UnitReturnPoint->GetComponentLocation();
+	
+	MovementSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, Start, End, ReturnPathPoints,GetOwner());
 }
+
+void UUnitMovementComponent::GenerateReturnPathPoints()
+{
+	if (!Unit)
+	{
+		return;
+	}
+
+	FVector PreviousPathPointLocation = GetOwner()->GetActorLocation();
+	FRotator PreviousPathRotation = GetOwner()->GetActorRotation();
+
+	for (uint32 i = 0; i < 3; i++)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = GetOwner();
+		SpawnParams.Instigator = Cast<APawn>(GetOwner());
+
+		FVector Location = PreviousPathPointLocation + PreviousPathRotation.Vector() * FMath::RandRange(100.f, 300.f);
+		PreviousPathPointLocation = Location;
+		
+		FRotator Rotation = PreviousPathRotation;
+		Rotation.Pitch += FMath::RandRange(-10.f, 10.f);
+		Rotation.Yaw += FMath::RandRange(-10.f, 10.f);
+		PreviousPathRotation = Rotation;		
+
+		APathPoint* PathPoint = GetWorld()->SpawnActor<APathPoint>(Location, Rotation, SpawnParams);
+		if (PathPoint)
+		{
+			ReturnPathPoints.Add(PathPoint);
+		}
+	}
+}
+
 
 void UUnitMovementComponent::StopUnit()
 {
@@ -176,4 +229,5 @@ void UUnitMovementComponent::RestartMovement()
 {
 	bIsRestartingMovement = true;
 }
+
 

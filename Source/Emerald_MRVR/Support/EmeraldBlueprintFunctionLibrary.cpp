@@ -6,14 +6,23 @@
 USplineComponent* UEmeraldBlueprintFunctionLibrary::CreateSplinePath(UObject* WorldContextObject, FVector StartPoint,
 																FVector EndPoint, TArray<APathPoint*> PathPoints, AActor* Outer)
 {
-	if (!WorldContextObject) return nullptr;
-
+	if (!WorldContextObject)
+	{
+		return nullptr;
+	}
+	
 	UWorld* World = WorldContextObject->GetWorld();
-	if (!World) return nullptr;
-
+	if (!World)
+	{
+		return nullptr;
+	}
+	
 	USplineComponent* SplineComponent = NewObject<USplineComponent>(Outer, USplineComponent::StaticClass());
-	if (!SplineComponent) return nullptr;
-
+	if (!SplineComponent)
+	{
+		return nullptr;
+	}
+	
 	SplineComponent->RegisterComponent();
 	SplineComponent->ClearSplinePoints();
 
