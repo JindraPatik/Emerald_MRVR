@@ -15,12 +15,7 @@ public:
 	UCombatComponent();
 	
 	UFUNCTION()
-	void OnBoxOverlapped(	UPrimitiveComponent* OverlappedComponent,
-							AActor* OtherActor,
-							UPrimitiveComponent* OtherComp,
-							int32 OtherBodyIndex,
-							bool bFromSweep,
-							const FHitResult& SweepResult);
+	void OnActorOverlapped(AActor* OverlappedActor, AActor* OtherActor );
 
 	UFUNCTION()
 		void UnitFight(AActor* InActor);
@@ -37,5 +32,5 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-		AUnit* Unit;
+	AUnit* Unit;
 };

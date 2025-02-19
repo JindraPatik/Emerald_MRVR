@@ -29,15 +29,14 @@ void UCombatComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Unit = Cast<AUnit>(GetOwner());
-	
-	if (Unit)
+	if (!Unit)
 	{
-		Unit->Body->OnComponentBeginOverlap.AddDynamic(this, &UCombatComponent::OnBoxOverlapped);
+		return;
 	}
+	Unit->OnActorBeginOverlap.AddDynamic(this, &UCombatComponent::OnActorOverlapped);
 }
 
-void UCombatComponent::OnBoxOverlapped(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void UCombatComponent::OnActorOverlapped(AActor* OverlappedActor, AActor* OtherActor )
 {
 	if (OtherActor)
 	{
@@ -146,6 +145,7 @@ void UCombatComponent::BaseFight(AActor* InActor)
 	if (VR_Pawn && HittedBase && OtherBaseOwner && OtherBaseOwner != VR_Pawn)
 	{
 		UHealthComponent* OtherBaseHealthComp = OtherBaseOwner->FindComponentByClass<UHealthComponent>();
+
 		if (!OtherBaseHealthComp)
 		{
 			return;
