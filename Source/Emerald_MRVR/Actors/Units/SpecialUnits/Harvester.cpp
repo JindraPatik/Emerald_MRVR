@@ -1,7 +1,7 @@
 ﻿#include "Harvester.h"
 
-#include "Emerald_MRVR/Actors/Crystal.h"
-#include "Emerald_MRVR/Actors/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/Resources/Crystal.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 

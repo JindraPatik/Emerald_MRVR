@@ -1,6 +1,6 @@
 ﻿#include "B52.h"
 
-#include "Emerald_MRVR/Actors/Projectile.h"
+#include "Emerald_MRVR/Actors/Projectiles/Projectile.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
 AB52::AB52()

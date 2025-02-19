@@ -12,7 +12,7 @@
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/Actors/Building.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
 #include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
