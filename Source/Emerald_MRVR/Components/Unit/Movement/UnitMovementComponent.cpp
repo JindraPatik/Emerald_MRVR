@@ -3,7 +3,7 @@
 #include "EngineUtils.h"
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Net/UnrealNetwork.h"
 
@@ -64,27 +64,27 @@ void UUnitMovementComponent::CreateMovementPath()
 	if (!World) return;
 
 	// Najít soupeřovu základnu
-	AMilitaryStation* EnemyStation = nullptr;
-	for (TActorIterator<AMilitaryStation> It(World); It; ++It)
+	AMilitaryBase* EnemyBase = nullptr;
+	for (TActorIterator<AMilitaryBase> It(World); It; ++It)
 	{
-		AMilitaryStation* MilitaryBase = *It;
+		AMilitaryBase* MilitaryBase = *It;
 		if (MilitaryBase && MilitaryBase->GetOwner() != GetOwner()->GetOwner()) // Ověříme, že to není naše základna
 		{
-			EnemyStation = MilitaryBase;
+			EnemyBase = MilitaryBase;
 			break; // Jakmile najdeme soupeře, přestaneme hledat
 		}
 	}
 
 	// Pokud jsme našli soupeře, nastavíme End podle typu jednotky
-	if (EnemyStation)
+	if (EnemyBase)
 	{
  		if (bIsFlying) // Pokud je jednotka létající
 		{
-			End = EnemyStation->SpawnPoint_Air->GetComponentLocation();
+			End = EnemyBase->SpawnPoint_Air->GetComponentLocation();
 		}
 		else // Pozemní jednotka
 		{
-			End = EnemyStation->SpawnPoint_Ground->GetComponentLocation();
+			End = EnemyBase->SpawnPoint_Ground->GetComponentLocation();
 		}
 	}
 

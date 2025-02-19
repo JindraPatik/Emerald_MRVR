@@ -24,7 +24,7 @@ protected:
 		TObjectPtr<USceneComponent> RootComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
-		TObjectPtr<UStaticMeshComponent> Body;
+		TObjectPtr<UStaticMeshComponent> BaseBody;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
 		TObjectPtr<UDownScaleComponent> DownScaleComponent;

@@ -21,7 +21,7 @@ public:
 		void UnitFight(AActor* InActor);
 
 	UFUNCTION()
-		void StationFight(AActor* InActor);
+		void BaseFight(AActor* InActor);
 
 	FTimerHandle FightSequenceHandle;
 

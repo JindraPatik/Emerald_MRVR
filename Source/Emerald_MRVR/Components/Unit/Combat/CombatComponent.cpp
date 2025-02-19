@@ -2,7 +2,7 @@
 
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Collaborator.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
@@ -41,7 +41,7 @@ void UCombatComponent::OnActorOverlapped(AActor* OverlappedActor, AActor* OtherA
 	if (OtherActor)
 	{
 		UnitFight(OtherActor);
-		StationFight(OtherActor);
+		BaseFight(OtherActor);
 	}
 }
 
@@ -118,31 +118,31 @@ void UCombatComponent::UnitFight(AActor* InActor)
 	}
 }
 
-void UCombatComponent::StationFight(AActor* InActor)
+void UCombatComponent::BaseFight(AActor* InActor)
 {
 	APawn* VR_Pawn = Cast<APawn>(GetOwner()->GetOwner());
-	AMilitaryStation* HittedStation = Cast<AMilitaryStation>(InActor);
+	AMilitaryBase* HittedBase = Cast<AMilitaryBase>(InActor);
 	AThief* Thief = Cast<AThief>(GetOwner());
 
 	// If I'm a thief don't kill me
-	if (Thief && HittedStation && HittedStation->GetOwner() != GetOwner()->GetOwner())
+	if (Thief && HittedBase && HittedBase->GetOwner() != GetOwner()->GetOwner())
 	{
 		return; 
 	}
 	
-	if (!HittedStation)
+	if (!HittedBase)
 	{
 		return;
 	}
 	
-	APawn* OtherBaseOwner = Cast<APawn>(HittedStation->GetOwner());
+	APawn* OtherBaseOwner = Cast<APawn>(HittedBase->GetOwner());
 	if (!OtherBaseOwner)
 	{
 		return;
 	}
 
 	/* If it is Enemy Base attack */
-	if (VR_Pawn && HittedStation && OtherBaseOwner && OtherBaseOwner != VR_Pawn)
+	if (VR_Pawn && HittedBase && OtherBaseOwner && OtherBaseOwner != VR_Pawn)
 	{
 		UHealthComponent* OtherBaseHealthComp = OtherBaseOwner->FindComponentByClass<UHealthComponent>();
 

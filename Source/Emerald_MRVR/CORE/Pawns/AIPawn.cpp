@@ -12,17 +12,17 @@ AAIPawn::AAIPawn()
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
-	MilitaryStationComp = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryStationComp");
-	AIComponent = CreateDefaultSubobject<UAIComponent>("AI_Component");
+	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryBaseComp");
+	AI_Component = CreateDefaultSubobject<UAIComponent>("AI_Component");
 }
 
 void AAIPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	MilitaryStationComp->SpawnMilitaryStation(this);
-	MilitaryStationComp->SpawnBuildings(this);
-	AIComponent->GetAvailableAttackingUnits();;
+	MilitaryBaseComp->SpawnMilitaryStation(this);
+	MilitaryBaseComp->SpawnBuildings(this);
+	AI_Component->GetAvailableAttackingUnits();;
 
 	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
 	if (AEK_GameStateInst)
@@ -38,13 +38,13 @@ void AAIPawn::BeginPlay()
 
 void AAIPawn::StartGame()
 {
-	AIComponent->HandleRandomSpawn();
+	AI_Component->HandleRandomSpawn();
 	ResourcesComponent->StartGrowResources();
 }
 
 void AAIPawn::EndGame(APawn* Looser)
 {
-	GetWorld()->GetTimerManager().ClearAllTimersForObject(AIComponent);
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(AI_Component);
 }
 
 void AAIPawn::Tick(float DeltaTime)

@@ -23,7 +23,7 @@ void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 void UResourcesComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MilitaryStationCompInst = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
 	if (GM)
 	{
@@ -33,12 +33,12 @@ void UResourcesComponent::BeginPlay()
 
 void UResourcesComponent::OnRep_ResourcesChanged() const
 {
-	if (MilitaryStationCompInst)
+	if (MilitaryBaseCompInst)
 	{
-		AMilitaryStation* MilitaryStationInstance = MilitaryStationCompInst->GetMilitaryStationInstance();
-		if (MilitaryStationInstance && MilitaryStationInstance->ResourcesWidgetInstance)
+		AMilitaryBase* MilitaryBaseInstance = MilitaryBaseCompInst->GetMilitaryBaseInstance();
+		if (MilitaryBaseInstance && MilitaryBaseInstance->ResourcesWidgetInstance)
 		{
-			UResourcesWidget* ResourcesWidget = Cast<UResourcesWidget>(MilitaryStationInstance->ResourcesWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
+			UResourcesWidget* ResourcesWidget = Cast<UResourcesWidget>(MilitaryBaseInstance->ResourcesWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
 			if (ResourcesWidget)
 			{
 				ResourcesWidget->UpdateResourcesWidget(FMath::Clamp(AvailableResources, 0.f, MaxResources));

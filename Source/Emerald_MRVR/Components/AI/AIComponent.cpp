@@ -39,10 +39,10 @@ void UAIComponent::BeginPlay()
 		 		AVRPawn* VR_Pawn = Cast<AVRPawn>(*It);
 			    if (VR_Pawn)
 			    {
-					UMilitaryStationComp* MilitaryStationComp = VR_Pawn->FindComponentByClass<UMilitaryStationComp>();
-						if (MilitaryStationComp)
+					UMilitaryStationComp* MilitaryBaseComp = VR_Pawn->FindComponentByClass<UMilitaryStationComp>();
+						if (MilitaryBaseComp)
 						{
-		 					MilitaryStationComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAIComponent::OnUnitOccured);
+		 					MilitaryBaseComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAIComponent::OnUnitOccured);
 						}
 			    }
 		 	}
@@ -70,35 +70,35 @@ float UAIComponent::GetDistanceBetweenCrystalSpawners() const
 
 float UAIComponent::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 {
-	UMilitaryStationComp* MilitaryStationComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
-	float DistanceToCrystal = FVector::Dist(MilitaryStationComp->GetMilitaryStationInstance()->GetActorLocation(), CrystalLocation);
+	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	float DistanceToCrystal = FVector::Dist(MilitaryBaseComp->GetMilitaryBaseInstance()->GetActorLocation(), CrystalLocation);
 	return DistanceToCrystal;
 }
 
 void UAIComponent::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 {
 	bool bShouldSendHarvester = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
-	UMilitaryStationComp* MilitaryStationComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	
-	if (MilitaryStationComp && bShouldSendHarvester && MilitaryStationComp->HasEnoughResources(MineBuilding))
+	if (MilitaryBaseComp && bShouldSendHarvester && MilitaryBaseComp->HasEnoughResources(MineBuilding))
 	{
 		FTimerHandle HarvesterSpawnDelayHandle;
 		float SimulatedDelay = FMath::FRandRange(0.f, MaxSimulatedDelayToSpawnHarvester);
 		GetWorld()->GetTimerManager().SetTimer
-			(HarvesterSpawnDelayHandle,[this, MilitaryStationComp]()
-			{ this->SpawnHarvester(MilitaryStationComp); },
+			(HarvesterSpawnDelayHandle,[this, MilitaryBaseComp]()
+			{ this->SpawnHarvester(MilitaryBaseComp); },
 			SimulatedDelay,
 			false
 			);
 	}
 }
 
-void UAIComponent::SpawnHarvester(UMilitaryStationComp* MilitaryStationComp)
+void UAIComponent::SpawnHarvester(UMilitaryStationComp* MilitaryBaseComp)
 {
 	APawn* AIPawn = Cast<APawn>(GetOwner());
 	if (AIPawn)
 	{
-		for (ABuilding* Module : MilitaryStationComp->AvailableBuildingsActors)
+		for (ABuilding* Module : MilitaryBaseComp->AvailableBuildingsActors)
 		{
 			if (Module->BuildingDataAsset == MineBuilding)
 			{
@@ -154,7 +154,7 @@ AUnit* UAIComponent::SpawnUnit(ABuilding* Module)
 	return nullptr;
 }
 
-void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryStationComp, TArray<ABuilding*> Availables)
+void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables)
 {
 	for (ABuilding* ReactUnit : Availables)
 	{
@@ -176,10 +176,10 @@ void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* 
 				}
 			}
 					
-			if (MilitaryStationComp->HasEnoughResources(CheapestStronger->BuildingDataAsset)) // Has enough res. to spawn? Do it!
+			if (MilitaryBaseComp->HasEnoughResources(CheapestStronger->BuildingDataAsset)) // Has enough res. to spawn? Do it!
 			{
 				FightStatus = EIsDefending;
-				AUnit* UnitInstance = MilitaryStationComp->SpawnUnit(AI_Pawn, ReactUnit);
+				AUnit* UnitInstance = MilitaryBaseComp->SpawnUnit(AI_Pawn, ReactUnit);
 				if (UnitInstance && UndefendedUnit && (UnitInstance->Strenght == UndefendedUnit->Strenght || UnitInstance->Strenght > UndefendedUnit->Strenght) && (UnitInstance->bIsFlyingUnit == UndefendedUnit->bIsFlyingUnit))
 				{
 					UndefendedUnit = nullptr;
@@ -211,7 +211,7 @@ void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* 
 					}
 				}
 					
-				if (MilitaryStationComp->HasEnoughResources(CheapestSame->BuildingDataAsset)) // Has enough res. to spawn? Do it!
+				if (MilitaryBaseComp->HasEnoughResources(CheapestSame->BuildingDataAsset)) // Has enough res. to spawn? Do it!
 				{
 					FightStatus = EIsDefending;
 					AUnit* UnitInstance = SpawnUnit(ReactUnit);
@@ -229,7 +229,7 @@ void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* 
 			FightStatus = EIsDefending;
 			UndefendedUnit = AttackerUnit;
 
-			Defending_Delegate.BindUFunction(this, "TryToDefend", MilitaryStationComp, Availables);
+			Defending_Delegate.BindUFunction(this, "TryToDefend", MilitaryBaseComp, Availables);
 			GetWorld()->GetTimerManager().SetTimer(Defending_Handle, Defending_Delegate, DefendingRate, false);
 		}
 	}
@@ -304,12 +304,12 @@ void UAIComponent::HandleRandomSpawn()
 }
 
 
-void UAIComponent::TryToDefend(UMilitaryStationComp* MilitaryStationComp, TArray<ABuilding*> Availables)
+void UAIComponent::TryToDefend(UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables)
 {
 	if (UndefendedUnit)
 	{
 		FightStatus = EIsDefending;
-		ChooseOptimalUnit(UndefendedUnit, MilitaryStationComp, Availables);
+		ChooseOptimalUnit(UndefendedUnit, MilitaryBaseComp, Availables);
 	}
 	if (!UndefendedUnit)
 	{

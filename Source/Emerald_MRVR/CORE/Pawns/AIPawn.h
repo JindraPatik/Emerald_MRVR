@@ -9,7 +9,7 @@ class UBehaviorTree;
 class UMilitaryStationComp;
 class UHealthComponent;
 class UResourcesComponent;
-class AMilitaryStation;
+class AMilitaryBase;
 class UAIComponent;
 class AGameState;
 
@@ -31,13 +31,13 @@ protected:
 	void EndGame(APawn* Looser);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="AI")
-		TObjectPtr<UAIComponent> AIComponent;						//pb: pozor na konzistenci nazvu: AI_Component vs HealthComponent vs MilitaryBaseComp
+		TObjectPtr<UAIComponent> AI_Component;						//pb: pozor na konzistenci nazvu: AI_Component vs HealthComponent vs MilitaryBaseComp
 	
 public:	
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		UMilitaryStationComp* MilitaryStationComp;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
+		UMilitaryStationComp* MilitaryBaseComp;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UHealthComponent> HealthComponent;
@@ -46,7 +46,7 @@ public:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryStation* MilitaryStationInstance;
+		AMilitaryBase* MilitaryBaseInstance;
 
 	TObjectPtr<AGameState> AEK_GameStateInst;
 		

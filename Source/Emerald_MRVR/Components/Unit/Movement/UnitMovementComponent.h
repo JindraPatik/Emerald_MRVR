@@ -6,7 +6,7 @@
 
 class APathPoint;
 class USplineComponent;
-class AMilitaryStation;
+class AMilitaryBase;
 class AVRPlayerController;
 class AVRPawn;
 class AUnit;

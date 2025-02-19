@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
 #include "MilitaryStationComp.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);
@@ -15,7 +15,7 @@ class ABuilding;
 class UUnitDataAsset;
 class UBuildingDataAsset;
 class AVRPawn;
-class AMilitaryStation;
+class AMilitaryBase;
 class AUnit;
 class ATargetPoint;
 class UWidgetAnimation;
@@ -43,7 +43,7 @@ protected:
 	void SpawnNotEnoughResWidget();
 
 	UFUNCTION(Server, Reliable)
-	void Server_SetSpawnPointForMilitaryStation();
+	void Server_SetSpawnPointForBase();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Widgets")
 		TSubclassOf<AActor> NotEnoughResourcesWidgetActor;
@@ -59,13 +59,13 @@ protected:
 	
 public:	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
-		TSubclassOf<AMilitaryStation> MilitaryStation;
+		TSubclassOf<AMilitaryBase> MilitaryStation;
 
 	UPROPERTY(Replicated, BlueprintReadOnly)
 		ATargetPoint* SpawnPointForMilitaryStation;
 
 	UPROPERTY(Replicated)
-		AMilitaryStation* PlayerMilitaryStationInstance;		//pb: nedoporucuju nazvy typu My..., krom toho slovo Base se obvykle pouziva pro bazove tridy, takze toto na prvni pohled vypada, jako instance nejake bazovew tridy, 
+		AMilitaryBase* PlayerMilitaryStationInstance;		//pb: nedoporucuju nazvy typu My..., krom toho slovo Base se obvykle pouziva pro bazove tridy, takze toto na prvni pohled vypada, jako instance nejake bazovew tridy, 
 											//    coz je nesmysl
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
@@ -117,7 +117,7 @@ public:
 		FOnUnitSpawnedSignature OnUnitSpawnedDelegate;
 
 	UFUNCTION()
-		FORCEINLINE AMilitaryStation* GetMilitaryStationInstance() const { return PlayerMilitaryStationInstance; }
+		FORCEINLINE AMilitaryBase* GetMilitaryBaseInstance() const { return PlayerMilitaryStationInstance; }
 
 	TSubclassOf<AUnitAIController> AiUnitControllerClass;
 

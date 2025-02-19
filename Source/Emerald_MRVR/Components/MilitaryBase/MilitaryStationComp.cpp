@@ -2,7 +2,7 @@
 
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
@@ -21,7 +21,7 @@ UMilitaryStationComp::UMilitaryStationComp()
 
 	//pb: tady by mohla byt ta zavislost na Editoru, kvuli ktere nejde zcookovat hra!
 	//	ATargetPoint je  primarne editorovy helper objekt - viz. #if WITH_EDITORONLY_DATA v TargetPoint.h
-	SpawnPointForMilitaryStation = CreateDefaultSubobject<ATargetPoint>("MilitaryStationTargetPoint");
+	SpawnPointForMilitaryStation = CreateDefaultSubobject<ATargetPoint>("MilitaryBaseTargetPoint");
 	SetIsReplicatedByDefault(true);
 }
 
@@ -49,29 +49,29 @@ void UMilitaryStationComp::SetSpawnPointForStation()
 {
 	if (!GetOwner()->HasAuthority())
 	{
-		Server_SetSpawnPointForMilitaryStation();
+		Server_SetSpawnPointForBase();
 		return;
 	}
 	
 	//pb: potreboval bych vedet, jaka je zamyslena logika spawn pointu - zatim to takto nema vyznam, protoze se vybere vzdy ten prvni nalezeny
-	TArray<ATargetPoint*> AllStationTargetPoints;
+	TArray<ATargetPoint*> AllBaseTargetPoints;
 	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
 	{
-		ATargetPoint* StationTargetPoint = *It;
-		if (StationTargetPoint && StationTargetPoint->ActorHasTag("BaseSpawnPoint"))
+		ATargetPoint* BaseTargetPoint = *It;
+		if (BaseTargetPoint && BaseTargetPoint->ActorHasTag("BaseSpawnPoint"))
 		{
-			AllStationTargetPoints.Add(StationTargetPoint);
+			AllBaseTargetPoints.Add(BaseTargetPoint);
 		}
 	}
-	if (AllStationTargetPoints.Num() > 0)
+	if (AllBaseTargetPoints.Num() > 0)
 	{
-		SpawnPointForMilitaryStation = AllStationTargetPoints[0];
-		AllStationTargetPoints[0]->Destroy();
+		SpawnPointForMilitaryStation = AllBaseTargetPoints[0];
+		AllBaseTargetPoints[0]->Destroy();
 	}
 }
 
 
-void UMilitaryStationComp::Server_SetSpawnPointForMilitaryStation_Implementation()
+void UMilitaryStationComp::Server_SetSpawnPointForBase_Implementation()
 {
 	SetSpawnPointForStation();
 }
@@ -98,7 +98,7 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 				
 		if (InPawn)
 		{
-			PlayerMilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryStation>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
+			PlayerMilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
 		}
 
 		

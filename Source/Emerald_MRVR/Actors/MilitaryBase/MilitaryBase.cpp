@@ -1,40 +1,40 @@
 
-#include "MilitaryStation.h"
+#include "MilitaryBase.h"
 #include "BoxComponent.h"
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
 #include "Net/UnrealNetwork.h"
 
 #define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()
 
-AMilitaryStation::AMilitaryStation()
+AMilitaryBase::AMilitaryBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
 	SetReplicates(true);
 
-	StationRoot = CreateDefaultSubobject<USceneComponent>("StationRoot");
-	SetRootComponent(StationRoot);
+	BaseRoot = CreateDefaultSubobject<USceneComponent>("BaseRoot");
+	SetRootComponent(BaseRoot);
 
-	BodyRoot = CreateDefaultSubobject<UStaticMeshComponent>("StationBody");
-	BodyRoot->SetupAttachment(StationRoot);
+	Body_Root = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
+	Body_Root->SetupAttachment(BaseRoot);
 	
-	StationBox = CreateDefaultSubobject<UBoxComponent>("StationBox");
-	StationBox->SetupAttachment(BodyRoot);
-	StationBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	StationBox->SetCollisionObjectType(ECC_WorldDynamic);
-	StationBox->SetCollisionResponseToAllChannels(ECR_Ignore);
-	StationBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
+	BaseBox->SetupAttachment(Body_Root);
+	BaseBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	BaseBox->SetCollisionObjectType(ECC_WorldDynamic);
+	BaseBox->SetCollisionResponseToAllChannels(ECR_Ignore);
+	BaseBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	
 	SpawnPoint_Ground = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
-	SpawnPoint_Ground->SetupAttachment(StationRoot);
+	SpawnPoint_Ground->SetupAttachment(BaseRoot);
 	SpawnPoint_Air = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
-	SpawnPoint_Air->SetupAttachment(StationRoot);
+	SpawnPoint_Air->SetupAttachment(BaseRoot);
 
 	// Buildings Locations
 	Positions_Root = CreateDefaultSubobject<USceneComponent>("Positions_Root");
-	Positions_Root->SetupAttachment(StationRoot);
+	Positions_Root->SetupAttachment(BaseRoot);
 	
 	Mine_Position = CreateDefaultSubobject<USceneComponent>("MinePosition");
 	Mine_Position->ComponentTags.Add("Mine");
@@ -107,39 +107,39 @@ AMilitaryStation::AMilitaryStation()
 	RocketLauncher_Position->SetupAttachment(Positions_Root);
 }
 
-void AMilitaryStation::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void AMilitaryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMilitaryStation, VR_Pawn);
-	DOREPLIFETIME(AMilitaryStation, BodyRoot)
-	DOREPLIFETIME(AMilitaryStation, SpawnPoint_Ground)
-	DOREPLIFETIME(AMilitaryStation, SpawnPoint_Air)
-	DOREPLIFETIME(AMilitaryStation, ResourcesWidgetInstance);
-	DOREPLIFETIME(AMilitaryStation, HealthWidgetInstance);
-	DOREPLIFETIME(AMilitaryStation, OriginalMaterial);
-	DOREPLIFETIME(AMilitaryStation, HoveredMaterial);
-	DOREPLIFETIME(AMilitaryStation, StationRoot);
+	DOREPLIFETIME(AMilitaryBase, VR_Pawn);
+	DOREPLIFETIME(AMilitaryBase, Body_Root)
+	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Ground)
+	DOREPLIFETIME(AMilitaryBase, SpawnPoint_Air)
+	DOREPLIFETIME(AMilitaryBase, ResourcesWidgetInstance);
+	DOREPLIFETIME(AMilitaryBase, HealthWidgetInstance);
+	DOREPLIFETIME(AMilitaryBase, OriginalMaterial);
+	DOREPLIFETIME(AMilitaryBase, HoveredMaterial);
+	DOREPLIFETIME(AMilitaryBase, BaseRoot);
 
 	// Modules
-	DOREPLIFETIME(AMilitaryStation, Mine_Position);
-	DOREPLIFETIME(AMilitaryStation, Prison_Position);
-	DOREPLIFETIME(AMilitaryStation, Bank_Position);
-	DOREPLIFETIME(AMilitaryStation, Bank_Position);
-	DOREPLIFETIME(AMilitaryStation, UVKSC_Position);
-	DOREPLIFETIME(AMilitaryStation, Microsoft_Position);
-	DOREPLIFETIME(AMilitaryStation, Barracs_Position);
-	DOREPLIFETIME(AMilitaryStation, Garage_Position);
-	DOREPLIFETIME(AMilitaryStation, LPlatform_Position);
-	DOREPLIFETIME(AMilitaryStation, Minecraft_Position);
-	DOREPLIFETIME(AMilitaryStation, Heliport_Position);
-	DOREPLIFETIME(AMilitaryStation, Runway_Position);
-	DOREPLIFETIME(AMilitaryStation, Aerial_Position);
-	DOREPLIFETIME(AMilitaryStation, Hangar_Position);
-	DOREPLIFETIME(AMilitaryStation, RocketLauncher_Position);
-	DOREPLIFETIME(AMilitaryStation, BuildingPositions);
+	DOREPLIFETIME(AMilitaryBase, Mine_Position);
+	DOREPLIFETIME(AMilitaryBase, Prison_Position);
+	DOREPLIFETIME(AMilitaryBase, Bank_Position);
+	DOREPLIFETIME(AMilitaryBase, Bank_Position);
+	DOREPLIFETIME(AMilitaryBase, UVKSC_Position);
+	DOREPLIFETIME(AMilitaryBase, Microsoft_Position);
+	DOREPLIFETIME(AMilitaryBase, Barracs_Position);
+	DOREPLIFETIME(AMilitaryBase, Garage_Position);
+	DOREPLIFETIME(AMilitaryBase, LPlatform_Position);
+	DOREPLIFETIME(AMilitaryBase, Minecraft_Position);
+	DOREPLIFETIME(AMilitaryBase, Heliport_Position);
+	DOREPLIFETIME(AMilitaryBase, Runway_Position);
+	DOREPLIFETIME(AMilitaryBase, Aerial_Position);
+	DOREPLIFETIME(AMilitaryBase, Hangar_Position);
+	DOREPLIFETIME(AMilitaryBase, RocketLauncher_Position);
+	DOREPLIFETIME(AMilitaryBase, BuildingPositions);
 }
 
-void AMilitaryStation::BeginPlay()
+void AMilitaryBase::BeginPlay()
 {
 	Super::BeginPlay();
 	VR_Pawn = Cast<APawn>(GetOwner());
@@ -152,7 +152,7 @@ void AMilitaryStation::BeginPlay()
 	} 
 }
 
-void AMilitaryStation::SpawnResourcesWidget()
+void AMilitaryBase::SpawnResourcesWidget()
 {
 	if (!HasAuthority())
 	{
@@ -172,12 +172,12 @@ void AMilitaryStation::SpawnResourcesWidget()
 	}
 }
 
-void AMilitaryStation::Server_SpawnResourcesWidget_Implementation()
+void AMilitaryBase::Server_SpawnResourcesWidget_Implementation()
 {
 	SpawnResourcesWidget();
 }
 
-void AMilitaryStation::SpawnHealthWidget()
+void AMilitaryBase::SpawnHealthWidget()
 {
 	if (!HasAuthority())
 	{
@@ -200,7 +200,7 @@ void AMilitaryStation::SpawnHealthWidget()
 	}
 }
 
-void AMilitaryStation::Server_SpawnHealthWidget_Implementation()
+void AMilitaryBase::Server_SpawnHealthWidget_Implementation()
 {
 	SpawnHealthWidget();
 }
