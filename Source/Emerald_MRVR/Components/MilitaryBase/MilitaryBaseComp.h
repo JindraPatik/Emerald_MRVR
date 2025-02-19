@@ -65,7 +65,7 @@ public:
 		ATargetPoint* SpawnPointForMilitaryBase;
 
 	UPROPERTY(Replicated)
-		AMilitaryBase* MyBaseInstance;		//pb: nedoporucuju nazvy typu My..., krom toho slovo Base se obvykle pouziva pro bazove tridy, takze toto na prvni pohled vypada, jako instance nejake bazovew tridy, 
+		AMilitaryBase* PlayerMilitaryBaseInstance;		//pb: nedoporucuju nazvy typu My..., krom toho slovo Base se obvykle pouziva pro bazove tridy, takze toto na prvni pohled vypada, jako instance nejake bazovew tridy, 
 											//    coz je nesmysl
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
@@ -78,13 +78,13 @@ public:
 		void Server_SpawnMilitaryBase(APawn* InOwner);
 
 	UFUNCTION(Category="SpawnBase")
-		void SpawnModules(APawn* OwningPawn);
+		void SpawnBuildings(APawn* OwningPawn);
 	
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
-		void Server_SpawnModule(APawn* OwningPawn);
+		void Server_SpawnBuilding(APawn* OwningPawn);
 
 	UFUNCTION(BlueprintCallable, Category="Spawning")
-		AUnit* SpawnUnit(APawn* InstigatorPawn, ABuilding* Module);
+		AUnit* SpawnUnit(APawn* InstigatorPawn, ABuilding* Building);
 
 	UFUNCTION(Server, Reliable, Category="UnitSpawning")
 		void Server_SpawnUnit(APawn* InstigatorPawn, ABuilding* Module);
@@ -96,10 +96,10 @@ public:
 		void Server_HasEnoughResources(UBuildingDataAsset* BuildingDataAsset);
 
 	UPROPERTY(Replicated, EditAnywhere,Category="UnitSpawning")
-		TArray<UBuildingDataAsset*> AvailableModules;
+		TArray<UBuildingDataAsset*> AvailableBuildings;
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadOnly, Category="UnitSpawning")
-		TArray<ABuilding*> AvailableModulesActors;
+		TArray<ABuilding*> AvailableBuildingsActors;
 
 	UPROPERTY()
 		UUnitDataAsset* SelectedUnit;
@@ -117,7 +117,7 @@ public:
 		FOnUnitSpawnedSignature OnUnitSpawnedDelegate;
 
 	UFUNCTION()
-		FORCEINLINE AMilitaryBase* GetBaseInstance() const { return MyBaseInstance; }
+		FORCEINLINE AMilitaryBase* GetMilitaryBaseInstance() const { return PlayerMilitaryBaseInstance; }
 
 	TSubclassOf<AUnitAIController> AiUnitControllerClass;
 

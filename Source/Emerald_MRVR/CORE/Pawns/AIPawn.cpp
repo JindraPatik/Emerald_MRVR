@@ -1,6 +1,6 @@
 #include "AIPawn.h"
 
-#include "EKGameState.h"
+#include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/Components/AI/AIComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
@@ -21,7 +21,7 @@ void AAIPawn::BeginPlay()
 	Super::BeginPlay();
 	
 	MilitaryBaseComp->SpawnMilitaryBase(this);
-	MilitaryBaseComp->SpawnModules(this);
+	MilitaryBaseComp->SpawnBuildings(this);
 	AI_Component->GetAvailableAttackingUnits();;
 
 	AEK_GameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());

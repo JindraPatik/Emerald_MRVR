@@ -1,9 +1,9 @@
 #include "VRPawn.h"
 
-#include "EKGameState.h"
+#include "Emerald_MRVR/CORE/EKGameState.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
-#include "Multiplayer_GameMode.h"
+#include "Emerald_MRVR/CORE/GameModes/Multiplayer_GameMode.h"
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
@@ -58,12 +58,12 @@ void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
-	DOREPLIFETIME(AVRPawn, BaseInstance);
+	DOREPLIFETIME(AVRPawn, MilitaryBaseInstance);
 	DOREPLIFETIME(AVRPawn, PlayerDefaultColor);
-	DOREPLIFETIME(AVRPawn, CurrentlyHoveredModule_L);
-	DOREPLIFETIME(AVRPawn, CurrentlyHoveredModule_R);
+	DOREPLIFETIME(AVRPawn, CurrentlyHoveredBuilding_L);
+	DOREPLIFETIME(AVRPawn, CurrentlyHoveredBuilding_R);
 	DOREPLIFETIME(AVRPawn, MilitaryBaseComp);
-	DOREPLIFETIME(AVRPawn, SelectedModuleActor);
+	DOREPLIFETIME(AVRPawn, SelectedBuildingActor);
 	DOREPLIFETIME(AVRPawn, bInputIsEnabled);
 }
 // ~REPLICATED PROPS
@@ -81,8 +81,8 @@ void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	// Bindings
 	Input->BindAction(IA_SpawnUnit, ETriggerEvent::Started, this, &AVRPawn::Action_SpawnUnit);
-	Input->BindAction(IA_SelectModule_L, ETriggerEvent::Started, this, &AVRPawn::SelectModule_L);
-	Input->BindAction(IA_SelectModule_R, ETriggerEvent::Started, this, &AVRPawn::SelectModule_R);
+	Input->BindAction(IA_SelectBuilding_L, ETriggerEvent::Started, this, &AVRPawn::SelectBuilding_L);
+	Input->BindAction(IA_SelectBuilding_R, ETriggerEvent::Started, this, &AVRPawn::SelectBuilding_R);
 }
 // ~PLAYER INPUT
 
@@ -101,7 +101,7 @@ void AVRPawn::BeginPlay()
 	if (IsLocallyControlled())
 	{
 		MilitaryBaseComp->SpawnMilitaryBase(this);
-		MilitaryBaseComp->SpawnModules(this);
+		MilitaryBaseComp->SpawnBuildings(this);
 	}
 }
 // ~BEGIN PLAY
@@ -118,11 +118,11 @@ void AVRPawn::Tick(float DeltaTime)
 		{
 			if (MotionController_L && ImpactPointer_L)
 			{
-				PerformSphereTrace(MotionController_L, ImpactPointer_L, CurrentlyHoveredModule_L);
+				PerformSphereTrace(MotionController_L, ImpactPointer_L, CurrentlyHoveredBuilding_L);
 			}
 			if (MotionController_R && ImpactPointer_R)
 			{
-				PerformSphereTrace(MotionController_R, ImpactPointer_R, CurrentlyHoveredModule_R);
+				PerformSphereTrace(MotionController_R, ImpactPointer_R, CurrentlyHoveredBuilding_R);
 			}
 		}
 	}
@@ -132,7 +132,7 @@ void AVRPawn::Tick(float DeltaTime)
 void AVRPawn::PerformSphereTrace(
 	UMotionControllerComponent* UsedController,
 	UStaticMeshComponent* ImpactPointer,
-	ABuilding*& CurrentlyHoveredModule)
+	ABuilding*& CurrentlyHoveredBuilding)
 	{
 		FHitResult HitResult;
 		FCollisionQueryParams QueryParams;
@@ -158,29 +158,29 @@ void AVRPawn::PerformSphereTrace(
 			}
 
 			ABuilding* HitModule = Cast<ABuilding>(HitResult.GetActor());
-			AVRPawn* HittedGeneral = Cast<AVRPawn>(HitResult.GetActor()->GetOwner());
+			AVRPawn* HittedPawn = Cast<AVRPawn>(HitResult.GetActor()->GetOwner());
 
-			if (HitModule && HittedGeneral == this)
+			if (HitModule && HittedPawn == this)
 			{
-				CurrentlyHoveredModule = HitModule;
-				ImpactPointer->SetWorldLocation(CurrentlyHoveredModule->GetActorLocation() + FVector(0.f, 0.f, 8.f));
-				PrevisouslyHighlightedModule = HitModule;
-				CurrentlyHoveredModule->EnableInfoWidget();
-				CurrentlyHoveredModule->SetOverlayMaterial();
-				if (CurrentlyHoveredModule != PrevisouslyHighlightedModule)
+				CurrentlyHoveredBuilding = HitModule;
+				ImpactPointer->SetWorldLocation(CurrentlyHoveredBuilding->GetActorLocation() + FVector(0.f, 0.f, 8.f));
+				PrevisouslyHighlitedBuilding = HitModule;
+				CurrentlyHoveredBuilding->EnableInfoWidget();
+				CurrentlyHoveredBuilding->SetOverlayMaterial();
+				if (CurrentlyHoveredBuilding != PrevisouslyHighlitedBuilding)
 				{
-					PrevisouslyHighlightedModule->DisableInfoWidget();
-					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
+					PrevisouslyHighlitedBuilding->DisableInfoWidget();
+					PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
 				}
 			}
 			else
 			{
-				if (CurrentlyHoveredModule)
+				if (CurrentlyHoveredBuilding)
 				{
-					CurrentlyHoveredModule->DisableInfoWidget();
-					CurrentlyHoveredModule = nullptr;
-					PrevisouslyHighlightedModule->DisableInfoWidget();
-					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
+					CurrentlyHoveredBuilding->DisableInfoWidget();
+					CurrentlyHoveredBuilding = nullptr;
+					PrevisouslyHighlitedBuilding->DisableInfoWidget();
+					PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
 					
 				}
 			}
@@ -188,33 +188,33 @@ void AVRPawn::PerformSphereTrace(
 	
 		else
 		{
-			if (CurrentlyHoveredModule)
+			if (CurrentlyHoveredBuilding)
 			{
-				CurrentlyHoveredModule->DisableInfoWidget();
-				CurrentlyHoveredModule->RemoveOverlayMaterial();
-				CurrentlyHoveredModule = nullptr;
-				PrevisouslyHighlightedModule->DisableInfoWidget();
-				PrevisouslyHighlightedModule->RemoveOverlayMaterial();
-				if (PrevisouslyHighlightedModule)
+				CurrentlyHoveredBuilding->DisableInfoWidget();
+				CurrentlyHoveredBuilding->RemoveOverlayMaterial();
+				CurrentlyHoveredBuilding = nullptr;
+				PrevisouslyHighlitedBuilding->DisableInfoWidget();
+				PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
+				if (PrevisouslyHighlitedBuilding)
 				{
-					PrevisouslyHighlightedModule->DisableInfoWidget();
-					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
+					PrevisouslyHighlitedBuilding->DisableInfoWidget();
+					PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
 				}
 			}
 
 			if (ImpactPointer)
 			{
 				ImpactPointer->SetWorldLocation(End);
-				if (PrevisouslyHighlightedModule)
+				if (PrevisouslyHighlitedBuilding)
 				{
-					PrevisouslyHighlightedModule->DisableInfoWidget();
-					PrevisouslyHighlightedModule->RemoveOverlayMaterial();
+					PrevisouslyHighlitedBuilding->DisableInfoWidget();
+					PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
 				}
 			}
-			if (PrevisouslyHighlightedModule)
+			if (PrevisouslyHighlitedBuilding)
 			{
-				PrevisouslyHighlightedModule->DisableInfoWidget(); // upr
-				PrevisouslyHighlightedModule->RemoveOverlayMaterial(); // upr
+				PrevisouslyHighlitedBuilding->DisableInfoWidget(); // upr
+				PrevisouslyHighlitedBuilding->RemoveOverlayMaterial(); // upr
 			}
 		}
 	}
@@ -314,20 +314,20 @@ void AVRPawn::EndGame(APawn* Looser)
 	}
 }
 
-void AVRPawn::SelectModule_L()
+void AVRPawn::SelectBuilding_L()
 {
-	if (CurrentlyHoveredModule_L)
+	if (CurrentlyHoveredBuilding_L)
 	{
-		SelectedModuleActor = CurrentlyHoveredModule_L;
+		SelectedBuildingActor = CurrentlyHoveredBuilding_L;
 		OnSelectedModuleChanged();
 	}
 }
 
-void AVRPawn::SelectModule_R()
+void AVRPawn::SelectBuilding_R()
 {
-	if (CurrentlyHoveredModule_R)
+	if (CurrentlyHoveredBuilding_R)
 	{
-		SelectedModuleActor = CurrentlyHoveredModule_R;
+		SelectedBuildingActor = CurrentlyHoveredBuilding_R;
 		OnSelectedModuleChanged();
 	}
 }
@@ -339,13 +339,13 @@ void AVRPawn::Action_SpawnUnit()
 	{
 		if (IsLocallyControlled())
 		{
-			MilitaryBaseComp->SpawnUnit(this, SelectedModuleActor);
+			MilitaryBaseComp->SpawnUnit(this, SelectedBuildingActor);
 		}
 		
 	}
 }
 
-void AVRPawn::SpawnPreviewUnit(ABuilding* ModuleActor)
+void AVRPawn::SpawnPreviewUnit(ABuilding* BuildingActor)
 {
 	UWorld* World = GetWorld();
 	if (World)
@@ -360,10 +360,10 @@ void AVRPawn::SpawnPreviewUnit(ABuilding* ModuleActor)
 		PreviewMeshComponent->AttachToComponent(MotionController_R, FAttachmentTransformRules::KeepRelativeTransform);
 		if (PreviewMeshComponent)
 		{
-			UStaticMesh* PreviewSM = ModuleActor->BuildingDataAsset->UnitToSpawnData->SM_Unit;
-			if (PreviewSM)
+			UStaticMesh* PreviewBody = BuildingActor->BuildingDataAsset->UnitToSpawnData->UnitBody;
+			if (PreviewBody)
 			{
-				PreviewMeshComponent->SetStaticMesh(PreviewSM);
+				PreviewMeshComponent->SetStaticMesh(PreviewBody);
 			}
 		}
 	}
@@ -375,7 +375,7 @@ void AVRPawn::OnSelectedModuleChanged()
 	{
 		PreviewInstance->Destroy();
 	}
-	SpawnPreviewUnit(SelectedModuleActor);
+	SpawnPreviewUnit(SelectedBuildingActor);
 }
 
 

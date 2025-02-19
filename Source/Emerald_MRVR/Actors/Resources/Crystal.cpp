@@ -10,11 +10,11 @@ ACrystal::ACrystal()
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 	
-	SM_Crystal = CreateDefaultSubobject<UStaticMeshComponent>("CrystalBody");
-	SM_Crystal->SetupAttachment(RootComponent);
+	CrystalBody = CreateDefaultSubobject<UStaticMeshComponent>("CrystalBody");
+	CrystalBody->SetupAttachment(RootComponent);
 
-	SM_Bottom = CreateDefaultSubobject<UStaticMeshComponent>("BottomMesh");
-	SM_Bottom->SetupAttachment(RootComponent);
+	CrystalBottom = CreateDefaultSubobject<UStaticMeshComponent>("BottomMesh");
+	CrystalBottom->SetupAttachment(RootComponent);
 
 	// Collision Box
 	CrystalBox = CreateDefaultSubobject<UBoxComponent>("CrystalBox");

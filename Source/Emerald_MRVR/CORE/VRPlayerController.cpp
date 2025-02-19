@@ -1,5 +1,5 @@
 #include "VRPlayerController.h"
-#include "VRPawn.h"
+#include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -17,8 +17,8 @@ void AVRPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 void AVRPlayerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-	General = Cast<AVRPawn>(InPawn);
-	if (General)
+	VR_Pawn = Cast<AVRPawn>(InPawn);
+	if (VR_Pawn)
 	{
 		if (IsLocalController())
 		{
@@ -28,7 +28,7 @@ void AVRPlayerController::OnPossess(APawn* InPawn)
 		{
 			DisableInput(this);
 		}
-	General->bPossesed = true;
+	VR_Pawn->bPossesed = true;
 	}
 }
 

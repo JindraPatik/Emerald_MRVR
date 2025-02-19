@@ -31,7 +31,7 @@ public:
 
 private:
 	UPROPERTY()
-		TObjectPtr<UMilitaryBaseComp> MilitaryBaseCompInst;
+		TObjectPtr<UMilitaryBaseComp> MilitaryBaseCompInstance;
 
 protected:
 	virtual void BeginPlay() override;

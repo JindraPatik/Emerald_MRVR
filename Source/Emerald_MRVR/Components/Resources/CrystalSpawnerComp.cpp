@@ -2,7 +2,7 @@
 #include "EngineUtils.h"
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Actors/Resources/Crystal.h"
-#include "Emerald_MRVR/CORE/GameModeCommon.h"
+#include "Emerald_MRVR/CORE/GameModes/GameModeCommon.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
 #include "Engine/TargetPoint.h"
 

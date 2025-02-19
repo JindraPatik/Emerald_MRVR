@@ -3,7 +3,7 @@
 #include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
-#include "Emerald_MRVR/CORE/VRPawn.h"
+#include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Net/UnrealNetwork.h"
 
@@ -18,7 +18,7 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	MilitaryBaseCompInstance = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 }
 
 void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -29,23 +29,25 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 void UHealthComponent::OnRep_OnHealthChanged()
 {
-	if (MilitaryBaseCompInst)
+	if (!MilitaryBaseCompInstance)
 	{
-		AMilitaryBase* BaseInstance = MilitaryBaseCompInst->GetBaseInstance();
-		if (BaseInstance && BaseInstance->HealthWidgetInstance)
+		return;
+	}
+	
+	AMilitaryBase* MilitaryBaseInstance = MilitaryBaseCompInstance->GetMilitaryBaseInstance();
+	if (MilitaryBaseInstance && MilitaryBaseInstance->HealthWidgetInstance)
+	{
+		UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(MilitaryBaseInstance->HealthWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
+		if (HealthBarWidget)
 		{
-			UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(BaseInstance->HealthWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
-			if (HealthBarWidget)
+			HealthBarWidget->UpdateHealthWidget(Health);
+		}
+		if (Health <= 0)
+		{
+			AGameModeCommon* GameModeCommon = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
+			if (GameModeCommon)
 			{
-				HealthBarWidget->UpdateHealthWidget(Health);
-			}
-			if (Health <= 0)
-			{
-				AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
-				if (GM)
-				{
-					GM->EndGame(Cast<APawn>(GetOwner()));
-				}
+				GameModeCommon->EndGame(Cast<APawn>(GetOwner()));
 			}
 		}
 	}

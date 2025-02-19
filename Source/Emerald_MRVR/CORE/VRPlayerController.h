@@ -20,7 +20,7 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 	UPROPERTY()
-	AVRPawn* General;
+	AVRPawn* VR_Pawn;
 
 public:
 	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere, Category = "CORE")

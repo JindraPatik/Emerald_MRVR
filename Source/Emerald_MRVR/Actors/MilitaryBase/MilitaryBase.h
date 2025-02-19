@@ -38,7 +38,7 @@ protected:
 		TObjectPtr<USceneComponent> BaseRoot;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category = "Visuals")
-		TObjectPtr<UStaticMeshComponent> SM_Root;
+		TObjectPtr<UStaticMeshComponent> Body_Root;
 
 	UPROPERTY(EditAnywhere, Category = "BaseBody")
 		TObjectPtr<UBoxComponent> BaseBox;
@@ -53,7 +53,7 @@ protected:
 		FVector HealthWidgetOffset;
 
 	UPROPERTY(Replicated)
-		TObjectPtr<APawn> General;
+		TObjectPtr<APawn> VR_Pawn;
 
 public:	
 
@@ -81,7 +81,7 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Visuals")
 		UMaterialInterface* HoveredMaterial;
 
-	// Modules 
+	// Buildings 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 		TObjectPtr<USceneComponent> Positions_Root;
 	
@@ -128,5 +128,5 @@ public:
 		TObjectPtr<USceneComponent> RocketLauncher_Position;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, Category="Spawning")
-		TArray<USceneComponent*> ModulePositions;
+		TArray<USceneComponent*> BuildingPositions;
 };

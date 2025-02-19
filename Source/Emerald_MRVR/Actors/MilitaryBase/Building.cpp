@@ -20,8 +20,8 @@ ABuilding::ABuilding()
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 	
-	ModuleMeshRoot = CreateDefaultSubobject<UStaticMeshComponent>("ModuleBody");
-	ModuleMeshRoot->SetupAttachment(SceneRoot);
+	BuildingMeshRoot = CreateDefaultSubobject<UStaticMeshComponent>("ModuleBody");
+	BuildingMeshRoot->SetupAttachment(SceneRoot);
 
 	InfoWidgetSpawnPoint = CreateDefaultSubobject<USceneComponent>("InfowidgetSpawnPoint");
 	InfoWidgetSpawnPoint->SetupAttachment(RootComponent);
@@ -30,7 +30,7 @@ ABuilding::ABuilding()
 void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(ABuilding, ModuleMeshRoot);
+	DOREPLIFETIME(ABuilding, BuildingMeshRoot);
 	DOREPLIFETIME(ABuilding, BuildingDataAsset);
 	DOREPLIFETIME(ABuilding, SceneRoot);
 }

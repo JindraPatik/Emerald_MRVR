@@ -1,7 +1,7 @@
 #include "ResourcesComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
-#include "Emerald_MRVR/CORE/VRPawn.h"
+#include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
 #include "Net/UnrealNetwork.h"
@@ -35,10 +35,10 @@ void UResourcesComponent::OnRep_ResourcesChanged() const
 {
 	if (MilitaryBaseCompInst)
 	{
-		AMilitaryBase* BaseInstance = MilitaryBaseCompInst->GetBaseInstance();
-		if (BaseInstance && BaseInstance->ResourcesWidgetInstance)
+		AMilitaryBase* MilitaryBaseInstance = MilitaryBaseCompInst->GetMilitaryBaseInstance();
+		if (MilitaryBaseInstance && MilitaryBaseInstance->ResourcesWidgetInstance)
 		{
-			UResourcesWidget* ResourcesWidget = Cast<UResourcesWidget>(BaseInstance->ResourcesWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
+			UResourcesWidget* ResourcesWidget = Cast<UResourcesWidget>(MilitaryBaseInstance->ResourcesWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
 			if (ResourcesWidget)
 			{
 				ResourcesWidget->UpdateResourcesWidget(FMath::Clamp(AvailableResources, 0.f, MaxResources));

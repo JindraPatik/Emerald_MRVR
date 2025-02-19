@@ -1,15 +1,15 @@
 #include "GameMode_Single.h"
-#include "AIPawn.h"
+#include "Emerald_MRVR/CORE/Pawns/AIPawn.h"
 #include "EngineUtils.h"
 #include "GameFramework/PlayerStart.h"
-#include "VRPawn.h"
+#include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
 
 
 AGameMode_Single::AGameMode_Single()
 {
 	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
-	Mr_General_Class = AVRPawn::StaticClass();
+	VR_PawnClass = AVRPawn::StaticClass();
 }
 
 void AGameMode_Single::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
@@ -100,12 +100,12 @@ void AGameMode_Single::SpawnPlayer(APlayerController* PlayerController)
 	}
 
 	// Spawn spectator player?
-	UClass* PawnToSpawn = bIsSpectator ? SpectatorPawn : Mr_General_Class;
+	UClass* PawnToSpawn = bIsSpectator ? SpectatorPawn : VR_PawnClass;
 
-	AVRPawn* NewPawn = GetWorld()->SpawnActor<AVRPawn>(PawnToSpawn, Location, Rotation, SpawnParams);
-	if (NewPawn)
+	AVRPawn* VR_Pawn = GetWorld()->SpawnActor<AVRPawn>(PawnToSpawn, Location, Rotation, SpawnParams);
+	if (VR_Pawn)
 	{
-		PlayerController->Possess(NewPawn);
+		PlayerController->Possess(VR_Pawn);
 	}
 }
 

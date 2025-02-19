@@ -44,7 +44,7 @@ protected:
 		TObjectPtr<UCameraComponent> Camera;
 
 	UPROPERTY(Replicated, BlueprintReadWrite, EditDefaultsOnly, Category = "Body")
-		TObjectPtr<UStaticMeshComponent> GeneralBody;
+		TObjectPtr<UStaticMeshComponent> Body;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 		TObjectPtr<UMotionControllerComponent> MotionController_L;

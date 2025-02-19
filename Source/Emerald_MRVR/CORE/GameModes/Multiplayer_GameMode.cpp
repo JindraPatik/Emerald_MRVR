@@ -1,12 +1,9 @@
 #include "Multiplayer_GameMode.h"
 
-#include "EKGameState.h"
 #include "EngineUtils.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
-#include "VRPawn.h"
-#include "VRPlayerController.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
-#include "Engine/TargetPoint.h"
+#include "Emerald_MRVR/CORE/VRPlayerController.h"
+#include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerStart.h"
 #include "Net/UnrealNetwork.h"
@@ -109,11 +106,11 @@ void AMultiplayer_GameMode::SpawnPlayer(APlayerController* PlayerController)
 		ExistingPawn->Destroy();
 	}
 
-	AVRPawn* NewPawn = GetWorld()->SpawnActor<AVRPawn>(PawnToSpawn, Location, Rotation, SpawnParams);
-	if (NewPawn)
+	AVRPawn* VR_Pawn = GetWorld()->SpawnActor<AVRPawn>(PawnToSpawn, Location, Rotation, SpawnParams);
+	if (VR_Pawn)
 	{
-		NewPawn->SetReplicates(true);
-		PlayerController->Possess(NewPawn);
+		VR_Pawn->SetReplicates(true);
+		PlayerController->Possess(VR_Pawn);
 		// UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 	}
 }

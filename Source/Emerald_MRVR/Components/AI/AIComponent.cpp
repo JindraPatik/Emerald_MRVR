@@ -5,8 +5,8 @@
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
 #include "Emerald_MRVR/CORE/EKGameState.h"
-#include "Emerald_MRVR/CORE/GameMode_Single.h"
-#include "Emerald_MRVR/CORE/VRPawn.h"
+#include "Emerald_MRVR/CORE/GameModes/GameMode_Single.h"
+#include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Engine/TargetPoint.h"
@@ -36,10 +36,10 @@ void UAIComponent::BeginPlay()
 
 		 	for (TActorIterator<AVRPawn> It(GetWorld()); It; ++It)
 		 	{
-		 		AVRPawn* General = Cast<AVRPawn>(*It);
-			    if (General)
+		 		AVRPawn* VR_Pawn = Cast<AVRPawn>(*It);
+			    if (VR_Pawn)
 			    {
-					UMilitaryBaseComp* MilitaryBaseComp = General->FindComponentByClass<UMilitaryBaseComp>();
+					UMilitaryBaseComp* MilitaryBaseComp = VR_Pawn->FindComponentByClass<UMilitaryBaseComp>();
 						if (MilitaryBaseComp)
 						{
 		 					MilitaryBaseComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAIComponent::OnUnitOccured);
@@ -71,7 +71,7 @@ float UAIComponent::GetDistanceBetweenCrystalSpawners() const
 float UAIComponent::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 {
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
-	float DistanceToCrystal = FVector::Dist(MilitaryBaseComp->GetBaseInstance()->GetActorLocation(), CrystalLocation);
+	float DistanceToCrystal = FVector::Dist(MilitaryBaseComp->GetMilitaryBaseInstance()->GetActorLocation(), CrystalLocation);
 	return DistanceToCrystal;
 }
 
@@ -80,7 +80,7 @@ void UAIComponent::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 	bool bShouldSendHarvester = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
 	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 	
-	if (MilitaryBaseComp && bShouldSendHarvester && MilitaryBaseComp->HasEnoughResources(MineModule))
+	if (MilitaryBaseComp && bShouldSendHarvester && MilitaryBaseComp->HasEnoughResources(MineBuilding))
 	{
 		FTimerHandle HarvesterSpawnDelayHandle;
 		float SimulatedDelay = FMath::FRandRange(0.f, MaxSimulatedDelayToSpawnHarvester);
@@ -98,9 +98,9 @@ void UAIComponent::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 	APawn* AIPawn = Cast<APawn>(GetOwner());
 	if (AIPawn)
 	{
-		for (ABuilding* Module : MilitaryBaseComp->AvailableModulesActors)
+		for (ABuilding* Module : MilitaryBaseComp->AvailableBuildingsActors)
 		{
-			if (Module->BuildingDataAsset == MineModule)
+			if (Module->BuildingDataAsset == MineBuilding)
 			{
 				SpawnUnit(Module);
 				break;
@@ -117,7 +117,7 @@ void UAIComponent::GetAvailableAttackingUnits()
 	if (MilitaryBaseComp)
 		bIsReversed = MilitaryBaseComp->bIsReversed;
 		{
-			for (ABuilding* AvailableUnit : MilitaryBaseComp->AvailableModulesActors)
+			for (ABuilding* AvailableUnit : MilitaryBaseComp->AvailableBuildingsActors)
 			{
 				if (AvailableUnit)
 				{
@@ -280,10 +280,10 @@ void UAIComponent::SpawnRandomUnit()
 		UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
 		if (MilitaryBaseComp)
 		{
-			if (MilitaryBaseComp->AvailableModulesActors.Num() > 0)
+			if (MilitaryBaseComp->AvailableBuildingsActors.Num() > 0)
 			{
-				int32 RandomIndex = FMath::RandRange(0, MilitaryBaseComp->AvailableModulesActors.Num() - 1);
-				ABuilding* RandomItem = MilitaryBaseComp->AvailableModulesActors[RandomIndex];
+				int32 RandomIndex = FMath::RandRange(0, MilitaryBaseComp->AvailableBuildingsActors.Num() - 1);
+				ABuilding* RandomItem = MilitaryBaseComp->AvailableBuildingsActors[RandomIndex];
 				
 				SpawnUnit(RandomItem);
 				FightStatus = EIsAttacking;

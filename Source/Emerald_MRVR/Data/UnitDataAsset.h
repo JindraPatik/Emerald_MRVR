@@ -42,7 +42,7 @@ public:
 		bool IsRocket = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-		UStaticMesh* SM_Unit;
+		UStaticMesh* UnitBody;
 
 	
 };

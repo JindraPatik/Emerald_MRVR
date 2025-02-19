@@ -46,7 +46,7 @@ public:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryBase* BaseInstance;
+		AMilitaryBase* MilitaryBaseInstance;
 
 	TObjectPtr<AGameState> AEK_GameStateInst;
 		

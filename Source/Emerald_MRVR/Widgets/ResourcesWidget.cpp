@@ -2,17 +2,17 @@
 
 #include "Components/TextBlock.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
-#include "Emerald_MRVR/CORE/VRPawn.h"
+#include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 
 
 void UResourcesWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	AVRPawn* MR_General = Cast<AVRPawn>(GetOwningPlayerPawn());
-	if (MR_General && MR_General->ResourcesComponent && MR_General->ResourcesComponent->AvailableResources)
+	AVRPawn* VR_Pawn = Cast<AVRPawn>(GetOwningPlayerPawn());
+	if (VR_Pawn && VR_Pawn->ResourcesComponent && VR_Pawn->ResourcesComponent->AvailableResources)
 	{
-		TXT_Resources->SetText(FText::AsNumber(MR_General->ResourcesComponent->AvailableResources));
+		TXT_Resources->SetText(FText::AsNumber(VR_Pawn->ResourcesComponent->AvailableResources));
 	}
 }
 

@@ -44,7 +44,7 @@ public:
 		TObjectPtr<USceneComponent> SceneRoot;
 	
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="Visuals")
-		TObjectPtr<UStaticMeshComponent> ModuleMeshRoot;
+		TObjectPtr<UStaticMeshComponent> BuildingMeshRoot;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category="Data")
 		TObjectPtr<UBuildingDataAsset> BuildingDataAsset = nullptr;

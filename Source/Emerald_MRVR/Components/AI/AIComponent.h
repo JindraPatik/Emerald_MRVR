@@ -32,7 +32,7 @@ protected:
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 	void SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp);
-	AUnit* SpawnUnit(ABuilding* Module);
+	AUnit* SpawnUnit(ABuilding* Building);
 	void SpawnRandomUnit();
 	
 	UFUNCTION()
@@ -58,7 +58,7 @@ protected:
 		TObjectPtr<AGameState> AEK_GameStateInst;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-		TObjectPtr<UBuildingDataAsset> MineModule;
+		TObjectPtr<UBuildingDataAsset> MineBuilding;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float DistanceToCrystalTolerance = 2;

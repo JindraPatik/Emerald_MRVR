@@ -26,7 +26,7 @@ protected:
 		void StartGame() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
-		TSubclassOf<AVRPawn> Mr_General_Class;
+		TSubclassOf<AVRPawn> VR_PawnClass;
 
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
 		TSubclassOf<AVRPawn> SpectatorPawn;

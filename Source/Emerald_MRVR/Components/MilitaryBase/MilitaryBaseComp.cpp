@@ -28,9 +28,9 @@ UMilitaryBaseComp::UMilitaryBaseComp()
 void UMilitaryBaseComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UMilitaryBaseComp, AvailableModules);
+	DOREPLIFETIME(UMilitaryBaseComp, AvailableBuildings);
 	DOREPLIFETIME(UMilitaryBaseComp, SpawnPointForMilitaryBase);
-	DOREPLIFETIME(UMilitaryBaseComp, MyBaseInstance);
+	DOREPLIFETIME(UMilitaryBaseComp, PlayerMilitaryBaseInstance);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnLocation);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitSpawnRotation);
 	DOREPLIFETIME(UMilitaryBaseComp, UnitInstance);
@@ -99,7 +99,7 @@ void UMilitaryBaseComp::SpawnMilitaryBase(APawn* OwningPawn)
 				
 		if (OwningPawn)
 		{
-			MyBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
+			PlayerMilitaryBaseInstance = GetWorld()->SpawnActor<AMilitaryBase>(MilitaryBase, SpawnLocation, SpawnRotation, SpawnParameters);
 		}
 
 		
@@ -112,11 +112,11 @@ void UMilitaryBaseComp::Server_SpawnMilitaryBase_Implementation(APawn* InOwner)
 }
 
 
-void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
+void UMilitaryBaseComp::SpawnBuildings(APawn* OwningPawn)
 {
 	if (!GetOwner()->HasAuthority())
 	{
-		Server_SpawnModule(OwningPawn);
+		Server_SpawnBuilding(OwningPawn);
 		return;
 	}
 
@@ -127,21 +127,21 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 		SpawnParameters.Owner = OwningPawn;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		
-		if (AvailableModules.Num() > 0)
+		if (AvailableBuildings.Num() > 0)
 		{
-			for (UBuildingDataAsset* Module : AvailableModules)
+			for (UBuildingDataAsset* Module : AvailableBuildings)
 			{
-				if (MyBaseInstance && MyBaseInstance->ModulePositions.Num() >= 0)
+				if (PlayerMilitaryBaseInstance && PlayerMilitaryBaseInstance->BuildingPositions.Num() >= 0)
 				{
-					for (USceneComponent* ModulePos : MyBaseInstance->ModulePositions)
+					for (USceneComponent* ModulePos : PlayerMilitaryBaseInstance->BuildingPositions)
 					{
 						if (ModulePos->ComponentHasTag(Module->BuildingName))
 						{
 							FVector ModuleSpawnLoc = ModulePos->GetComponentLocation();
 							FRotator ModuleSpawnRot = ModulePos->GetComponentRotation();
 							
-							ABuilding* ModuleInstance = GetWorld()->SpawnActor<ABuilding>(Module->ModuleClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
-							AvailableModulesActors.Add(ModuleInstance);
+							ABuilding* ModuleInstance = GetWorld()->SpawnActor<ABuilding>(Module->BuildingClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
+							AvailableBuildingsActors.Add(ModuleInstance);
 							if (ModuleInstance)
 							{
 								ModuleInstance->BuildingDataAsset = Module;
@@ -157,22 +157,22 @@ void UMilitaryBaseComp::SpawnModules(APawn* OwningPawn)
 	}
 }
 
-void UMilitaryBaseComp::Server_SpawnModule_Implementation(APawn* OwningPawn)
+void UMilitaryBaseComp::Server_SpawnBuilding_Implementation(APawn* OwningPawn)
 {
-	SpawnModules(OwningPawn);
+	SpawnBuildings(OwningPawn);
 }
 
-AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Module)
+AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Building)
 {
 	if (!GetOwner()->HasAuthority())
 	{
-		Server_SpawnUnit(InstigatorPawn, Module);
+		Server_SpawnUnit(InstigatorPawn, Building);
 		return nullptr;
 	}
 	
-	if (InstigatorPawn && MyBaseInstance && Module)
+	if (InstigatorPawn && PlayerMilitaryBaseInstance && Building)
 	{
-		UBuildingDataAsset* BuildingDataAsset = Module->BuildingDataAsset;
+		UBuildingDataAsset* BuildingDataAsset = Building->BuildingDataAsset;
 		if (BuildingDataAsset)
 		{
 			TSubclassOf<AUnit> UnitClassToSpawn = BuildingDataAsset->UnitToSpawn;
@@ -180,18 +180,18 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Module)
 
 			if (!BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 			{
-				UnitSpawnLocation = MyBaseInstance->SpawnPoint_Ground->GetComponentLocation();
-				UnitSpawnRotation = MyBaseInstance->SpawnPoint_Ground->GetComponentRotation();
+				UnitSpawnLocation = PlayerMilitaryBaseInstance->SpawnPoint_Ground->GetComponentLocation();
+				UnitSpawnRotation = PlayerMilitaryBaseInstance->SpawnPoint_Ground->GetComponentRotation();
 			}
 			if (BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 			{
-				UnitSpawnLocation = MyBaseInstance->SpawnPoint_Air->GetComponentLocation();
-				UnitSpawnRotation = MyBaseInstance->SpawnPoint_Air->GetComponentRotation();
+				UnitSpawnLocation = PlayerMilitaryBaseInstance->SpawnPoint_Air->GetComponentLocation();
+				UnitSpawnRotation = PlayerMilitaryBaseInstance->SpawnPoint_Air->GetComponentRotation();
 			}
 
 			if (BuildingDataAsset->UnitToSpawnData->IsRocket)
 			{
-				UnitSpawnLocation = Module->GetActorLocation() + FVector(0,0,8.f);
+				UnitSpawnLocation = Building->GetActorLocation() + FVector(0,0,8.f);
 				UnitSpawnRotation = FRotator(90.f, 0.f, 0.f);
 			}
 			
@@ -201,11 +201,11 @@ AUnit* UMilitaryBaseComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Module)
 			UnitSpawnParams.Instigator = InstigatorPawn;
 
 
-			if (HasEnoughResources(BuildingDataAsset) && Module->bSpawningEnabled)
+			if (HasEnoughResources(BuildingDataAsset) && Building->bSpawningEnabled)
 			{
-				Module->bSpawningEnabled = false;
+				Building->bSpawningEnabled = false;
 				UUnitDataAsset* SpawnedUnitDataAsset = BuildingDataAsset->UnitToSpawnData;
-				Module->Cooldown(BuildingDataAsset->Cooldown);
+				Building->Cooldown(BuildingDataAsset->Cooldown);
 				ResourcesComponentInst->UpdateResources(SpawnedUnitDataAsset->Price);
 				UnitInstance = World->SpawnActor<AUnit>(UnitClassToSpawn, UnitSpawnLocation, UnitSpawnRotation, UnitSpawnParams);
 				if (UnitInstance)

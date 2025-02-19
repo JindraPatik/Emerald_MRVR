@@ -22,10 +22,10 @@ public:
 		EKGBuildings BuildingType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-		UStaticMesh* SM_Building;
+		UStaticMesh* BuildingBody;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		TSubclassOf<ABuilding> ModuleClass;
+		TSubclassOf<ABuilding> BuildingClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Unit")
 		TObjectPtr<UUnitDataAsset> UnitToSpawnData;

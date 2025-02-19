@@ -29,10 +29,10 @@ ABasePawn::ABasePawn()
 	Camera->SetIsReplicated(true);
 	Camera->SetupAttachment(VR_Proxy);
 
-	GeneralBody = CreateDefaultSubobject<UStaticMeshComponent>("GeneralBody");
-	GeneralBody->SetupAttachment(VR_Proxy);
-	GeneralBody->SetIsReplicated(true);
-	GeneralBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Body = CreateDefaultSubobject<UStaticMeshComponent>("PawnBody");
+	Body->SetupAttachment(VR_Proxy);
+	Body->SetIsReplicated(true);
+	Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
 	MotionController_L = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_L");
 	MotionController_L->SetIsReplicated(true);
@@ -89,7 +89,7 @@ void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetim
 	DOREPLIFETIME(ABasePawn, VR_Proxy);
 	DOREPLIFETIME(ABasePawn, VR_Root);
 	DOREPLIFETIME(ABasePawn, Camera);
-	DOREPLIFETIME(ABasePawn, GeneralBody);
+	DOREPLIFETIME(ABasePawn, Body);
 }
 
 void ABasePawn::Tick(float DeltaTime)
