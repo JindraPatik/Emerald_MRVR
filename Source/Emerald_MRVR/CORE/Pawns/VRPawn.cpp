@@ -13,7 +13,7 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "GameFramework/GameStateBase.h"
@@ -31,8 +31,8 @@ AVRPawn::AVRPawn()
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
 	ResourcesComponent->SetIsReplicated(true);
 	
-	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
-	MilitaryBaseComp->SetIsReplicated(true);
+	MilitaryStationComp = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryBaseComp");
+	MilitaryStationComp->SetIsReplicated(true);
 
 	// ~COMPONENTS
 
@@ -58,11 +58,11 @@ void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
-	DOREPLIFETIME(AVRPawn, MilitaryBaseInstance);
+	DOREPLIFETIME(AVRPawn, MilitaryStationInstance);
 	DOREPLIFETIME(AVRPawn, PlayerDefaultColor);
 	DOREPLIFETIME(AVRPawn, CurrentlyHoveredBuilding_L);
 	DOREPLIFETIME(AVRPawn, CurrentlyHoveredBuilding_R);
-	DOREPLIFETIME(AVRPawn, MilitaryBaseComp);
+	DOREPLIFETIME(AVRPawn, MilitaryStationComp);
 	DOREPLIFETIME(AVRPawn, SelectedBuildingActor);
 	DOREPLIFETIME(AVRPawn, bInputIsEnabled);
 }
@@ -100,8 +100,8 @@ void AVRPawn::BeginPlay()
 
 	if (IsLocallyControlled())
 	{
-		MilitaryBaseComp->SpawnMilitaryBase(this);
-		MilitaryBaseComp->SpawnBuildings(this);
+		MilitaryStationComp->SpawnMilitaryStation(this);
+		MilitaryStationComp->SpawnBuildings(this);
 	}
 }
 // ~BEGIN PLAY
@@ -339,7 +339,7 @@ void AVRPawn::Action_SpawnUnit()
 	{
 		if (IsLocallyControlled())
 		{
-			MilitaryBaseComp->SpawnUnit(this, SelectedBuildingActor);
+			MilitaryStationComp->SpawnUnit(this, SelectedBuildingActor);
 		}
 		
 	}

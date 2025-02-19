@@ -6,7 +6,7 @@
 
 class UHealthBarWidget;
 class AMultiplayer_GameMode;
-class UMilitaryBaseComp;
+class UMilitaryStationComp;
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -31,7 +31,7 @@ public:
 
 private:
 	UPROPERTY()
-		TObjectPtr<UMilitaryBaseComp> MilitaryBaseCompInstance;
+		TObjectPtr<UMilitaryStationComp> MilitaryBaseCompInstance;
 
 protected:
 	virtual void BeginPlay() override;

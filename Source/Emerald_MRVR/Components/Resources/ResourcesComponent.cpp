@@ -1,6 +1,6 @@
 #include "ResourcesComponent.h"
 #include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
@@ -23,7 +23,7 @@ void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 void UResourcesComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
 	if (GM)
 	{

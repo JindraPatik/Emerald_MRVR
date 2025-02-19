@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BasePawn.h"
+#include "PrimitivePawn.h"
 #include "Emerald_MRVR/CORE/GameModes/Multiplayer_GameMode.h"
 #include "GameFramework/Pawn.h"
 #include "EnhancedInputSubsystems.h"
@@ -10,7 +10,7 @@
 class UBuildingsComponent;
 class UWidgetInteractionComponent;
 class UBuildingDataAsset;
-class UMilitaryBaseComp;
+class UMilitaryStationComp;
 class AUnit;
 class AVRPlayerController;
 class UResourcesComponent;
@@ -28,7 +28,7 @@ class ABuilding;
 class AActor;
 
 UCLASS()
-class EMERALD_MRVR_API AVRPawn : public ABasePawn			//pb: asi bych se klonil k jinemu nazvu nez General, ktery se pouziva v jinem smyslu
+class EMERALD_MRVR_API AVRPawn : public APrimitivePawn			//pb: asi bych se klonil k jinemu nazvu nez General, ktery se pouziva v jinem smyslu
 {
 	GENERATED_BODY()
 
@@ -86,7 +86,7 @@ public:
 
 	// MILITARY BASE
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		UMilitaryBaseComp* MilitaryBaseComp;
+		UMilitaryStationComp* MilitaryStationComp;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
 		ABuilding* CurrentlyHoveredBuilding_L;
@@ -127,7 +127,7 @@ public:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryBase* MilitaryBaseInstance;					//pb: viz. commenty ke konzistenci nazvu
+		AMilitaryBase* MilitaryStationInstance;					//pb: viz. commenty ke konzistenci nazvu
 
 	UPROPERTY(BlueprintReadOnly, Category="CORE")
 	bool bGameInitialized = false;

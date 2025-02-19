@@ -1,6 +1,6 @@
 #include "HealthComponent.h"
 
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
@@ -18,7 +18,7 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MilitaryBaseCompInstance = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	MilitaryBaseCompInstance = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 }
 
 void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

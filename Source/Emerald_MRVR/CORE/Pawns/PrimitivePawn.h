@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "EnhancedInputSubsystems.h"
-#include "BasePawn.generated.h"
+#include "PrimitivePawn.generated.h"
 
 class USplineMeshComponent;
 class UCapsuleComponent;
@@ -14,12 +14,12 @@ class UInputMappingContext;
 class UMotionControllerComponent;
 
 UCLASS()
-class EMERALD_MRVR_API ABasePawn : public APawn
+class EMERALD_MRVR_API APrimitivePawn : public APawn
 {
 	GENERATED_BODY()
 
 public:
-	ABasePawn();
+	APrimitivePawn();
 
 protected:
 	virtual void BeginPlay() override;

@@ -1,4 +1,4 @@
-#include "BasePawn.h"
+#include "PrimitivePawn.h"
 
 #include "CapsuleComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -10,7 +10,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 
-ABasePawn::ABasePawn()
+APrimitivePawn::APrimitivePawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -74,25 +74,25 @@ ABasePawn::ABasePawn()
 	
 }
 
-void ABasePawn::BeginPlay()
+void APrimitivePawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-void ABasePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void APrimitivePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME(ABasePawn, ImpactPointer_L);
-	DOREPLIFETIME(ABasePawn, ImpactPointer_R);
-	DOREPLIFETIME(ABasePawn, VR_Proxy);
-	DOREPLIFETIME(ABasePawn, VR_Root);
-	DOREPLIFETIME(ABasePawn, Camera);
-	DOREPLIFETIME(ABasePawn, Body);
+	DOREPLIFETIME(APrimitivePawn, ImpactPointer_L);
+	DOREPLIFETIME(APrimitivePawn, ImpactPointer_R);
+	DOREPLIFETIME(APrimitivePawn, VR_Proxy);
+	DOREPLIFETIME(APrimitivePawn, VR_Root);
+	DOREPLIFETIME(APrimitivePawn, Camera);
+	DOREPLIFETIME(APrimitivePawn, Body);
 }
 
-void ABasePawn::Tick(float DeltaTime)
+void APrimitivePawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -104,7 +104,7 @@ void ABasePawn::Tick(float DeltaTime)
 	}
 }
 
-void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void APrimitivePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
@@ -114,18 +114,18 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Subsystem->AddMappingContext(MenuInputMappingContext, 0);
 	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
-	Input->BindAction(Click, ETriggerEvent::Started, this, &ABasePawn::OnMousePressed);
-	Input->BindAction(Click, ETriggerEvent::Triggered, this, &ABasePawn::OnMousePressed);
-	Input->BindAction(Click, ETriggerEvent::Completed, this, &ABasePawn::OnMouseReleased);
+	Input->BindAction(Click, ETriggerEvent::Started, this, &APrimitivePawn::OnMousePressed);
+	Input->BindAction(Click, ETriggerEvent::Triggered, this, &APrimitivePawn::OnMousePressed);
+	Input->BindAction(Click, ETriggerEvent::Completed, this, &APrimitivePawn::OnMouseReleased);
 }
 
-void ABasePawn::OnMousePressed()
+void APrimitivePawn::OnMousePressed()
 {
 	WidgetInteraction_L->PressPointerKey(EKeys::LeftMouseButton);
 	WidgetInteraction_R->PressPointerKey(EKeys::LeftMouseButton);
 }
 
-void ABasePawn::OnMouseReleased()
+void APrimitivePawn::OnMouseReleased()
 {
 	WidgetInteraction_L->ReleasePointerKey(EKeys::LeftMouseButton);
 	WidgetInteraction_R->ReleasePointerKey(EKeys::LeftMouseButton);
@@ -133,7 +133,7 @@ void ABasePawn::OnMouseReleased()
 
 
 // Setup Pointer
-void ABasePawn::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
+void APrimitivePawn::SetUpPointer(UMotionControllerComponent* MotionControllerComponent, float Pointerdistance,
 	UStaticMeshComponent* ImpactPointer, UWidgetInteractionComponent* WidgetInteractionComponent, EControllerHand Hand, FHitResult& HitResult)
 {
 	UHeadMountedDisplayFunctionLibrary* HMDLibrary;

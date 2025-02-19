@@ -3,7 +3,7 @@
 #include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/Components/AI/AIComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 
 AAIPawn::AAIPawn()
@@ -12,7 +12,7 @@ AAIPawn::AAIPawn()
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
-	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryBaseComp>("MilitaryBaseComp");
+	MilitaryBaseComp = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryBaseComp");
 	AI_Component = CreateDefaultSubobject<UAIComponent>("AI_Component");
 }
 
@@ -20,7 +20,7 @@ void AAIPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	MilitaryBaseComp->SpawnMilitaryBase(this);
+	MilitaryBaseComp->SpawnMilitaryStation(this);
 	MilitaryBaseComp->SpawnBuildings(this);
 	AI_Component->GetAvailableAttackingUnits();;
 

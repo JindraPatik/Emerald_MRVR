@@ -6,7 +6,7 @@
 #include "AIPawn.generated.h"
 
 class UBehaviorTree;
-class UMilitaryBaseComp;
+class UMilitaryStationComp;
 class UHealthComponent;
 class UResourcesComponent;
 class AMilitaryBase;
@@ -37,7 +37,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		UMilitaryBaseComp* MilitaryBaseComp;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
+		UMilitaryStationComp* MilitaryBaseComp;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UHealthComponent> HealthComponent;

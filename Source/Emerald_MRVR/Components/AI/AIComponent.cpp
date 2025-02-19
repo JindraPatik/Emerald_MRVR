@@ -1,6 +1,6 @@
 #include "AIComponent.h"
 #include "EngineUtils.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryBaseComp.h"
+#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
@@ -39,7 +39,7 @@ void UAIComponent::BeginPlay()
 		 		AVRPawn* VR_Pawn = Cast<AVRPawn>(*It);
 			    if (VR_Pawn)
 			    {
-					UMilitaryBaseComp* MilitaryBaseComp = VR_Pawn->FindComponentByClass<UMilitaryBaseComp>();
+					UMilitaryStationComp* MilitaryBaseComp = VR_Pawn->FindComponentByClass<UMilitaryStationComp>();
 						if (MilitaryBaseComp)
 						{
 		 					MilitaryBaseComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAIComponent::OnUnitOccured);
@@ -70,7 +70,7 @@ float UAIComponent::GetDistanceBetweenCrystalSpawners() const
 
 float UAIComponent::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 {
-	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	float DistanceToCrystal = FVector::Dist(MilitaryBaseComp->GetMilitaryBaseInstance()->GetActorLocation(), CrystalLocation);
 	return DistanceToCrystal;
 }
@@ -78,7 +78,7 @@ float UAIComponent::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 void UAIComponent::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 {
 	bool bShouldSendHarvester = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
-	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	
 	if (MilitaryBaseComp && bShouldSendHarvester && MilitaryBaseComp->HasEnoughResources(MineBuilding))
 	{
@@ -93,7 +93,7 @@ void UAIComponent::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 	}
 }
 
-void UAIComponent::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
+void UAIComponent::SpawnHarvester(UMilitaryStationComp* MilitaryBaseComp)
 {
 	APawn* AIPawn = Cast<APawn>(GetOwner());
 	if (AIPawn)
@@ -113,7 +113,7 @@ void UAIComponent::SpawnHarvester(UMilitaryBaseComp* MilitaryBaseComp)
 
 void UAIComponent::GetAvailableAttackingUnits()
 {
-	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	if (MilitaryBaseComp)
 		bIsReversed = MilitaryBaseComp->bIsReversed;
 		{
@@ -142,7 +142,7 @@ void UAIComponent::GetAvailableAttackingUnits()
 
 AUnit* UAIComponent::SpawnUnit(ABuilding* Module)
 {
-	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	if (MilitaryBaseComp->HasEnoughResources(Module->BuildingDataAsset) && bSpawningEnabled)
 	{
 		if (AI_Pawn)
@@ -154,7 +154,7 @@ AUnit* UAIComponent::SpawnUnit(ABuilding* Module)
 	return nullptr;
 }
 
-void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryBaseComp* MilitaryBaseComp, TArray<ABuilding*> Availables)
+void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables)
 {
 	for (ABuilding* ReactUnit : Availables)
 	{
@@ -254,7 +254,7 @@ void UAIComponent::OnUnitOccured(AUnit* Unit, AActor* Owner)
 	{
 		return;
 	}
-	UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	CheapestStronger = nullptr;
 	CheapestSame = nullptr;
 	float ProbabilityToSpawn = FMath::FRandRange(0.f, 100.f);
@@ -277,7 +277,7 @@ void UAIComponent::SpawnRandomUnit()
 {
 	if (FightStatus == EUnitFightStatus::EIsAttacking)
 	{
-		UMilitaryBaseComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryBaseComp>();
+		UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 		if (MilitaryBaseComp)
 		{
 			if (MilitaryBaseComp->AvailableBuildingsActors.Num() > 0)
@@ -304,7 +304,7 @@ void UAIComponent::HandleRandomSpawn()
 }
 
 
-void UAIComponent::TryToDefend(UMilitaryBaseComp* MilitaryBaseComp, TArray<ABuilding*> Availables)
+void UAIComponent::TryToDefend(UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables)
 {
 	if (UndefendedUnit)
 	{
