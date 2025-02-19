@@ -30,7 +30,7 @@ public:
 	
 private:
 	UPROPERTY()
-		TObjectPtr<UMilitaryStationComp> MilitaryBaseCompInst;
+		TObjectPtr<UMilitaryStationComp> MilitaryStationCompInst;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resources", meta=(AllowPrivateAccess="true"));
 		float MaxResources = 9999.f;

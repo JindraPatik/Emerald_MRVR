@@ -16,7 +16,7 @@ class AVRPlayerController;
 class UResourcesComponent;
 class UHealthComponent;
 class UCharacterMovementComponent;
-class AMilitaryBase;
+class AMilitaryStation;
 class UOculusXRControllerComponent;
 class UCameraComponent;
 class UMotionControllerComponent;
@@ -84,17 +84,17 @@ public:
 	// ~INPUT
 
 
-	// MILITARY BASE
+	// MILITARY Station
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 		UMilitaryStationComp* MilitaryStationComp;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryStation")
 		ABuilding* CurrentlyHoveredBuilding_L;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryStation")
 		ABuilding* CurrentlyHoveredBuilding_R;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryStation")
 		TSubclassOf<AActor> PreviewUnitClass;
 
 	UPROPERTY()
@@ -126,8 +126,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryBase* MilitaryStationInstance;					//pb: viz. commenty ke konzistenci nazvu
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Station")
+		AMilitaryStation* MilitaryStationInstance;					//pb: viz. commenty ke konzistenci nazvu
 
 	UPROPERTY(BlueprintReadOnly, Category="CORE")
 	bool bGameInitialized = false;

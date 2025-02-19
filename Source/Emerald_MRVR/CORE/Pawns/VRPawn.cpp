@@ -31,7 +31,7 @@ AVRPawn::AVRPawn()
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
 	ResourcesComponent->SetIsReplicated(true);
 	
-	MilitaryStationComp = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryBaseComp");
+	MilitaryStationComp = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryStationComp");
 	MilitaryStationComp->SetIsReplicated(true);
 
 	// ~COMPONENTS

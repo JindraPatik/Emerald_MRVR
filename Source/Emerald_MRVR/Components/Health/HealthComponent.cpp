@@ -2,7 +2,7 @@
 
 #include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
 #include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Net/UnrealNetwork.h"
@@ -18,7 +18,7 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MilitaryBaseCompInstance = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	MilitaryStationCompInstance = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 }
 
 void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -29,15 +29,15 @@ void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 void UHealthComponent::OnRep_OnHealthChanged()
 {
-	if (!MilitaryBaseCompInstance)
+	if (!MilitaryStationCompInstance)
 	{
 		return;
 	}
 	
-	AMilitaryBase* MilitaryBaseInstance = MilitaryBaseCompInstance->GetMilitaryBaseInstance();
-	if (MilitaryBaseInstance && MilitaryBaseInstance->HealthWidgetInstance)
+	AMilitaryStation* MilitaryStationInstance = MilitaryStationCompInstance->GetMilitaryStationInstance();
+	if (MilitaryStationInstance && MilitaryStationInstance->HealthWidgetInstance)
 	{
-		UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(MilitaryBaseInstance->HealthWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
+		UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(MilitaryStationInstance->HealthWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());
 		if (HealthBarWidget)
 		{
 			HealthBarWidget->UpdateHealthWidget(Health);

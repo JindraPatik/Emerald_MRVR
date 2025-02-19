@@ -5,8 +5,8 @@
 #include "Thief.generated.h"
 
 /* Thief Unit steals Resources when overlaps with Enemy loaded Harvester.
- * When overlaps with Enemy base steals amount of resources from enemy player.
- * In both cases has to return to Player's base and deliver Resources.
+ * When overlaps with Enemy station steals amount of resources from enemy player.
+ * In both cases has to return to Player's station and deliver Resources.
  * When is loaded, has decreased speed.
  */
 UCLASS()
@@ -23,12 +23,12 @@ protected:
 	UFUNCTION()
 		void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);
 
-	/* Steals resources from loaded Harvester and return to base */
+	/* Steals resources from loaded Harvester and return to station */
 	UFUNCTION()
 		void HarvesterRobbery(AActor* OtherActor);
 
 	UFUNCTION()
-		void BaseRobbery(AActor* OtherActor);
+		void StationRobbery(AActor* OtherActor);
 
 	UPROPERTY(EditAnywhere, Category="Speed")
 		float ReturnSlowdownPercent = 20.f;
@@ -43,7 +43,7 @@ public:
 		float StealedValue = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category="Stealing")
-		float AmountToStealFromBase = 10.f;
+		float AmountToStealFromStation = 10.f;
 
 public:
 	virtual void Tick(float DeltaSeconds) override;

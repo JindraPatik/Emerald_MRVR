@@ -31,12 +31,12 @@ protected:
 	virtual void BeginPlay() override;
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
-	void SpawnHarvester(UMilitaryStationComp* MilitaryBaseComp);
+	void SpawnHarvester(UMilitaryStationComp* MilitaryStationComp);
 	AUnit* SpawnUnit(ABuilding* Building);
 	void SpawnRandomUnit();
 	
 	UFUNCTION()
-		void TryToDefend(UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
+		void TryToDefend(UMilitaryStationComp* MilitaryStationComp, TArray<ABuilding*> Availables);
 
 	UPROPERTY()
 		float DefendingAgainstValue;
@@ -88,7 +88,7 @@ protected:
 		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
 	
 	UFUNCTION()
-		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
+		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryStationComp, TArray<ABuilding*> Availables);
 
 	UPROPERTY()
 		TObjectPtr<ABuilding> CheapestStronger; // Temp variable for Cheapest stronger Unit

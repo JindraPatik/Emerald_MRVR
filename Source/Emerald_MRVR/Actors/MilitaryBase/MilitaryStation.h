@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MilitaryBase.generated.h"
+#include "MilitaryStation.generated.h"
 
 class AVRPawn;
 class UBuildingDataAsset;
@@ -14,12 +14,12 @@ class UDownScaleComponent;
 class UBoxComponent;
 
 UCLASS()
-class EMERALD_MRVR_API AMilitaryBase : public AActor
+class EMERALD_MRVR_API AMilitaryStation : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	AMilitaryBase();
+	AMilitaryStation();
 		void SpawnResourcesWidget();
 
 	UFUNCTION(Server, Reliable)
@@ -35,13 +35,13 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category = "Visuals")
-		TObjectPtr<USceneComponent> BaseRoot;
+		TObjectPtr<USceneComponent> StationRoot;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category = "Visuals")
-		TObjectPtr<UStaticMeshComponent> Body_Root;
+		TObjectPtr<UStaticMeshComponent> BodyRoot;
 
-	UPROPERTY(EditAnywhere, Category = "BaseBody")
-		TObjectPtr<UBoxComponent> BaseBox;
+	UPROPERTY(EditAnywhere, Category = "StationBody")
+		TObjectPtr<UBoxComponent> StationBox;
 
 	UPROPERTY(VisibleDefaultsOnly, Category="Visuals")
 		UDownScaleComponent* DownScaleComponent;

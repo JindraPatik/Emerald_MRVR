@@ -12,13 +12,13 @@ AProjectile::AProjectile()
 	RootComp = CreateDefaultSubobject<USceneComponent>("RootComponent");
 	SetRootComponent(RootComp);
 
-	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
-	BaseBody->SetupAttachment(RootComponent);
+	Body = CreateDefaultSubobject<UStaticMeshComponent>("StationBody");
+	Body->SetupAttachment(RootComponent);
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("CapsuleComponent");
-	BoxComponent->SetupAttachment(BaseBody);
+	BoxComponent->SetupAttachment(Body);
 	
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	BoxComponent->SetCollisionObjectType(ECC_WorldDynamic);
@@ -36,10 +36,10 @@ void AProjectile::BeginPlay()
 
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnBoxOverlapped);
 	
-	BaseBody->SetSimulatePhysics(true);
-	BaseBody->SetEnableGravity(true);
+	Body->SetSimulatePhysics(true);
+	Body->SetEnableGravity(true);
 	FVector ImpulseVector = GetOwner()->GetActorForwardVector() * ProjectileImpulseMultiplier;
-	BaseBody->AddImpulse(ImpulseVector);
+	Body->AddImpulse(ImpulseVector);
 
 	
 }

@@ -5,7 +5,7 @@
 #include "Harvester.generated.h"
 
 /* Harvester is Unit for gathering resources in the World.
- * When overlap with Resources object, collect it and returns back to Military base to deliver resources */
+ * When overlap with Resources object, collect it and returns back to Military station to deliver resources */
 UCLASS()
 class EMERALD_MRVR_API AHarvester : public AUnit
 {
@@ -24,7 +24,7 @@ protected:
 	UFUNCTION()
 		void CollectCrystal(AActor* HittedActor);
 
-	/* Delivers resources to Military base when is loaded */
+	/* Delivers resources to Military station when is loaded */
 	UFUNCTION()
 		void DeliverCrystal(AActor* HitActor);
 

@@ -1,7 +1,7 @@
 ﻿#include "Thief.h"
 
 #include "Harvester.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryBase.h"
+#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
@@ -32,10 +32,10 @@ void AThief::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 		return;
 	}
 	HarvesterRobbery(OtherActor);
-	BaseRobbery(OtherActor);
+	StationRobbery(OtherActor);
 }
 
-/* Steals resources from loaded Harvester and return to base */
+/* Steals resources from loaded Harvester and return to station */
 void AThief::HarvesterRobbery(AActor* OtherActor)
 {
 	if (OtherActor && OtherActor->GetOwner() != GetOwner()) // Not my Unit
@@ -69,7 +69,7 @@ void AThief::HarvesterRobbery(AActor* OtherActor)
 	}
 }
 
-void AThief::BaseRobbery(AActor* OtherActor)
+void AThief::StationRobbery(AActor* OtherActor)
  {
 	if (OtherActor && OtherActor->GetOwner() && OtherActor->GetOwner() != GetOwner()) // Not me
 	{
@@ -79,11 +79,11 @@ void AThief::BaseRobbery(AActor* OtherActor)
 			return;
 		}
 		
-		if (EnemyResourcesComponent->AvailableResources >= AmountToStealFromBase) // Enemy has enough to steal
+		if (EnemyResourcesComponent->AvailableResources >= AmountToStealFromStation) // Enemy has enough to steal
 		{
-			StealedValue = AmountToStealFromBase;
+			StealedValue = AmountToStealFromStation;
 			bIsloaded = true;
-			EnemyResourcesComponent->AvailableResources -= AmountToStealFromBase;
+			EnemyResourcesComponent->AvailableResources -= AmountToStealFromStation;
 			
 			if (!UnitMovementComponent)
 			{
@@ -95,9 +95,8 @@ void AThief::BaseRobbery(AActor* OtherActor)
 			return;
 		}
 		
-		if (EnemyResourcesComponent->AvailableResources <= AmountToStealFromBase)
+		if (EnemyResourcesComponent->AvailableResources <= AmountToStealFromStation)
 		{
-			UE_LOG(LogTemp, Error, TEXT("EnemyResourcesComponent->AvailableResources <= AmountToStealFromBase"));
 			StealedValue = EnemyResourcesComponent->AvailableResources; // Steals rest of the resources Enemy has
 			EnemyResourcesComponent->AvailableResources -= EnemyResourcesComponent->AvailableResources;
 			bIsloaded = true;
@@ -113,10 +112,10 @@ void AThief::BaseRobbery(AActor* OtherActor)
 		}
 	}
 	
-	else if (OtherActor && OtherActor->GetOwner() == GetOwner() && bIsloaded) // If is my base and Thief bIsLoaded -> Deliver
+	else if (OtherActor && OtherActor->GetOwner() == GetOwner() && bIsloaded) // If is my Station and Thief bIsLoaded -> Deliver
 	{
-		AMilitaryBase* MilitaryBase = Cast<AMilitaryBase>(OtherActor);
-		if (!MilitaryBase)
+		AMilitaryStation* MilitaryStation = Cast<AMilitaryStation>(OtherActor);
+		if (!MilitaryStation)
 		{
 			return;
 		}
