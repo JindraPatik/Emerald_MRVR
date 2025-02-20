@@ -107,7 +107,7 @@ void AB52::SpawnProjectile()
 	if (ProjectilesCount >= ProjectilesToSpawn)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(BombingSequence);
-		UnitMovementComponent->ReturnHome();
+		// UnitMovementComponent->ReturnHome();
 	}
 }
 

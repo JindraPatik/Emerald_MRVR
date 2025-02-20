@@ -1,13 +1,9 @@
 #include "UnitMovementComponent.h"
 #include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
 #include "EngineUtils.h"
-#include "MovieSceneSection.h"
 #include "SplineComponent.h"
-#include "Chaos/PBDSuspensionConstraintData.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
-#include "Emerald_MRVR/Actors/UnitMovement/PathPoint.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Net/UnrealNetwork.h"
 
@@ -36,6 +32,8 @@ void UUnitMovementComponent::BeginPlay()
 		UnitSpeed = Unit->Speed;
 	}
 }
+
+
 
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -140,57 +138,55 @@ void UUnitMovementComponent::Turn180()
 	bIsReversedMovement = !bIsReversedMovement;
 }
 
-void UUnitMovementComponent::ReturnHome()
+void UUnitMovementComponent::ExtendMovementPathToReturn(FTransform Start, FTransform End)
 {
-	if (!Unit || !Unit->OwningBuilding || !Unit->OwningBuilding->UnitReturnPoint)
+	FVector CurrentLocation = Unit->GetActorLocation();
+	FRotator CurrentRotation = Unit->GetActorRotation();
+
+	/* Add first right turn */
+	for (int i = 0; i < 3; i++)
 	{
-		return;
+		FVector TurnPoint = GetTurnPoint(CurrentLocation, CurrentRotation, 45.f, 50.f);
+		MovementSpline->AddSplinePoint(TurnPoint, ESplineCoordinateSpace::World);
+		CurrentLocation = TurnPoint;
+		CurrentRotation += FRotator(0.f, 45.f, 0.f);
 	}
 
-	if (MovementSpline)
+	/* Add point for straight */
+	FVector LandingPoint = FVector(CurrentLocation.X, End.GetLocation().Y, CurrentLocation.Z) + FVector(0.f, 50.f, 0.f);
+	MovementSpline->AddSplinePoint(LandingPoint, ESplineCoordinateSpace::World);
+
+	CurrentLocation = LandingPoint;
+
+	/* Add second turn right */
+	for (int i = 0; i < 3; i++)
 	{
-		MovementSpline->ClearSplinePoints();
+		FVector TurnPoint = GetTurnPoint(CurrentLocation, CurrentRotation, 45.f, 50.f);
+		MovementSpline->AddSplinePoint(TurnPoint, ESplineCoordinateSpace::World);
+		CurrentLocation = TurnPoint;
+		CurrentRotation += FRotator(0.f, 45.f, 0.f);
 	}
 
-	ReturnPathPoints.Empty();
-	GenerateReturnPathPoints();
-	
-	FVector Start = Unit->GetActorLocation();
-	FVector End = Unit->OwningBuilding->UnitReturnPoint->GetComponentLocation();
-	
-	MovementSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, Start, End, ReturnPathPoints,GetOwner());
+	FVector BeyondReturnPoint = End.GetLocation() - (End.Rotator().Vector() * 30.f); 
+	MovementSpline->AddSplinePoint(BeyondReturnPoint, ESplineCoordinateSpace::World);
+
+	/* Add Return point */
+	MovementSpline->AddSplinePoint(End.GetLocation(), ESplineCoordinateSpace::World);
 }
 
-void UUnitMovementComponent::GenerateReturnPathPoints()
+
+
+FVector UUnitMovementComponent::GetTurnPoint(FVector CurrentLocation, FRotator CurrentRotation, float TurnAngle,
+	float Distance)
 {
-	if (!Unit)
-	{
-		return;
-	}
+	FVector ForwardDirection = CurrentRotation.Vector();
 
-	FVector PreviousPathPointLocation = GetOwner()->GetActorLocation();
-	FRotator PreviousPathRotation = GetOwner()->GetActorRotation();
+	FRotator TurnRotation(0, TurnAngle, 0);
+	FVector TurnDirection = TurnRotation.RotateVector(ForwardDirection);
 
-	for (uint32 i = 0; i < 3; i++)
-	{
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = GetOwner();
-		SpawnParams.Instigator = Cast<APawn>(GetOwner());
+	FVector TurnPoint = CurrentLocation + (TurnDirection * Distance);
 
-		FVector Location = PreviousPathPointLocation + PreviousPathRotation.Vector() * FMath::RandRange(100.f, 300.f);
-		PreviousPathPointLocation = Location;
-		
-		FRotator Rotation = PreviousPathRotation;
-		Rotation.Pitch += FMath::RandRange(-10.f, 10.f);
-		Rotation.Yaw += FMath::RandRange(-10.f, 10.f);
-		PreviousPathRotation = Rotation;		
-
-		APathPoint* PathPoint = GetWorld()->SpawnActor<APathPoint>(Location, Rotation, SpawnParams);
-		if (PathPoint)
-		{
-			ReturnPathPoints.Add(PathPoint);
-		}
-	}
+	return TurnPoint;
 }
 
 

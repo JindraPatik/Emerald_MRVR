@@ -1,5 +1,6 @@
 #include "CombatComponent.h"
 
+#include "SplineComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
@@ -7,6 +8,7 @@
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Collaborator.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Thief.h"
+#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)
@@ -162,7 +164,13 @@ void UCombatComponent::BaseFight(AActor* InActor)
 			{
 				return;
 			}
-			UnitMovementComponent->ReturnHome();
+
+			int32 ConnectionPointIndex = UnitMovementComponent->MovementSpline->GetNumberOfSplinePoints() - 1;
+			FTransform ConnectionPointTransform = FTransform(UnitMovementComponent->MovementSpline->GetRotationAtSplinePoint(ConnectionPointIndex, ESplineCoordinateSpace::World),
+				UnitMovementComponent->MovementSpline->GetLocationAtSplinePoint(ConnectionPointIndex, ESplineCoordinateSpace::World));
+			
+			UnitMovementComponent->ExtendMovementPathToReturn(ConnectionPointTransform, Unit->OwningBuilding->UnitReturnPoint->GetComponentTransform());
+			Unit->Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			return;
 		}
 		

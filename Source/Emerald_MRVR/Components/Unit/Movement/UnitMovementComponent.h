@@ -50,9 +50,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 		TArray<APathPoint*> PathPoints;
 
-	UPROPERTY(EditDefaultsOnly, Category="Movement")
-		TArray<APathPoint*> ReturnPathPoints;
-
 	UPROPERTY(VisibleAnywhere, Category="Movement")
 		float SplineDistance = 0.f;
 
@@ -60,7 +57,7 @@ public:
 		void Turn180();
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
-		void ReturnHome();
+		void ExtendMovementPathToReturn(FTransform StartLocation, FTransform EndLocation);
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void StopUnit();
@@ -70,12 +67,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void RestartMovement();
-
-	UFUNCTION(BlueprintCallable, Category="Movement")
-		void GenerateReturnPathPoints();
-
-	
-
 
 	float StartingSpeed = 0;
 	bool bIsFlying;
@@ -96,6 +87,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 		float SmoothRotationInterpSpeed = 5.f;
+
+	UFUNCTION()
+		FVector GetTurnPoint(FVector CurrentLocation, FRotator CurrentRotation, float TurnAngle, float Distance);
 	
 
 public:	
