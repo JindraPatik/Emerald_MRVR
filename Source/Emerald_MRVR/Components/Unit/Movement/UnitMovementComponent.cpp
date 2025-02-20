@@ -143,10 +143,15 @@ void UUnitMovementComponent::ExtendMovementPathToReturn(FTransform Start, FTrans
 	FVector CurrentLocation = Unit->GetActorLocation();
 	FRotator CurrentRotation = Unit->GetActorRotation();
 
+	float PitchDelta = FMath::RandRange(0.f, 20.f);
+	float RandomDistance = FMath::RandRange(15.f, 50.f);
+	
+	CurrentRotation = FRotator(PitchDelta, CurrentRotation.Yaw, 0.f);
+
 	/* Add first right turn */
 	for (int i = 0; i < 3; i++)
 	{
-		FVector TurnPoint = GetTurnPoint(CurrentLocation, CurrentRotation, 45.f, 50.f);
+		FVector TurnPoint = GetTurnPoint(CurrentLocation, CurrentRotation, 45.f, RandomDistance);
 		MovementSpline->AddSplinePoint(TurnPoint, ESplineCoordinateSpace::World);
 		CurrentLocation = TurnPoint;
 		CurrentRotation += FRotator(0.f, 45.f, 0.f);
@@ -157,16 +162,18 @@ void UUnitMovementComponent::ExtendMovementPathToReturn(FTransform Start, FTrans
 	MovementSpline->AddSplinePoint(LandingPoint, ESplineCoordinateSpace::World);
 
 	CurrentLocation = LandingPoint;
+	CurrentRotation = FRotator(-PitchDelta, CurrentRotation.Yaw, 0.f);
 
 	/* Add second turn right */
 	for (int i = 0; i < 3; i++)
 	{
-		FVector TurnPoint = GetTurnPoint(CurrentLocation, CurrentRotation, 45.f, 50.f);
+		FVector TurnPoint = GetTurnPoint(CurrentLocation, CurrentRotation, 45.f, RandomDistance);
 		MovementSpline->AddSplinePoint(TurnPoint, ESplineCoordinateSpace::World);
 		CurrentLocation = TurnPoint;
 		CurrentRotation += FRotator(0.f, 45.f, 0.f);
 	}
 
+	/* Add Beyond Return point */
 	FVector BeyondReturnPoint = End.GetLocation() - (End.Rotator().Vector() * 30.f); 
 	MovementSpline->AddSplinePoint(BeyondReturnPoint, ESplineCoordinateSpace::World);
 
