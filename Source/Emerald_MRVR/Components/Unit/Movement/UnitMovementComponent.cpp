@@ -144,13 +144,9 @@ void UUnitMovementComponent::ExtendMovementPathToReturn(FTransform Start, FTrans
 	FRotator CurrentRotation = Unit->GetActorRotation();
 
 	float PitchDelta = FMath::RandRange(0.f, 20.f);
-	float RandomDistance = FMath::RandRange(55.f, 95.f);
+	float RandomDistance = FMath::RandRange(15.f, 50.f);
 	
 	CurrentRotation = FRotator(PitchDelta, CurrentRotation.Yaw, 0.f);
-
-	int32 LastPointIndex = MovementSpline->GetNumberOfSplinePoints() - 1;
-	FSplinePoint LastPointAtPath = MovementSpline->GetSplinePointAt(LastPointIndex, ESplineCoordinateSpace::World);
-	LastPointAtPath.Position = CurrentLocation;
 
 	/* Add first right turn */
 	for (int i = 0; i < 3; i++)
@@ -185,7 +181,8 @@ void UUnitMovementComponent::ExtendMovementPathToReturn(FTransform Start, FTrans
 	MovementSpline->AddSplinePoint(End.GetLocation(), ESplineCoordinateSpace::World);
 }
 
-/* Create Point in space to turn Unit in certain angle */
+
+
 FVector UUnitMovementComponent::GetTurnPoint(FVector CurrentLocation, FRotator CurrentRotation, float TurnAngle,
 	float Distance)
 {

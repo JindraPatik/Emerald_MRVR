@@ -1,7 +1,5 @@
 ﻿#include "B52.h"
 
-#include "SplineComponent.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
 #include "Emerald_MRVR/Actors/Projectiles/Projectile.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
@@ -13,7 +11,6 @@ AB52::AB52()
 void AB52::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AB52::Tick(float DeltaTime)
@@ -106,11 +103,11 @@ void AB52::SpawnProjectile()
 	
 	ProjectileInst->Speed = Speed;
 	ProjectilesCount++;
-
 	
 	if (ProjectilesCount >= ProjectilesToSpawn)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(BombingSequence);
+		// UnitMovementComponent->ReturnHome();
 	}
 }
 

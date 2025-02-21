@@ -90,7 +90,6 @@ protected:
 
 	UFUNCTION()
 		FVector GetTurnPoint(FVector CurrentLocation, FRotator CurrentRotation, float TurnAngle, float Distance);
-
 	
 
 public:	
