@@ -168,9 +168,10 @@ void UCombatComponent::BaseFight(AActor* InActor)
 			int32 ConnectionPointIndex = UnitMovementComponent->MovementSpline->GetNumberOfSplinePoints() - 1;
 			FTransform ConnectionPointTransform = FTransform(UnitMovementComponent->MovementSpline->GetRotationAtSplinePoint(ConnectionPointIndex, ESplineCoordinateSpace::World),
 				UnitMovementComponent->MovementSpline->GetLocationAtSplinePoint(ConnectionPointIndex, ESplineCoordinateSpace::World));
-			
-			UnitMovementComponent->ExtendMovementPathToReturn(ConnectionPointTransform, Unit->OwningBuilding->UnitReturnPoint->GetComponentTransform());
+
 			Unit->Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+			UnitMovementComponent->ExtendMovementPathToReturn(ConnectionPointTransform, Unit->OwningBuilding->UnitReturnPoint->GetComponentTransform());
 			return;
 		}
 		
