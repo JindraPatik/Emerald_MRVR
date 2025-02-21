@@ -77,6 +77,11 @@ public:
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		float UnitSpeed;
+
+	void AvoidSlowerUnit();
+
+	UFUNCTION()
+	void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);
 	
 protected:
 	virtual void BeginPlay() override;

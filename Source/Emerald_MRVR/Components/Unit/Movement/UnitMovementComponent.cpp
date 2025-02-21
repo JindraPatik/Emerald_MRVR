@@ -22,6 +22,8 @@ void UUnitMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	DOREPLIFETIME(UUnitMovementComponent, UnitSpeed);
 }
 
+
+
 void UUnitMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -31,8 +33,22 @@ void UUnitMovementComponent::BeginPlay()
 	{
 		UnitSpeed = Unit->Speed;
 	}
+	Unit->OnActorBeginOverlap.AddDynamic(this, &UUnitMovementComponent::OnOverlapped);
 }
 
+void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if (!OtherActor)
+	{
+		return;
+	}
+	AUnit* OverlappedUnit = Cast<AUnit>(OtherActor);
+	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OnOverlapped Unitmovementcomponent"));
+		AvoidSlowerUnit();
+	}
+}
 
 
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -232,5 +248,12 @@ void UUnitMovementComponent::RestartMovement()
 {
 	bIsRestartingMovement = true;
 }
+
+void UUnitMovementComponent::AvoidSlowerUnit()
+{
+	// TODO: jak??
+}
+	
+
 
 
