@@ -1,4 +1,4 @@
-#include "UnitMovementComponent.h"
+  #include "UnitMovementComponent.h"
 #include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
 #include "EngineUtils.h"
 #include "SplineComponent.h"
@@ -22,8 +22,6 @@ void UUnitMovementComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	DOREPLIFETIME(UUnitMovementComponent, UnitSpeed);
 }
 
-
-
 void UUnitMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -34,6 +32,7 @@ void UUnitMovementComponent::BeginPlay()
 		UnitSpeed = Unit->Speed;
 	}
 	Unit->OnActorBeginOverlap.AddDynamic(this, &UUnitMovementComponent::OnOverlapped);
+	Unit->OnActorEndOverlap.AddDynamic(this, &UUnitMovementComponent::OnOverlapEnd);
 }
 
 void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
@@ -43,13 +42,30 @@ void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* Other
 		return;
 	}
 	AUnit* OverlappedUnit = Cast<AUnit>(OtherActor);
+
+	/* It there is Player's Unit in the way and is slower, pass it */
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("OnOverlapped Unitmovementcomponent"));
-		AvoidSlowerUnit();
+		UE_LOG(LogTemp, Warning, TEXT("Started Overtaking"));
+		BeginOvertake();
 	}
 }
 
+void UUnitMovementComponent::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if (!OtherActor)
+	{
+		return;
+	}
+	AUnit* OverlappedUnit = Cast<AUnit>(OtherActor);
+
+	/* It there is Player's Unit in the way and is slower, finish overtaking */
+	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Ended Overtaking"));
+		EndOvertake();
+	}
+}
 
 void UUnitMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -115,16 +131,27 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 {
 	if (!MovementSpline || !Unit) return;
 
-	// Posun po spline
+	// Movement on spline
 	SplineDistance += (bIsReversedMovement ? -UnitSpeed : UnitSpeed) * DeltaTime;
 	SplineDistance = FMath::Clamp(SplineDistance, 0.0f, MovementSpline->GetSplineLength());
 
-	FVector NewLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
+	// FVector NewLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 	FVector ForwardVector = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 
 	// Add constant pitch
 	FRotator TargetRotation = ForwardVector.Rotation();
 	TargetRotation.Pitch += -2.0f; // Předklon
+
+	// Základní pozice na spline (bez posunu nahoru)
+	FVector BaseLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
+	BaseZ = BaseLocation.Z; // Uložíme výchozí výšku
+
+	// 🔹 Plynulá interpolace výšky (posun nahoru nebo dolů)
+	CurrentZOffset = FMath::FInterpTo(CurrentZOffset, TargetZOffset, DeltaTime, HeightSpeed);
+
+	// Aplikace výškového posunu
+	BaseLocation.Z = BaseZ + CurrentZOffset;
+
 
 	//  (Roll)
 	FVector FutureDirection = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance + 10.0f, ESplineCoordinateSpace::World);
@@ -145,7 +172,7 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 
 	// New Rotation
 	Unit->SetActorRotation(SmoothRotation);
-	Unit->SetActorLocation(NewLocation);
+	Unit->SetActorLocation(BaseLocation);
 }
 
 void UUnitMovementComponent::Turn180()
@@ -249,11 +276,16 @@ void UUnitMovementComponent::RestartMovement()
 	bIsRestartingMovement = true;
 }
 
-void UUnitMovementComponent::AvoidSlowerUnit()
+void UUnitMovementComponent::BeginOvertake()
 {
-	// TODO: jak??
+	TargetZOffset = 5.f;
 }
-	
+
+void UUnitMovementComponent::EndOvertake()
+{
+	TargetZOffset = 0.f;
+}
+
 
 
 

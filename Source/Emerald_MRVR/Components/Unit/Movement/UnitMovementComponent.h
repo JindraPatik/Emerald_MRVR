@@ -68,6 +68,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void RestartMovement();
 
+	
+
+
 	float StartingSpeed = 0;
 	bool bIsFlying;
 	bool bIsReversed;
@@ -78,11 +81,20 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		float UnitSpeed;
 
-	void AvoidSlowerUnit();
+	UFUNCTION()
+		void BeginOvertake();
 
 	UFUNCTION()
-	void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);
-	
+		void EndOvertake();
+
+	UPROPERTY()
+		bool bIsOvertakingSlower = false;
+
+	UFUNCTION()
+		void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+		void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 protected:
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -95,8 +107,21 @@ protected:
 
 	UFUNCTION()
 		FVector GetTurnPoint(FVector CurrentLocation, FRotator CurrentRotation, float TurnAngle, float Distance);
-	
 
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		float TargetZOffset = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		float CurrentZOffset = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		float HeightSpeed = 15.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		float BaseZ = 0.0f;
+
+	
+	
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
