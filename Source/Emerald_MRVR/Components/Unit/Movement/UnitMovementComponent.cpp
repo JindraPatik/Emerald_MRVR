@@ -47,13 +47,13 @@ void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* Other
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Started Overtaking"));
-		BeginOvertake();
+		StartAvoidUnit();
 	}
 
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Avoiding Start"));
-		StartAvoidUnit();
+		BeginOvertake();
 	}
 }
 
@@ -69,13 +69,14 @@ void UUnitMovementComponent::OnOverlapEnd(AActor* OverlappedActor, AActor* Other
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Ended Overtaking"));
-		EndOvertake();
+		EndAvoidUnit();
 	}
 
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Avoiding End"));
-		EndAvoidUnit();
+	
+		EndOvertake();
 	}
 }
 

@@ -49,7 +49,6 @@ void UCombatComponent::OnActorOverlapped(AActor* OverlappedActor, AActor* OtherA
 
 void UCombatComponent::UnitFight(AActor* InActor)
 {
-	
 	if (InActor)
 	{
 		APawn* VR_Pawn = Cast<APawn>(GetOwner()->GetOwner());
