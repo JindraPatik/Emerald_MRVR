@@ -137,6 +137,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 		float SideMoveSpeed    = 15.0f;
 
+	bool bIsReversing = false; // Probíhá plynulé otáčení?
+	float ReverseRotationSpeed = 5.0f; // Rychlost interpolace otáčení
+	FRotator TargetReverseRotation; // Cílová rotace při otáčení
+
+	
+	
 	
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

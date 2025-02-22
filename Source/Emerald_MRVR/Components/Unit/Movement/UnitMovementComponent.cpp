@@ -52,6 +52,7 @@ void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* Other
 
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Avoiding Start"));
 		StartAvoidUnit();
 	}
 }
@@ -73,6 +74,7 @@ void UUnitMovementComponent::OnOverlapEnd(AActor* OverlappedActor, AActor* Other
 
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Avoiding End"));
 		EndAvoidUnit();
 	}
 }
@@ -145,7 +147,6 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 	SplineDistance += (bIsReversedMovement ? -UnitSpeed : UnitSpeed) * DeltaTime;
 	SplineDistance = FMath::Clamp(SplineDistance, 0.0f, MovementSpline->GetSplineLength());
 
-	// FVector NewLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 	FVector ForwardVector = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 
 	// Add constant pitch
@@ -160,10 +161,10 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 	CurrentZOffset = FMath::FInterpTo(CurrentZOffset, TargetZOffset, DeltaTime, HeightSpeed);
 	BaseLocation.Z = BaseZ + CurrentZOffset;
 
-	// 🔹 Získáme RightVector spline (směr doprava)
+	// Získáme RightVector spline (směr doprava)
 	FVector RightVector = MovementSpline->GetRightVectorAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 
-	// 🔹 Plynulá interpolace bočního posunu
+	// Plynulá interpolace bočního posunu
 	CurrentXOffset = FMath::FInterpTo(CurrentXOffset, TargetXOffset, DeltaTime, SideMoveSpeed);
 
 	// Aplikace bočního posunu v ose X
