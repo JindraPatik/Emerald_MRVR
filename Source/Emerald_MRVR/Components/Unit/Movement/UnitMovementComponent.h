@@ -87,6 +87,14 @@ public:
 	UFUNCTION()
 		void EndOvertake();
 
+	UFUNCTION()
+		void StartAvoidUnit();
+
+	UFUNCTION()
+		void EndAvoidUnit();
+
+	
+
 	UPROPERTY()
 		bool bIsOvertakingSlower = false;
 
@@ -120,7 +128,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 		float BaseZ = 0.0f;
 
-	
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		float TargetXOffset  = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		float CurrentXOffset   = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+		float SideMoveSpeed    = 15.0f;
+
 	
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

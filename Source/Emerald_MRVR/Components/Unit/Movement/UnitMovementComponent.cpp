@@ -49,6 +49,11 @@ void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* Other
 		UE_LOG(LogTemp, Warning, TEXT("Started Overtaking"));
 		BeginOvertake();
 	}
+
+	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
+	{
+		StartAvoidUnit();
+	}
 }
 
 void UUnitMovementComponent::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
@@ -64,6 +69,11 @@ void UUnitMovementComponent::OnOverlapEnd(AActor* OverlappedActor, AActor* Other
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Ended Overtaking"));
 		EndOvertake();
+	}
+
+	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
+	{
+		EndAvoidUnit();
 	}
 }
 
@@ -146,12 +156,18 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 	FVector BaseLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 	BaseZ = BaseLocation.Z; // Uložíme výchozí výšku
 
-	// 🔹 Plynulá interpolace výšky (posun nahoru nebo dolů)
+	// Plynulá interpolace výšky (posun nahoru nebo dolů)
 	CurrentZOffset = FMath::FInterpTo(CurrentZOffset, TargetZOffset, DeltaTime, HeightSpeed);
-
-	// Aplikace výškového posunu
 	BaseLocation.Z = BaseZ + CurrentZOffset;
 
+	// 🔹 Získáme RightVector spline (směr doprava)
+	FVector RightVector = MovementSpline->GetRightVectorAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
+
+	// 🔹 Plynulá interpolace bočního posunu
+	CurrentXOffset = FMath::FInterpTo(CurrentXOffset, TargetXOffset, DeltaTime, SideMoveSpeed);
+
+	// Aplikace bočního posunu v ose X
+	BaseLocation += RightVector * CurrentXOffset;
 
 	//  (Roll)
 	FVector FutureDirection = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance + 10.0f, ESplineCoordinateSpace::World);
@@ -179,6 +195,7 @@ void UUnitMovementComponent::Turn180()
 {
 	// TODO : Rotate Actor 180;
 	bIsReversedMovement = !bIsReversedMovement;
+	
 }
 
 void UUnitMovementComponent::ExtendMovementPathToReturn(FTransform Start, FTransform End)
@@ -284,6 +301,16 @@ void UUnitMovementComponent::BeginOvertake()
 void UUnitMovementComponent::EndOvertake()
 {
 	TargetZOffset = 0.f;
+}
+
+void UUnitMovementComponent::StartAvoidUnit()
+{
+	TargetXOffset = 10.0f;
+}
+
+void UUnitMovementComponent::EndAvoidUnit()
+{
+	TargetXOffset = 0.0f;
 }
 
 
