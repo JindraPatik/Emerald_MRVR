@@ -50,6 +50,7 @@ void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* Other
 		StartAvoidUnit();
 	}
 
+	/* It there is Player's Unit in the way and has same speed, avoid it */
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Avoiding Start"));
@@ -72,6 +73,7 @@ void UUnitMovementComponent::OnOverlapEnd(AActor* OverlappedActor, AActor* Other
 		EndAvoidUnit();
 	}
 
+	/* It there is Player's Unit in the way and has same speed, avoid it */
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Avoiding End"));
@@ -171,7 +173,7 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 	// Aplikace bočního posunu v ose X
 	BaseLocation += RightVector * CurrentXOffset;
 
-	//  (Roll)
+	// (Roll)
 	FVector FutureDirection = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance + 10.0f, ESplineCoordinateSpace::World);
 	float Curvature = FVector::CrossProduct(ForwardVector, FutureDirection).Z;
 

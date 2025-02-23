@@ -9,7 +9,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGameStartedSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameEndedSignature, APawn*, Looser);
 
 UCLASS()
-class EMERALD_MRVR_API AGameModeCommon : public AGameMode			//pb: pozor na tyhle zkratky (AGM), to neni dobre :)
+class EMERALD_MRVR_API AGameModeCommon : public AGameMode
 {
 	GENERATED_BODY()
 
