@@ -158,7 +158,7 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 	// Add constant pitch
 	FRotator TargetRotation = ForwardVector.Rotation();
 	TargetRotation.Pitch += -2.0f; // Předklon
-	TargetRotation.Yaw += 180.f; // TODO rotation 180
+	TargetRotation.Yaw += YawCorrection; 
 
 	// Základní pozice na spline (bez posunu nahoru)
 	FVector BaseLocation = MovementSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
@@ -203,10 +203,7 @@ void UUnitMovementComponent::Turn180()
 {
 	// TODO : Rotate Actor 180;
 	bIsReversedMovement = !bIsReversedMovement;
-	ForwardVector = -ForwardVector; // ??
-	
-	
-	
+	YawCorrection = 180.f;
 }
 
 void UUnitMovementComponent::ExtendMovementPathToReturn(FTransform Start, FTransform End)

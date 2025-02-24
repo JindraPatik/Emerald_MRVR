@@ -78,8 +78,11 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		float UnitSpeed;
 
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		FVector ForwardVector;
+
+	UPROPERTY()
+		float YawCorrection = 0.f;
 
 	
 
