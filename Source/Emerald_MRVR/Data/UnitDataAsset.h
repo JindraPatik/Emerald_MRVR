@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "Emerald_MRVR/EKG_Enums.h"
+#include "Emerald_MRVR/Support/EmeraldEnums.h"
 #include "UnitDataAsset.generated.h"
 
 UCLASS()
@@ -41,8 +41,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 		bool IsRocket = false;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
+		bool HasReturnPoint = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-		UStaticMesh* SM_Unit;
+		UStaticMesh* UnitBody;
 
 	
 };

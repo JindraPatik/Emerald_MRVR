@@ -1,13 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Emerald_MRVR/EKG_Enums.h"
+#include "Emerald_MRVR/Support/EmeraldEnums.h"
 #include "Engine/DataAsset.h"
 #include "BuildingDataAsset.generated.h"
 
 class AUnit;
 class UUnitDataAsset;
-class AModuleActor;
+class ABuilding;
 
 UCLASS()
 class EMERALD_MRVR_API UBuildingDataAsset : public UPrimaryDataAsset
@@ -22,10 +22,10 @@ public:
 		EKGBuildings BuildingType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-		UStaticMesh* SM_Building;
+		UStaticMesh* BuildingBody;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		TSubclassOf<AModuleActor> ModuleClass;
+		TSubclassOf<ABuilding> BuildingClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Unit")
 		TObjectPtr<UUnitDataAsset> UnitToSpawnData;
