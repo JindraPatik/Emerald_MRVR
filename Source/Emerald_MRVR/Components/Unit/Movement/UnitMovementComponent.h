@@ -81,6 +81,8 @@ public:
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		FVector ForwardVector;
 
+	
+
 	UFUNCTION()
 		void BeginOvertake();
 
