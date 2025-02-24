@@ -71,7 +71,10 @@ public:
 	float StartingSpeed = 0;
 	bool bIsFlying;
 	bool bIsReversed;
+
 	
+
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		float Acceleration = 15.f; // Maybe add to Data asset?
 
@@ -84,7 +87,6 @@ public:
 	UPROPERTY()
 		float YawCorrection = 0.f;
 
-	
 
 	UFUNCTION()
 		void BeginOvertake();
@@ -97,8 +99,6 @@ public:
 
 	UFUNCTION()
 		void EndAvoidUnit();
-
-	
 
 	UPROPERTY()
 		bool bIsOvertakingSlower = false;

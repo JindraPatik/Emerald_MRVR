@@ -1,4 +1,4 @@
-  #include "UnitMovementComponent.h"
+#include "UnitMovementComponent.h"
 #include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
 #include "EngineUtils.h"
 #include "SplineComponent.h"
@@ -201,7 +201,6 @@ void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 
 void UUnitMovementComponent::Turn180()
 {
-	// TODO : Rotate Actor 180;
 	bIsReversedMovement = !bIsReversedMovement;
 	YawCorrection = 180.f;
 }
@@ -248,8 +247,6 @@ void UUnitMovementComponent::ExtendMovementPathToReturn(FTransform Start, FTrans
 	/* Add Return point */
 	MovementSpline->AddSplinePoint(End.GetLocation(), ESplineCoordinateSpace::World);
 }
-
-
 
 FVector UUnitMovementComponent::GetTurnPoint(FVector CurrentLocation, FRotator CurrentRotation, float TurnAngle,
 	float Distance)
@@ -301,16 +298,6 @@ void UUnitMovementComponent::RestartMovement()
 	bIsRestartingMovement = true;
 }
 
-void UUnitMovementComponent::BeginOvertake()
-{
-	TargetZOffset = 5.f;
-}
-
-void UUnitMovementComponent::EndOvertake()
-{
-	TargetZOffset = 0.f;
-}
-
 void UUnitMovementComponent::StartAvoidUnit()
 {
 	TargetXOffset = 10.0f;
@@ -321,6 +308,15 @@ void UUnitMovementComponent::EndAvoidUnit()
 	TargetXOffset = 0.0f;
 }
 
+void UUnitMovementComponent::BeginOvertake()
+{
+	TargetZOffset = 5.f;
+}
+
+void UUnitMovementComponent::EndOvertake()
+{
+	TargetZOffset = 0.f;
+}
 
 
 

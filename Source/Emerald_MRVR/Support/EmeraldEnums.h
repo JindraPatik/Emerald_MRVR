@@ -7,10 +7,10 @@ enum class EKGUnits : uint8
 	E_Harvester		UMETA(DisplayName="Harvester"),
 	E_Thief			UMETA(DisplayName="Thief"),
 	E_BoostPicker	UMETA(DisplayName="BoostPicker"),
-	E_Colaborant	UMETA(DisplayName="Colaborant"),		//pb: pozor na Colaborat vs Collaborant
+	E_Collaborator	UMETA(DisplayName="Colaborant"),		
 
 	// Ground Units
-	E_Explorel		UMETA(DisplayName="Explorel"),			//pb: Explorer
+	E_Voyager		UMETA(DisplayName="Explorel"),	
 	E_Brigade		UMETA(DisplayName="Brigade"),
 	E_Tank			UMETA(DisplayName="Tank"),
 	E_ATACSM		UMETA(DisplayName="ATACSM"),
