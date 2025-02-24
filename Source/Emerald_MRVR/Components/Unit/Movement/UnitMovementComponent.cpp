@@ -144,13 +144,16 @@ void UUnitMovementComponent::CreateMovementPath()
 
 void UUnitMovementComponent::MoveAlongPath(float DeltaTime)
 {
-	if (!MovementSpline || !Unit) return;
+	if (!MovementSpline || !Unit)
+	{
+		return;
+	}
 
 	// Movement on spline
 	SplineDistance += (bIsReversedMovement ? -UnitSpeed : UnitSpeed) * DeltaTime;
 	SplineDistance = FMath::Clamp(SplineDistance, 0.0f, MovementSpline->GetSplineLength());
 
-	FVector ForwardVector = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
+	ForwardVector = MovementSpline->GetDirectionAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 
 	// Add constant pitch
 	FRotator TargetRotation = ForwardVector.Rotation();
@@ -199,6 +202,9 @@ void UUnitMovementComponent::Turn180()
 {
 	// TODO : Rotate Actor 180;
 	bIsReversedMovement = !bIsReversedMovement;
+	ForwardVector = -ForwardVector; // ??
+	
+	
 	
 }
 

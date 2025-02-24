@@ -68,9 +68,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Movement")
 		void RestartMovement();
 
-	
-
-
 	float StartingSpeed = 0;
 	bool bIsFlying;
 	bool bIsReversed;
@@ -80,6 +77,9 @@ public:
 
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
 		float UnitSpeed;
+
+	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadWrite, Category="Stats")
+		FVector ForwardVector;
 
 	UFUNCTION()
 		void BeginOvertake();
