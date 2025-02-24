@@ -17,12 +17,14 @@ void UDownScaleComponent::BeginPlay()
 void UDownScaleComponent::DownscaleOwner()
 {
 	AActor* OwningActor = GetOwner();
-	if (OwningActor)
+	if (!OwningActor)
 	{
-		USceneComponent* RootComponent = OwningActor->GetRootComponent();
-		FVector DownscaleVector = DownscaleFactor * FVector(1.f, 1.f, 1.f);
-		RootComponent->SetWorldScale3D(DownscaleVector);
+		return;
 	}
+	
+	USceneComponent* RootComponent = OwningActor->GetRootComponent();
+	FVector DownscaleVector = DownscaleFactor * FVector(1.f, 1.f, 1.f);
+	RootComponent->SetWorldScale3D(DownscaleVector);
 }
 
 
