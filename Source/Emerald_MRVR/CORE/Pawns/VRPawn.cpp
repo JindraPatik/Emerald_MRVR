@@ -72,17 +72,7 @@ void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 // PLAYER INPUT
 void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
-	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
-	Subsystem->AddMappingContext(GameplayInputMappingContext, 1);
-	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-	
-	// Bindings
-	Input->BindAction(IA_SpawnUnit, ETriggerEvent::Started, this, &AVRPawn::Action_SpawnUnit);
-	Input->BindAction(IA_SelectBuilding_L, ETriggerEvent::Started, this, &AVRPawn::SelectBuilding_L);
-	Input->BindAction(IA_SelectBuilding_R, ETriggerEvent::Started, this, &AVRPawn::SelectBuilding_R);
+
 }
 // ~PLAYER INPUT
 
@@ -93,9 +83,6 @@ void AVRPawn::BeginPlay()
 	Super::BeginPlay();
 	GameMode = Cast<AMultiplayer_GameMode>(GetWorld()->GetAuthGameMode());
 
-	PointerStick_L->SetVisibility(false);
-	PointerStick_R->SetVisibility(false);
-	
 	// SetPlayerColor();
 
 	if (IsLocallyControlled())
@@ -111,130 +98,13 @@ void AVRPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (IsLocallyControlled() && bInputIsEnabled)
-	{
-		if (!bIsMenuActive)
-		{
-			if (MotionController_L && ImpactPointer_L)
-			{
-				PerformSphereTrace(MotionController_L, ImpactPointer_L, CurrentlyHoveredBuilding_L);
-			}
-			if (MotionController_R && ImpactPointer_R)
-			{
-				PerformSphereTrace(MotionController_R, ImpactPointer_R, CurrentlyHoveredBuilding_R);
-			}
-		}
-	}
 }
 // ~TICK
 
-void AVRPawn::PerformSphereTrace(
-	UMotionControllerComponent* UsedController,
-	UStaticMeshComponent* ImpactPointer,
-	ABuilding*& CurrentlyHoveredBuilding)
-	{
-		FHitResult HitResult;
-		FCollisionQueryParams QueryParams;
-		QueryParams.AddIgnoredActor(this);
-		FVector Start = UsedController->GetComponentLocation();
-		FVector End = Start + (UsedController->GetForwardVector() * 3000.f);
-		float Radius = 5.f;
-
-		bool bHit = GetWorld()->SweepSingleByChannel(
-			HitResult,
-			Start,
-			End,
-			FQuat::Identity,
-			ECC_Visibility,
-			FCollisionShape::MakeSphere(Radius),
-			QueryParams);
-
-		if (bHit)
-		{
-			if (ImpactPointer)
-			{
-				ImpactPointer->SetWorldLocation(HitResult.Location);
-			}
-
-			ABuilding* HitModule = Cast<ABuilding>(HitResult.GetActor());
-			AVRPawn* HittedPawn = Cast<AVRPawn>(HitResult.GetActor()->GetOwner());
-
-			if (HitModule && HittedPawn == this)
-			{
-				CurrentlyHoveredBuilding = HitModule;
-				ImpactPointer->SetWorldLocation(CurrentlyHoveredBuilding->GetActorLocation() + FVector(0.f, 0.f, 8.f));
-				PrevisouslyHighlitedBuilding = HitModule;
-				CurrentlyHoveredBuilding->EnableInfoWidget();
-				CurrentlyHoveredBuilding->SetOverlayMaterial();
-				if (CurrentlyHoveredBuilding != PrevisouslyHighlitedBuilding)
-				{
-					PrevisouslyHighlitedBuilding->DisableInfoWidget();
-					PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
-				}
-			}
-			else
-			{
-				if (CurrentlyHoveredBuilding)
-				{
-					CurrentlyHoveredBuilding->DisableInfoWidget();
-					CurrentlyHoveredBuilding = nullptr;
-					PrevisouslyHighlitedBuilding->DisableInfoWidget();
-					PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
-					
-				}
-			}
-		}
-	
-		else
-		{
-			if (CurrentlyHoveredBuilding)
-			{
-				CurrentlyHoveredBuilding->DisableInfoWidget();
-				CurrentlyHoveredBuilding->RemoveOverlayMaterial();
-				CurrentlyHoveredBuilding = nullptr;
-				PrevisouslyHighlitedBuilding->DisableInfoWidget();
-				PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
-				if (PrevisouslyHighlitedBuilding)
-				{
-					PrevisouslyHighlitedBuilding->DisableInfoWidget();
-					PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
-				}
-			}
-
-			if (ImpactPointer)
-			{
-				ImpactPointer->SetWorldLocation(End);
-				if (PrevisouslyHighlitedBuilding)
-				{
-					PrevisouslyHighlitedBuilding->DisableInfoWidget();
-					PrevisouslyHighlitedBuilding->RemoveOverlayMaterial();
-				}
-			}
-			if (PrevisouslyHighlitedBuilding)
-			{
-				PrevisouslyHighlitedBuilding->DisableInfoWidget(); // upr
-				PrevisouslyHighlitedBuilding->RemoveOverlayMaterial(); // upr
-			}
-		}
-	}
 
 void AVRPawn::EnablePlayerInput()
 {
-	bInputIsEnabled = !bInputIsEnabled;
-	if (!bInputIsEnabled)
-	{
-		APlayerController* PlayerController = Cast<APlayerController>(GetController());
-		UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
-		Subsystem->ClearAllMappings();
-		Subsystem->AddMappingContext(MenuInputMappingContext, 0);
-	}
-	else
-	{
-		APlayerController* PlayerController = Cast<APlayerController>(GetController());
-		UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
-		Subsystem->ClearAllMappings();
-		Subsystem->AddMappingContext(GameplayInputMappingContext, 1);
-	}
+	
 }
 
 void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)
@@ -269,8 +139,6 @@ void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, fl
 void AVRPawn::StartGame()
 {
 	EnablePlayerInput();
-	PointerStick_L->SetVisibility(true);
-	PointerStick_R->SetVisibility(true);
 	ResourcesComponent->StartGrowResources();
 }
 
