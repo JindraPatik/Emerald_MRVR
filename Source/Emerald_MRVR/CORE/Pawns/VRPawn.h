@@ -28,7 +28,7 @@ class ABuilding;
 class AActor;
 
 UCLASS()
-class EMERALD_MRVR_API AVRPawn : public APrimitivePawn			
+class EMERALD_MRVR_API AVRPawn : public APrimitivePawn			//pb: asi bych se klonil k jinemu nazvu nez General, ktery se pouziva v jinem smyslu
 {
 	GENERATED_BODY()
 
@@ -47,6 +47,12 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Spawning")
 		void Action_SpawnUnit();
 	
+	void PerformSphereTrace(
+		UMotionControllerComponent* Controller,
+		UStaticMeshComponent* ImpactPointer,
+		ABuilding*& CurrentlyHoveredBuilding);
+	void EnablePlayerInput();
+
 	UPROPERTY(Replicated)
 		bool bInputIsEnabled = false;
 
