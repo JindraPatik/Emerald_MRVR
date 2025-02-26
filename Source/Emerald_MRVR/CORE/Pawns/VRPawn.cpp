@@ -126,7 +126,6 @@ void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, fl
 
 void AVRPawn::RotatePlayerWithHandGesture(const UMotionControllerComponent* MotionController)
 {
-
 	/* TODO: in progress */
 	float PreviousHandPositionX = 0.0f;
 	float DeltaMovementDirection = 0.0f; 
