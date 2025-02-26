@@ -28,6 +28,7 @@ ABuilding::ABuilding()
 
 	UnitReturnPoint = CreateDefaultSubobject<USceneComponent>("UnitReturnPoint");
 	UnitReturnPoint->SetupAttachment(SceneRoot);
+
 }
 
 void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -160,6 +161,14 @@ void ABuilding::SetInfoWidgetStats(AActor* WidgetActor)
 		FText UnitSpeedText = FText::FromString(UnitSpeedString);
 		TXT_Speed->SetText(UnitSpeedText);
 	}
+}
+
+FVector ABuilding::GetActorBoundingBoxExtent() const
+{
+	FBox ActorBounds = GetComponentsBoundingBox();
+	FVector BoundingBoxExtent;
+	BoundingBoxExtent = ActorBounds.GetExtent();
+	return BoundingBoxExtent;
 }
 
 void ABuilding::EnableInfoWidget()

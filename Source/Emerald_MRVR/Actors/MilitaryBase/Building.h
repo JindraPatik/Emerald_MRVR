@@ -91,6 +91,9 @@ public:
 	UPROPERTY(EditAnywhere, Category="Widgets")
 		float CooldownWidgetHeight = 15.f;
 
+	UFUNCTION(Blueprintpure, Category="Size")
+		FVector GetActorBoundingBoxExtent() const;
+	
 	float CooldownDuration;
 	float ElapsedTime;
 };
