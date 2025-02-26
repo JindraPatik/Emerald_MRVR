@@ -108,6 +108,44 @@ void ABuilding::Tick(float DeltaTime)
 	}
 }
 
+void ABuilding::HandlePointerEvent(const FIsdkInteractionPointerEvent& PointerEvent)
+{
+	if (!VRPawn)
+	{
+		return;
+	}
+	
+	switch (PointerEvent.Type)
+	{
+	case EIsdkPointerEventType::Hover:
+		EnableInfoWidget();
+		SetOverlayMaterial();
+		break;
+		
+	case EIsdkPointerEventType::Unhover:
+		RemoveOverlayMaterial();
+		DisableInfoWidget();
+		break;
+		
+	case EIsdkPointerEventType::Select:
+		VRPawn->SelectedBuildingActor = this;
+		VRPawn->OnSelectedModuleChanged();
+		break;
+		
+	case EIsdkPointerEventType::Unselect:
+		;
+		break;
+		
+	case EIsdkPointerEventType::Move:
+		;
+		break;
+		
+	case EIsdkPointerEventType::Cancel:
+		;
+		break;
+	}
+}
+
 void ABuilding::EnableSpawning()
 {
 	bSpawningEnabled = true;
@@ -196,37 +234,6 @@ FVector ABuilding::GetActorBoundingBoxExtent() const
 	return BoundingBoxExtent;
 }
 
-void ABuilding::HandlePointerEvent(const FIsdkInteractionPointerEvent& PointerEvent)
-{
-	if (!VRPawn)
-	{
-		return;
-	}
-	
-	switch (PointerEvent.Type)
-	{
-	case EIsdkPointerEventType::Hover:
-		UE_LOG(LogTemp, Warning, TEXT("HOVERED!!!!!!"))
-		;
-		break;
-	case EIsdkPointerEventType::Unhover:
-		;
-		break;
-	case EIsdkPointerEventType::Select:
-		VRPawn->SelectedBuildingActor = this;
-		break;
-	case EIsdkPointerEventType::Unselect:
-		;
-		break;
-	case EIsdkPointerEventType::Move:
-		;
-		break;
-	case EIsdkPointerEventType::Cancel:
-		;
-		break;
-	}
-}
-
 void ABuilding::EnableInfoWidget()
 {
 	InfoWidgetActorInst->SetActorHiddenInGame(false);
@@ -278,7 +285,6 @@ void ABuilding::DisableInfoWidget()
 		WidgetComponent->PrimaryComponentTick.bCanEverTick = false;
 	}
 }
-
 
 void ABuilding::SetOverlayMaterial()
 {
