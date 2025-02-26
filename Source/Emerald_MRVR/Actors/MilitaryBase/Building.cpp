@@ -5,10 +5,14 @@
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
+#include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "Net/UnrealNetwork.h"
 #include "Emerald_MRVR/Widgets/CooldownActor.h"
+#include "Interaction/IsdkInteractableComponent.h"
+#include "Interaction/IsdkRayInteractable.h"
+#include "Interaction/Surfaces/IsdkPointableBox.h"
 
 ABuilding::ABuilding()
 {
@@ -29,6 +33,12 @@ ABuilding::ABuilding()
 	UnitReturnPoint = CreateDefaultSubobject<USceneComponent>("UnitReturnPoint");
 	UnitReturnPoint->SetupAttachment(SceneRoot);
 
+	IsdkInteractable = CreateDefaultSubobject<UIsdkRayInteractable>("InteractableComponent");
+	IsdkInteractable->SetupAttachment(SceneRoot);
+
+	IsdkPointableBox = CreateDefaultSubobject<UIsdkPointableBox>("PointableBox");
+	IsdkPointableBox->SetupAttachment(SceneRoot);
+	
 }
 
 void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -42,6 +52,21 @@ void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetim
 void ABuilding::BeginPlay()
 {
 	Super::BeginPlay();
+
+	VRPawn = Cast<AVRPawn>(GetOwner());
+	if (!VRPawn)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Building.cpp: Cast to VRPawn failed!"));
+	}
+
+	IsdkPointableBox->SetSize(GetActorBoundingBoxExtent() * 2);
+	IsdkInteractable->SetSurface(IsdkPointableBox);
+
+	if (!IsdkInteractable)
+	{
+		return;
+	}
+	IsdkInteractable->GetInteractionPointerEventDelegate().AddUniqueDynamic(this, &ABuilding::HandlePointerEvent);
 }
 
 void ABuilding::Tick(float DeltaTime)
@@ -169,6 +194,37 @@ FVector ABuilding::GetActorBoundingBoxExtent() const
 	FVector BoundingBoxExtent;
 	BoundingBoxExtent = ActorBounds.GetExtent();
 	return BoundingBoxExtent;
+}
+
+void ABuilding::HandlePointerEvent(const FIsdkInteractionPointerEvent& PointerEvent)
+{
+	if (!VRPawn)
+	{
+		return;
+	}
+	
+	switch (PointerEvent.Type)
+	{
+	case EIsdkPointerEventType::Hover:
+		UE_LOG(LogTemp, Warning, TEXT("HOVERED!!!!!!"))
+		;
+		break;
+	case EIsdkPointerEventType::Unhover:
+		;
+		break;
+	case EIsdkPointerEventType::Select:
+		VRPawn->SelectedBuildingActor = this;
+		break;
+	case EIsdkPointerEventType::Unselect:
+		;
+		break;
+	case EIsdkPointerEventType::Move:
+		;
+		break;
+	case EIsdkPointerEventType::Cancel:
+		;
+		break;
+	}
 }
 
 void ABuilding::EnableInfoWidget()
