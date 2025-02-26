@@ -41,12 +41,13 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
+	
 	void PerformSphereTrace(
 		UMotionControllerComponent* Controller,
 		UStaticMeshComponent* ImpactPointer,
 		ABuilding*& CurrentlyHoveredBuilding);
 
-	void EnablePlayerInput();
+	void TogglePlayerInputEnabled();
 
 	UPROPERTY(Replicated)
 		bool bInputIsEnabled = false;
@@ -65,10 +66,6 @@ protected:
 
 	UFUNCTION()
 		void EndGame(APawn* Looser);
-
-	UPROPERTY()
-	ABuilding* PrevisouslyHighlitedBuilding;
-	
 public:
 	
 	// CORE
@@ -76,21 +73,9 @@ public:
 		AMultiplayer_GameMode* GameMode;
 	// ~CORE
 
-	// INPUT
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
-		UInputMappingContext* GameplayInputMappingContext;
-	// ~INPUT
-
-
 	// MILITARY BASE
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 		UMilitaryStationComp* MilitaryStationComp;
-
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-		ABuilding* CurrentlyHoveredBuilding_L;
-
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
-		ABuilding* CurrentlyHoveredBuilding_R;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
 		TSubclassOf<AActor> PreviewUnitClass;
@@ -101,22 +86,6 @@ public:
 	UFUNCTION()
 		void SpawnPreviewUnit(ABuilding* BuildingActor);
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		UInputAction* IA_SpawnUnit;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		UInputAction* IA_SelectBuilding_L;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		UInputAction* IA_SelectBuilding_R;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		UInputAction* IA_RotatePlayer;
-
-	// Visuals
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly)
-		UMaterialInterface* PlayerDefaultColor;
-
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UHealthComponent> HealthComponent;
@@ -125,13 +94,7 @@ public:
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
 	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryStation* MilitaryStationInstance;					//pb: viz. commenty ke konzistenci nazvu
-
-	UPROPERTY(BlueprintReadOnly, Category="CORE")
-	bool bGameInitialized = false;
-
-	UPROPERTY(BlueprintReadWrite, Category="CORE")
-	bool bIsNotGameplay = false;
+		AMilitaryStation* MilitaryStationInstance;	
 
 	bool bPossesed = false;
 

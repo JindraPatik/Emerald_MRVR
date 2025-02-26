@@ -57,24 +57,17 @@ void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
 	DOREPLIFETIME(AVRPawn, MilitaryStationInstance);
-	DOREPLIFETIME(AVRPawn, PlayerDefaultColor);
-	DOREPLIFETIME(AVRPawn, CurrentlyHoveredBuilding_L);
-	DOREPLIFETIME(AVRPawn, CurrentlyHoveredBuilding_R);
 	DOREPLIFETIME(AVRPawn, MilitaryStationComp);
 	DOREPLIFETIME(AVRPawn, SelectedBuildingActor);
 	DOREPLIFETIME(AVRPawn, bInputIsEnabled);
 }
 // ~REPLICATED PROPS
 
-
-// PLAYER INPUT
 void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 }
-// ~PLAYER INPUT
 
 
-// BEGIN PLAY
 void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
@@ -86,20 +79,17 @@ void AVRPawn::BeginPlay()
 		MilitaryStationComp->SpawnBuildings(this);
 	}
 }
-// ~BEGIN PLAY
 
-// TICK
 void AVRPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
-// ~TICK
 
 
-void AVRPawn::EnablePlayerInput()
+void AVRPawn::TogglePlayerInputEnabled()
 {
-	
+	bInputIsEnabled = !bInputIsEnabled;
 }
 
 void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)
@@ -160,13 +150,13 @@ void AVRPawn::RotatePlayerWithHandGesture(const UMotionControllerComponent* Moti
 
 void AVRPawn::StartGame()
 {
-	EnablePlayerInput();
+	TogglePlayerInputEnabled();
 	ResourcesComponent->StartGrowResources();
 }
 
 void AVRPawn::EndGame(APawn* Looser)
 {
-	EnablePlayerInput();
+	TogglePlayerInputEnabled();
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = this;
