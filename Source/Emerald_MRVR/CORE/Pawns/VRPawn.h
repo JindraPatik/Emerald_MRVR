@@ -28,7 +28,7 @@ class ABuilding;
 class AActor;
 
 UCLASS()
-class EMERALD_MRVR_API AVRPawn : public APrimitivePawn			//pb: asi bych se klonil k jinemu nazvu nez General, ktery se pouziva v jinem smyslu
+class EMERALD_MRVR_API AVRPawn : public APrimitivePawn
 {
 	GENERATED_BODY()
 
@@ -41,16 +41,11 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
-	void SelectBuilding_L();
-	void SelectBuilding_R();
-
-	UFUNCTION(BlueprintCallable, Category="Spawning")
-		void Action_SpawnUnit();
-	
 	void PerformSphereTrace(
 		UMotionControllerComponent* Controller,
 		UStaticMeshComponent* ImpactPointer,
 		ABuilding*& CurrentlyHoveredBuilding);
+
 	void EnablePlayerInput();
 
 	UPROPERTY(Replicated)
@@ -61,6 +56,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category="Player movement")
 		void MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed);
+
+	UFUNCTION(BlueprintCallable, Category="Player movement")
+		void RotatePlayerWithHandGesture(const UMotionControllerComponent* MotionController);
 
 	UFUNCTION()
 		void StartGame();

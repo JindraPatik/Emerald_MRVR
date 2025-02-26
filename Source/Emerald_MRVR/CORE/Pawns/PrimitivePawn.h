@@ -46,22 +46,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 		TObjectPtr<UMotionControllerComponent> MotionController_R;
 
-	UPROPERTY(BlueprintReadOnly, Category="Controller")
-		FHitResult HitResultLeft;
-	
-	UPROPERTY(BlueprintReadOnly, Category="Controller")
-		FHitResult HitResultRight;
-
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Controller")
 		bool bIsMenuActive = false;
-
-	//INPUT ACTIONS
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		UInputAction* Click;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SplineMeshComp")
-		USplineMeshComponent* SplineMeshComponent;
 
 public:	
 	

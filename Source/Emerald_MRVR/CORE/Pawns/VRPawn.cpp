@@ -1,8 +1,6 @@
 #include "VRPawn.h"
 
 #include "Emerald_MRVR/CORE/EKGameState.h"
-#include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
 #include "Emerald_MRVR/CORE/GameModes/Multiplayer_GameMode.h"
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
@@ -72,7 +70,6 @@ void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 // PLAYER INPUT
 void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-
 }
 // ~PLAYER INPUT
 
@@ -82,8 +79,6 @@ void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = Cast<AMultiplayer_GameMode>(GetWorld()->GetAuthGameMode());
-
-	// SetPlayerColor();
 
 	if (IsLocallyControlled())
 	{
@@ -109,7 +104,10 @@ void AVRPawn::EnablePlayerInput()
 
 void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)
 {
-	if (!Player) return;
+	if (!Player)
+	{
+		return;
+	}
 
 	FVector CurrentPosition = Player->GetActorLocation();
 
@@ -136,6 +134,30 @@ void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, fl
 	Player->SetActorRotation(LookAtRotation);
 }
 
+void AVRPawn::RotatePlayerWithHandGesture(const UMotionControllerComponent* MotionController)
+{
+
+	/* TODO: in progress */
+	float PreviousHandPositionX = 0.0f;
+	float DeltaMovementDirection = 0.0f; 
+	float GestureStartAngle = 0.0f;
+	
+	FVector HandPosition = MotionController->GetComponentLocation();
+	float MovementDelta = HandPosition.X - PreviousHandPositionX;
+
+	if (MovementDelta > 0.0f)
+	{
+		DeltaMovementDirection = 1.f;
+	}
+	else if (MovementDelta < 0.0f)
+	{
+		DeltaMovementDirection = -1.f;
+	}
+
+	float RotationSpeed = 0.001f;
+	MovePlayerOnCircle(this, MovementDelta * DeltaMovementDirection, GestureStartAngle, RotationSpeed);
+}
+
 void AVRPawn::StartGame()
 {
 	EnablePlayerInput();
@@ -151,97 +173,86 @@ void AVRPawn::EndGame(APawn* Looser)
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	FVector Location = FVector(0.f, 0.f, 200.f);
 	FRotator Rotation = FRotator::ZeroRotator;
-	if (EndGameWidgetActor)
+	if (!EndGameWidgetActor)
 	{
-		AActor* EndGameActorInst = GetWorld()->SpawnActor<AActor>(EndGameWidgetActor, Location, Rotation, SpawnParameters);
-		bIsMenuActive = true;
+		return;
+	}
+	
+	AActor* EndGameActorInst = GetWorld()->SpawnActor<AActor>(EndGameWidgetActor, Location, Rotation, SpawnParameters);
+	bIsMenuActive = true;
 
-		if (EndGameActorInst)
+	if (!EndGameActorInst)
+	{
+		return;
+	}
+	
+	UWidgetComponent* EndGameWidgetInst = EndGameActorInst->FindComponentByClass<UWidgetComponent>();
+	if (!EndGameWidgetInst)
+	{
+		return;
+	}
+	
+	UTextBlock* TXT_CountDown = Cast<UTextBlock>(EndGameWidgetInst->GetWidget()->WidgetTree->FindWidget("TXT_Condition"));
+	if (Looser == Cast<APawn>(this))
+	{
+		if (!TXT_CountDown)
 		{
-			UWidgetComponent* EndGameWidgetInst = EndGameActorInst->FindComponentByClass<UWidgetComponent>();
-			if (EndGameWidgetInst)
-			{
-				UTextBlock* TXT_CountDown = Cast<UTextBlock>(EndGameWidgetInst->GetWidget()->WidgetTree->FindWidget("TXT_Condition"));
-				if (Looser == Cast<APawn>(this))
-				{
-					if (TXT_CountDown)
-					{
-						TXT_CountDown->SetText(FText::FromString("You LOOSE!"));
-					}
-				}
-				else
-				{
-					if (TXT_CountDown)
-					{
-						TXT_CountDown->SetText(FText::FromString("You WON!"));
-					}
-				}
-			}
-		}
-	}
-}
-
-void AVRPawn::SelectBuilding_L()
-{
-	if (CurrentlyHoveredBuilding_L)
-	{
-		SelectedBuildingActor = CurrentlyHoveredBuilding_L;
-		OnSelectedModuleChanged();
-	}
-}
-
-void AVRPawn::SelectBuilding_R()
-{
-	if (CurrentlyHoveredBuilding_R)
-	{
-		SelectedBuildingActor = CurrentlyHoveredBuilding_R;
-		OnSelectedModuleChanged();
-	}
-}
-
-void AVRPawn::Action_SpawnUnit()
-{
-	AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
-	if (GM && GM->bGameHasStarted)
-	{
-		if (IsLocallyControlled())
-		{
-			MilitaryStationComp->SpawnUnit(this, SelectedBuildingActor);
+			return;
 		}
 		
+		TXT_CountDown->SetText(FText::FromString("You LOOSE!"));
+	}
+	else
+	{
+		if (!TXT_CountDown)
+		{
+			return;
+		}
+		
+		TXT_CountDown->SetText(FText::FromString("You WON!"));
 	}
 }
+
 
 void AVRPawn::SpawnPreviewUnit(ABuilding* BuildingActor)
 {
 	UWorld* World = GetWorld();
-	if (World)
+	if (!World)
 	{
-		FActorSpawnParameters SpawnParameters;
-		SpawnParameters.Owner = this;
-		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		FVector SpawnLoc = MotionController_R->GetComponentLocation() + FVector(0.f,0.f,15.f);
-		FRotator SpawnRot = FRotator::ZeroRotator;
-		PreviewInstance = World->SpawnActor<AActor>(PreviewUnitClass, SpawnLoc, SpawnRot, SpawnParameters);
-		UStaticMeshComponent* PreviewMeshComponent = PreviewInstance->FindComponentByClass<UStaticMeshComponent>();
-		PreviewMeshComponent->AttachToComponent(MotionController_R, FAttachmentTransformRules::KeepRelativeTransform);
-		if (PreviewMeshComponent)
-		{
-			UStaticMesh* PreviewBody = BuildingActor->BuildingDataAsset->UnitToSpawnData->UnitBody;
-			if (PreviewBody)
-			{
-				PreviewMeshComponent->SetStaticMesh(PreviewBody);
-			}
-		}
+		return;
 	}
+	
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = this;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	FVector SpawnLoc = MotionController_R->GetComponentLocation() + FVector(0.f,0.f,15.f);
+	FRotator SpawnRot = FRotator::ZeroRotator;
+	
+	PreviewInstance = World->SpawnActor<AActor>(PreviewUnitClass, SpawnLoc, SpawnRot, SpawnParameters);
+	UStaticMeshComponent* PreviewMeshComponent = PreviewInstance->FindComponentByClass<UStaticMeshComponent>();
+	PreviewMeshComponent->AttachToComponent(MotionController_R, FAttachmentTransformRules::KeepRelativeTransform);
+	
+	if (!PreviewMeshComponent)
+	{
+		return;
+	}
+	
+	UStaticMesh* PreviewBody = BuildingActor->BuildingDataAsset->UnitToSpawnData->UnitBody;
+	if (!PreviewBody)
+	{
+		return;
+	}
+	
+	PreviewMeshComponent->SetStaticMesh(PreviewBody);
 }
 
 void AVRPawn::OnSelectedModuleChanged()
 {
-	if(PreviewInstance)
+	if (PreviewInstance)
 	{
 		PreviewInstance->Destroy();
 	}
+	
 	SpawnPreviewUnit(SelectedBuildingActor);
 }
 
