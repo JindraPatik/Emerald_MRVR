@@ -36,11 +36,11 @@ enum class EKGBuildings : uint8
 	E_UVKSC				UMETA(DisplayName="UVKSC"),
 	
 	// Ground Units
-	E_Microsoft			UMETA(DisplayName="Microsoft"),			//pb: pozor na trademark
+	E_Microsoft			UMETA(DisplayName="Microsoft"),			//pb: pozor na trademark //jp: pořeším, vymyslíme lepší názvy
 	E_Barracs			UMETA(DisplayName="Barracs"),
 	E_Garage			UMETA(DisplayName="Garage"),
 	E_LPlatform			UMETA(DisplayName="LaunchPlatform"),
-	E_Minecraft			UMETA(DisplayName="Minecraft"),			//pb: pozor na trademark
+	E_Minecraft			UMETA(DisplayName="Minecraft"),			//pb: pozor na trademark //jp: pořeším, vymyslíme lepší názvy
 	
 	// Aircraft
 	E_Heliport			UMETA(DisplayName="Heliport"),

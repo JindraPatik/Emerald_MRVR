@@ -38,7 +38,6 @@ ABuilding::ABuilding()
 
 	IsdkPointableBox = CreateDefaultSubobject<UIsdkPointableBox>("PointableBox");
 	IsdkPointableBox->SetupAttachment(SceneRoot);
-	
 }
 
 void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
