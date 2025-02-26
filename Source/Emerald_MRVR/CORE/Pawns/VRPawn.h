@@ -2,9 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "PrimitivePawn.h"
-#include "Emerald_MRVR/CORE/GameModes/Multiplayer_GameMode.h"
+#include "Emerald_MRVR/CORE/GameModes/GameModeMultiplayer.h"
 #include "GameFramework/Pawn.h"
-#include "EnhancedInputSubsystems.h"
 #include "VRPawn.generated.h"
 
 class UBuildingsComponent;
@@ -36,6 +35,7 @@ public:
 
 protected:
 	AVRPawn();
+	
 	virtual void PostInitializeComponents() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -70,7 +70,7 @@ public:
 	
 	// CORE
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
-		AMultiplayer_GameMode* GameMode;
+		AGameModeMultiplayer* GameMode;
 	// ~CORE
 
 	// MILITARY BASE

@@ -5,7 +5,7 @@
 #include "ResourcesComponent.generated.h"
 
 class UResourcesWidget;
-class AMultiplayer_GameMode;
+class AGameModeMultiplayer;
 class UMilitaryStationComp;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )

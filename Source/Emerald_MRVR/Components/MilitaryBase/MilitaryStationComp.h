@@ -9,7 +9,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);
 
 class UResourcesComponent;
-class AMultiplayer_GameMode;
+class AGameModeMultiplayer;
 class AUnitAIController;
 class ABuilding;
 class UUnitDataAsset;

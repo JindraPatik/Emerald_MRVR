@@ -5,7 +5,7 @@
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
 #include "Emerald_MRVR/CORE/EKGameState.h"
-#include "Emerald_MRVR/CORE/GameModes/GameMode_Single.h"
+#include "Emerald_MRVR/CORE/GameModes/GameModeSingle.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
@@ -25,7 +25,7 @@ void UAIComponent::BeginPlay()
 	
 	if (AEK_GameStateInst)
 	{
-		AGameMode_Single* Gamemode_Single = Cast<AGameMode_Single>(AEK_GameStateInst->AuthorityGameMode);
+		AGameModeSingle* Gamemode_Single = Cast<AGameModeSingle>(AEK_GameStateInst->AuthorityGameMode);
 		 if (Gamemode_Single)
 		 {
 			 UCrystalSpawnerComp* CrystalSpawnerComp = Cast<UCrystalSpawnerComp>(Gamemode_Single->FindComponentByClass<UCrystalSpawnerComp>());

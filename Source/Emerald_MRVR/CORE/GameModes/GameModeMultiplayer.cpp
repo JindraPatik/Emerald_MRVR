@@ -1,4 +1,4 @@
-#include "Multiplayer_GameMode.h"
+#include "GameModeMultiplayer.h"
 
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
@@ -9,20 +9,20 @@
 #include "Net/UnrealNetwork.h"
 
 
-AMultiplayer_GameMode::AMultiplayer_GameMode()
+AGameModeMultiplayer::AGameModeMultiplayer()
 {
 	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
 	PawnToSpawn = AVRPawn::StaticClass();
 }
 
-void AMultiplayer_GameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+void AGameModeMultiplayer::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
 
 	FindAllPlayerStarts();
 }
 
-void AMultiplayer_GameMode::PostLogin(APlayerController* NewPlayer)
+void AGameModeMultiplayer::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 	
@@ -34,21 +34,21 @@ void AMultiplayer_GameMode::PostLogin(APlayerController* NewPlayer)
 	
 }
 
-void AMultiplayer_GameMode::SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC)
+void AGameModeMultiplayer::SwapPlayerControllers(APlayerController* OldPC, APlayerController* NewPC)
 {
 	Super::SwapPlayerControllers(OldPC, NewPC);
 
 	AllPCs.Add(NewPC);
 }
 
-void AMultiplayer_GameMode::Logout(AController* Exiting)
+void AGameModeMultiplayer::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
 
 	AllPCs.Remove(Cast<AVRPlayerController>(Exiting));
 }
 
-void AMultiplayer_GameMode::BeginPlay()
+void AGameModeMultiplayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
@@ -58,14 +58,14 @@ void AMultiplayer_GameMode::BeginPlay()
 	}
 }
 
-void AMultiplayer_GameMode::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void AGameModeMultiplayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMultiplayer_GameMode, AllPlayerStarts);
+	DOREPLIFETIME(AGameModeMultiplayer, AllPlayerStarts);
 }
 
 // Iterate all Player starts and return FTransform
-FTransform AMultiplayer_GameMode::FindMyPlayerStart()
+FTransform AGameModeMultiplayer::FindMyPlayerStart()
 {
 	if (AllPlayerStarts.Num() == 0) 
 	{
@@ -86,7 +86,7 @@ FTransform AMultiplayer_GameMode::FindMyPlayerStart()
 }
 
 // Spawn player at custom player start
-void AMultiplayer_GameMode::SpawnPlayer(APlayerController* PlayerController)
+void AGameModeMultiplayer::SpawnPlayer(APlayerController* PlayerController)
 {
 	if (!HasAuthority() || !PlayerController) return;
 	if (!PlayerController) return;
@@ -115,7 +115,7 @@ void AMultiplayer_GameMode::SpawnPlayer(APlayerController* PlayerController)
 	}
 }
 
-void AMultiplayer_GameMode::FindAllPlayerStarts()
+void AGameModeMultiplayer::FindAllPlayerStarts()
 {
 	for (TActorIterator<APlayerStart> It(GetWorld()); It; ++It)
 	{

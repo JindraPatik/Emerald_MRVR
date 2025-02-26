@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameModeCommon.h"
 #include "GameFramework/GameMode.h"
-#include "Multiplayer_GameMode.generated.h"
+#include "GameModeMultiplayer.generated.h"
 
 class AVRPlayerController;
 class ATargetPoint;
@@ -12,7 +12,7 @@ class UCrystalSpawnerComp;
 class AVRPawn;
 
 UCLASS()
-class EMERALD_MRVR_API AMultiplayer_GameMode : public AGameModeCommon				//pb: co znamena EK? proc je tady a jinde ne? :)
+class EMERALD_MRVR_API AGameModeMultiplayer : public AGameModeCommon				//pb: co znamena EK? proc je tady a jinde ne? :)
 {
 	GENERATED_BODY()
 
@@ -22,7 +22,7 @@ protected:
 
 	
 public:
-	AMultiplayer_GameMode();
+	AGameModeMultiplayer();
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;

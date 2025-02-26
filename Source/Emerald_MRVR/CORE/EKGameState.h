@@ -24,6 +24,7 @@ class EMERALD_MRVR_API AEKGameState : public AGameState
 	GENERATED_BODY()
 
 public:
-	E_MatchState MatchState;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "CORE")
+		E_MatchState CurrentMatchState;
 	
 };

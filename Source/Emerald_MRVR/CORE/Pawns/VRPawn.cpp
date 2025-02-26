@@ -1,7 +1,7 @@
 #include "VRPawn.h"
 
 #include "Emerald_MRVR/CORE/EKGameState.h"
-#include "Emerald_MRVR/CORE/GameModes/Multiplayer_GameMode.h"
+#include "Emerald_MRVR/CORE/GameModes/GameModeMultiplayer.h"
 #include "Components/StaticMeshComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
@@ -71,7 +71,7 @@ void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	GameMode = Cast<AMultiplayer_GameMode>(GetWorld()->GetAuthGameMode());
+	GameMode = Cast<AGameModeMultiplayer>(GetWorld()->GetAuthGameMode());
 
 	if (IsLocallyControlled())
 	{

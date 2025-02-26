@@ -72,12 +72,12 @@ void AGameModeCommon::StartGame()
 	{
 		return;
 	}
-	GameState->MatchState = E_MatchState::E_Started;
+	GameState->CurrentMatchState = E_MatchState::E_Started;
 }
 
 void AGameModeCommon::EndGame(APawn* InPawn)
 {
-	GameState->MatchState = E_MatchState::E_Ended;
+	GameState->CurrentMatchState = E_MatchState::E_Ended;
 	StopAllUnits();
 	OnGameEndedDelegate.Broadcast(InPawn);
 	

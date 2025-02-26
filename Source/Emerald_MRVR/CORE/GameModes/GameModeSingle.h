@@ -1,11 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameModeCommon.h"
-#include "GameFramework/GameMode.h"
-#include "GameMode_Single.generated.h"
+#include "GameModeSingle.generated.h"
 
 
 class AUnitAIController;
@@ -17,7 +14,7 @@ class UCrystalSpawnerComp;
 class AVRPawn;
 
 UCLASS()
-class EMERALD_MRVR_API AGameMode_Single : public AGameModeCommon				//pb: konzistence nazvu... AGameMode_Single
+class EMERALD_MRVR_API AGameModeSingle : public AGameModeCommon				//pb: konzistence nazvu... AGameMode_Single
 {
 	GENERATED_BODY()
 	
@@ -26,7 +23,7 @@ protected:
 		void StartGame() override;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
-		TSubclassOf<AVRPawn> VR_PawnClass;
+		TSubclassOf<AVRPawn> VRPawnClass;
 
 	UPROPERTY(EditDefaultsOnly, Category="Pawn")
 		TSubclassOf<AVRPawn> SpectatorPawn;
@@ -56,14 +53,11 @@ protected:
 		bool bIsSpectator = false;
 	
 public:
-	AGameMode_Single();
+	AGameModeSingle();
 	virtual void BeginPlay() override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 
-	UPROPERTY(BlueprintReadOnly, Category="Spawning")
-		TArray<ATargetPoint*> TargetPoints;
-	
 	UFUNCTION(Category="Spawning")
 		FTransform FindMyPlayerStart();
 

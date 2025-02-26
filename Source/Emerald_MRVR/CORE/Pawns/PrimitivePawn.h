@@ -2,9 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "EnhancedInputSubsystems.h"
 #include "PrimitivePawn.generated.h"
 
+class AEKGameState;
 class USplineMeshComponent;
 class UCapsuleComponent;
 class UWidgetInteractionComponent;
@@ -50,6 +50,8 @@ protected:
 		bool bIsMenuActive = false;
 
 public:	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "CORE")
+		TObjectPtr<AEKGameState> EKGameState;
 	
 	
 };

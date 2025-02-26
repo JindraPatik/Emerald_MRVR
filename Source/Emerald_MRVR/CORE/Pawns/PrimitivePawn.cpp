@@ -7,6 +7,7 @@
 #include "MotionControllerComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetInteractionComponent.h"
+#include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 
@@ -47,6 +48,18 @@ APrimitivePawn::APrimitivePawn()
 void APrimitivePawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return;
+	}
+
+	EKGameState = World->GetGameState<AEKGameState>();
+	if (!EKGameState)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Primitive GameMode: GameState is NULL"));
+	}
 	
 }
 
