@@ -58,7 +58,8 @@ void UMilitaryStationComp::SetSpawnPointForStation()
 	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
 	{
 		ATargetPoint* BaseTargetPoint = *It;
-		if (BaseTargetPoint && BaseTargetPoint->ActorHasTag("BaseSpawnPoint"))
+		
+		if (BaseTargetPoint && BaseTargetPoint->ActorHasTag("BaseSpawnPoint")) /* Set Tag in editor !!! */
 		{
 			AllBaseTargetPoints.Add(BaseTargetPoint);
 		}
@@ -96,6 +97,7 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 	FVector SpawnLocation = SpawnPointForMilitaryStation->GetActorLocation();
 	FRotator SpawnRotation = SpawnPointForMilitaryStation->GetActorRotation();
 
+	/* Set Tag in editor !!! */
 	SpawnPointForMilitaryStation->ActorHasTag("Reversed") ? bIsReversed = true : bIsReversed = false; // Set reversed bool
 			
 	if (!InPawn)
