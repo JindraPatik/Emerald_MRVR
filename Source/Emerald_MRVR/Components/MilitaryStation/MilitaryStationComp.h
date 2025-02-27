@@ -65,14 +65,13 @@ public:
 		ATargetPoint* SpawnPointForMilitaryStation;
 
 	UPROPERTY(Replicated)
-		AMilitaryStation* PlayerMilitaryStationInstance;		//pb: nedoporucuju nazvy typu My..., krom toho slovo Base se obvykle pouziva pro bazove tridy, takze toto na prvni pohled vypada, jako instance nejake bazovew tridy, 
-											//    coz je nesmysl
-
+		AMilitaryStation* PlayerMilitaryStationInstance;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
 		TSubclassOf<AUnit> UnitToSpawn;
 	
 	UFUNCTION(Category="SpawnBase")
-		void SpawnMilitaryStation(APawn* InPawn);				//pb: pozor na konzistenci nazvu, zde OwningPawn, nize InOwner
+		void SpawnMilitaryStation(APawn* InPawn);
 	
 	UFUNCTION(Server, Reliable, Category="SpawnBase")
 		void Server_SpawnMilitaryStation(APawn* InPawn);
