@@ -3,6 +3,7 @@
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/Support/SpawnPointStation.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
@@ -21,7 +22,7 @@ UMilitaryStationComp::UMilitaryStationComp()
 
 	//pb: tady by mohla byt ta zavislost na Editoru, kvuli ktere nejde zcookovat hra!
 	//	ATargetPoint je  primarne editorovy helper objekt - viz. #if WITH_EDITORONLY_DATA v TargetPoint.h
-	SpawnPointForMilitaryStation = CreateDefaultSubobject<ATargetPoint>("MilitaryStationTargetPoint");
+	SpawnPointForMilitaryStation = CreateDefaultSubobject<ASpawnPointStation>("MilitaryStationTargetPoint");
 	SetIsReplicatedByDefault(true);
 }
 
@@ -54,20 +55,22 @@ void UMilitaryStationComp::SetSpawnPointForStation()
 	}
 	
 	//pb: potreboval bych vedet, jaka je zamyslena logika spawn pointu - zatim to takto nema vyznam, protoze se vybere vzdy ten prvni nalezeny
-	TArray<ATargetPoint*> AllBaseTargetPoints;
-	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
+	TArray<ASpawnPointStation*> AllSpawnPointsStation;
+	
+	for (TActorIterator<ASpawnPointStation> It(GetWorld()); It; ++It)
 	{
-		ATargetPoint* BaseTargetPoint = *It;
-		
-		if (BaseTargetPoint && BaseTargetPoint->ActorHasTag("BaseSpawnPoint")) /* Set Tag in editor !!! */
+		ASpawnPointStation* SpawnPointStation = *It;
+		if (!SpawnPointStation)
 		{
-			AllBaseTargetPoints.Add(BaseTargetPoint);
+			return;
 		}
+		AllSpawnPointsStation.Add(SpawnPointStation);
 	}
-	if (AllBaseTargetPoints.Num() > 0)
+	
+	if (AllSpawnPointsStation.Num() > 0)
 	{
-		SpawnPointForMilitaryStation = AllBaseTargetPoints[0];
-		AllBaseTargetPoints[0]->Destroy();
+		SpawnPointForMilitaryStation = AllSpawnPointsStation[0];
+		AllSpawnPointsStation[0]->Destroy();
 	}
 }
 
@@ -98,7 +101,7 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 	FRotator SpawnRotation = SpawnPointForMilitaryStation->GetActorRotation();
 
 	/* Set Tag in editor !!! */
-	SpawnPointForMilitaryStation->ActorHasTag("Reversed") ? bIsReversed = true : bIsReversed = false; // Set reversed bool
+	SpawnPointForMilitaryStation->bIsReversed ? bIsReversed = true : bIsReversed = false; // Set reversed bool
 			
 	if (!InPawn)
 	{
@@ -142,8 +145,24 @@ void UMilitaryStationComp::SpawnBuildings(APawn* InPawn)
 				{
 					if (BuildingPosition->ComponentHasTag(Building->BuildingName)) // Nastavit v Editoru!
 					{
-						FVector BuildingSpawnLoc = BuildingPosition->GetComponentLocation();
-						FRotator BuildingSpawnRot = BuildingPosition->GetComponentRotation();
+						BuildingSpawnLoc = BuildingPosition->GetComponentLocation();
+						BuildingSpawnRot = BuildingPosition->GetComponentRotation();
+
+						if (!SpawnPointForMilitaryStation)
+						{
+							return;
+						}
+
+						/* Overrides Location and Rotation set in editor */
+						for (USceneComponent* BuildingPositionEditorOverride : SpawnPointForMilitaryStation->SpawnPointComponents)
+						{
+							if (BuildingPositionEditorOverride->ComponentHasTag(Building->BuildingName))
+							{
+								BuildingSpawnLoc = BuildingPositionEditorOverride->GetComponentLocation();
+								BuildingSpawnRot = BuildingPositionEditorOverride->GetComponentRotation();
+								break;
+							}
+						}
 						
 						ABuilding* BuildingInstance = GetWorld()->SpawnActor<ABuilding>(Building->BuildingClass, BuildingSpawnLoc, BuildingSpawnRot, SpawnParameters);
 						AvailableBuildingsActors.Add(BuildingInstance);

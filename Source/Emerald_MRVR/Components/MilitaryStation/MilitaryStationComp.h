@@ -6,6 +6,7 @@
 #include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "MilitaryStationComp.generated.h"
 
+class ASpawnPointStation;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);
 
 class UResourcesComponent;
@@ -56,13 +57,16 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Sounds")
 		TObjectPtr<USoundBase> NotEnoughResSound;
+
+	FVector BuildingSpawnLoc;
+	FRotator BuildingSpawnRot;
 	
 public:	
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 		TSubclassOf<AMilitaryStation> MilitaryStation;
 
 	UPROPERTY(Replicated, BlueprintReadOnly)
-		ATargetPoint* SpawnPointForMilitaryStation;
+		TObjectPtr<ASpawnPointStation> SpawnPointForMilitaryStation;
 
 	UPROPERTY(Replicated)
 		AMilitaryStation* PlayerMilitaryStationInstance;
