@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Components/ActorComponent.h"
 #include "AIComponent.generated.h"
 
@@ -29,14 +29,30 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	float GetDistanceBetweenCrystalSpawners() const;
-	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
-	void SpawnHarvester(UMilitaryStationComp* MilitaryBaseComp);
-	AUnit* SpawnUnit(ABuilding* Building);
-	void SpawnRandomUnit();
+
+	UFUNCTION()
+		float GetDistanceBetweenCrystalSpawners() const;
+
+	UFUNCTION()
+		float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
+
+	UFUNCTION()
+		void SpawnDigger(UMilitaryStationComp* MilitaryBaseComp);
+
+	UFUNCTION()
+		void SpawnRandomUnit();
+
+	UFUNCTION()
+		AUnit* SpawnUnit(ABuilding* Building);
 	
 	UFUNCTION()
 		void TryToDefend(UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
+
+	UFUNCTION()
+		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
+	
+	UFUNCTION()
+		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
 
 	UPROPERTY()
 		float DefendingAgainstValue;
@@ -49,7 +65,7 @@ protected:
 	bool bSpawningEnabled = true;
 
 	UPROPERTY()
-		TObjectPtr<APawn> AI_Pawn;
+		TObjectPtr<APawn> AIPawn;
 
 	UPROPERTY()
 		TObjectPtr<AUnit> UndefendedUnit;
@@ -61,13 +77,10 @@ protected:
 		TObjectPtr<UBuildingDataAsset> MineBuilding;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-		float DistanceToCrystalTolerance = 2;
+		float DistanceToCrystalTolerance = 1;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-		float MaxSimulatedDelayToSpawnHarvester = 0.8f;
-
-	UPROPERTY(EditDefaultsOnly, Category="Spawning") // unused
-		float MaxSimulatedDelayToSpawnreactUnit = 1.8f;
+		float MaxSimulatedDelayToSpawnDigger = 0.8f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float ProbabilityFactorToSpawnReactUnit = 65.f;
@@ -84,12 +97,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
 		TArray<ABuilding*> AvailableFlyingUnits;
 
-	UFUNCTION()
-		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
-	
-	UFUNCTION()
-		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
-
 	UPROPERTY()
 		TObjectPtr<ABuilding> CheapestStronger; // Temp variable for Cheapest stronger Unit
 
@@ -103,13 +110,14 @@ protected:
 		void EnableSpawning();
 	
 	UFUNCTION()
-		void Cooldown(float CD_Time);
+		void Cooldown(float CoolDownTime);
 
 public:
 	UFUNCTION(BlueprintCallable, Category="Events")
-		void OnUnitOccured(AUnit* Unit, AActor* Owner);
+		void OnUnitOccured(AUnit* InUnit, AActor* InOwner);
 
-	void HandleRandomSpawn();
+	UFUNCTION()
+		void HandleRandomSpawn();
 
 	bool bIsReversed;
 	

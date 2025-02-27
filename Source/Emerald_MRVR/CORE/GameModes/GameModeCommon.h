@@ -4,6 +4,7 @@
 #include "GameFramework/GameMode.h"
 #include "GameModeCommon.generated.h"
 
+class AEKGameState;
 class AUnit;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGameStartedSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameEndedSignature, APawn*, Looser);
@@ -31,16 +32,10 @@ protected:
 	
 public:
 	virtual void StartGame();
-	virtual void EndGame(APawn* Looser);
+	virtual void EndGame(APawn* InPawn);
 
-	UPROPERTY(BlueprintReadWrite, Category="Gameplay")
-		bool bGameHasStarted = false;						//pb: proc mit bGameHasStarted a bGameHasEnded? muze vzniknout nekonzistentni stav. 
-															//	  Lepsi je mit napr. Enum E_MatchState {WaitingForPlayers, Ready, Started, InProgress, Ended}
-															//	  Nejlepe bych ale tento stav presunul do GameState - probereme Tvuj zamer, proc to mas zde
+	TObjectPtr<AEKGameState> GameState;
 
-	UPROPERTY(BlueprintReadWrite, Category="Gameplay")
-		bool bGameHasEnded = false;
-	
 	FOnGameStartedSignature OnGameStartedDelegate;
 	FOnGameEndedSignature OnGameEndedDelegate;
 	

@@ -18,18 +18,21 @@ void AVRPlayerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 	VR_Pawn = Cast<AVRPawn>(InPawn);
-	if (VR_Pawn)
+	if (!VR_Pawn)
 	{
-		if (IsLocalController())
-		{
-			EnableInput(this);
-		}
-		else
-		{
-			DisableInput(this);
-		}
-	VR_Pawn->bPossesed = true;
+		return;
 	}
+	
+	if (IsLocalController())
+	{
+		EnableInput(this);
+	}
+	else
+	{
+		DisableInput(this);
+	}
+	
+	VR_Pawn->bPossesed = true;
 }
 
 

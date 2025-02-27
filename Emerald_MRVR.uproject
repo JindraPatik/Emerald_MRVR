@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{AC1A1927-4FF0-4CAD-9125-B79083FB0A65}",
+	"EngineAssociation": "{35ADD081-4E25-0BBF-A8E6-D0B037B71399}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -28,15 +28,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "OculusXR",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/8313d8d7e7cf4e03a33e79eb757bccba",
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Android"
-			]
-		},
-		{
 			"Name": "XRBase",
 			"Enabled": true
 		},
@@ -54,6 +45,50 @@
 				"Mac",
 				"IOS",
 				"VisionOS"
+			]
+		},
+		{
+			"Name": "OculusInteraction",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/2372b714e0aa46ab85168aaf035e099a",
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Android"
+			]
+		},
+		{
+			"Name": "OculusXR",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/8313d8d7e7cf4e03a33e79eb757bccba",
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Android"
+			]
+		},
+		{
+			"Name": "OpenXR",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Linux",
+				"Android"
+			]
+		},
+		{
+			"Name": "OpenXRHandTracking",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Linux",
+				"Android"
+			]
+		},
+		{
+			"Name": "OpenXRMsftHandInteraction",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Android"
 			]
 		}
 	]

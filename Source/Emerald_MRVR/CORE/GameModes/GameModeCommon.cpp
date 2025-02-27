@@ -7,6 +7,7 @@
 #include "Emerald_MRVR/Support/DebugMacros.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
+#include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -14,6 +15,13 @@
 void AGameModeCommon::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return;
+	}
+	GameState = World->GetGameState<AEKGameState>();
 }
 
 void AGameModeCommon::StartCountdown()
@@ -40,6 +48,7 @@ void AGameModeCommon::DecreaseCounter()
 		{
 			TXT_CountDown->SetText(FText::FromString("Start"));
 		}
+		
 		OnGameStartedDelegate.Broadcast();
 		StartGame();
 		GetWorld()->GetTimerManager().ClearTimer(CountDownHandle);
@@ -49,7 +58,6 @@ void AGameModeCommon::DecreaseCounter()
 
 void AGameModeCommon::SpawnCountDownWidgetActor()
 {
-	DBG(5.f, "GM::CD widget spawned")
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	FVector Location = FVector(0.f, 0.f, 200.f);
@@ -60,14 +68,18 @@ void AGameModeCommon::SpawnCountDownWidgetActor()
 
 void AGameModeCommon::StartGame()
 {
-	bGameHasStarted = true;
+	if (!GameState)
+	{
+		return;
+	}
+	GameState->CurrentMatchState = E_MatchState::E_Started;
 }
 
-void AGameModeCommon::EndGame(APawn* Looser)
+void AGameModeCommon::EndGame(APawn* InPawn)
 {
-	bGameHasEnded = true;
+	GameState->CurrentMatchState = E_MatchState::E_Ended;
 	StopAllUnits();
-	OnGameEndedDelegate.Broadcast(Looser);
+	OnGameEndedDelegate.Broadcast(InPawn);
 	
 }
 
@@ -79,14 +91,17 @@ void AGameModeCommon::StopAllUnits()
 	for (AActor* Unit : AllUnits)
 	{
 		AUnit* MovingUnit = Cast<AUnit>(Unit);
-		if (MovingUnit)
+		if (!MovingUnit)
 		{
-			UUnitMovementComponent* MovementComponent = MovingUnit->FindComponentByClass<UUnitMovementComponent>();
-			if (MovementComponent)
-			{
-				MovementComponent->bMovementEnabled = false;
-			}
+			return;
 		}
+		
+		UUnitMovementComponent* MovementComponent = MovingUnit->FindComponentByClass<UUnitMovementComponent>();
+		if (!MovementComponent)
+		{
+			return;
+		}
+		MovementComponent->bMovementEnabled = false;
 	}
 }
 

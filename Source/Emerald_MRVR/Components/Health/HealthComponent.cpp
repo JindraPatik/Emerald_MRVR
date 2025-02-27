@@ -1,8 +1,8 @@
 #include "HealthComponent.h"
 
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Net/UnrealNetwork.h"
@@ -34,7 +34,7 @@ void UHealthComponent::OnRep_OnHealthChanged()
 		return;
 	}
 	
-	AMilitaryStation* MilitaryBaseInstance = MilitaryBaseCompInstance->GetMilitaryBaseInstance();
+	AMilitaryStation* MilitaryBaseInstance = MilitaryBaseCompInstance->GetMilitaryStationInstance();
 	if (MilitaryBaseInstance && MilitaryBaseInstance->HealthWidgetInstance)
 	{
 		UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(MilitaryBaseInstance->HealthWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());

@@ -1,6 +1,6 @@
 #include "ResourcesComponent.h"
 #include "Components/WidgetComponent.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Widgets/HealthBarWidget.h"
 #include "Emerald_MRVR/Widgets/ResourcesWidget.h"
@@ -35,7 +35,7 @@ void UResourcesComponent::OnRep_ResourcesChanged() const
 {
 	if (MilitaryBaseCompInst)
 	{
-		AMilitaryStation* MilitaryBaseInstance = MilitaryBaseCompInst->GetMilitaryBaseInstance();
+		AMilitaryStation* MilitaryBaseInstance = MilitaryBaseCompInst->GetMilitaryStationInstance();
 		if (MilitaryBaseInstance && MilitaryBaseInstance->ResourcesWidgetInstance)
 		{
 			UResourcesWidget* ResourcesWidget = Cast<UResourcesWidget>(MilitaryBaseInstance->ResourcesWidgetInstance->FindComponentByClass<UWidgetComponent>()->GetWidget());

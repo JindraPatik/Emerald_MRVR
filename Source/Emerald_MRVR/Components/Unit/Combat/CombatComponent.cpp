@@ -3,12 +3,12 @@
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "Emerald_MRVR/Actors/Units/SpecialUnits/Collaborator.h"
-#include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
+#include "Emerald_MRVR/Actors/Units/SpecialUnits/Rebel.h"
+#include "Emerald_MRVR/Actors/Units/SpecialUnits/Digger.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Thief.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)
@@ -24,7 +24,6 @@ UCombatComponent::UCombatComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
 }
-
 
 void UCombatComponent::BeginPlay()
 {
@@ -54,16 +53,16 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		APawn* VR_Pawn = Cast<APawn>(GetOwner()->GetOwner());
 		AUnit* HittedUnit = Cast<AUnit>(InActor);
 		
-		AHarvester* Harvester = Cast<AHarvester>(GetOwner());
-		AHarvester* OtherHarvester = Cast<AHarvester>(InActor);
+		ADigger* Digger = Cast<ADigger>(GetOwner());
+		ADigger* OtherDigger = Cast<ADigger>(InActor);
 		
 		AThief* Thief = Cast<AThief>(GetOuter());
 		AThief* OtherThief = Cast<AThief>(InActor);
 		
-		ACollaborator* Collaborator = Cast<ACollaborator>(InActor);
+		ARebel* Rebel = Cast<ARebel>(InActor);
 
-		/* if overlaps with Collaborator baypass fight */
-		if (Collaborator)
+		/* if overlaps with Rebel baypass fight */
+		if (Rebel)
 		{
 			return;
 		}
@@ -75,7 +74,7 @@ void UCombatComponent::UnitFight(AActor* InActor)
 		}
 
 		/* if overlaps with Player loaded Harvester baypass fight */
-		if (Thief && OtherHarvester && OtherHarvester->bIsLoaded || Harvester && Harvester->bIsLoaded && OtherThief)
+		if (Thief && OtherDigger && OtherDigger->bIsLoaded || Digger && Digger->bIsLoaded && OtherThief)
 		{
 			return;
 		}

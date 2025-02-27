@@ -1,6 +1,6 @@
 ﻿#include "EmeraldBlueprintFunctionLibrary.h"
 #include "EngineUtils.h"
-#include "Emerald_MRVR/Actors/UnitMovement/PathPoint.h"
+#include "Emerald_MRVR/Actors/Support/PathPoint.h"
 #include "SplineComponent.h"
 
 USplineComponent* UEmeraldBlueprintFunctionLibrary::CreateSplinePath(UObject* WorldContextObject, FVector StartPoint,

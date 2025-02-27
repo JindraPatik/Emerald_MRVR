@@ -21,9 +21,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Info")
 		EKGBuildings BuildingType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Visuals")
-		UStaticMesh* BuildingBody;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 		TSubclassOf<ABuilding> BuildingClass;
 	
@@ -33,12 +30,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Unit")
 		TSubclassOf<AUnit> UnitToSpawn;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
-		UMaterialInterface* BaseMaterial;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
-		UMaterialInterface* HoverMaterial;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 		float Cooldown = 0.f;
 
