@@ -29,14 +29,30 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	float GetDistanceBetweenCrystalSpawners() const;
-	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
-	void SpawnDigger(UMilitaryStationComp* MilitaryBaseComp);
-	AUnit* SpawnUnit(ABuilding* Building);
-	void SpawnRandomUnit();
+
+	UFUNCTION()
+		float GetDistanceBetweenCrystalSpawners() const;
+
+	UFUNCTION()
+		float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
+
+	UFUNCTION()
+		void SpawnDigger(UMilitaryStationComp* MilitaryBaseComp);
+
+	UFUNCTION()
+		void SpawnRandomUnit();
+
+	UFUNCTION()
+		AUnit* SpawnUnit(ABuilding* Building);
 	
 	UFUNCTION()
 		void TryToDefend(UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
+
+	UFUNCTION()
+		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
+	
+	UFUNCTION()
+		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
 
 	UPROPERTY()
 		float DefendingAgainstValue;
@@ -81,12 +97,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category="Spawning")
 		TArray<ABuilding*> AvailableFlyingUnits;
 
-	UFUNCTION()
-		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
-	
-	UFUNCTION()
-		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
-
 	UPROPERTY()
 		TObjectPtr<ABuilding> CheapestStronger; // Temp variable for Cheapest stronger Unit
 
@@ -106,7 +116,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Events")
 		void OnUnitOccured(AUnit* InUnit, AActor* InOwner);
 
-	void HandleRandomSpawn();
+	UFUNCTION()
+		void HandleRandomSpawn();
 
 	bool bIsReversed;
 	

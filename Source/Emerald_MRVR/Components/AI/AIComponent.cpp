@@ -332,6 +332,7 @@ void UAIComponent::TryToDefend(UMilitaryStationComp* MilitaryBaseComp, TArray<AB
 		FightStatus = EIsDefending;
 		ChooseOptimalUnit(UndefendedUnit, MilitaryBaseComp, Availables);
 	}
+	
 	if (!UndefendedUnit)
 	{
 		FightStatus = EIsAttacking;
