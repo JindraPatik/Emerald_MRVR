@@ -138,25 +138,25 @@ void UMilitaryStationComp::SpawnBuildings(APawn* InPawn)
 		{
 			if (PlayerMilitaryStationInstance && PlayerMilitaryStationInstance->BuildingPositions.Num() >= 0)
 			{
-				for (USceneComponent* ModulePos : PlayerMilitaryStationInstance->BuildingPositions)
+				for (USceneComponent* BuildingPosition : PlayerMilitaryStationInstance->BuildingPositions)
 				{
-					if (ModulePos->ComponentHasTag(Building->BuildingName))
+					if (BuildingPosition->ComponentHasTag(Building->BuildingName))
 					{
-						FVector ModuleSpawnLoc = ModulePos->GetComponentLocation();
-						FRotator ModuleSpawnRot = ModulePos->GetComponentRotation();
+						FVector BuildingSpawnLoc = BuildingPosition->GetComponentLocation();
+						FRotator BuildingSpawnRot = BuildingPosition->GetComponentRotation();
 						
-						ABuilding* ModuleInstance = GetWorld()->SpawnActor<ABuilding>(Building->BuildingClass, ModuleSpawnLoc, ModuleSpawnRot, SpawnParameters);
-						AvailableBuildingsActors.Add(ModuleInstance);
+						ABuilding* BuildingInstance = GetWorld()->SpawnActor<ABuilding>(Building->BuildingClass, BuildingSpawnLoc, BuildingSpawnRot, SpawnParameters);
+						AvailableBuildingsActors.Add(BuildingInstance);
 
-						if (!ModuleInstance)
+						if (!BuildingInstance)
 						{
 							return;
 						}
 						
-						ModuleInstance->BuildingDataAsset = Building;
-						ModuleInstance->SpawnInfoWidget();
-						ModuleInstance->SpawnCooldownWidget();
-						ModuleInstance->SetReplicates(true);
+						BuildingInstance->BuildingDataAsset = Building;
+						BuildingInstance->SpawnInfoWidget();
+						BuildingInstance->SpawnCooldownWidget();
+						BuildingInstance->SetReplicates(true);
 					}
 				}
 			}
