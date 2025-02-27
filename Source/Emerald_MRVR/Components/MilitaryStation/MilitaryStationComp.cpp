@@ -140,7 +140,7 @@ void UMilitaryStationComp::SpawnBuildings(APawn* InPawn)
 			{
 				for (USceneComponent* BuildingPosition : PlayerMilitaryStationInstance->BuildingPositions)
 				{
-					if (BuildingPosition->ComponentHasTag(Building->BuildingName))
+					if (BuildingPosition->ComponentHasTag(Building->BuildingName)) // Nastavit v Editoru!
 					{
 						FVector BuildingSpawnLoc = BuildingPosition->GetComponentLocation();
 						FRotator BuildingSpawnRot = BuildingPosition->GetComponentRotation();
