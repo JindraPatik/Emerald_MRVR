@@ -49,7 +49,7 @@ protected:
 	bool bSpawningEnabled = true;
 
 	UPROPERTY()
-		TObjectPtr<APawn> AI_Pawn;
+		TObjectPtr<APawn> AIPawn;
 
 	UPROPERTY()
 		TObjectPtr<AUnit> UndefendedUnit;
@@ -61,13 +61,10 @@ protected:
 		TObjectPtr<UBuildingDataAsset> MineBuilding;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-		float DistanceToCrystalTolerance = 2;
+		float DistanceToCrystalTolerance = 1;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float MaxSimulatedDelayToSpawnDigger = 0.8f;
-
-	UPROPERTY(EditDefaultsOnly, Category="Spawning") // unused
-		float MaxSimulatedDelayToSpawnreactUnit = 1.8f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float ProbabilityFactorToSpawnReactUnit = 65.f;
@@ -103,11 +100,11 @@ protected:
 		void EnableSpawning();
 	
 	UFUNCTION()
-		void Cooldown(float CD_Time);
+		void Cooldown(float CoolDownTime);
 
 public:
 	UFUNCTION(BlueprintCallable, Category="Events")
-		void OnUnitOccured(AUnit* Unit, AActor* Owner);
+		void OnUnitOccured(AUnit* InUnit, AActor* InOwner);
 
 	void HandleRandomSpawn();
 
