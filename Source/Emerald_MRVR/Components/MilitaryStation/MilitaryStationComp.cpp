@@ -1,8 +1,8 @@
 #include "MilitaryStationComp.h"
 
 #include "EngineUtils.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
+#include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
@@ -21,7 +21,7 @@ UMilitaryStationComp::UMilitaryStationComp()
 
 	//pb: tady by mohla byt ta zavislost na Editoru, kvuli ktere nejde zcookovat hra!
 	//	ATargetPoint je  primarne editorovy helper objekt - viz. #if WITH_EDITORONLY_DATA v TargetPoint.h
-	SpawnPointForMilitaryStation = CreateDefaultSubobject<ATargetPoint>("MilitaryBaseTargetPoint");
+	SpawnPointForMilitaryStation = CreateDefaultSubobject<ATargetPoint>("MilitaryStationTargetPoint");
 	SetIsReplicatedByDefault(true);
 }
 

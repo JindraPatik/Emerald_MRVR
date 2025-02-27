@@ -34,7 +34,7 @@ public:
 		TSubclassOf<AUnit> UnitToSpawn;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
-		UMaterialInterface* BaseMaterial;
+		UMaterialInterface* DefaultMaterial;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Visuals")
 		UMaterialInterface* HoverMaterial;

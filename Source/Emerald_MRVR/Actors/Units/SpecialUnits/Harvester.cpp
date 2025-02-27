@@ -1,7 +1,7 @@
 ﻿#include "Harvester.h"
 
 #include "Emerald_MRVR/Actors/Resources/Crystal.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
@@ -51,14 +51,14 @@ void AHarvester::CollectCrystal(AActor* HittedActor)
 
 void AHarvester::DeliverCrystal(AActor* HitActor)
 {
-	AMilitaryStation* MilitaryBase = Cast<AMilitaryStation>(HitActor);
-	if (!MilitaryBase)
+	AMilitaryStation* MilitaryStation = Cast<AMilitaryStation>(HitActor);
+	if (!MilitaryStation)
 	{
 		return;
 	}
 	
 	APawn* VR_Pawn = Cast<APawn>(GetOwner());
-	APawn* BaseOwner = Cast<APawn>(MilitaryBase->GetOwner());
+	APawn* BaseOwner = Cast<APawn>(MilitaryStation->GetOwner());
 
 	if (VR_Pawn && BaseOwner && VR_Pawn == BaseOwner && bIsLoaded)
 	{

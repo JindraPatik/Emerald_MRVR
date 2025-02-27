@@ -2,8 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/Building.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
+#include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "MilitaryStationComp.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);
@@ -117,7 +117,7 @@ public:
 		FOnUnitSpawnedSignature OnUnitSpawnedDelegate;
 
 	UFUNCTION()
-		FORCEINLINE AMilitaryStation* GetMilitaryBaseInstance() const { return PlayerMilitaryStationInstance; }
+		FORCEINLINE AMilitaryStation* GetMilitaryStationInstance() const { return PlayerMilitaryStationInstance; }
 
 	TSubclassOf<AUnitAIController> AiUnitControllerClass;
 

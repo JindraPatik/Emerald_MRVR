@@ -3,12 +3,12 @@
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
-#include "Emerald_MRVR/Actors/MilitaryBase/MilitaryStation.h"
+#include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Collaborator.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Thief.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)

@@ -3,7 +3,7 @@
 UENUM(BlueprintType)
 enum class EKGUnits : uint8
 {
-	// Collectors
+	// Special Units
 	E_Harvester		UMETA(DisplayName="Harvester"),
 	E_Thief			UMETA(DisplayName="Thief"),
 	E_BoostPicker	UMETA(DisplayName="BoostPicker"),
@@ -16,7 +16,7 @@ enum class EKGUnits : uint8
 	E_ATACSM		UMETA(DisplayName="ATACSM"),
 	E_Mortar		UMETA(DisplayName="Mortar"),
 
-	// Aircraft
+	// Flying Units
 	E_Helicopter	UMETA(DisplayName="Helicopter"),
 	E_Jet			UMETA(DisplayName="Jet"),
 	E_Zeppelin		UMETA(DisplayName="Zeppelin"),

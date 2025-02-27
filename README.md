@@ -53,7 +53,7 @@ Obsahuje HealthComponent na sledování životů. Pokud se protihráčově jedno
 
 Obsahuje ResourcesComponent - Ten spravuje hráčovy dostupné zdroje sesbíraných crystalů
 
-Obsahuje MilitarybaseComponent- Spawnuje instanci hráčovy military base
+Obsahuje MilitaryStationComponent- Spawnuje instanci hráčovy military base
 
 
 Vojenská základna

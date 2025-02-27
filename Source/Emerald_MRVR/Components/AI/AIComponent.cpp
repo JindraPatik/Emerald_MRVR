@@ -1,6 +1,6 @@
 #include "AIComponent.h"
 #include "EngineUtils.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
@@ -39,10 +39,10 @@ void UAIComponent::BeginPlay()
 		 		AVRPawn* VR_Pawn = Cast<AVRPawn>(*It);
 			    if (VR_Pawn)
 			    {
-					UMilitaryStationComp* MilitaryBaseComp = VR_Pawn->FindComponentByClass<UMilitaryStationComp>();
-						if (MilitaryBaseComp)
+					UMilitaryStationComp* MilitaryStationComp = VR_Pawn->FindComponentByClass<UMilitaryStationComp>();
+						if (MilitaryStationComp)
 						{
-		 					MilitaryBaseComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAIComponent::OnUnitOccured);
+		 					MilitaryStationComp->OnUnitSpawnedDelegate.AddDynamic(this, &UAIComponent::OnUnitOccured);
 						}
 			    }
 		 	}
@@ -71,7 +71,7 @@ float UAIComponent::GetDistanceBetweenCrystalSpawners() const
 float UAIComponent::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 {
 	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
-	float DistanceToCrystal = FVector::Dist(MilitaryBaseComp->GetMilitaryBaseInstance()->GetActorLocation(), CrystalLocation);
+	float DistanceToCrystal = FVector::Dist(MilitaryBaseComp->GetMilitaryStationInstance()->GetActorLocation(), CrystalLocation);
 	return DistanceToCrystal;
 }
 

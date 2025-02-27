@@ -3,7 +3,7 @@
 #include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/Components/AI/AIComponent.h"
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
-#include "Emerald_MRVR/Components/MilitaryBase/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 
 AAIPawn::AAIPawn()

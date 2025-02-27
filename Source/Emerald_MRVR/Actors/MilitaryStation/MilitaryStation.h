@@ -35,7 +35,7 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category = "Visuals")
-		TObjectPtr<USceneComponent> BaseRoot;
+		TObjectPtr<USceneComponent> StationRoot;
 
 	UPROPERTY(Replicated, VisibleAnywhere, Category = "Visuals")
 		TObjectPtr<UStaticMeshComponent> Body_Root;

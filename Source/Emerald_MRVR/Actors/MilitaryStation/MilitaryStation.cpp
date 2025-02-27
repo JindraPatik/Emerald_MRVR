@@ -12,11 +12,11 @@ AMilitaryStation::AMilitaryStation()
 	bReplicates = true;
 	SetReplicates(true);
 
-	BaseRoot = CreateDefaultSubobject<USceneComponent>("BaseRoot");
-	SetRootComponent(BaseRoot);
+	StationRoot = CreateDefaultSubobject<USceneComponent>("BaseRoot");
+	SetRootComponent(StationRoot);
 
 	Body_Root = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
-	Body_Root->SetupAttachment(BaseRoot);
+	Body_Root->SetupAttachment(StationRoot);
 	
 	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
 	BaseBox->SetupAttachment(Body_Root);
@@ -28,13 +28,13 @@ AMilitaryStation::AMilitaryStation()
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
 	
 	SpawnPointGround = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
-	SpawnPointGround->SetupAttachment(BaseRoot);
+	SpawnPointGround->SetupAttachment(StationRoot);
 	SpawnPointAir = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
-	SpawnPointAir->SetupAttachment(BaseRoot);
+	SpawnPointAir->SetupAttachment(StationRoot);
 
 	// Buildings Locations
 	PositionsRoot = CreateDefaultSubobject<USceneComponent>("Positions_Root");
-	PositionsRoot->SetupAttachment(BaseRoot);
+	PositionsRoot->SetupAttachment(StationRoot);
 	
 	MinePosition = CreateDefaultSubobject<USceneComponent>("MinePosition");
 	MinePosition->ComponentTags.Add("Mine");
@@ -118,7 +118,7 @@ void AMilitaryStation::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(AMilitaryStation, HealthWidgetInstance);
 	DOREPLIFETIME(AMilitaryStation, OriginalMaterial);
 	DOREPLIFETIME(AMilitaryStation, HoveredMaterial);
-	DOREPLIFETIME(AMilitaryStation, BaseRoot);
+	DOREPLIFETIME(AMilitaryStation, StationRoot);
 
 	// Modules
 	DOREPLIFETIME(AMilitaryStation, MinePosition);

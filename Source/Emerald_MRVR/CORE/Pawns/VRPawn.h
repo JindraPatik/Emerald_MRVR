@@ -68,16 +68,13 @@ protected:
 		void EndGame(APawn* Looser);
 public:
 	
-	// CORE
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CORE")
 		AGameModeMultiplayer* GameMode;
-	// ~CORE
 
-	// MILITARY BASE
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
 		UMilitaryStationComp* MilitaryStationComp;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryBase")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryStation")
 		TSubclassOf<AActor> PreviewUnitClass;
 
 	UPROPERTY()
@@ -98,7 +95,7 @@ public:
 
 	bool bPossesed = false;
 
-	UPROPERTY(ReplicatedUsing=OnSelectedModuleChanged, VisibleAnywhere, BlueprintReadWrite, Category="MilitaryBase")
+	UPROPERTY(ReplicatedUsing=OnSelectedModuleChanged, VisibleAnywhere, BlueprintReadWrite, Category="StationBase")
 		ABuilding* SelectedBuildingActor = nullptr;
 
 	UFUNCTION()
