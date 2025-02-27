@@ -30,7 +30,7 @@ public:
 
 private:
 	UPROPERTY()
-		TObjectPtr<APawn> OwningPawn;				//pb: staci Owner, pripadne Parent nebo OwningPawn
+		TObjectPtr<APawn> OwningPawn;
 
 	UPROPERTY()
 		TObjectPtr<UResourcesComponent> ResourcesComponentInst;
