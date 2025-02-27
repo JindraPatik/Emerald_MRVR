@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "B52.generated.h"
+#include "Bomber.generated.h"
 
 class AProjectile;
 
@@ -10,12 +10,12 @@ class AProjectile;
 /* Flying Unit which scans ground for Enemy units.
  * When valid target is found, drops amount of projectiles in MaxBombInterval */
 UCLASS()
-class EMERALD_MRVR_API AB52 : public AUnit
+class EMERALD_MRVR_API ABomber : public AUnit
 {
 	GENERATED_BODY()
 
 public:
-	AB52();
+	ABomber();
 
 protected:
 	virtual void BeginPlay() override;

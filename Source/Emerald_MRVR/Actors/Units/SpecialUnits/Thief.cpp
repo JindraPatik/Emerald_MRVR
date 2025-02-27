@@ -1,6 +1,6 @@
 ﻿#include "Thief.h"
 
-#include "Harvester.h"
+#include "Digger.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Emerald_MRVR/Components/Unit/Combat/CombatComponent.h"
@@ -31,28 +31,28 @@ void AThief::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 	{
 		return;
 	}
-	HarvesterRobbery(OtherActor);
+	DiggerRobbery(OtherActor);
 	BaseRobbery(OtherActor);
 }
 
-/* Steals resources from loaded Harvester and return to base */
-void AThief::HarvesterRobbery(AActor* OtherActor)
+/* Steals resources from loaded Digger and return to base */
+void AThief::DiggerRobbery(AActor* OtherActor)
 {
 	if (OtherActor && OtherActor->GetOwner() != GetOwner()) // Not my Unit
 	{
-		AHarvester* Harvester = Cast<AHarvester>(OtherActor);
+		ADigger* Digger = Cast<ADigger>(OtherActor);
 		UCombatComponent* CombatComponent = OtherActor->FindComponentByClass<UCombatComponent>();
 		
-		if (!Harvester) // Is harvester
+		if (!Digger) // Is Digger
 		{
 			return;
 		}
 		
-		if (CombatComponent && Harvester->bIsLoaded) // Loaded harvester
+		if (CombatComponent && Digger->bIsLoaded) // Loaded Digger
 		{
-			StealedValue = Harvester->HarvestedValue; // Get stealed amount
+			StealedValue = Digger->DiggedValue; // Get stealed amount
 			bIsloaded = true;
-			OtherActor->Destroy(); // Destroy enemy loaded harvester
+			OtherActor->Destroy(); // Destroy enemy loaded Digger
 			
 			if (!UnitMovementComponent)
 			{

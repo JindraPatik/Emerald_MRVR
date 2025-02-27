@@ -1,19 +1,19 @@
-﻿#include "B52.h"
+﻿#include "Bomber.h"
 
 #include "Emerald_MRVR/Actors/Projectiles/Projectile.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
-AB52::AB52()
+ABomber::ABomber()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AB52::BeginPlay()
+void ABomber::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void AB52::Tick(float DeltaTime)
+void ABomber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
@@ -30,7 +30,7 @@ void AB52::Tick(float DeltaTime)
 }
 
 /* Sphere trace for searching AUnits */
-void AB52::PerformSphereTrace(FHitResult& OutHit) const
+void ABomber::PerformSphereTrace(FHitResult& OutHit) const
 {
 	UWorld* World = GetWorld();
 	if (!World)
@@ -63,7 +63,7 @@ void AB52::PerformSphereTrace(FHitResult& OutHit) const
 }
 
 /* Checks if it is Enemy target */
-void AB52::FindValidTarget(AActor* Unit)
+void ABomber::FindValidTarget(AActor* Unit)
 {
 	AUnit* ValidClass = Cast<AUnit>(Unit); 
 	if (ValidClass && GetOwner() != ValidClass->GetOwner())
@@ -74,14 +74,14 @@ void AB52::FindValidTarget(AActor* Unit)
 }
 
 /* Timer for random spawning Projectiles in desired Interval */
-void AB52::StartBombingSequence()
+void ABomber::StartBombingSequence()
 {
 	float Rate = FMath::RandRange(MinBombInterval, MaxBombInterval);
-	GetWorld()->GetTimerManager().SetTimer(BombingSequence, this, &AB52::SpawnProjectile, Rate, true);
+	GetWorld()->GetTimerManager().SetTimer(BombingSequence, this, &ABomber::SpawnProjectile, Rate, true);
 }
 
 /* Projectiles spawning */
-void AB52::SpawnProjectile()
+void ABomber::SpawnProjectile()
 {
 	UWorld* World = GetWorld();
 	if (!World)

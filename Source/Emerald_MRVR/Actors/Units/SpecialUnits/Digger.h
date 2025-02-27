@@ -2,17 +2,17 @@
 
 #include "CoreMinimal.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "Harvester.generated.h"
+#include "Digger.generated.h"
 
-/* Harvester is Unit for gathering resources in the World.
+/* Digger is Unit for gathering resources in the World.
  * When overlap with Resources object, collect it and returns back to Military base to deliver resources */
 UCLASS()
-class EMERALD_MRVR_API AHarvester : public AUnit
+class EMERALD_MRVR_API ADigger : public AUnit
 {
 	GENERATED_BODY()
 
 public:
-	AHarvester();
+	ADigger();
 	
 	UFUNCTION()
 		void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);
@@ -33,6 +33,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	bool bIsLoaded = false;
-	float HarvestedValue = 0.0f;
+	float DiggedValue = 0.0f;
 
 };

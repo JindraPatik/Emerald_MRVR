@@ -2,16 +2,16 @@
 
 #include "CoreMinimal.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "Collaborator.generated.h"
+#include "Rebel.generated.h"
 
-/* Collaborator unit converts Enemy unit to Player unit when overlapped */
+/* Rebel unit converts Enemy unit to Player unit when overlapped */
 UCLASS()
-class EMERALD_MRVR_API ACollaborator : public AUnit
+class EMERALD_MRVR_API ARebel : public AUnit
 {
 	GENERATED_BODY()
 
 public:
-	ACollaborator();
+	ARebel();
 
 protected:
 	virtual void BeginPlay() override;

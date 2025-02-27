@@ -52,6 +52,4 @@ protected:
 public:	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "CORE")
 		TObjectPtr<AEKGameState> EKGameState;
-	
-	
 };

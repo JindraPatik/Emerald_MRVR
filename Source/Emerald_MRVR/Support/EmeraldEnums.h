@@ -4,23 +4,23 @@ UENUM(BlueprintType)
 enum class EKGUnits : uint8
 {
 	// Special Units
-	E_Harvester		UMETA(DisplayName="Harvester"),
+	E_Digger		UMETA(DisplayName="Digger"),
 	E_Thief			UMETA(DisplayName="Thief"),
 	E_BoostPicker	UMETA(DisplayName="BoostPicker"),
-	E_Collaborator	UMETA(DisplayName="Colaborant"),		
+	E_Rebel			UMETA(DisplayName="Rebel"),		
 
 	// Ground Units
-	E_Voyager		UMETA(DisplayName="Explorel"),	
-	E_Brigade		UMETA(DisplayName="Brigade"),
+	E_Scout			UMETA(DisplayName="Scout"),	
+	E_Vanguard		UMETA(DisplayName="Vanguard"),
 	E_Tank			UMETA(DisplayName="Tank"),
-	E_ATACSM		UMETA(DisplayName="ATACSM"),
-	E_Mortar		UMETA(DisplayName="Mortar"),
+	E_Striker		UMETA(DisplayName="Striker"),
+	E_Blaster		UMETA(DisplayName="Blaster"),
 
 	// Flying Units
 	E_Helicopter	UMETA(DisplayName="Helicopter"),
 	E_Jet			UMETA(DisplayName="Jet"),
 	E_Zeppelin		UMETA(DisplayName="Zeppelin"),
-	E_B52			UMETA(DisplayName="B52"),
+	E_Bomber		UMETA(DisplayName="Bomber"),
 
 	// Missle
 	E_Rocket		UMETA(DisplayName="Rocket"),

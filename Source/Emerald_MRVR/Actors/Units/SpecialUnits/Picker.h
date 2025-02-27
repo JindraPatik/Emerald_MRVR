@@ -2,16 +2,16 @@
 
 #include "CoreMinimal.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "PowerUpPicker.generated.h"
+#include "Picker.generated.h"
 
-/* PowerUpPicker is weak ground unit used for pickng and delivering PowerUps in the world */
+/* Picker is weak ground unit used for pickng and delivering PowerUps in the world */
 UCLASS()
-class EMERALD_MRVR_API APowerUpPicker : public AUnit
+class EMERALD_MRVR_API APicker : public AUnit
 {
 	GENERATED_BODY()
 
 public:
-	APowerUpPicker();
+	APicker();
 
 protected:
 	virtual void BeginPlay() override;

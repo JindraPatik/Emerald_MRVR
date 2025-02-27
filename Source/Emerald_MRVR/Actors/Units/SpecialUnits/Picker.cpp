@@ -1,18 +1,18 @@
-﻿#include "ATACSM.h"
+﻿#include "Picker.h"
 
 
-AATACSM::AATACSM()
+APicker::APicker()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AATACSM::BeginPlay()
+void APicker::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-void AATACSM::Tick(float DeltaTime)
+void APicker::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }

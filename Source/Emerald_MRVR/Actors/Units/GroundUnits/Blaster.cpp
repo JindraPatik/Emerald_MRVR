@@ -1,40 +1,40 @@
-﻿#include "Mortar.h"
+﻿#include "Blaster.h"
 
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
 
-AMortar::AMortar()
+ABlaster::ABlaster()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AMortar::BeginPlay()
+void ABlaster::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnActorBeginOverlap.AddDynamic(this, &AMortar::OnActorOverlap);
+	OnActorBeginOverlap.AddDynamic(this, &ABlaster::OnActorOverlap);
 	BeginTransformation();
 }
 
-void AMortar::Tick(float DeltaTime)
+void ABlaster::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
 /* Transformation to Mine Timer Function*/
-void AMortar::BeginTransformation()
+void ABlaster::BeginTransformation()
 {
 	float TransformationStart = FMath::RandRange(TransformationStartMin, TransformationStartMax);
-	GetWorld()->GetTimerManager().SetTimer(BeginTransformationHandle, this, &AMortar::TransformToMine, TransformationStart, false);
+	GetWorld()->GetTimerManager().SetTimer(BeginTransformationHandle, this, &ABlaster::TransformToMine, TransformationStart, false);
 }
 
 /* Transformation to Mine form and starts autodestruction Timer */
-void AMortar::TransformToMine()
+void ABlaster::TransformToMine()
 {
 	// Play transform animation
 	if (!TransformedForm || !UnitMovementComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AMortar::!TransformedForm || !UnitMovementComponent"));
+		UE_LOG(LogTemp, Warning, TEXT("ABlaster::!TransformedForm || !UnitMovementComponent"));
 		return;
 	}
 	
@@ -43,15 +43,15 @@ void AMortar::TransformToMine()
 	bIsAttacker = true;
 	Strenght = 4.f;
 
-	GetWorld()->GetTimerManager().SetTimer(AutodestructionHandle, this, &AMortar::Autodestruction, AutodestructionTime, false);
+	GetWorld()->GetTimerManager().SetTimer(AutodestructionHandle, this, &ABlaster::Autodestruction, AutodestructionTime, false);
 }
 
-void AMortar::OnActorOverlap(AActor* OverlappedActor, AActor* OtherActor)
+void ABlaster::OnActorOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	Explode(OtherActor);
 }
 
-void AMortar::Explode(AActor* OtherActor)
+void ABlaster::Explode(AActor* OtherActor)
 {
 	AUnit* Unit = Cast<AUnit>(OtherActor);
 	if (!Unit)
@@ -71,7 +71,7 @@ void AMortar::Explode(AActor* OtherActor)
 }
 
 /* Destroy self after Autodestruction Time when it doesn't overlap with enemy unit */
-void AMortar::Autodestruction()
+void ABlaster::Autodestruction()
 {
 	KillMe();
 }

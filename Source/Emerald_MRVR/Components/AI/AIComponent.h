@@ -31,7 +31,7 @@ protected:
 	virtual void BeginPlay() override;
 	float GetDistanceBetweenCrystalSpawners() const;
 	float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
-	void SpawnHarvester(UMilitaryStationComp* MilitaryBaseComp);
+	void SpawnDigger(UMilitaryStationComp* MilitaryBaseComp);
 	AUnit* SpawnUnit(ABuilding* Building);
 	void SpawnRandomUnit();
 	
@@ -64,7 +64,7 @@ protected:
 		float DistanceToCrystalTolerance = 2;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
-		float MaxSimulatedDelayToSpawnHarvester = 0.8f;
+		float MaxSimulatedDelayToSpawnDigger = 0.8f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning") // unused
 		float MaxSimulatedDelayToSpawnreactUnit = 1.8f;

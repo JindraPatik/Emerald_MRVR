@@ -2,7 +2,7 @@
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "Emerald_MRVR/Actors/Units/SpecialUnits/Harvester.h"
+#include "Emerald_MRVR/Actors/Units/SpecialUnits/Digger.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
 #include "Emerald_MRVR/CORE/EKGameState.h"
 #include "Emerald_MRVR/CORE/GameModes/GameModeSingle.h"
@@ -77,23 +77,23 @@ float UAIComponent::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 
 void UAIComponent::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 {
-	bool bShouldSendHarvester = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
+	bool bShouldSendDigger = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
 	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
 	
-	if (MilitaryBaseComp && bShouldSendHarvester && MilitaryBaseComp->HasEnoughResources(MineBuilding))
+	if (MilitaryBaseComp && bShouldSendDigger && MilitaryBaseComp->HasEnoughResources(MineBuilding))
 	{
-		FTimerHandle HarvesterSpawnDelayHandle;
-		float SimulatedDelay = FMath::FRandRange(0.f, MaxSimulatedDelayToSpawnHarvester);
+		FTimerHandle DiggerSpawnDelayHandle;
+		float SimulatedDelay = FMath::FRandRange(0.f, MaxSimulatedDelayToSpawnDigger);
 		GetWorld()->GetTimerManager().SetTimer
-			(HarvesterSpawnDelayHandle,[this, MilitaryBaseComp]()
-			{ this->SpawnHarvester(MilitaryBaseComp); },
+			(DiggerSpawnDelayHandle,[this, MilitaryBaseComp]()
+			{ this->SpawnDigger(MilitaryBaseComp); },
 			SimulatedDelay,
 			false
 			);
 	}
 }
 
-void UAIComponent::SpawnHarvester(UMilitaryStationComp* MilitaryBaseComp)
+void UAIComponent::SpawnDigger(UMilitaryStationComp* MilitaryBaseComp)
 {
 	APawn* AIPawn = Cast<APawn>(GetOwner());
 	if (AIPawn)
@@ -249,8 +249,8 @@ void UAIComponent::OnUnitOccured(AUnit* Unit, AActor* Owner)
 {
 	GetWorld()->GetTimerManager().ClearTimer(RandomSpawn_Handle); // Clears random spawn timer
 	
-	AHarvester* Harvester = Cast<AHarvester>(Unit);
-	if (!Harvester)
+	ADigger* Digger = Cast<ADigger>(Unit);
+	if (!Digger)
 	{
 		return;
 	}

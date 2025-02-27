@@ -4,7 +4,7 @@
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Thief.generated.h"
 
-/* Thief Unit steals Resources when overlaps with Enemy loaded Harvester.
+/* Thief Unit steals Resources when overlaps with Enemy loaded Digger.
  * When overlaps with Enemy base steals amount of resources from enemy player.
  * In both cases has to return to Player's base and deliver Resources.
  * When is loaded, has decreased speed.
@@ -23,9 +23,9 @@ protected:
 	UFUNCTION()
 		void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);
 
-	/* Steals resources from loaded Harvester and return to base */
+	/* Steals resources from loaded Digger and return to base */
 	UFUNCTION()
-		void HarvesterRobbery(AActor* OtherActor);
+		void DiggerRobbery(AActor* OtherActor);
 
 	UFUNCTION()
 		void BaseRobbery(AActor* OtherActor);

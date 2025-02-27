@@ -1,38 +1,38 @@
-﻿#include "Collaborator.h"
+﻿#include "Rebel.h"
 
-#include "Emerald_MRVR/Actors/Units/GroundUnits/Mortar.h"
+#include "Emerald_MRVR/Actors/Units/GroundUnits/Blaster.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
 
-ACollaborator::ACollaborator()
+ARebel::ARebel()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void ACollaborator::BeginPlay()
+void ARebel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnActorBeginOverlap.AddDynamic(this, &ACollaborator::OnOverlapped);
+	OnActorBeginOverlap.AddDynamic(this, &ARebel::OnOverlapped);
 	
 }
 
-void ACollaborator::Tick(float DeltaTime)
+void ARebel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-void ACollaborator::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
+void ARebel::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 {
 	AUnit* OtherUnit = Cast<AUnit>(OtherActor);
 	if (OtherUnit && OtherUnit->GetOwner() != GetOwner())
 	{
-		if (AMortar* MortarUnit = Cast<AMortar>(OtherUnit))
+		if (ABlaster* Blaster = Cast<ABlaster>(OtherUnit))
 		/* If contacts with transformed mine let the mine explode */
 		{
-			if (MortarUnit->bMortarIsTransformed)
+			if (Blaster->bBlasterIsTransformed)
 			{
-				MortarUnit->Explode(GetOwner());
+				Blaster->Explode(GetOwner());
 				return;
 			}
 		}

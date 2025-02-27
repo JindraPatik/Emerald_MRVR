@@ -2,15 +2,15 @@
 
 #include "CoreMinimal.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "Voyager.generated.h"
+#include "Vanguard.generated.h"
 
 UCLASS()
-class EMERALD_MRVR_API AVoyager : public AUnit
+class EMERALD_MRVR_API AVanguard : public AUnit
 {
 	GENERATED_BODY()
 
 public:
-	AVoyager();
+	AVanguard();
 
 protected:
 	virtual void BeginPlay() override;
@@ -18,5 +18,4 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };

@@ -2,18 +2,18 @@
 
 #include "CoreMinimal.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
-#include "Mortar.generated.h"
+#include "Blaster.generated.h"
 
 /* Attacking ground Unit which convetrs self to explosive mine which explodes when overlaps with enemy unit
  * Destroy self after a while when doesnt overlap with enemy unit.
  */
 UCLASS()
-class EMERALD_MRVR_API AMortar : public AUnit
+class EMERALD_MRVR_API ABlaster : public AUnit
 {
 	GENERATED_BODY()
 
 public:
-	AMortar();
+	ABlaster();
 
 protected:
 	virtual void BeginPlay() override;
@@ -56,7 +56,7 @@ public:
 		FTimerHandle AutodestructionHandle;
 
 	UPROPERTY()
-		bool bMortarIsTransformed = false;
+		bool bBlasterIsTransformed = false;
 
 	UPROPERTY(EditDefaultsOnly, Category="Visuals")
 		UStaticMesh* TransformedForm;

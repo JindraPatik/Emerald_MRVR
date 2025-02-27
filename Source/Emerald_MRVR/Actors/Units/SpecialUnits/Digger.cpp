@@ -1,4 +1,4 @@
-﻿#include "Harvester.h"
+﻿#include "Digger.h"
 
 #include "Emerald_MRVR/Actors/Resources/Crystal.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
@@ -6,30 +6,30 @@
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
 
-AHarvester::AHarvester()
+ADigger::ADigger()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AHarvester::BeginPlay()
+void ADigger::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnActorBeginOverlap.AddDynamic(this, &AHarvester::OnOverlapped);
+	OnActorBeginOverlap.AddDynamic(this, &ADigger::OnOverlapped);
 }
 
-void AHarvester::Tick(float DeltaTime)
+void ADigger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-void AHarvester::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
+void ADigger::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 {
 	CollectCrystal(OtherActor);
 	DeliverCrystal(OtherActor);
 }
 
-void AHarvester::CollectCrystal(AActor* HittedActor)
+void ADigger::CollectCrystal(AActor* HittedActor)
 {
 	ACrystal* Crystal = Cast<ACrystal>(HittedActor);
 	if (!Crystal)
@@ -42,14 +42,14 @@ void AHarvester::CollectCrystal(AActor* HittedActor)
 		return; // If already Loaded with resources, ignore crystal
 	}
 
-	HarvestedValue = Crystal->CrystalValue;
+	DiggedValue = Crystal->CrystalValue;
 	Crystal->Destroy(); // TODO : Substitue with some KillMe() Crystal function
 	
 	bIsLoaded = true;
 	UnitMovementComponent->Turn180();
 }
 
-void AHarvester::DeliverCrystal(AActor* HitActor)
+void ADigger::DeliverCrystal(AActor* HitActor)
 {
 	AMilitaryStation* MilitaryStation = Cast<AMilitaryStation>(HitActor);
 	if (!MilitaryStation)
@@ -68,7 +68,7 @@ void AHarvester::DeliverCrystal(AActor* HitActor)
 			return;
 		}
 		
-		ResourcesComponent->AvailableResources += HarvestedValue;
+		ResourcesComponent->AvailableResources += DiggedValue;
 		bIsLoaded = false;
 		KillMe();
 	}
