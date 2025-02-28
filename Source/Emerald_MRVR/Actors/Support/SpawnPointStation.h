@@ -72,5 +72,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flags")
 		bool bIsReversed =  false;
 
+	/* If spawning incorrectly, switch Indexes in the world */
+	UPROPERTY(EditInstanceOnly, Category="Mechanics")
+		uint8 index = 0;
+
 	TArray<USceneComponent*> SpawnPointComponents;
 };

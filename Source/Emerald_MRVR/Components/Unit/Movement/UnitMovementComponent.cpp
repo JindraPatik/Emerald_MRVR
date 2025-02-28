@@ -46,14 +46,12 @@ void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* Other
 	/* It there is Player's Unit in the way and is slower, pass it */
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Started Overtaking"));
 		StartAvoidUnit();
 	}
 
 	/* It there is Player's Unit in the way and has same speed, avoid it */
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Avoiding Start"));
 		BeginOvertake();
 	}
 }

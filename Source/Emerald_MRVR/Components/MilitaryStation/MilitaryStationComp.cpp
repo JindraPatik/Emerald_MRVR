@@ -19,9 +19,6 @@ class AEKGameState;
 UMilitaryStationComp::UMilitaryStationComp()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
-	//pb: tady by mohla byt ta zavislost na Editoru, kvuli ktere nejde zcookovat hra!
-	//	ATargetPoint je  primarne editorovy helper objekt - viz. #if WITH_EDITORONLY_DATA v TargetPoint.h
 	SpawnPointForMilitaryStation = CreateDefaultSubobject<ASpawnPointStation>("MilitaryStationTargetPoint");
 	SetIsReplicatedByDefault(true);
 }
@@ -66,6 +63,10 @@ void UMilitaryStationComp::SetSpawnPointForStation()
 		}
 		AllSpawnPointsStation.Add(SpawnPointStation);
 	}
+
+	Algo::Sort(AllSpawnPointsStation, [](const ASpawnPointStation* A, const ASpawnPointStation* B) {
+	return A->index < B->index;
+	});
 	
 	if (AllSpawnPointsStation.Num() > 0)
 	{
