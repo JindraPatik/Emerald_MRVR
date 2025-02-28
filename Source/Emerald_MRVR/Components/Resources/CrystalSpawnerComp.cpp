@@ -2,6 +2,7 @@
 #include "EngineUtils.h"
 #include "SplineComponent.h"
 #include "Emerald_MRVR/Actors/Resources/Crystal.h"
+#include "Emerald_MRVR/Actors/Support/SpawnPointCrystal.h"
 #include "Emerald_MRVR/CORE/GameModes/GameModeCommon.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
 #include "Engine/TargetPoint.h"
@@ -12,7 +13,6 @@ UCrystalSpawnerComp::UCrystalSpawnerComp()
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
 }
-
 
 void UCrystalSpawnerComp::BeginPlay()
 {
@@ -31,23 +31,24 @@ void UCrystalSpawnerComp::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UCrystalSpawnerComp::SpawnCrystal()
 {
-	TArray<ATargetPoint*> Targets;
-	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
+	TArray<ASpawnPointCrystal*> SpawnPointCrystals;
+	for (TActorIterator<ASpawnPointCrystal> It(GetWorld()); It; ++It)
 	{
-		if (It->ActorHasTag("CrystalBoundry"))
-		{
-			Targets.Add(*It);
-		}
+		SpawnPointCrystals.Add(*It);
 	}
+	
+	Algo::Sort(SpawnPointCrystals, [](const ASpawnPointCrystal* A, const ASpawnPointCrystal* B) {
+		return A->index < B->index;
+	});
 
-	if (Targets.Num() < 2)
+	if (SpawnPointCrystals.Num() < 2)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Not enough CrystalBoundry points found!"));
 		return;
 	}
 	
-	FVector Target1_Pos = Targets[0]->GetActorLocation();
-	FVector Target2_Pos = Targets[1]->GetActorLocation();
+	FVector SpawnPoint1 = SpawnPointCrystals[0]->GetActorLocation();
+	FVector SpawnPoint2 = SpawnPointCrystals[1]->GetActorLocation();
 
 	// Bacha, bIsreversed asi záleží na načtení pole bodů v levlu
 	TArray<APathPoint*> SplinePoints = UEmeraldBlueprintFunctionLibrary::SortPathPoints(this, PathPointClass, true);
@@ -57,7 +58,7 @@ void UCrystalSpawnerComp::SpawnCrystal()
 		UE_LOG(LogTemp, Warning, TEXT("No PathPoints found for Crystal spline."));
 	}
 	
-	USplineComponent* CrystalSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, Target1_Pos, Target2_Pos, SplinePoints, GetOwner());
+	USplineComponent* CrystalSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, SpawnPoint1, SpawnPoint2, SplinePoints, GetOwner());
 
 	if (!CrystalSpline)
 	{

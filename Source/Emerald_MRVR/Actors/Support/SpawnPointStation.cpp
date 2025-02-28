@@ -88,9 +88,9 @@ ASpawnPointStation::ASpawnPointStation()
 	{
 		for (USceneComponent* SpawnPoint : SpawnPointComponents)
 		{
-			FString PreviewMeshName = FString::Printf(TEXT("PreviewMesh_%s"), *SpawnPoint->GetName());
-			PreviewMesh = CreateDefaultSubobject<UStaticMeshComponent>(*PreviewMeshName);
-			PreviewMesh->SetupAttachment(SpawnPoint);
+			FString BillboardName = FString::Printf(TEXT("BillboardComponent_%s"), *SpawnPoint->GetName());
+			BillboardComponent = CreateDefaultSubobject<UBillboardComponent>(*BillboardName);
+			BillboardComponent->SetupAttachment(SpawnPoint);
 		}
 	}
 }

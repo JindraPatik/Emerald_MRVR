@@ -1,5 +1,6 @@
 #include "AIComponent.h"
 #include "EngineUtils.h"
+#include "Emerald_MRVR/Actors/Support/SpawnPointCrystal.h"
 #include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Digger.h"
@@ -9,7 +10,6 @@
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
-#include "Engine/TargetPoint.h"
 
 UAIComponent::UAIComponent()
 {
@@ -57,18 +57,15 @@ void UAIComponent::BeginPlay()
 
 float UAIComponent::GetDistanceBetweenCrystalSpawners() const
 {
-	TArray<ATargetPoint*> Targets;
-	for (TActorIterator<ATargetPoint> It(GetWorld()); It; ++It)
+	TArray<ASpawnPointCrystal*> SpawnPoints;
+	for (TActorIterator<ASpawnPointCrystal> It(GetWorld()); It; ++It)
 	{
-		if (It->ActorHasTag("CrystalBoundry"))
-		{
-			Targets.Add(*It);
-		}
+		SpawnPoints.Add(*It);
 	}
-	FVector Target1_Pos = Targets[0]->GetActorLocation();
-	FVector Target2_Pos = Targets[1]->GetActorLocation();
+	FVector Point1_Pos = SpawnPoints[0]->GetActorLocation();
+	FVector Point2_Pos = SpawnPoints[1]->GetActorLocation();
 
-	float DistanceBetweenCrystals = FVector::Dist(Target1_Pos, Target2_Pos);
+	float DistanceBetweenCrystals = FVector::Dist(Point1_Pos, Point2_Pos);
 
 	return DistanceBetweenCrystals;
 }

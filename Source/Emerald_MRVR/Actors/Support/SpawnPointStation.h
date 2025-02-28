@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿ #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -65,8 +65,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SpawnPoint")
 		TObjectPtr<USceneComponent> SpawnPointHangar;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Visuals")
-		TObjectPtr<UStaticMeshComponent> PreviewMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Visuals")
+		TObjectPtr<UBillboardComponent> BillboardComponent;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flags")

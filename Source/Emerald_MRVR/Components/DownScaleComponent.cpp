@@ -1,9 +1,11 @@
 #include "DownScaleComponent.h"
 
+#include "Emerald_MRVR/EmeraldKeeper.h"
+
 
 UDownScaleComponent::UDownScaleComponent()
 {
-	DownscaleFactor = 1.f;
+	DownscaleFactor = GLOBAL_DOWNSCALE_VALUE;
 }
 
 
