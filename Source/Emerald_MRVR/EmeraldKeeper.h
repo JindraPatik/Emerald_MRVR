@@ -4,4 +4,4 @@
 
 #include "CoreMinimal.h"
 
-#define GLOBAL_DOWNSCALE_VALUE 0.001f
+#define GLOBAL_DOWNSCALE_VALUE 0.01f
