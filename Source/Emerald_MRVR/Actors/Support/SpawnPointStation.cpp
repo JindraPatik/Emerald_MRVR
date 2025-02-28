@@ -17,6 +17,8 @@ ASpawnPointStation::ASpawnPointStation()
 	RootComponent = SpawnPointRoot;
 	ArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	ArrowComponent->SetupAttachment(RootComponent);
+	ArrowComponent->ArrowSize = 0.1f;
+	ArrowComponent->ArrowColor = FColor::Yellow;
 
 	SpawnPointPrison = CreateDefaultSubobject<USceneComponent>(TEXT("Prison"));
 	SpawnPointPrison->SetupAttachment(RootComponent);

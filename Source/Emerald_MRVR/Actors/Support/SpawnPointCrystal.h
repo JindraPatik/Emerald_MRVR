@@ -17,13 +17,13 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Visuals")
 		TObjectPtr<USceneComponent> SpawnRoot;
 
 	UPROPERTY(EditAnywhere, Category="Visuals")
 		TObjectPtr<UBillboardComponent> BillboardComponent;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Visuals")
 		TObjectPtr<UArrowComponent> Arrow;
 
 public:

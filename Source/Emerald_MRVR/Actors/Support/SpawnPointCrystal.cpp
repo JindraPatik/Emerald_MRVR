@@ -11,10 +11,12 @@ ASpawnPointCrystal::ASpawnPointCrystal()
 	RootComponent = SpawnRoot;
 
 	BillboardComponent = CreateDefaultSubobject<UBillboardComponent>("BillboardComponent");
-	BillboardComponent->SetupAttachment(SpawnRoot);
+	BillboardComponent->SetupAttachment(RootComponent);
 
 	Arrow = CreateDefaultSubobject<UArrowComponent>("Arrow");
-	Arrow->SetupAttachment(SpawnRoot);
+	Arrow->ArrowSize = 0.1f;
+	Arrow->ArrowColor = FColor::Blue;
+	Arrow->SetupAttachment(RootComponent);
 }
 
 void ASpawnPointCrystal::BeginPlay()
