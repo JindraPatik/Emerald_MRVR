@@ -27,6 +27,8 @@ protected:
 		TObjectPtr<UArrowComponent> Arrow;
 
 public:
+
+	/* If spawning incorrectly, switch Indexes in the world */
 	UPROPERTY(EditInstanceOnly, Category="Mechanics")
 		uint8 index = 0;
 };

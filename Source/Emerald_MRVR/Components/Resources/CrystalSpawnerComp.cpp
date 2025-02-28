@@ -29,6 +29,7 @@ void UCrystalSpawnerComp::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
+/* It is necessary to set indexes of ASpawnPointCrystal right! */
 void UCrystalSpawnerComp::SpawnCrystal()
 {
 	TArray<ASpawnPointCrystal*> SpawnPointCrystals;
@@ -50,7 +51,6 @@ void UCrystalSpawnerComp::SpawnCrystal()
 	FVector SpawnPoint1 = SpawnPointCrystals[0]->GetActorLocation();
 	FVector SpawnPoint2 = SpawnPointCrystals[1]->GetActorLocation();
 
-	// Bacha, bIsreversed asi záleží na načtení pole bodů v levlu
 	TArray<APathPoint*> SplinePoints = UEmeraldBlueprintFunctionLibrary::SortPathPoints(this, PathPointClass, true);
 
 	if (SplinePoints.IsEmpty())
