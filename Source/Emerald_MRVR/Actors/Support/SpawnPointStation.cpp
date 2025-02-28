@@ -7,18 +7,18 @@ ASpawnPointStation::ASpawnPointStation()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
-
-	SpawnPointMine = CreateDefaultSubobject<USceneComponent>(TEXT("Mine"));
-	SpawnPointMine->SetupAttachment(RootComponent);
-	SpawnPointMine->ComponentTags.Add("Mine");
-	SpawnPointComponents.Add(SpawnPointMine);
-	
 	SpawnPointRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	RootComponent = SpawnPointRoot;
+
 	ArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	ArrowComponent->SetupAttachment(RootComponent);
 	ArrowComponent->ArrowSize = 0.1f;
 	ArrowComponent->ArrowColor = FColor::Yellow;
+	
+	SpawnPointMine = CreateDefaultSubobject<USceneComponent>(TEXT("Mine"));
+	SpawnPointMine->SetupAttachment(RootComponent);
+	SpawnPointMine->ComponentTags.Add("Mine");
+	SpawnPointComponents.Add(SpawnPointMine);
 
 	SpawnPointPrison = CreateDefaultSubobject<USceneComponent>(TEXT("Prison"));
 	SpawnPointPrison->SetupAttachment(RootComponent);
