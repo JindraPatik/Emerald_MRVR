@@ -20,7 +20,7 @@ public:
 	UUnitMovementComponent();
 
 	UPROPERTY()
-	TObjectPtr<AUnit> Unit;
+		TObjectPtr<AUnit> Unit;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Movement")
 		bool bMovementEnabled = false;

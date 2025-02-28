@@ -30,6 +30,9 @@ protected:
 	/* Component for scaling Actor root*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 		TObjectPtr<UDownScaleComponent> DownScaleComponent;
+
+	UFUNCTION()
+		void DestroyOnReturn(AActor* OverlappedActor, AActor* OtherActor);
 public:
 	UPROPERTY()
 		TObjectPtr<UUnitMovementComponent> UnitMovementComponent;
@@ -74,7 +77,13 @@ public:
 	UPROPERTY()
 		TObjectPtr<ABuilding> OwningBuilding;
 
+	UPROPERTY()
+		bool bHasAttacked = false;
+
 	/* Function to handle Death of the Unit Actor */
 	UFUNCTION(BlueprintNativeEvent, Category="Combat")
 		void KillMe();
+
+	UFUNCTION()
+		void AlreadyAttacked();
 };

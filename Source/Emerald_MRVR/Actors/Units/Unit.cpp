@@ -1,4 +1,6 @@
 #include "Unit.h"
+
+#include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Net/UnrealNetwork.h"
@@ -34,6 +36,8 @@ void AUnit::BeginPlay()
 	Super::BeginPlay();
 	UnitMovementComponent = FindComponentByClass<UUnitMovementComponent>();
 
+	OnActorBeginOverlap.AddDynamic(this, &AUnit::DestroyOnReturn);
+
 }
 
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -51,6 +55,21 @@ void AUnit::KillMe_Implementation()
 {
 	Destroy();
 }
+
+void AUnit::DestroyOnReturn(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if (OtherActor == OwningBuilding)
+	{
+		Destroy();
+		UE_LOG(LogTemp, Warning, TEXT("Returned and destroyed"));
+	}
+}
+
+void AUnit::AlreadyAttacked()
+{
+	bHasAttacked = true;
+}
+
 
 void AUnit::Tick(float DeltaTime)
 {

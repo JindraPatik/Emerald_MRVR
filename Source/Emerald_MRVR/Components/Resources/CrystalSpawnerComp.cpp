@@ -29,7 +29,7 @@ void UCrystalSpawnerComp::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-/* It is necessary to set indexes of ASpawnPointCrystal right! */
+/* It is necessary to set indexes of ASpawnPointCrystal right! Same indexes of Station and Crystal together */
 void UCrystalSpawnerComp::SpawnCrystal()
 {
 	TArray<ASpawnPointCrystal*> SpawnPointCrystals;
@@ -58,7 +58,7 @@ void UCrystalSpawnerComp::SpawnCrystal()
 		UE_LOG(LogTemp, Warning, TEXT("No PathPoints found for Crystal spline."));
 	}
 	
-	USplineComponent* CrystalSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, SpawnPoint1, SpawnPoint2, SplinePoints, GetOwner());
+	CrystalSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, SpawnPoint1, SpawnPoint2, SplinePoints, GetOwner());
 
 	if (!CrystalSpline)
 	{

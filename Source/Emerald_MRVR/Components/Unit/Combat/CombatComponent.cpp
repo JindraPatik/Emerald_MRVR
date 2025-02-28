@@ -150,10 +150,16 @@ void UCombatComponent::BaseFight(AActor* InActor)
 		{
 			return;
 		}
+
+		if (Unit->bHasAttacked)
+		{
+			return;
+		}
 		
 		OtherBaseHealthComp->Health -= Unit->Damage;
 		OtherBaseHealthComp->Health = FMath::Clamp(OtherBaseHealthComp->Health, 0, OtherBaseHealthComp->MaxHealth);
 		OtherBaseHealthComp->OnRep_OnHealthChanged();
+		Unit->AlreadyAttacked();
 
 		if (Unit->HasReturnPoint)
 		{
@@ -168,7 +174,6 @@ void UCombatComponent::BaseFight(AActor* InActor)
 				UnitMovementComponent->MovementSpline->GetLocationAtSplinePoint(ConnectionPointIndex, ESplineCoordinateSpace::World));
 			
 			UnitMovementComponent->ExtendMovementPathToReturn(ConnectionPointTransform, Unit->OwningBuilding->UnitReturnPoint->GetComponentTransform());
-			Unit->Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			return;
 		}
 		

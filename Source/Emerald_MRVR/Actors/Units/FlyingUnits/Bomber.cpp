@@ -11,6 +11,7 @@ ABomber::ABomber()
 void ABomber::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 void ABomber::Tick(float DeltaTime)
@@ -43,7 +44,6 @@ void ABomber::PerformSphereTrace(FHitResult& OutHit) const
 	FVector RightVector = GetActorRightVector(); // Osa X
 	FQuat DownwardRotation = FQuat(RightVector, FMath::DegreesToRadians(60.f));
 	FVector RotatedDirection = DownwardRotation.RotateVector(ForwardVector);
-
 	FVector End = Start + RotatedDirection * 3000.f;
 	
 	FCollisionQueryParams CollisionQueryParams;

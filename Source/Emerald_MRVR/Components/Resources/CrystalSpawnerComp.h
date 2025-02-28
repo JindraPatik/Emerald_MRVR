@@ -5,6 +5,8 @@
 #include "CrystalSpawnerComp.generated.h"
 
 class APathPoint;
+class USplineComponent;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCrystalSpawnedSignature, FVector, SpawnedLoc, ACrystal*,
                                              CrystalInstance);
 
@@ -37,7 +39,6 @@ protected:
 		TObjectPtr<ACrystal> CrystalInst;
 
 	FTimerHandle SpawningHandle;
-
 	
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -48,7 +49,8 @@ public:
 	UFUNCTION()
 	void StopSpawning(APawn* Looser);
 
-	
+	UPROPERTY()
+		TObjectPtr<USplineComponent> CrystalSpline;
 
 	FOnCrystalSpawnedSignature OnCrystalSpawnedDelegate;
 	
