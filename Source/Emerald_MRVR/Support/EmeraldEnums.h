@@ -22,8 +22,6 @@ enum class EKGUnits : uint8
 	E_Jet			UMETA(DisplayName="Jet"),
 	E_Zeppelin		UMETA(DisplayName="Zeppelin"),
 	E_Bomber		UMETA(DisplayName="Bomber"),
-
-	// Missle
 };
 
 UENUM(BlueprintType)

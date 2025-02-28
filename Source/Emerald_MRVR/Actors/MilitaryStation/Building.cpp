@@ -52,12 +52,13 @@ void ABuilding::BeginPlay()
 {
 	Super::BeginPlay();
 
+
 	VRPawn = Cast<AVRPawn>(GetOwner());
 	if (!VRPawn)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Building.cpp: Cast to VRPawn failed!"));
 	}
-
+	
 	IsdkPointableBox->SetSize(GetActorBoundingBoxExtent() * 2);
 	IsdkInteractable->SetSurface(IsdkPointableBox);
 

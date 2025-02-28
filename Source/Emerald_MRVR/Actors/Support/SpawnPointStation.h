@@ -66,7 +66,7 @@ protected:
 		TObjectPtr<USceneComponent> SpawnPointHangar;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Visuals")
-		TObjectPtr<UBillboardComponent> BillboardComponent;
+		TObjectPtr<UStaticMeshComponent> PreviewMesh;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flags")
