@@ -4,6 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "PowerUp.generated.h"
 
+class UDownScaleComponent;
+
 UCLASS()
 class EMERALD_MRVR_API APowerUp : public AActor
 {
@@ -16,10 +18,14 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
+		TObjectPtr<UDownScaleComponent> DownScaleComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
 		TObjectPtr<USceneComponent> Root;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
 		TObjectPtr<UStaticMeshComponent> Body;
+	
 
 	UFUNCTION()
 		void OnOverlap(AActor* OverlappedActor, AActor* OtherActor);

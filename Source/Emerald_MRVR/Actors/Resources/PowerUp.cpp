@@ -1,6 +1,7 @@
 ﻿#include "PowerUp.h"
 
-#include "Emerald_MRVR/Actors/Units/SpecialUnits/Picker.h"
+#include "Emerald_MRVR/EmeraldKeeper.h"
+#include "Emerald_MRVR/Components/DownScaleComponent.h"
 
 APowerUp::APowerUp()
 {
@@ -11,6 +12,9 @@ APowerUp::APowerUp()
 
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
 	Body->SetupAttachment(Root);
+
+	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownScaleComponent");
+	DownScaleComponent->DownscaleFactor = GLOBAL_DOWNSCALE_VALUE;
 }
 
 void APowerUp::BeginPlay()
