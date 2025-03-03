@@ -14,7 +14,7 @@ APowerUp::APowerUp()
 	Body->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
 	Body->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 	Body->SetGenerateOverlapEvents(true);
-	Body->SetSimulatePhysics(true);
+	// Body->SetSimulatePhysics(true);
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownScaleComponent");
 	DownScaleComponent->DownscaleFactor = GLOBAL_DOWNSCALE_VALUE;

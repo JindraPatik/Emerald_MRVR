@@ -29,28 +29,38 @@ void APicker::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 {
 	APowerUp* PowerUp = Cast<APowerUp>(OtherActor);
 	AVRPawn* VRPawn = Cast<AVRPawn>(GetOwner());
-	
-	if (!PowerUp || bIsLoaded)
-	{
-		return;
-	}
-	PickPowerUp(PowerUp);
 
 	if (!VRPawn)
 	{
 		return;
 	}
-
-	/* Deliver PowerUp */
-	if (Cast<AMilitaryStation>(OtherActor) == VRPawn->MilitaryStationInstance)
+	
+	if (!PowerUp)
 	{
+		return;
+	}
+
+	/* Pick PowerUp*/
+	if (!bIsLoaded)
+	{
+		PickPowerUp(PowerUp);
+	}
+	
+	/* Deliver PowerUp */
+	if (Cast<AMilitaryStation>(OtherActor) == VRPawn->MilitaryStationInstance && bIsLoaded)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Pickup Delivered"));
 		VRPawn->AddPowerUp(PowerUp);
 		Destroy();
 	}
+	
+
+
 }
 
 void APicker::PickPowerUp(APowerUp* InPowerUp)
 {
+	bIsLoaded = true;
 	UnitMovementComponent->Turn180();
 	InPowerUp->Destroy();
 }
