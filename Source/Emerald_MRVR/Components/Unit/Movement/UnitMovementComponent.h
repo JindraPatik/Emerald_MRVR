@@ -72,6 +72,9 @@ public:
 	bool bIsFlying;
 	bool bIsReversed;
 
+	
+
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Movement")
 		float Acceleration = 15.f; // Maybe add to Data asset?
 
