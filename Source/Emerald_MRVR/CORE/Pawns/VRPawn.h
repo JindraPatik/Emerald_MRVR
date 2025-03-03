@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "VRPawn.generated.h"
 
+class APowerUp;
 class UBuildingsComponent;
 class UWidgetInteractionComponent;
 class UBuildingDataAsset;
@@ -82,6 +83,12 @@ public:
 
 	UFUNCTION()
 		void SpawnPreviewUnit(ABuilding* BuildingActor);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PowerUp")
+		TArray<APowerUp*> AvailablePowerUps;
+
+	UFUNCTION()
+		void AddPowerUp(APowerUp* InPowerUp);
 
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

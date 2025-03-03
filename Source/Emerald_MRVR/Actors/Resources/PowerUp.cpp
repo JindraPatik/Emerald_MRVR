@@ -7,11 +7,14 @@ APowerUp::APowerUp()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	Root = CreateDefaultSubobject<USceneComponent>("Root");
-	RootComponent = Root;
-
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
-	Body->SetupAttachment(Root);
+	RootComponent = Body;
+	Body->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
+	Body->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
+	Body->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	Body->SetGenerateOverlapEvents(true);
+	Body->SetSimulatePhysics(true);
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownScaleComponent");
 	DownScaleComponent->DownscaleFactor = GLOBAL_DOWNSCALE_VALUE;
@@ -20,9 +23,8 @@ APowerUp::APowerUp()
 void APowerUp::BeginPlay()
 {
 	Super::BeginPlay();
-
 	OnActorBeginOverlap.AddDynamic(this, &APowerUp::OnOverlap);
-	
+
 }
 
 void APowerUp::Tick(float DeltaTime)
@@ -30,8 +32,17 @@ void APowerUp::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-
-void APowerUp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor)
+/* Implement functionality of PowerUps in Children */
+void APowerUp::Activate()
 {
 	
 }
+
+void APowerUp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	Body->SetSimulatePhysics(false);
+	UE_LOG(LogTemp, Warning, TEXT("APowerUp::OnOverlap"));
+}
+
+
+

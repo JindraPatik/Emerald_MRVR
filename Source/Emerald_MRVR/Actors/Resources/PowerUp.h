@@ -27,11 +27,13 @@ protected:
 		TObjectPtr<UStaticMeshComponent> Body;
 	
 
-	UFUNCTION()
-		void OnOverlap(AActor* OverlappedActor, AActor* OtherActor);
-
-	
-
 public:
 	virtual void Tick(float DeltaTime) override;
+
+	/* Implement functionality of PowerUps in Children */
+	UFUNCTION(BlueprintCallable, Category = "PowerUp")
+		virtual void Activate();
+
+	UFUNCTION(BlueprintCallable, Category = "Overlapping")
+		void OnOverlap(AActor* OverlappedActor, AActor* OtherActor);
 };

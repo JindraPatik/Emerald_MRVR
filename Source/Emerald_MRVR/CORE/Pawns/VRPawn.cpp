@@ -245,6 +245,11 @@ void AVRPawn::OnSelectedModuleChanged()
 	SpawnPreviewUnit(SelectedBuildingActor);
 }
 
+void AVRPawn::AddPowerUp(APowerUp* InPowerUp)
+{
+	AvailablePowerUps.Add(InPowerUp);
+	UE_LOG(LogTemp, Warning, TEXT("AVRPawn::AddPowerUp added"));
+}
 
 
 
