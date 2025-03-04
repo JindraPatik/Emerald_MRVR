@@ -139,8 +139,13 @@ void AVRPawn::MovePlayerOnRadius(AVRPawn* VRPawn, float InDelta, float& Distance
 
 	float Angle = FMath::Atan2(CurrentPosition.Y, CurrentPosition.X);
 
+	if (Distance <= 0.0f)
+	{
+		Distance = FVector(VRPawn->GetActorLocation().X, VRPawn->GetActorLocation().Y, 0.0f).Size();
+	}
+
 	Distance += Speed * InDelta;
-	Distance = FMath::Clamp(Distance, 0.f, 8000.f);
+	Distance = FMath::Clamp(Distance, 10.f, 8000.f);
 
 	FVector NewPosition;
 	NewPosition.X = Distance * FMath::Cos(Angle);
