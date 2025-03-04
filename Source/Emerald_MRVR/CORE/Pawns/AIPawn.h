@@ -49,6 +49,12 @@ public:
 		AMilitaryStation* MilitaryStationInstance;
 
 	TObjectPtr<AGameState> GameStateInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PowerUp")
+		TArray<APowerUp*> AvailablePowerUps;
+
+	UFUNCTION()
+		void AddPowerUp(APowerUp* InPowerUp);
 		
 	
 

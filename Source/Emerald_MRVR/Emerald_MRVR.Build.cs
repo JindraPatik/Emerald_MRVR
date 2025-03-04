@@ -29,6 +29,9 @@ public class Emerald_MRVR : ModuleRules
 			"OculusInteractionLibrary",
 			"OpenXRMsftHandInteraction",
 			"OpenXRHandTracking",
+			"MixedRealityCaptureFramework",
+			"SimpleHMD",
+			"OpenXR"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

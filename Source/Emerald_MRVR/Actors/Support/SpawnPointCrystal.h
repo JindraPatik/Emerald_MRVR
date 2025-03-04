@@ -5,6 +5,7 @@
 #include "SpawnPointCrystal.generated.h"
 
 class UArrowComponent;
+class UBillboardComponent;
 
 UCLASS()
 class EMERALD_MRVR_API ASpawnPointCrystal : public AActor

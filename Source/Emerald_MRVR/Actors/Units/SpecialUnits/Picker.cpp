@@ -3,6 +3,7 @@
 #include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
 #include "Emerald_MRVR/Actors/Resources/PowerUp.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
+#include "Emerald_MRVR/CORE/Pawns/AIPawn.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 
 
@@ -29,8 +30,10 @@ void APicker::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 {
 	APowerUp* PowerUp = Cast<APowerUp>(OtherActor);
 	AVRPawn* VRPawn = Cast<AVRPawn>(GetOwner());
+	AAIPawn* AIPawn = Cast<AAIPawn>(GetOwner());
+	
 
-	if (!VRPawn)
+	if (!VRPawn && !AIPawn)
 	{
 		return;
 	}
@@ -48,10 +51,19 @@ void APicker::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 	}
 	
 	/* Deliver PowerUp */
-	if (Cast<AMilitaryStation>(OtherActor) == VRPawn->MilitaryStationInstance && bIsLoaded)
+	if (bIsLoaded && Cast<AMilitaryStation>(OtherActor) == VRPawn->MilitaryStationInstance || Cast<AMilitaryStation>(OtherActor) == AIPawn->MilitaryStationInstance)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Pickup Delivered"));
-		VRPawn->AddPowerUp(PowerUp);
+		if (VRPawn)
+		{
+			VRPawn->AddPowerUp(PowerUp);
+			UE_LOG(LogTemp, Warning, TEXT("Pickup Delivered"));
+		}
+		if (AIPawn)
+		{
+			AIPawn->AddPowerUp(PowerUp);
+			UE_LOG(LogTemp, Warning, TEXT("Pickup Delivered"));
+		}
+		
 		Destroy();
 	}
 

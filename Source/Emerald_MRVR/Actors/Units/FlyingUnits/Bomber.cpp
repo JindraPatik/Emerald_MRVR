@@ -57,9 +57,9 @@ void ABomber::PerformSphereTrace(FHitResult& OutHit) const
 	bool bHit = World->SweepSingleByChannel(OutHit, Start, End, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(ScanningSphereRadius), CollisionQueryParams, CollisionResponseParams);
 
 	// Debug Line trace
-	FColor TraceColor = bHit ? FColor::Red : FColor::Green;
+	/*FColor TraceColor = bHit ? FColor::Red : FColor::Green;
 	DrawDebugLine(World, Start, End, TraceColor, false, 1.f);
-	DrawDebugSphere(World, End, ScanningSphereRadius, 12, TraceColor, false, 1.f);
+	DrawDebugSphere(World, End, ScanningSphereRadius, 12, TraceColor, false, 1.f);*/
 }
 
 /* Checks if it is Enemy target */

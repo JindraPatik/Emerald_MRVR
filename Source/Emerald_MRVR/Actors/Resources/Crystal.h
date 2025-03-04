@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -35,9 +33,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Scale")
 		UDownScaleComponent* DownScaleComponent;
 
+	/* Snap Crystal to ground after spawn */
+	UFUNCTION()
+		void AdjustLocationAfterSpawn();
+
 public:	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Stats")
 		float CrystalValue;
+
+	
 	
 	
 };

@@ -55,3 +55,9 @@ void AAIPawn::Tick(float DeltaTime)
 
 }
 
+void AAIPawn::AddPowerUp(APowerUp* InPowerUp)
+{
+	AvailablePowerUps.Add(InPowerUp);
+	UE_LOG(LogTemp, Warning, TEXT("AIPawn::AddPowerUp added"));
+}
+

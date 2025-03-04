@@ -5,6 +5,7 @@
 #include "SpawnPointStation.generated.h"
 
 class UArrowComponent;
+class UBillboardComponent;
 
 UCLASS()
 class EMERALD_MRVR_API ASpawnPointStation : public AActor

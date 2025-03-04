@@ -1,6 +1,9 @@
 #include "Crystal.h"
 #include "BoxComponent.h"
+#include "Concepts/Iterable.h"
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
+#include "Trace/Detail/Transport.h"
+#include "Widgets/Text/STextScroller.h"
 
 ACrystal::ACrystal()
 {
@@ -30,5 +33,27 @@ ACrystal::ACrystal()
 void ACrystal::BeginPlay()
 {
 	Super::BeginPlay();
+	AdjustLocationAfterSpawn();
 }
+
+/* Snap Crystal to ground after spawn */
+void ACrystal::AdjustLocationAfterSpawn()
+{
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return;
+	}
+
+	FHitResult OutHitResult;
+	FVector Start = GetActorLocation();
+	FVector End = GetActorLocation() + (GetActorUpVector() * -50.f);
+	bool bHit = World->LineTraceSingleByChannel(OutHitResult, Start, End, ECollisionChannel::ECC_WorldStatic);
+	if (bHit)
+	{
+		SetActorLocation(OutHitResult.ImpactPoint);
+	}
+}
+
+
 

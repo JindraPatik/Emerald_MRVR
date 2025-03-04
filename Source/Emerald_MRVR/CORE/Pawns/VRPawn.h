@@ -90,6 +90,8 @@ public:
 	UFUNCTION()
 		void AddPowerUp(APowerUp* InPowerUp);
 
+	
+
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UHealthComponent> HealthComponent;

@@ -41,16 +41,17 @@ void UUnitMovementComponent::OnOverlapped(AActor* OverlappedActor, AActor* Other
 	{
 		return;
 	}
+	
 	AUnit* OverlappedUnit = Cast<AUnit>(OtherActor);
 
 	/* It there is Player's Unit in the way and is slower, pass it */
-	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed)
+	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed && bOvertakingEnabled)
 	{
 		StartAvoidUnit();
 	}
 
 	/* It there is Player's Unit in the way and has same speed, avoid it */
-	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed)
+	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed == UnitSpeed && bOvertakingEnabled)
 	{
 		BeginOvertake();
 	}
@@ -63,6 +64,11 @@ void UUnitMovementComponent::OnOverlapEnd(AActor* OverlappedActor, AActor* Other
 		return;
 	}
 	AUnit* OverlappedUnit = Cast<AUnit>(OtherActor);
+	AMilitaryStation* MilitaryStation = Cast<AMilitaryStation>(OtherActor);
+	if (MilitaryStation)
+	{
+		bOvertakingEnabled = true;
+	}
 
 	/* It there is Player's Unit in the way and is slower, finish overtaking */
 	if (OverlappedUnit && OverlappedUnit->GetOwner() == Unit->GetOwner() && OverlappedUnit->Speed < UnitSpeed)
@@ -109,27 +115,27 @@ void UUnitMovementComponent::CreateMovementPath()
 	if (!World) return;
 
 	// Find Enemy Military Station
-	AMilitaryStation* EnemyBase = nullptr;
+	AMilitaryStation* EnemyStation = nullptr;
 	for (TActorIterator<AMilitaryStation> It(World); It; ++It)
 	{
-		AMilitaryStation* MilitaryBase = *It;
-		if (MilitaryBase && MilitaryBase->GetOwner() != GetOwner()->GetOwner()) // Check if it isn't Player's Station
+		AMilitaryStation* MilitaryStation = *It;
+		if (MilitaryStation && MilitaryStation->GetOwner() != GetOwner()->GetOwner()) // Check if it isn't Player's Station
 		{
-			EnemyBase = MilitaryBase;
+			EnemyStation = MilitaryStation;
 			break; // If found, break
 		}
 	}
 
 	// Set End to Enemy Station
-	if (EnemyBase)
+	if (EnemyStation)
 	{
  		if (bIsFlying)
 		{
-			End = EnemyBase->SpawnPointAir->GetComponentLocation();
+			End = EnemyStation->SpawnPointAir->GetComponentLocation();
 		}
 		else
 		{
-			End = EnemyBase->SpawnPointGround->GetComponentLocation();
+			End = EnemyStation->SpawnPointGround->GetComponentLocation();
 		}
 	}
 

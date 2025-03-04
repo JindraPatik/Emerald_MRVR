@@ -71,6 +71,9 @@ public:
 	float StartingSpeed = 0;
 	bool bIsFlying;
 	bool bIsReversed;
+	bool bOvertakingEnabled = false;
+
+	
 
 	
 
