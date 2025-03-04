@@ -7,6 +7,7 @@
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "MotionControllerComponent.h"
+#include "VectorTypes.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
@@ -16,6 +17,7 @@
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "GameFramework/GameStateBase.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Slate/SGameLayerManager.h"
 
 AVRPawn::AVRPawn()
 {
@@ -122,6 +124,32 @@ void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, fl
 	FVector LookAtPosition(0.0f, 0.0f, CurrentPosition.Z); 
 	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(NewPosition, LookAtPosition);
 	Player->SetActorRotation(LookAtRotation);
+}
+
+void AVRPawn::MovePlayerOnRadius(AVRPawn* VRPawn, float InDelta, float& Distance, float Speed)
+{
+	if (!VRPawn)
+	{
+		return;
+	}
+
+	FVector CurrentPosition = VRPawn->GetActorLocation();
+
+	float Angle = FMath::Atan2(CurrentPosition.Y, CurrentPosition.X);
+
+	Distance += Speed * InDelta;
+	Distance = FMath::Clamp(Distance, 50.f, 5000.f);
+
+	FVector NewPosition;
+	NewPosition.X = Distance * FMath::Cos(Angle);
+	NewPosition.Y = Distance * FMath::Sin(Angle);
+	NewPosition.Z = CurrentPosition.Z;
+
+	VRPawn->SetActorLocation(NewPosition);
+
+	FVector LookAtPosition(0.0f, 0.0f, CurrentPosition.Z);
+	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(NewPosition, LookAtPosition);
+	VRPawn->SetActorRotation(LookAtRotation);
 }
 
 void AVRPawn::RotatePlayerWithHandGesture(const UMotionControllerComponent* MotionController)

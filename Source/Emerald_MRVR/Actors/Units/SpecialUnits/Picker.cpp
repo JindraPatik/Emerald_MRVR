@@ -54,8 +54,6 @@ void APicker::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 		VRPawn->AddPowerUp(PowerUp);
 		Destroy();
 	}
-	
-
 
 }
 

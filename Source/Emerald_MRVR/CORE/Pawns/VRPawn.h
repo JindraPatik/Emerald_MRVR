@@ -60,6 +60,9 @@ protected:
 		void MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed);
 
 	UFUNCTION(BlueprintCallable, Category="Player movement")
+		void MovePlayerOnRadius(AVRPawn* VRPawn, float InDelta, float& Distance, float Speed);
+
+	UFUNCTION(BlueprintCallable, Category="Player movement")
 		void RotatePlayerWithHandGesture(const UMotionControllerComponent* MotionController);
 
 	UFUNCTION()
@@ -106,6 +109,8 @@ public:
 		ABuilding* SelectedBuildingActor = nullptr;
 
 	UFUNCTION()
-	void OnSelectedModuleChanged();
+		void OnSelectedModuleChanged();
+
+
 };
 
