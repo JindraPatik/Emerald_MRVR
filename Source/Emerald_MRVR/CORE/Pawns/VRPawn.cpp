@@ -42,15 +42,19 @@ void AVRPawn::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	
 	AEKGameState* AEKGameStateInst = Cast<AEKGameState>(GetWorld()->GetGameState());
-	if (AEKGameStateInst)
+	if (!AEKGameStateInst)
 	{
-		AGameModeCommon* GameModeCommon = Cast<AGameModeCommon>(AEKGameStateInst->AuthorityGameMode);
-		if (GameModeCommon)
-		{
-			GameModeCommon->OnGameStartedDelegate.AddDynamic(this, &AVRPawn::StartGame);
-			GameModeCommon->OnGameEndedDelegate.AddDynamic(this, &AVRPawn::EndGame);
-		}
+		return;
 	}
+	
+	AGameModeCommon* GameModeCommon = Cast<AGameModeCommon>(AEKGameStateInst->AuthorityGameMode);
+	if (!GameModeCommon)
+	{
+		return;
+	}
+	
+	GameModeCommon->OnGameStartedDelegate.AddDynamic(this, &AVRPawn::StartGame);
+	GameModeCommon->OnGameEndedDelegate.AddDynamic(this, &AVRPawn::EndGame);
 }
 
 // REPLICATED PROPS
