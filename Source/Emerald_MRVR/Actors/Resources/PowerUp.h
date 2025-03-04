@@ -18,10 +18,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
-		TObjectPtr<UDownScaleComponent> DownScaleComponent;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
 		TObjectPtr<USceneComponent> Root;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
+		TObjectPtr<UDownScaleComponent> DownScaleComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
 		TObjectPtr<UStaticMeshComponent> Body;

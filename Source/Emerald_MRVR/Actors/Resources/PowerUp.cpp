@@ -7,14 +7,11 @@ APowerUp::APowerUp()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	Root = CreateDefaultSubobject<USceneComponent>("Root");
+	RootComponent = Root;
+
 	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
-	RootComponent = Body;
-	Body->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
-	Body->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
-	Body->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
-	Body->SetGenerateOverlapEvents(true);
-	// Body->SetSimulatePhysics(true);
+	Body->SetupAttachment(Root);
 
 	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownScaleComponent");
 	DownScaleComponent->DownscaleFactor = GLOBAL_DOWNSCALE_VALUE;
@@ -40,7 +37,6 @@ void APowerUp::Activate()
 
 void APowerUp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	Body->SetSimulatePhysics(false);
 	UE_LOG(LogTemp, Warning, TEXT("APowerUp::OnOverlap"));
 }
 

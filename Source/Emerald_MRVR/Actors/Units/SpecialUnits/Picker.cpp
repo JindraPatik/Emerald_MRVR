@@ -40,10 +40,11 @@ void APicker::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 		return;
 	}
 
-	/* Pick PowerUp*/
+	/* Pick PowerUp */
 	if (!bIsLoaded)
 	{
 		PickPowerUp(PowerUp);
+		return;
 	}
 	
 	/* Deliver PowerUp */
