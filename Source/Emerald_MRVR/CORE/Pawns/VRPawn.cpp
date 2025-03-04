@@ -134,6 +134,8 @@ void AVRPawn::MovePlayerOnRadius(AVRPawn* VRPawn, float InDelta, float& Distance
 	{
 		return;
 	}
+	
+	Distance = FVector(VRPawn->GetActorLocation().X, VRPawn->GetActorLocation().Y, 0.0f).Size();
 
 	FVector CurrentPosition = VRPawn->GetActorLocation();
 
