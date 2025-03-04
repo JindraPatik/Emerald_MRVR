@@ -62,9 +62,6 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Player movement")
 		void MovePlayerOnRadius(AVRPawn* VRPawn, float InDelta, float& Distance, float Speed);
 
-	UFUNCTION(BlueprintCallable, Category="Player movement")
-		void RotatePlayerWithHandGesture(const UMotionControllerComponent* MotionController);
-
 	UFUNCTION()
 		void StartGame();
 

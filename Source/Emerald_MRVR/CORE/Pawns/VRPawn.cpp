@@ -7,7 +7,6 @@
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "MotionControllerComponent.h"
-#include "VectorTypes.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
@@ -17,7 +16,6 @@
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "GameFramework/GameStateBase.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Slate/SGameLayerManager.h"
 
 AVRPawn::AVRPawn()
 {
@@ -142,7 +140,7 @@ void AVRPawn::MovePlayerOnRadius(AVRPawn* VRPawn, float InDelta, float& Distance
 	float Angle = FMath::Atan2(CurrentPosition.Y, CurrentPosition.X);
 
 	Distance += Speed * InDelta;
-	Distance = FMath::Clamp(Distance, 50.f, 5000.f);
+	Distance = FMath::Clamp(Distance, 0.f, 8000.f);
 
 	FVector NewPosition;
 	NewPosition.X = Distance * FMath::Cos(Angle);
@@ -156,28 +154,6 @@ void AVRPawn::MovePlayerOnRadius(AVRPawn* VRPawn, float InDelta, float& Distance
 	VRPawn->SetActorRotation(LookAtRotation);
 }
 
-void AVRPawn::RotatePlayerWithHandGesture(const UMotionControllerComponent* MotionController)
-{
-	/* TODO: in progress */
-	float PreviousHandPositionX = 0.0f;
-	float DeltaMovementDirection = 0.0f; 
-	float GestureStartAngle = 0.0f;
-	
-	FVector HandPosition = MotionController->GetComponentLocation();
-	float MovementDelta = HandPosition.X - PreviousHandPositionX;
-
-	if (MovementDelta > 0.0f)
-	{
-		DeltaMovementDirection = 1.f;
-	}
-	else if (MovementDelta < 0.0f)
-	{
-		DeltaMovementDirection = -1.f;
-	}
-
-	float RotationSpeed = 0.001f;
-	MovePlayerOnCircle(this, MovementDelta * DeltaMovementDirection, GestureStartAngle, RotationSpeed);
-}
 
 void AVRPawn::StartGame()
 {
