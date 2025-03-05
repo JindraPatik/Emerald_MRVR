@@ -1,7 +1,7 @@
 #include "AIComponent.h"
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Actors/Support/SpawnPointCrystal.h"
-#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComponent.h"
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Digger.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"

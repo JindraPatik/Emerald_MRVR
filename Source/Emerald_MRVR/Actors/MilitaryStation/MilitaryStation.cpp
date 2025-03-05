@@ -9,8 +9,6 @@
 AMilitaryStation::AMilitaryStation()
 {
 	PrimaryActorTick.bCanEverTick = false;
-	bReplicates = true;
-	SetReplicates(true);
 
 	StationRoot = CreateDefaultSubobject<USceneComponent>("BaseRoot");
 	SetRootComponent(StationRoot);

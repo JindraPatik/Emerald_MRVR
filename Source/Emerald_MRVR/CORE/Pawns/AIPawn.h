@@ -22,6 +22,7 @@ public:
 	AAIPawn();
 
 protected:
+
 	virtual void BeginPlay() override;
 	
 	UFUNCTION()
@@ -37,7 +38,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		UMilitaryStationComp* MilitaryStationComp;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
+		UMilitaryStationComp* MilitaryStationComponent;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UHealthComponent> HealthComponent;
@@ -55,7 +56,4 @@ public:
 
 	UFUNCTION()
 		void AddPowerUp(APowerUp* InPowerUp);
-		
-	
-
 };

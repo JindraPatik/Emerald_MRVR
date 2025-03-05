@@ -4,7 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
-#include "MilitaryStationComp.generated.h"
+#include "MilitaryStationComponent.generated.h"
 
 class ASpawnPointStation;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUnitSpawnedSignature, AUnit*, Unit, AActor*, Owner);
@@ -65,7 +65,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Body")
 		TSubclassOf<AMilitaryStation> MilitaryStation;
 
-	UPROPERTY(Replicated, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)
 		TObjectPtr<ASpawnPointStation> SpawnPointForMilitaryStation;
 
 	UPROPERTY(Replicated)

@@ -1,4 +1,4 @@
-#include "MilitaryStationComp.h"
+#include "MilitaryStationComponent.h"
 
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
@@ -9,7 +9,6 @@
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
-#include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
@@ -20,14 +19,12 @@ UMilitaryStationComp::UMilitaryStationComp()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SpawnPointForMilitaryStation = CreateDefaultSubobject<ASpawnPointStation>("MilitaryStationTargetPoint");
-	SetIsReplicatedByDefault(true);
 }
 
 void UMilitaryStationComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UMilitaryStationComp, AvailableBuildings);
-	DOREPLIFETIME(UMilitaryStationComp, SpawnPointForMilitaryStation);
 	DOREPLIFETIME(UMilitaryStationComp, PlayerMilitaryStationInstance);
 	DOREPLIFETIME(UMilitaryStationComp, UnitSpawnLocation);
 	DOREPLIFETIME(UMilitaryStationComp, UnitSpawnRotation);
@@ -91,10 +88,13 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 	}
 	
 	SetSpawnPointForStation();
+	
 	if (!SpawnPointForMilitaryStation)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("MilitaryStationComponent: !SpawnPointForMilitaryStation !!!!"))
 		return;
 	}
+	
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Instigator = InPawn;
 	SpawnParameters.Owner = InPawn;
@@ -106,10 +106,12 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 			
 	if (!InPawn)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("MilitaryStationComponent: !InPawn"))
 		return;
 	}
 
 	PlayerMilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryStation>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
+	UE_LOG(LogTemp, Warning, TEXT("MilitaryStationComponent: SpawnLocation %s"), *SpawnLocation.ToString());
 		
 }
 

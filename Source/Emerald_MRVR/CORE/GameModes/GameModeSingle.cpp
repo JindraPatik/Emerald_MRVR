@@ -5,7 +5,6 @@
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "GameFramework/PlayerStart.h"
 
-
 AGameModeSingle::AGameModeSingle()
 {
 	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");

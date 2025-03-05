@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComponent.h"
 #include "Components/ActorComponent.h"
 #include "AIComponent.generated.h"
 

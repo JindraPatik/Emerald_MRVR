@@ -11,7 +11,7 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
-#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComponent.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 #include "GameFramework/GameStateBase.h"

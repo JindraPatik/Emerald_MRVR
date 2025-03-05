@@ -8,7 +8,7 @@
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Rebel.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Digger.h"
 #include "Emerald_MRVR/Actors/Units/SpecialUnits/Thief.h"
-#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComp.h"
+#include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComponent.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
 
 UENUM(BlueprintType)
