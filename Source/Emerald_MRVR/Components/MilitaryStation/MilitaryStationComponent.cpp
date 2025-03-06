@@ -15,23 +15,23 @@
 
 class AEKGameState;
 
-UMilitaryStationComp::UMilitaryStationComp()
+UMilitaryStationComponent::UMilitaryStationComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SpawnPointForMilitaryStation = CreateDefaultSubobject<ASpawnPointStation>("MilitaryStationTargetPoint");
 }
 
-void UMilitaryStationComp::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void UMilitaryStationComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UMilitaryStationComp, AvailableBuildings);
-	DOREPLIFETIME(UMilitaryStationComp, PlayerMilitaryStationInstance);
-	DOREPLIFETIME(UMilitaryStationComp, UnitSpawnLocation);
-	DOREPLIFETIME(UMilitaryStationComp, UnitSpawnRotation);
-	DOREPLIFETIME(UMilitaryStationComp, UnitInstance);
+	DOREPLIFETIME(UMilitaryStationComponent, AvailableBuildings);
+	DOREPLIFETIME(UMilitaryStationComponent, MilitaryStationInstance);
+	DOREPLIFETIME(UMilitaryStationComponent, UnitSpawnLocation);
+	DOREPLIFETIME(UMilitaryStationComponent, UnitSpawnRotation);
+	DOREPLIFETIME(UMilitaryStationComponent, UnitInstance);
 }
 
-void UMilitaryStationComp::BeginPlay()
+void UMilitaryStationComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
@@ -40,7 +40,7 @@ void UMilitaryStationComp::BeginPlay()
 	
 }
 
-void UMilitaryStationComp::SetSpawnPointForStation()
+void UMilitaryStationComponent::SetSpawnPointForStation()
 {
 	if (!GetOwner()->HasAuthority())
 	{
@@ -73,13 +73,13 @@ void UMilitaryStationComp::SetSpawnPointForStation()
 }
 
 
-void UMilitaryStationComp::Server_SetSpawnPointForBase_Implementation()
+void UMilitaryStationComponent::Server_SetSpawnPointForBase_Implementation()
 {
 	SetSpawnPointForStation();
 }
 
 
-void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
+void UMilitaryStationComponent::SpawnMilitaryStation(APawn* InPawn)
 {
 	if (!InPawn->HasAuthority())
 	{
@@ -97,7 +97,7 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 	
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Instigator = InPawn;
-	SpawnParameters.Owner = InPawn;
+	SpawnParameters.Owner = GetOwner();
 	FVector SpawnLocation = SpawnPointForMilitaryStation->GetActorLocation();
 	FRotator SpawnRotation = SpawnPointForMilitaryStation->GetActorRotation();
 
@@ -110,18 +110,18 @@ void UMilitaryStationComp::SpawnMilitaryStation(APawn* InPawn)
 		return;
 	}
 
-	PlayerMilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryStation>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
+	MilitaryStationInstance = GetWorld()->SpawnActor<AMilitaryStation>(MilitaryStation, SpawnLocation, SpawnRotation, SpawnParameters);
 	UE_LOG(LogTemp, Warning, TEXT("MilitaryStationComponent: SpawnLocation %s"), *SpawnLocation.ToString());
 		
 }
 
-void UMilitaryStationComp::Server_SpawnMilitaryStation_Implementation(APawn* InPawn)
+void UMilitaryStationComponent::Server_SpawnMilitaryStation_Implementation(APawn* InPawn)
 {
 	SpawnMilitaryStation(InPawn);
 }
 
 
-void UMilitaryStationComp::SpawnBuildings(APawn* InPawn)
+void UMilitaryStationComponent::SpawnBuildings(APawn* InPawn)
 {
 	if (!GetOwner()->HasAuthority())
 	{
@@ -142,9 +142,9 @@ void UMilitaryStationComp::SpawnBuildings(APawn* InPawn)
 	{
 		for (UBuildingDataAsset* Building : AvailableBuildings)
 		{
-			if (PlayerMilitaryStationInstance && PlayerMilitaryStationInstance->BuildingPositions.Num() >= 0)
+			if (MilitaryStationInstance && MilitaryStationInstance->BuildingPositions.Num() >= 0)
 			{
-				for (USceneComponent* BuildingPosition : PlayerMilitaryStationInstance->BuildingPositions)
+				for (USceneComponent* BuildingPosition : MilitaryStationInstance->BuildingPositions)
 				{
 					if (BuildingPosition->ComponentHasTag(Building->BuildingName)) // Nastavit v Editoru!
 					{
@@ -186,12 +186,12 @@ void UMilitaryStationComp::SpawnBuildings(APawn* InPawn)
 	}
 }
 
-void UMilitaryStationComp::Server_SpawnBuildings_Implementation(APawn* InPawn)
+void UMilitaryStationComponent::Server_SpawnBuildings_Implementation(APawn* InPawn)
 {
 	SpawnBuildings(InPawn);
 }
 
-AUnit* UMilitaryStationComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Building)
+AUnit* UMilitaryStationComponent::SpawnUnit(APawn* InstigatorPawn, ABuilding* Building)
 {
 	if (!GetOwner()->HasAuthority())
 	{
@@ -199,7 +199,7 @@ AUnit* UMilitaryStationComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Buildin
 		return nullptr;
 	}
 	
-	if (InstigatorPawn && PlayerMilitaryStationInstance && Building)
+	if (InstigatorPawn && MilitaryStationInstance && Building)
 	{
 		UBuildingDataAsset* BuildingDataAsset = Building->BuildingDataAsset;
 		if (BuildingDataAsset)
@@ -209,13 +209,13 @@ AUnit* UMilitaryStationComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Buildin
 
 			if (!BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 			{
-				UnitSpawnLocation = PlayerMilitaryStationInstance->SpawnPointGround->GetComponentLocation();
-				UnitSpawnRotation = PlayerMilitaryStationInstance->SpawnPointGround->GetComponentRotation();
+				UnitSpawnLocation = MilitaryStationInstance->SpawnPointGround->GetComponentLocation();
+				UnitSpawnRotation = MilitaryStationInstance->SpawnPointGround->GetComponentRotation();
 			}
 			if (BuildingDataAsset->UnitToSpawnData->IsFlyingUnit)
 			{
-				UnitSpawnLocation = PlayerMilitaryStationInstance->SpawnPointAir->GetComponentLocation();
-				UnitSpawnRotation = PlayerMilitaryStationInstance->SpawnPointAir->GetComponentRotation();
+				UnitSpawnLocation = MilitaryStationInstance->SpawnPointAir->GetComponentLocation();
+				UnitSpawnRotation = MilitaryStationInstance->SpawnPointAir->GetComponentRotation();
 			}
 
 			if (BuildingDataAsset->UnitToSpawnData->IsRocket)
@@ -272,13 +272,13 @@ AUnit* UMilitaryStationComp::SpawnUnit(APawn* InstigatorPawn, ABuilding* Buildin
 }
 
 
-void UMilitaryStationComp::Server_SpawnUnit_Implementation(APawn* InstigatorPawn, ABuilding* Building)
+void UMilitaryStationComponent::Server_SpawnUnit_Implementation(APawn* InstigatorPawn, ABuilding* Building)
 {
 	SpawnUnit(InstigatorPawn, Building);
 }
 
 
-bool UMilitaryStationComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset)
+bool UMilitaryStationComponent::HasEnoughResources(UBuildingDataAsset* BuildingDataAsset)
 {
 	if (!GetOwner()->HasAuthority())
 	{
@@ -294,12 +294,12 @@ bool UMilitaryStationComp::HasEnoughResources(UBuildingDataAsset* BuildingDataAs
 	return false;
 }
 
-void UMilitaryStationComp::Server_HasEnoughResources_Implementation(UBuildingDataAsset* BuildingDataAsset)
+void UMilitaryStationComponent::Server_HasEnoughResources_Implementation(UBuildingDataAsset* BuildingDataAsset)
 {
 	HasEnoughResources(BuildingDataAsset);
 }
 
-void UMilitaryStationComp::SpawnNotEnoughResWidget()
+void UMilitaryStationComponent::SpawnNotEnoughResWidget()
 {
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.Owner = GetOwner();

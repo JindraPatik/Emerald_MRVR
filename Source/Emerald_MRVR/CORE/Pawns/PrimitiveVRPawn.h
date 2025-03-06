@@ -1,8 +1,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CommonPawn.h"
 #include "GameFramework/Pawn.h"
-#include "PrimitivePawn.generated.h"
+#include "PrimitiveVRPawn.generated.h"
 
 class AEKGameState;
 class USplineMeshComponent;
@@ -14,12 +15,12 @@ class UInputMappingContext;
 class UMotionControllerComponent;
 
 UCLASS()
-class EMERALD_MRVR_API APrimitivePawn : public APawn
+class EMERALD_MRVR_API APrimitiveVRPawn : public ACommonPawn
 {
 	GENERATED_BODY()
 
 public:
-	APrimitivePawn();
+	APrimitiveVRPawn();
 
 protected:
 	virtual void BeginPlay() override;

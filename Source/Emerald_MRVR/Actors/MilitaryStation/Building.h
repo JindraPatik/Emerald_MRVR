@@ -34,6 +34,9 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Building")
+		float IsdkPointableBoxMultiplier = 2.5f;
+
 public:
 	void DisableInfoWidget();
 	void EnableInfoWidget();

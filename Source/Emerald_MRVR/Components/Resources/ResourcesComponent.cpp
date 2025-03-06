@@ -23,7 +23,7 @@ void UResourcesComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 void UResourcesComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	MilitaryBaseCompInst = GetOwner()->FindComponentByClass<UMilitaryStationComponent>();
 	AGameModeCommon* GM = Cast<AGameModeCommon>(GetWorld()->GetAuthGameMode());
 	if (GM)
 	{

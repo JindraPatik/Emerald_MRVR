@@ -12,7 +12,7 @@ AAIPawn::AAIPawn()
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
-	MilitaryStationComponent = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryBaseComp");
+	MilitaryStationComponent = CreateDefaultSubobject<UMilitaryStationComponent>("MilitaryBaseComp");
 	AIComponent = CreateDefaultSubobject<UAIComponent>("AI_Component");
 }
 
@@ -55,10 +55,3 @@ void AAIPawn::Tick(float DeltaTime)
 {
 
 }
-
-void AAIPawn::AddPowerUp(APowerUp* InPowerUp)
-{
-	AvailablePowerUps.Add(InPowerUp);
-	UE_LOG(LogTemp, Warning, TEXT("AIPawn::AddPowerUp added"));
-}
-

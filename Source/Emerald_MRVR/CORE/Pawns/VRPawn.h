@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PrimitivePawn.h"
+#include "PrimitiveVRPawn.h"
 #include "Emerald_MRVR/CORE/GameModes/GameModeMultiplayer.h"
 #include "GameFramework/Pawn.h"
 #include "VRPawn.generated.h"
@@ -10,7 +10,7 @@ class APowerUp;
 class UBuildingsComponent;
 class UWidgetInteractionComponent;
 class UBuildingDataAsset;
-class UMilitaryStationComp;
+class UMilitaryStationComponent;
 class AUnit;
 class AVRPlayerController;
 class UResourcesComponent;
@@ -28,7 +28,7 @@ class ABuilding;
 class AActor;
 
 UCLASS()
-class EMERALD_MRVR_API AVRPawn : public APrimitivePawn
+class EMERALD_MRVR_API AVRPawn : public APrimitiveVRPawn
 {
 	GENERATED_BODY()
 
@@ -73,7 +73,7 @@ public:
 		AGameModeMultiplayer* GameMode;
 
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		UMilitaryStationComp* MilitaryStationComp;
+		UMilitaryStationComponent* MilitaryStationComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryStation")
 		TSubclassOf<AActor> PreviewUnitClass;
@@ -84,11 +84,11 @@ public:
 	UFUNCTION()
 		void SpawnPreviewUnit(ABuilding* BuildingActor);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PowerUp")
-		TArray<APowerUp*> AvailablePowerUps;
+	UFUNCTION(BlueprintCallable, Category="PowerUp")
+		void CyclePowerUps();
 
-	UFUNCTION()
-		void AddPowerUp(APowerUp* InPowerUp);
+	UPROPERTY(BlueprintReadWrite, Category="PowerUp")
+		uint8 PowerUpIndex = 0;
 
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -96,9 +96,6 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
-	
-	UPROPERTY(Replicated, VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryStation* MilitaryStationInstance;	
 
 	bool bPossesed = false;
 

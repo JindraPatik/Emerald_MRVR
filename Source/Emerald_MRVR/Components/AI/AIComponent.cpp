@@ -45,7 +45,7 @@ void UAIComponent::BeginPlay()
 	for (TActorIterator<AVRPawn> It(GetWorld()); It; ++It)
 	{
 		AVRPawn* VRPawn = Cast<AVRPawn>(*It);
-		UMilitaryStationComp* MilitaryStationComp = VRPawn->FindComponentByClass<UMilitaryStationComp>();
+		UMilitaryStationComponent* MilitaryStationComp = VRPawn->FindComponentByClass<UMilitaryStationComponent>();
 	    if (!VRPawn || !MilitaryStationComp)
 	    {
 		    return;
@@ -72,7 +72,7 @@ float UAIComponent::GetDistanceBetweenCrystalSpawners() const
 
 float UAIComponent::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 {
-	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	UMilitaryStationComponent* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComponent>();
 	if (!MilitaryBaseComp)
 	{
 		return 0;
@@ -85,7 +85,7 @@ float UAIComponent::GetMyDistanceFromCrystal(FVector CrystalLocation) const
 void UAIComponent::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 {
 	bool bShouldSendDigger = GetMyDistanceFromCrystal(CrystalLoc) <= GetDistanceBetweenCrystalSpawners()/DistanceToCrystalTolerance;
-	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	UMilitaryStationComponent* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComponent>();
 	
 	if (MilitaryBaseComp && bShouldSendDigger && MilitaryBaseComp->HasEnoughResources(MineBuilding))
 	{
@@ -100,7 +100,7 @@ void UAIComponent::OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst)
 	}
 }
 
-void UAIComponent::SpawnDigger(UMilitaryStationComp* MilitaryBaseComp)
+void UAIComponent::SpawnDigger(UMilitaryStationComponent* MilitaryBaseComp)
 {
 	for (ABuilding* Module : MilitaryBaseComp->AvailableBuildingsActors)
 	{
@@ -114,7 +114,7 @@ void UAIComponent::SpawnDigger(UMilitaryStationComp* MilitaryBaseComp)
 
 void UAIComponent::GetAvailableAttackingUnits()
 {
-	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	UMilitaryStationComponent* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComponent>();
 	if (!MilitaryBaseComp)
 	{
 		return;
@@ -146,7 +146,7 @@ void UAIComponent::GetAvailableAttackingUnits()
 
 AUnit* UAIComponent::SpawnUnit(ABuilding* Module)
 {
-	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	UMilitaryStationComponent* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComponent>();
 	if (!MilitaryBaseComp)
 	{
 		return nullptr;
@@ -164,7 +164,7 @@ AUnit* UAIComponent::SpawnUnit(ABuilding* Module)
 	return nullptr;
 }
 
-void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables)
+void UAIComponent::ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComponent* MilitaryBaseComp, TArray<ABuilding*> Availables)
 {
 	for (ABuilding* ReactUnit : Availables)
 	{
@@ -264,7 +264,7 @@ void UAIComponent::OnUnitOccured(AUnit* InUnit, AActor* InOwner)
 	{
 		return;
 	}
-	UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	UMilitaryStationComponent* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComponent>();
 	if (!MilitaryBaseComp)
 	{
 		return;
@@ -292,7 +292,7 @@ void UAIComponent::SpawnRandomUnit()
 {
 	if (FightStatus == EUnitFightStatus::EIsAttacking)
 	{
-		UMilitaryStationComp* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+		UMilitaryStationComponent* MilitaryBaseComp = GetOwner()->FindComponentByClass<UMilitaryStationComponent>();
 		if (!MilitaryBaseComp)
 		{
 			return;
@@ -322,7 +322,7 @@ void UAIComponent::HandleRandomSpawn()
 }
 
 
-void UAIComponent::TryToDefend(UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables)
+void UAIComponent::TryToDefend(UMilitaryStationComponent* MilitaryBaseComp, TArray<ABuilding*> Availables)
 {
 	if (UndefendedUnit)
 	{

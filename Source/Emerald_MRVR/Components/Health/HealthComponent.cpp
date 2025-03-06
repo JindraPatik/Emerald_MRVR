@@ -18,7 +18,7 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MilitaryBaseCompInstance = GetOwner()->FindComponentByClass<UMilitaryStationComp>();
+	MilitaryBaseCompInstance = GetOwner()->FindComponentByClass<UMilitaryStationComponent>();
 }
 
 void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

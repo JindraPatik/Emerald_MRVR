@@ -1,4 +1,4 @@
-#include "PrimitivePawn.h"
+#include "PrimitiveVRPawn.h"
 
 #include "CapsuleComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -11,7 +11,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 
-APrimitivePawn::APrimitivePawn()
+APrimitiveVRPawn::APrimitiveVRPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -45,7 +45,7 @@ APrimitivePawn::APrimitivePawn()
 
 }
 
-void APrimitivePawn::BeginPlay()
+void APrimitiveVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -63,23 +63,23 @@ void APrimitivePawn::BeginPlay()
 	
 }
 
-void APrimitivePawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void APrimitiveVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
-	DOREPLIFETIME(APrimitivePawn, VR_Proxy);
-	DOREPLIFETIME(APrimitivePawn, VR_Root);
-	DOREPLIFETIME(APrimitivePawn, Camera);
-	DOREPLIFETIME(APrimitivePawn, Body);
+	DOREPLIFETIME(APrimitiveVRPawn, VR_Proxy);
+	DOREPLIFETIME(APrimitiveVRPawn, VR_Root);
+	DOREPLIFETIME(APrimitiveVRPawn, Camera);
+	DOREPLIFETIME(APrimitiveVRPawn, Body);
 }
 
-void APrimitivePawn::Tick(float DeltaTime)
+void APrimitiveVRPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void APrimitivePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void APrimitiveVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 

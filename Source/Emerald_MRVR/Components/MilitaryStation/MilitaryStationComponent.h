@@ -22,12 +22,12 @@ class ATargetPoint;
 class UWidgetAnimation;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class EMERALD_MRVR_API UMilitaryStationComp : public UActorComponent
+class EMERALD_MRVR_API UMilitaryStationComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	UMilitaryStationComp();
+	UMilitaryStationComponent();
 
 private:
 	UPROPERTY()
@@ -69,7 +69,7 @@ public:
 		TObjectPtr<ASpawnPointStation> SpawnPointForMilitaryStation;
 
 	UPROPERTY(Replicated)
-		AMilitaryStation* PlayerMilitaryStationInstance;
+		AMilitaryStation* MilitaryStationInstance;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Units")
 		TSubclassOf<AUnit> UnitToSpawn;
@@ -120,7 +120,7 @@ public:
 		FOnUnitSpawnedSignature OnUnitSpawnedDelegate;
 
 	UFUNCTION()
-		FORCEINLINE AMilitaryStation* GetMilitaryStationInstance() const { return PlayerMilitaryStationInstance; }
+		FORCEINLINE AMilitaryStation* GetMilitaryStationInstance() const { return MilitaryStationInstance; }
 
 	TSubclassOf<AUnitAIController> AiUnitControllerClass;
 

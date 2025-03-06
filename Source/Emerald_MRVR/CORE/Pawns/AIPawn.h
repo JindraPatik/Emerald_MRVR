@@ -1,12 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CommonPawn.h"
 #include "VRPawn.h"
 #include "GameFramework/Pawn.h"
 #include "AIPawn.generated.h"
 
 class UBehaviorTree;
-class UMilitaryStationComp;
+class UMilitaryStationComponent;
 class UHealthComponent;
 class UResourcesComponent;
 class AMilitaryStation;
@@ -14,7 +15,7 @@ class UAIComponent;
 class AGameState;
 
 UCLASS()
-class EMERALD_MRVR_API AAIPawn : public APawn
+class EMERALD_MRVR_API AAIPawn : public ACommonPawn
 {
 	GENERATED_BODY()
 
@@ -38,7 +39,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Body")
-		UMilitaryStationComp* MilitaryStationComponent;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
+		UMilitaryStationComponent* MilitaryStationComponent;						//pb: probral bych duvody, proc je to Componenta - ja bych to udelal spise jako Actora, viz. doc Coding + Naming Standards
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UHealthComponent> HealthComponent;
@@ -46,14 +47,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UResourcesComponent> ResourcesComponent;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Base")
-		AMilitaryStation* MilitaryStationInstance;
-
 	TObjectPtr<AGameState> GameStateInstance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PowerUp")
-		TArray<APowerUp*> AvailablePowerUps;
-
-	UFUNCTION()
-		void AddPowerUp(APowerUp* InPowerUp);
 };

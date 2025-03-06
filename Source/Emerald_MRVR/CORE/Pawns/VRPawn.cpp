@@ -11,6 +11,7 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
+#include "Emerald_MRVR/Actors/Resources/PowerUp.h"
 #include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComponent.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
@@ -29,7 +30,7 @@ AVRPawn::AVRPawn()
 	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
 	ResourcesComponent->SetIsReplicated(true);
 	
-	MilitaryStationComp = CreateDefaultSubobject<UMilitaryStationComp>("MilitaryBaseComp");
+	MilitaryStationComp = CreateDefaultSubobject<UMilitaryStationComponent>("MilitaryBaseComp");
 	MilitaryStationComp->SetIsReplicated(true);
 	// ~COMPONENTS
 
@@ -60,7 +61,6 @@ void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
-	DOREPLIFETIME(AVRPawn, MilitaryStationInstance);
 	DOREPLIFETIME(AVRPawn, MilitaryStationComp);
 	DOREPLIFETIME(AVRPawn, SelectedBuildingActor);
 	DOREPLIFETIME(AVRPawn, bInputIsEnabled);
@@ -69,8 +69,8 @@ void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 
 void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
+	
 }
-
 
 void AVRPawn::BeginPlay()
 {
@@ -217,7 +217,6 @@ void AVRPawn::EndGame(APawn* Looser)
 	}
 }
 
-
 void AVRPawn::SpawnPreviewUnit(ABuilding* BuildingActor)
 {
 	UWorld* World = GetWorld();
@@ -260,11 +259,29 @@ void AVRPawn::OnSelectedModuleChanged()
 	SpawnPreviewUnit(SelectedBuildingActor);
 }
 
-void AVRPawn::AddPowerUp(APowerUp* InPowerUp)
+
+void AVRPawn::CyclePowerUps()
 {
-	AvailablePowerUps.Add(InPowerUp);
-	UE_LOG(LogTemp, Warning, TEXT("AVRPawn::AddPowerUp added"));
+	if (AvailablePowerUps.Num() > 0)
+	{
+		if (PowerUpIndex <= AvailablePowerUps.Num() - 1)
+		{
+			SelectedPowerUp = AvailablePowerUps[PowerUpIndex];
+			PowerUpIndex++;
+			UE_LOG(LogTemp, Warning, TEXT("AVRPawn::CyclePowerUps %s"), *SelectedPowerUp.GetName());
+		}
+		else
+		{
+			PowerUpIndex = 0;
+			UE_LOG(LogTemp, Warning, TEXT("AVRPawn::CyclePowerUps %s"), *SelectedPowerUp.GetName());
+		}
+	}
 }
+
+
+
+
+
 
 
 

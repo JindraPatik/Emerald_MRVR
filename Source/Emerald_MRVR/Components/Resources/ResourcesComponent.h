@@ -6,7 +6,7 @@
 
 class UResourcesWidget;
 class AGameModeMultiplayer;
-class UMilitaryStationComp;
+class UMilitaryStationComponent;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EMERALD_MRVR_API UResourcesComponent : public UActorComponent
@@ -30,7 +30,7 @@ public:
 	
 private:
 	UPROPERTY()
-		TObjectPtr<UMilitaryStationComp> MilitaryBaseCompInst;
+		TObjectPtr<UMilitaryStationComponent> MilitaryBaseCompInst;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resources", meta=(AllowPrivateAccess="true"));
 		float MaxResources = 9999.f;

@@ -37,7 +37,7 @@ protected:
 		float GetMyDistanceFromCrystal(FVector CrystalLocation) const;
 
 	UFUNCTION()
-		void SpawnDigger(UMilitaryStationComp* MilitaryBaseComp);
+		void SpawnDigger(UMilitaryStationComponent* MilitaryBaseComp);
 
 	UFUNCTION()
 		void SpawnRandomUnit();
@@ -46,13 +46,13 @@ protected:
 		AUnit* SpawnUnit(ABuilding* Building);
 	
 	UFUNCTION()
-		void TryToDefend(UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
+		void TryToDefend(UMilitaryStationComponent* MilitaryBaseComp, TArray<ABuilding*> Availables);
 
 	UFUNCTION()
 		void OnCrystalOccured(FVector CrystalLoc, ACrystal* CrystalInst);
 	
 	UFUNCTION()
-		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComp* MilitaryBaseComp, TArray<ABuilding*> Availables);
+		void ChooseOptimalUnit(AUnit* AttackerUnit, UMilitaryStationComponent* MilitaryBaseComp, TArray<ABuilding*> Availables);
 
 	UPROPERTY()
 		float DefendingAgainstValue;

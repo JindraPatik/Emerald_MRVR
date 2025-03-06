@@ -32,7 +32,7 @@ void APowerUp::Tick(float DeltaTime)
 /* Implement functionality of PowerUps in Children */
 void APowerUp::Activate()
 {
-	
+	UE_LOG(LogTemp, Display, TEXT("APowerUp::Activate"));
 }
 
 void APowerUp::OnOverlap(AActor* OverlappedActor, AActor* OtherActor)
