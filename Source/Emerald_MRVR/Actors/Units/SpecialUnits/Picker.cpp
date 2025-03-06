@@ -1,7 +1,7 @@
 ﻿#include "Picker.h"
 
 #include "Emerald_MRVR/Actors/MilitaryStation/MilitaryStation.h"
-#include "Emerald_MRVR/Actors/Resources/PowerUp.h"
+#include "Emerald_MRVR/Actors/Resources/PowerUp/PowerUp.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Emerald_MRVR/CORE/Pawns/AIPawn.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
@@ -28,8 +28,9 @@ void APicker::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 	APowerUp* PowerUp = Cast<APowerUp>(OtherActor);
 	AVRPawn* VRPawn = Cast<AVRPawn>(GetOwner());
 	AAIPawn* AIPawn = Cast<AAIPawn>(GetOwner());
+	APawn* Pawn = Cast<APawn>(GetOwner());
 
-	if (!VRPawn && !AIPawn)
+	if (!VRPawn && !AIPawn && !Pawn)
 	{
 		return;
 	}
@@ -37,23 +38,23 @@ void APicker::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 	/* Pick PowerUp */
 	if (PowerUp && !bIsLoaded)
 	{
-		PickPowerUp(PowerUp);
+		PickPowerUp(PowerUp, Pawn);
 	}
 	
 	/* Deliver PowerUp */
 
 	
-	if (bIsLoaded && Cast<AMilitaryStation>(OtherActor) && OtherActor->GetOwner() == GetOwner())
+	if (bIsLoaded && Cast<AMilitaryStation>(OtherActor) && OtherActor->GetOwner() == GetOwner() && PickedPowerUp)
 	{
 		if (VRPawn)
 		{
-			VRPawn->AddPowerUp(PowerUp);
+			VRPawn->AddPowerUp(PickedPowerUp);
 			UE_LOG(LogTemp, Warning, TEXT("Pickup Delivered"));
 		}
 		
 		if (AIPawn)
 		{
-			AIPawn->AddPowerUp(PowerUp);
+			AIPawn->AddPowerUp(PickedPowerUp);
 			UE_LOG(LogTemp, Warning, TEXT("Pickup Delivered"));
 		}
 		
@@ -62,10 +63,12 @@ void APicker::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 
 }
 
-void APicker::PickPowerUp(APowerUp* InPowerUp)
+void APicker::PickPowerUp(APowerUp* InPowerUp, APawn* InOwner)
 {
 	bIsLoaded = true;
 	UnitMovementComponent->Turn180();
+	PickedPowerUp = InPowerUp;
+	PickedPowerUp->SetOwner(InOwner);
 	InPowerUp->Destroy();
 }
 

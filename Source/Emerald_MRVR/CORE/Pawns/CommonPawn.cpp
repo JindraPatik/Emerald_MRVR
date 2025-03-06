@@ -1,6 +1,6 @@
 ﻿#include "CommonPawn.h"
 
-#include "Emerald_MRVR/Actors/Resources/PowerUp.h"
+#include "Emerald_MRVR/Actors/Resources/PowerUp/PowerUp.h"
 
 ACommonPawn::ACommonPawn()
 {
@@ -20,6 +20,10 @@ void ACommonPawn::Tick(float DeltaTime)
 
 void ACommonPawn::AddPowerUp(APowerUp* InPowerUp)
 {
+	if (!InPowerUp)
+	{
+		return;
+	}
 	AvailablePowerUps.Add(InPowerUp);
 	UE_LOG(LogTemp, Warning, TEXT("AVRPawn::AddPowerUp Added"));
 }
@@ -30,6 +34,7 @@ void ACommonPawn::ActivatePowerUp()
 	{
 		return;
 	}
+	AvailablePowerUps.Remove(SelectedPowerUp);
 	SelectedPowerUp->Activate();
 }
 

@@ -36,4 +36,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Overlapping")
 		void OnOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
+	UPROPERTY()
+		TObjectPtr<APawn> PowerUpOwner;
 };

@@ -24,7 +24,7 @@ protected:
 		bool bIsLoaded = false;
 
 	UFUNCTION()
-		void PickPowerUp(APowerUp* InPowerUp);
+		void PickPowerUp(APowerUp* InPowerUp, APawn* InOwner);
 
 
 public:
