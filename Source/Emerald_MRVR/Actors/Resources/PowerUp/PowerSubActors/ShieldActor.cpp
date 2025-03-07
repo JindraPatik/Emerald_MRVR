@@ -1,5 +1,7 @@
 ﻿#include "ShieldActor.h"
 
+#include "Emerald_MRVR/Actors/Units/Unit.h"
+
 
 AShieldActor::AShieldActor()
 {
@@ -27,7 +29,15 @@ void AShieldActor::Tick(float DeltaTime)
 
 void AShieldActor::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 {
-	/* Destroy Enemy Units */
+	AUnit* Unit = Cast<AUnit>(OtherActor);
+	if (!Unit)
+	{
+		return;
+	}
+	if (Unit->GetOwner() != GetOwner())
+	{
+		Unit->KillMe();
+	}
 }
 
 

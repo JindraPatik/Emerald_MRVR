@@ -45,7 +45,7 @@ void APowerShield::Activate()
 	FVector Location = MilitaryStationComponent->MilitaryStationInstance->GetActorLocation();
 	FRotator Rotation = FRotator::ZeroRotator;
 	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.Owner = GetOwner();
+	SpawnParameters.Owner = PowerUpOwner;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
 	AShieldActor* ShieldInstance = World->SpawnActor<AShieldActor>(ShieldActorClass, Location, Rotation, SpawnParameters);
