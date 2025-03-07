@@ -64,4 +64,7 @@ public:
 
 	UPROPERTY()
 		TObjectPtr<APawn> PowerUpOwner;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Visuals")
+		TObjectPtr<UStaticMesh> PowerUpPreviewMesh;
 };

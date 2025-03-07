@@ -11,6 +11,7 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "Emerald_MRVR/Actors/MilitaryStation/Building.h"
+#include "Emerald_MRVR/Actors/Resources/PowerUp/PowerUp.h"
 #include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComponent.h"
 #include "Emerald_MRVR/Data/BuildingDataAsset.h"
 #include "Emerald_MRVR/Data/UnitDataAsset.h"
@@ -230,8 +231,8 @@ void AVRPawn::SpawnPreviewUnit(ABuilding* BuildingActor)
 	FVector SpawnLoc = MotionController_R->GetComponentLocation() + FVector(0.f,0.f,15.f);
 	FRotator SpawnRot = FRotator::ZeroRotator;
 	
-	PreviewInstance = World->SpawnActor<AActor>(PreviewUnitClass, SpawnLoc, SpawnRot, SpawnParameters);
-	UStaticMeshComponent* PreviewMeshComponent = PreviewInstance->FindComponentByClass<UStaticMeshComponent>();
+	PreviewUnitInstance = World->SpawnActor<AActor>(PreviewUnitClass, SpawnLoc, SpawnRot, SpawnParameters);
+	UStaticMeshComponent* PreviewMeshComponent = PreviewUnitInstance->FindComponentByClass<UStaticMeshComponent>();
 	PreviewMeshComponent->AttachToComponent(MotionController_R, FAttachmentTransformRules::KeepRelativeTransform);
 	
 	if (!PreviewMeshComponent)
@@ -248,11 +249,44 @@ void AVRPawn::SpawnPreviewUnit(ABuilding* BuildingActor)
 	PreviewMeshComponent->SetStaticMesh(PreviewBody);
 }
 
+void AVRPawn::SpawnPreviewPowerUp()
+{
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return;
+	}
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = this;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	FVector SpawnLoc = MotionController_L->GetComponentLocation() + FVector(0.f,0.f,15.f);
+	FRotator SpawnRot = FRotator::ZeroRotator;
+
+	PreviewPowerUpInstance = World->SpawnActor<AActor>(PowerUpPreviewMesh, SpawnLoc, SpawnRot, SpawnParameters);
+	UStaticMeshComponent* PreviewPowerUpComponent = PreviewPowerUpInstance->FindComponentByClass<UStaticMeshComponent>();
+	PreviewPowerUpComponent->AttachToComponent(MotionController_L, FAttachmentTransformRules::KeepRelativeTransform);
+		
+	if (!PreviewPowerUpComponent)
+	{
+		return;
+	}
+
+	UStaticMesh* PreviewBody = SelectedPowerUp->PowerUpPreviewMesh;
+	if (!PreviewBody)
+	{
+		return;
+	}
+
+	PreviewPowerUpComponent->SetStaticMesh(PreviewBody);
+}
+
+
 void AVRPawn::OnSelectedModuleChanged()
 {
-	if (PreviewInstance)
+	if (PreviewUnitInstance)
 	{
-		PreviewInstance->Destroy();
+		PreviewUnitInstance->Destroy();
 	}
 	
 	SpawnPreviewUnit(SelectedBuildingActor);

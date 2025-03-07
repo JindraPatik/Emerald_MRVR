@@ -24,10 +24,10 @@ protected:
 		TObjectPtr<APowerUp> SelectedPowerUp;
 
 	UFUNCTION(BlueprintCallable, Category="PowerUp")
-	void CyclePowerUps();
+		void CyclePowerUps();
 
 	UPROPERTY(BlueprintReadWrite, Category="PowerUp")
-	int32 PowerUpIndex = 0;
+		int32 PowerUpIndex = 0;
 
 public:
 	virtual void Tick(float DeltaTime) override;

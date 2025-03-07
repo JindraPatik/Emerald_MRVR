@@ -78,11 +78,20 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MilitaryStation")
 		TSubclassOf<AActor> PreviewUnitClass;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="PowerUp")
+		TSubclassOf<AActor> PowerUpPreviewMesh;
+
 	UPROPERTY()
-		AActor* PreviewInstance;
+		AActor* PreviewUnitInstance;
+
+	UPROPERTY()
+		AActor* PreviewPowerUpInstance;
 
 	UFUNCTION()
 		void SpawnPreviewUnit(ABuilding* BuildingActor);
+
+	UFUNCTION()
+		void SpawnPreviewPowerUp();
 
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
