@@ -1,4 +1,6 @@
 ﻿#include "PowerUpSpawner.h"
+
+#include "Emerald_MRVR/Actors/Resources/PowerUp/PowerUp.h"
 #include "Emerald_MRVR/CORE/GameModes/GameModeCommon.h"
 
 class ASpawnPointCrystal;
@@ -33,6 +35,7 @@ void UPowerUpSpawner::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 }
 
+
 void UPowerUpSpawner::StartSpawning()
 {
 	UWorld* World = GetWorld();
@@ -45,9 +48,37 @@ void UPowerUpSpawner::StartSpawning()
 	World->GetTimerManager().SetTimer(SpawningHandle, this, &UPowerUpSpawner::SpawnPowerUp, SpawnInterval, true);
 }
 
-void UPowerUpSpawner::SpawnPowerUp_Implementation()
+void UPowerUpSpawner::SelectRandomPowerUp()
 {
-	/* Implementation in BP */
+
+	if (PowerUpsToSpawn.Num() > 0)
+	{
+		int32 RandomIndex = FMath::RandRange(0, PowerUpsToSpawn.Num() - 1);
+		RandomPowerUp = PowerUpsToSpawn[RandomIndex];
+	}
+	
+}
+
+void UPowerUpSpawner::SpawnPowerUp()
+{
+	SelectRandomPowerUp();
+	
+	/* Find location in BP with MRUK */
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return;
+	}
+
+	if (!RandomPowerUp)
+	{
+		return;
+	}
+
+	SpawnLocation = FVector(0.f, 0.f, 300.f);
+
+	FActorSpawnParameters SpawnParameters;
+	PowerUpInstance = World->SpawnActor<APowerUp>(RandomPowerUp, SpawnLocation, FRotator::ZeroRotator, SpawnParameters);
 }
 
 

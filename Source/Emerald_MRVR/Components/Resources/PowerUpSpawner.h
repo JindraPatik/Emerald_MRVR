@@ -18,8 +18,11 @@ protected:
 	virtual void BeginPlay() override;
 
 	/* Assign in Editor */
-	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-		TArray<APowerUp*> PowerUpsToSpawn;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Spawning")
+		TArray<TSubclassOf<APowerUp>> PowerUpsToSpawn;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Spawning", meta = (AllowPrivateAccess = "true"))
+		TSubclassOf<APowerUp> RandomPowerUp;
 
 	UPROPERTY(EditDefaultsOnly, Category="Spawning")
 		float SpawnIntervalMin = 1.f;
@@ -31,14 +34,20 @@ protected:
 		TObjectPtr<APowerUp> PowerUpInstance;
 
 	FTimerHandle SpawningHandle;
-
+	
 	UFUNCTION()
 		void StartSpawning();
 
-	UFUNCTION(BlueprintNativeEvent)
-		void SpawnPowerUp();
+	UFUNCTION()
+		void SelectRandomPowerUp();
 
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
+	
+	UFUNCTION()
+		void SpawnPowerUp();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
+		FVector SpawnLocation;
 };
