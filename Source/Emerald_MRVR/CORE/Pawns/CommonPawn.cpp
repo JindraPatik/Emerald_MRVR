@@ -38,3 +38,21 @@ void ACommonPawn::ActivatePowerUp()
 	SelectedPowerUp->Activate();
 }
 
+void ACommonPawn::CyclePowerUps()
+{
+	if (AvailablePowerUps.Num() > 0)
+	{
+		if (PowerUpIndex <= AvailablePowerUps.Num() - 1)
+		{
+			SelectedPowerUp = AvailablePowerUps[PowerUpIndex];
+			PowerUpIndex++;
+			UE_LOG(LogTemp, Warning, TEXT("AVRPawn::CyclePowerUps %s"), *SelectedPowerUp.GetName());
+		}
+		else
+		{
+			PowerUpIndex = 0;
+			UE_LOG(LogTemp, Warning, TEXT("AVRPawn::CyclePowerUps %s"), *SelectedPowerUp.GetName());
+		}
+	}
+}
+

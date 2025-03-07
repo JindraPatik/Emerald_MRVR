@@ -31,12 +31,7 @@ void APowerShield::Activate()
 		return;
 	}
 
-	if (!Owner)
-	{
-		return;
-	}
-
-	UMilitaryStationComponent* MilitaryStationComponent = Owner->FindComponentByClass<UMilitaryStationComponent>();
+	UMilitaryStationComponent* MilitaryStationComponent = PowerUpOwner->FindComponentByClass<UMilitaryStationComponent>();
 	if (!MilitaryStationComponent)
 	{
 		return;

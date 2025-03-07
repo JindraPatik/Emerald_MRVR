@@ -68,7 +68,7 @@ void APicker::PickPowerUp(APowerUp* InPowerUp, APawn* InOwner)
 	bIsLoaded = true;
 	UnitMovementComponent->Turn180();
 	PickedPowerUp = InPowerUp;
-	PickedPowerUp->SetOwner(InOwner);
+	PickedPowerUp->PowerUpOwner = Cast<APawn>(GetOwner());
 	InPowerUp->Destroy();
 }
 

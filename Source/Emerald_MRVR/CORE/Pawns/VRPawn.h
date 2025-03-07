@@ -84,12 +84,6 @@ public:
 	UFUNCTION()
 		void SpawnPreviewUnit(ABuilding* BuildingActor);
 
-	UFUNCTION(BlueprintCallable, Category="PowerUp")
-		void CyclePowerUps();
-
-	UPROPERTY(BlueprintReadWrite, Category="PowerUp")
-		uint8 PowerUpIndex = 0;
-
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TObjectPtr<UHealthComponent> HealthComponent;

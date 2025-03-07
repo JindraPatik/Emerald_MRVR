@@ -22,7 +22,7 @@ protected:
 		void DestroyShield();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Visuals")
-		float ShieldRadius = 100.f;
+		float ShieldRadius = 0.7f;
 
 public:
 	virtual void Tick(float DeltaTime) override;
