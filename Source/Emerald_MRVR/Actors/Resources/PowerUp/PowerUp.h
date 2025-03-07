@@ -5,6 +5,9 @@
 #include "PowerUp.generated.h"
 
 class UDownScaleComponent;
+class USplineComponent;
+class APowerUp;
+class APathPoint;
 
 UCLASS()
 class EMERALD_MRVR_API APowerUp : public AActor
@@ -25,6 +28,17 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
 		TObjectPtr<UStaticMeshComponent> Body;
+
+	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+		TSubclassOf<APathPoint> PathPointClass;
+
+	UPROPERTY()
+		TObjectPtr<USplineComponent> LandingSpline;
+
+	/* Generates same path as Crystal Spawner */
+	UFUNCTION()
+		void FindLandingPoint();
+	
 	
 
 public:

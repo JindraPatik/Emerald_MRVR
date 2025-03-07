@@ -1,6 +1,7 @@
 #include "GameModeSingle.h"
 #include "EngineUtils.h"
 #include "Emerald_MRVR/Components/Resources/CrystalSpawnerComp.h"
+#include "Emerald_MRVR/Components/Resources/PowerUpSpawner.h"
 #include "Emerald_MRVR/CORE/Pawns/AIPawn.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "GameFramework/PlayerStart.h"
@@ -8,6 +9,7 @@
 AGameModeSingle::AGameModeSingle()
 {
 	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
+	PowerUpSpawner = CreateDefaultSubobject<UPowerUpSpawner>("PowerUpSpawner");
 	VRPawnClass = AVRPawn::StaticClass();
 }
 

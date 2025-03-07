@@ -4,7 +4,7 @@
 #include "GameModeCommon.h"
 #include "GameModeSingle.generated.h"
 
-
+class UPowerUpSpawner;
 class AUnitAIController;
 class AAIPawn;
 class AVRPlayerController;
@@ -14,7 +14,7 @@ class UCrystalSpawnerComp;
 class AVRPawn;
 
 UCLASS()
-class EMERALD_MRVR_API AGameModeSingle : public AGameModeCommon				//pb: konzistence nazvu... AGameMode_Single
+class EMERALD_MRVR_API AGameModeSingle : public AGameModeCommon
 {
 	GENERATED_BODY()
 	
@@ -33,6 +33,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Resources")
 		UCrystalSpawnerComp* CrystalSpawner;
+
+	UPROPERTY(EditAnywhere, Category="Resources")
+		UPowerUpSpawner* PowerUpSpawner;
 
 	UPROPERTY(BlueprintReadOnly, Category="Spawning")
 		TArray<APlayerStart*> AllPlayerStarts;
@@ -54,6 +57,7 @@ protected:
 	
 public:
 	AGameModeSingle();
+	
 	virtual void BeginPlay() override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
@@ -63,6 +67,4 @@ public:
 
 	UPROPERTY()
 		AAIPawn* EnemyPawn;
-	
-	
 };

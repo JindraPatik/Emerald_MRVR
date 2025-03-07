@@ -47,7 +47,7 @@ public:
 	void StartSpawning();
 
 	UFUNCTION()
-	void StopSpawning(APawn* Looser);
+		void StopSpawning(APawn* Looser);
 
 	UPROPERTY()
 		TObjectPtr<USplineComponent> CrystalSpline;
