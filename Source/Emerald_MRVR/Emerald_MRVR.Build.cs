@@ -31,7 +31,8 @@ public class Emerald_MRVR : ModuleRules
 			"OpenXRHandTracking",
 			"MixedRealityCaptureFramework",
 			"SimpleHMD",
-			"OpenXR"
+			"OpenXR",
+			"MRUtilityKit"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
