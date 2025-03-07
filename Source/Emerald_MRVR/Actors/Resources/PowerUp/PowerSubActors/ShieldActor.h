@@ -20,9 +20,15 @@ protected:
 
 	UFUNCTION()
 		void UpScaleShield(float DeltaTime);
-	
+
 	UFUNCTION()
-		void DestroyShield();
+		void DownScaleShield(float DeltaTime);
+
+	UFUNCTION()
+		void DeactivateShield();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Visuals")
+		float ShieldMinRadius = 0.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Visuals")
 		float ShieldMaxRadius = 0.7f;
@@ -32,6 +38,18 @@ protected:
 
 	UPROPERTY()
 		bool bIsUpscaling = false;
+
+	UPROPERTY()
+		bool bIsDownscaling = false;
+
+	UPROPERTY()
+		float ShieldDuration = 10.f;
+
+	UPROPERTY()
+		FTimerHandle ShieldDeactivationTimer;
+
+	UPROPERTY()
+	float ScalingMultiplicator = 1.5f;
 
 
 public:

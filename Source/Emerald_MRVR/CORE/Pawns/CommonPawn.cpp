@@ -36,6 +36,7 @@ void ACommonPawn::ActivatePowerUp()
 	}
 	AvailablePowerUps.Remove(SelectedPowerUp);
 	SelectedPowerUp->Activate();
+	SelectedPowerUp = nullptr;
 }
 
 void ACommonPawn::CyclePowerUps()

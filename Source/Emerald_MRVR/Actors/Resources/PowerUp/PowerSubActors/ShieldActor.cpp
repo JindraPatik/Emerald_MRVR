@@ -17,6 +17,13 @@ void AShieldActor::BeginPlay()
 
 	OnActorBeginOverlap.AddDynamic(this, &AShieldActor::AShieldActor::OnOverlapped);
 
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return;
+	}
+	World->GetTimerManager().SetTimer(ShieldDeactivationTimer, this, &AShieldActor::DeactivateShield, ShieldDuration);
+
 	/* Start upscaling Shield */
 	bIsUpscaling = true;
 }
@@ -28,6 +35,11 @@ void AShieldActor::Tick(float DeltaTime)
 	if (bIsUpscaling)
 	{
 		UpScaleShield(DeltaTime);
+	}
+
+	if (bIsDownscaling)
+	{
+		DownScaleShield(DeltaTime);
 	}
 }
 
@@ -45,17 +57,17 @@ void AShieldActor::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 }
 
 
-void AShieldActor::DestroyShield()
+void AShieldActor::DeactivateShield()
 {
-	Destroy();
+	bIsUpscaling = false;
+	bIsDownscaling = true;
 }
-
 
 void AShieldActor::UpScaleShield(float DeltaTime)
 {
-	if (ShieldRadius < ShieldMaxRadius)
+	if (ShieldRadius <= ShieldMaxRadius + KINDA_SMALL_NUMBER)
 	{
-		ShieldRadius = FMath::Lerp(ShieldRadius, ShieldMaxRadius, DeltaTime);
+		ShieldRadius = FMath::FInterpTo(ShieldRadius, ShieldMaxRadius, DeltaTime, ScalingMultiplicator);
 		Body->SetWorldScale3D(FVector(1, 1, 1) * ShieldRadius);
 	}
 	else
@@ -63,6 +75,24 @@ void AShieldActor::UpScaleShield(float DeltaTime)
 		bIsUpscaling = false;
 	}
 }
+
+void AShieldActor::DownScaleShield(float DeltaTime)
+{
+	if (ShieldRadius > ShieldMinRadius)
+	{
+		ShieldRadius = FMath::FInterpTo(ShieldRadius, ShieldMinRadius, DeltaTime, ScalingMultiplicator);
+		Body->SetWorldScale3D(FVector(1, 1, 1) * ShieldRadius);
+		
+		if (ShieldRadius <= ShieldMinRadius + KINDA_SMALL_NUMBER)
+		{
+			bIsDownscaling = false;
+			Destroy(); 
+		}
+	}
+}
+
+
+
 
 
 
