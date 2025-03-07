@@ -29,7 +29,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Body")
 		TObjectPtr<UStaticMeshComponent> Body;
 
-	UPROPERTY(EditDefaultsOnly, Category="Spawning")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Spawning")
 		TSubclassOf<APathPoint> PathPointClass;
 
 	UPROPERTY()
@@ -38,7 +38,18 @@ protected:
 	/* Generates same path as Crystal Spawner */
 	UFUNCTION()
 		void FindLandingPoint();
+
+	UPROPERTY()
+		bool bIsFalling = false;
+
+	UPROPERTY()
+		float FallingSpeed = 0.3f;
+
+	UPROPERTY()
+		FVector LandingPoint;
 	
+	UFUNCTION()
+		void Falling(float DeltaTime);
 	
 
 public:

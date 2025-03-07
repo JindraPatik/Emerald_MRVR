@@ -3,6 +3,7 @@
 #include "EngineUtils.h"
 #include "SplineComponent.h"
 #include "Emerald_MRVR/EmeraldKeeper.h"
+#include "Emerald_MRVR/Actors/Support/PathPoint.h"
 #include "Emerald_MRVR/Actors/Support/SpawnPointCrystal.h"
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
 #include "Emerald_MRVR/Support/EmeraldBlueprintFunctionLibrary.h"
@@ -28,12 +29,19 @@ void APowerUp::BeginPlay()
 {
 	Super::BeginPlay();
 	OnActorBeginOverlap.AddDynamic(this, &APowerUp::OnOverlap);
-
+	
+	FindLandingPoint();
+	bIsFalling = true;
 }
 
 void APowerUp::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bIsFalling)
+	{
+		Falling(DeltaTime);
+	}
 }
 
 /* Implement functionality of PowerUps in Children */
@@ -68,6 +76,12 @@ void APowerUp::FindLandingPoint()
 	FVector SpawnPoint1 = SpawnPointCrystals[0]->GetActorLocation();
 	FVector SpawnPoint2 = SpawnPointCrystals[1]->GetActorLocation();
 
+	if (!PathPointClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PowerUp: Path point class not set in Editor!"))
+		return;
+	}
+
 	TArray<APathPoint*> SplinePoints = UEmeraldBlueprintFunctionLibrary::SortPathPoints(this, PathPointClass, true);
 
 	if (SplinePoints.IsEmpty())
@@ -75,7 +89,7 @@ void APowerUp::FindLandingPoint()
 		UE_LOG(LogTemp, Warning, TEXT("No PathPoints found for Landing spline."));
 	}
 	
-	LandingSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, SpawnPoint1, SpawnPoint2, SplinePoints, GetOwner());
+	LandingSpline = UEmeraldBlueprintFunctionLibrary::CreateSplinePath(this, SpawnPoint1, SpawnPoint2, SplinePoints, this);
 
 	if (!LandingSpline)
 	{
@@ -84,8 +98,23 @@ void APowerUp::FindLandingPoint()
 	}
 
 	float SplineDistance = FMath::RandRange(0.f, LandingSpline->GetSplineLength());
-	FVector CrystalSpawnLocation = LandingSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
+	LandingPoint = LandingSpline->GetLocationAtDistanceAlongSpline(SplineDistance, ESplineCoordinateSpace::World);
 }
+
+
+void APowerUp::Falling(float DeltaTime)
+{
+	FVector NewLocation = FMath::VInterpTo(GetActorLocation(), LandingPoint, DeltaTime, FallingSpeed);
+	SetActorLocation(NewLocation);
+
+	if (GetActorLocation() == LandingPoint + KINDA_SMALL_NUMBER)
+	{
+		bIsFalling = false;
+		UE_LOG(LogTemp, Warning, TEXT("PowerUp Falling Stopped"));
+	}
+}
+
+
 
 
 
