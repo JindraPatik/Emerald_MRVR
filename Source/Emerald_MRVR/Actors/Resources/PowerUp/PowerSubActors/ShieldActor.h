@@ -19,16 +19,25 @@ protected:
 		TObjectPtr<UStaticMeshComponent> Body;
 
 	UFUNCTION()
+		void UpScaleShield(float DeltaTime);
+	
+	UFUNCTION()
 		void DestroyShield();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Visuals")
-		float ShieldRadius = 0.7f;
+		float ShieldMaxRadius = 0.7f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Visuals")
+		float ShieldRadius = 0.f;
+
+	UPROPERTY()
+		bool bIsUpscaling = false;
+
 
 public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
 		void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);
-
 	
 };

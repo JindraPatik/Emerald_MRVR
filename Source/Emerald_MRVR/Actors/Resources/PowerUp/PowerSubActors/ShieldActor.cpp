@@ -17,14 +17,18 @@ void AShieldActor::BeginPlay()
 
 	OnActorBeginOverlap.AddDynamic(this, &AShieldActor::AShieldActor::OnOverlapped);
 
-	Body->SetWorldScale3D(FVector(1, 1, 1) * ShieldRadius);
-	
+	/* Start upscaling Shield */
+	bIsUpscaling = true;
 }
-
 
 void AShieldActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bIsUpscaling)
+	{
+		UpScaleShield(DeltaTime);
+	}
 }
 
 void AShieldActor::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
@@ -44,6 +48,20 @@ void AShieldActor::OnOverlapped(AActor* OverlappedActor, AActor* OtherActor)
 void AShieldActor::DestroyShield()
 {
 	Destroy();
+}
+
+
+void AShieldActor::UpScaleShield(float DeltaTime)
+{
+	if (ShieldRadius < ShieldMaxRadius)
+	{
+		ShieldRadius = FMath::Lerp(ShieldRadius, ShieldMaxRadius, DeltaTime);
+		Body->SetWorldScale3D(FVector(1, 1, 1) * ShieldRadius);
+	}
+	else
+	{
+		bIsUpscaling = false;
+	}
 }
 
 
