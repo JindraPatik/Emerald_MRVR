@@ -3,17 +3,17 @@
 #include "ArrowComponent.h"
 #include "BillboardComponent.h"
 
-ASpawnPointCrystal::ASpawnPointCrystal()
+ASpawnPointCrystal::ASpawnPointCrystal(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	SpawnRoot = CreateDefaultSubobject<USceneComponent>("SpawnRoot");
+	SpawnRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"SpawnRoot");
 	RootComponent = SpawnRoot;
 
-	BillboardComponent = CreateDefaultSubobject<UBillboardComponent>("BillboardComponent");
+	BillboardComponent = ObjectInitializer.CreateDefaultSubobject<UBillboardComponent>(this,"BillboardComponent");
 	BillboardComponent->SetupAttachment(RootComponent);
 
-	Arrow = CreateDefaultSubobject<UArrowComponent>("Arrow");
+	Arrow = ObjectInitializer.CreateDefaultSubobject<UArrowComponent>(this,"Arrow");
 	Arrow->ArrowSize = 0.1f;
 	Arrow->ArrowColor = FColor::Blue;
 	Arrow->SetupAttachment(RootComponent);

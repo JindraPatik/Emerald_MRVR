@@ -15,7 +15,7 @@ class EMERALD_MRVR_API AProjectile : public AActor
 	GENERATED_BODY()
 	
 public:	
-	AProjectile();
+	AProjectile(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

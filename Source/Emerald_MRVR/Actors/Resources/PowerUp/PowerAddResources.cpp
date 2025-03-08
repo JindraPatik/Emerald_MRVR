@@ -3,7 +3,7 @@
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 
 
-APowerAddResources::APowerAddResources()
+APowerAddResources::APowerAddResources(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

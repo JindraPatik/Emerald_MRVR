@@ -11,17 +11,17 @@
 class APathPoint;
 class ASpawnPointCrystal;
 
-APowerUp::APowerUp()
+APowerUp::APowerUp(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	Root = CreateDefaultSubobject<USceneComponent>("Root");
+	Root = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"Root");
 	RootComponent = Root;
 
-	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
+	Body = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"Body");
 	Body->SetupAttachment(Root);
 
-	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownScaleComponent");
+	DownScaleComponent = ObjectInitializer.CreateDefaultSubobject<UDownScaleComponent>(this,"DownScaleComponent");
 	DownScaleComponent->DownscaleFactor = GLOBAL_DOWNSCALE_VALUE;
 }
 

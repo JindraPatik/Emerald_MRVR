@@ -13,7 +13,7 @@ class EMERALD_MRVR_API ASpawnPointStation : public AActor
 	GENERATED_BODY()
 
 public:
-	ASpawnPointStation();
+	ASpawnPointStation(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

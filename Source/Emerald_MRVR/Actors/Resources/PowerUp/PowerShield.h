@@ -12,7 +12,7 @@ class EMERALD_MRVR_API APowerShield : public APowerUp
 	GENERATED_BODY()
 
 public:
-	APowerShield();
+	APowerShield(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

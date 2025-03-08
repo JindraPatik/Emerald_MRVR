@@ -5,29 +5,29 @@
 #include "Trace/Detail/Transport.h"
 #include "Widgets/Text/STextScroller.h"
 
-ACrystal::ACrystal()
+ACrystal::ACrystal(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
 
-	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
+	SceneRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"SceneRoot");
 	SetRootComponent(SceneRoot);
 	
-	CrystalBody = CreateDefaultSubobject<UStaticMeshComponent>("CrystalBody");
+	CrystalBody = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"CrystalBody");
 	CrystalBody->SetupAttachment(RootComponent);
 
-	CrystalBottom = CreateDefaultSubobject<UStaticMeshComponent>("BottomMesh");
+	CrystalBottom = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"BottomMesh");
 	CrystalBottom->SetupAttachment(RootComponent);
 
 	// Collision Box
-	CrystalBox = CreateDefaultSubobject<UBoxComponent>("CrystalBox");
+	CrystalBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this,"CrystalBox");
 	CrystalBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	CrystalBox->SetCollisionObjectType(ECC_WorldDynamic);
 	CrystalBox->SetCollisionResponseToAllChannels(ECR_Ignore);
 	CrystalBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 
 	CrystalBox->SetupAttachment(RootComponent);
-	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
+	DownScaleComponent = ObjectInitializer.CreateDefaultSubobject<UDownScaleComponent>(this,"DownscaleComponent");
 }
 
 void ACrystal::BeginPlay()

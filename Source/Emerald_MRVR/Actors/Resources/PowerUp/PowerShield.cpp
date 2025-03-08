@@ -4,7 +4,7 @@
 #include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComponent.h"
 #include "PowerSubActors/ShieldActor.h"
 
-APowerShield::APowerShield()
+APowerShield::APowerShield(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 

@@ -13,7 +13,7 @@ class EMERALD_MRVR_API ACrystal : public AActor
 	GENERATED_BODY()
 	
 public:	
-	ACrystal();
+	ACrystal(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

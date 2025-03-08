@@ -13,7 +13,7 @@ class EMERALD_MRVR_API ASpawnPointCrystal : public AActor
 	GENERATED_BODY()
 
 public:
-	ASpawnPointCrystal();
+	ASpawnPointCrystal(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

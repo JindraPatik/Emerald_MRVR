@@ -3,11 +3,11 @@
 #include "Emerald_MRVR/Actors/Units/Unit.h"
 
 
-AShieldActor::AShieldActor()
+AShieldActor::AShieldActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
-	Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
+	Body = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"Body");
 	RootComponent = Body;
 }
 

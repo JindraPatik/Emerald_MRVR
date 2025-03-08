@@ -3,84 +3,84 @@
 #include "ArrowComponent.h"
 #include "BillboardComponent.h"
 
-ASpawnPointStation::ASpawnPointStation()
+ASpawnPointStation::ASpawnPointStation(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
-	SpawnPointRoot = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SpawnPointRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Root"));
 	RootComponent = SpawnPointRoot;
 
-	ArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
+	ArrowComponent = ObjectInitializer.CreateDefaultSubobject<UArrowComponent>(this,TEXT("Arrow"));
 	ArrowComponent->SetupAttachment(RootComponent);
 	ArrowComponent->ArrowSize = 0.1f;
 	ArrowComponent->ArrowColor = FColor::Yellow;
 	
-	SpawnPointMine = CreateDefaultSubobject<USceneComponent>(TEXT("Mine"));
+	SpawnPointMine = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Mine"));
 	SpawnPointMine->SetupAttachment(RootComponent);
 	SpawnPointMine->ComponentTags.Add("Mine");
 	SpawnPointComponents.Add(SpawnPointMine);
 
-	SpawnPointPrison = CreateDefaultSubobject<USceneComponent>(TEXT("Prison"));
+	SpawnPointPrison = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Prison"));
 	SpawnPointPrison->SetupAttachment(RootComponent);
 	SpawnPointPrison->ComponentTags.Add("Prison");
 	SpawnPointComponents.Add(SpawnPointPrison);
 
-	SpawnPointVault = CreateDefaultSubobject<USceneComponent>(TEXT("Vault"));
+	SpawnPointVault = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Vault"));
 	SpawnPointVault->SetupAttachment(RootComponent);
 	SpawnPointVault->ComponentTags.Add("Vault");
 	SpawnPointComponents.Add(SpawnPointVault);
 	
-	SpawnPointPit = CreateDefaultSubobject<USceneComponent>(TEXT("Pit"));
+	SpawnPointPit = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Pit"));
 	SpawnPointPit->SetupAttachment(RootComponent);
 	SpawnPointPit->ComponentTags.Add("Pit");
 	SpawnPointComponents.Add(SpawnPointPit);
 
-	SpawnPointSilo = CreateDefaultSubobject<USceneComponent>(TEXT("Silo"));
+	SpawnPointSilo = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Silo"));
 	SpawnPointSilo->SetupAttachment(RootComponent);
 	SpawnPointSilo->ComponentTags.Add("Mine");
 	SpawnPointComponents.Add(SpawnPointSilo);
 
-	SpawnPointOutpost = CreateDefaultSubobject<USceneComponent>(TEXT("Outpost"));
+	SpawnPointOutpost = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Outpost"));
 	SpawnPointOutpost->SetupAttachment(RootComponent);
 	SpawnPointOutpost->ComponentTags.Add("Outpost");
 	SpawnPointComponents.Add(SpawnPointOutpost);
 
-	SpawnPointFort = CreateDefaultSubobject<USceneComponent>(TEXT("Fort"));
+	SpawnPointFort = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Fort"));
 	SpawnPointFort->SetupAttachment(RootComponent);
 	SpawnPointFort->ComponentTags.Add("Fort");
 	SpawnPointComponents.Add(SpawnPointFort);
 
-	SpawnPointBastion = CreateDefaultSubobject<USceneComponent>(TEXT("Bastion"));
+	SpawnPointBastion = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Bastion"));
 	SpawnPointBastion->SetupAttachment(RootComponent);
 	SpawnPointBastion->ComponentTags.Add("Bastion");
 	SpawnPointComponents.Add(SpawnPointBastion);
 
-	SpawnPointPlatform = CreateDefaultSubobject<USceneComponent>(TEXT("Platform"));
+	SpawnPointPlatform = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Platform"));
 	SpawnPointPlatform->SetupAttachment(RootComponent);
 	SpawnPointPlatform->ComponentTags.Add("Platform");
 	SpawnPointComponents.Add(SpawnPointPlatform);
 
-	SpawnPointDepot = CreateDefaultSubobject<USceneComponent>(TEXT("Depot"));
+	SpawnPointDepot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Depot"));
 	SpawnPointDepot->SetupAttachment(RootComponent);
 	SpawnPointDepot->ComponentTags.Add("Depot");
 	SpawnPointComponents.Add(SpawnPointDepot);
 
-	SpawnPointHelipad = CreateDefaultSubobject<USceneComponent>(TEXT("Helipad"));
+	SpawnPointHelipad = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Helipad"));
 	SpawnPointHelipad->SetupAttachment(RootComponent);
 	SpawnPointHelipad->ComponentTags.Add("Helipad");
 	SpawnPointComponents.Add(SpawnPointHelipad);
 
-	SpawnPointRunway = CreateDefaultSubobject<USceneComponent>(TEXT("Runway"));
+	SpawnPointRunway = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Runway"));
 	SpawnPointRunway->SetupAttachment(RootComponent);
 	SpawnPointRunway->ComponentTags.Add("Runway");
 	SpawnPointComponents.Add(SpawnPointRunway);
 
-	SpawnPointAerial = CreateDefaultSubobject<USceneComponent>(TEXT("Aerial"));
+	SpawnPointAerial = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Aerial"));
 	SpawnPointAerial->SetupAttachment(RootComponent);
 	SpawnPointAerial->ComponentTags.Add("Aerial");
 	SpawnPointComponents.Add(SpawnPointAerial);
 
-	SpawnPointHangar = CreateDefaultSubobject<USceneComponent>(TEXT("Hangar"));
+	SpawnPointHangar = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,TEXT("Hangar"));
 	SpawnPointHangar->SetupAttachment(RootComponent);
 	SpawnPointHangar->ComponentTags.Add("Hangar");
 	SpawnPointComponents.Add(SpawnPointHangar);

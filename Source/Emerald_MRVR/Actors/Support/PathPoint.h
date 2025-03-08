@@ -10,7 +10,7 @@ class EMERALD_MRVR_API APathPoint : public AActor
 	GENERATED_BODY()
 
 public:
-	APathPoint();
+	APathPoint(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

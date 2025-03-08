@@ -5,19 +5,19 @@
 #include "Emerald_MRVR/Components/DownScaleComponent.h"
 
 
-AProjectile::AProjectile()
+AProjectile::AProjectile(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	RootComp = CreateDefaultSubobject<USceneComponent>("RootComponent");
+	RootComp = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"RootComponent");
 	SetRootComponent(RootComp);
 
-	BaseBody = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
+	BaseBody = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"BaseBody");
 	BaseBody->SetupAttachment(RootComponent);
 
-	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
+	DownScaleComponent = ObjectInitializer.CreateDefaultSubobject<UDownScaleComponent>(this,"DownscaleComponent");
 
-	BoxComponent = CreateDefaultSubobject<UBoxComponent>("CapsuleComponent");
+	BoxComponent = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this,"CapsuleComponent");
 	BoxComponent->SetupAttachment(BaseBody);
 	
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);

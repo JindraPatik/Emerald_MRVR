@@ -15,7 +15,7 @@ class EMERALD_MRVR_API APowerUp : public AActor
 	GENERATED_BODY()
 
 public:
-	APowerUp();
+	APowerUp(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

@@ -10,7 +10,7 @@ class EMERALD_MRVR_API AShieldActor : public AActor
 	GENERATED_BODY()
 
 public:
-	AShieldActor();
+	AShieldActor(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

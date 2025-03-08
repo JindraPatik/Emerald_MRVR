@@ -1,6 +1,6 @@
 ﻿#include "PathPoint.h"
 
-APathPoint::APathPoint()
+APathPoint::APathPoint(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

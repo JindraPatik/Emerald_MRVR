@@ -2,7 +2,7 @@
 
 #include "Emerald_MRVR/Components/Health/HealthComponent.h"
 
-APowerAddHealth::APowerAddHealth()
+APowerAddHealth::APowerAddHealth(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

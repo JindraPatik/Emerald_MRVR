@@ -10,7 +10,7 @@ class EMERALD_MRVR_API APowerAddResources : public APowerUp
 	GENERATED_BODY()
 
 public:
-	APowerAddResources();
+	APowerAddResources(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;
