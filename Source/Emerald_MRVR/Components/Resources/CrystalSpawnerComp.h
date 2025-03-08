@@ -18,7 +18,7 @@ class EMERALD_MRVR_API UCrystalSpawnerComp : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	UCrystalSpawnerComp();
+	UCrystalSpawnerComp(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

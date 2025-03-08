@@ -15,7 +15,7 @@ class EMERALD_MRVR_API UHealthComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	UHealthComponent();
+	UHealthComponent(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(ReplicatedUsing=OnRep_OnHealthChanged, EditDefaultsOnly, BlueprintReadWrite, Category="Health")
 		float Health;

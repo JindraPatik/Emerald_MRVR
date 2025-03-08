@@ -3,7 +3,7 @@
 #include "Emerald_MRVR/EmeraldKeeper.h"
 
 
-UDownScaleComponent::UDownScaleComponent()
+UDownScaleComponent::UDownScaleComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	DownscaleFactor = GLOBAL_DOWNSCALE_VALUE;
 }

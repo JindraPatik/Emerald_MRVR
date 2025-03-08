@@ -5,7 +5,7 @@
 
 class ASpawnPointCrystal;
 
-UPowerUpSpawner::UPowerUpSpawner()
+UPowerUpSpawner::UPowerUpSpawner(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }

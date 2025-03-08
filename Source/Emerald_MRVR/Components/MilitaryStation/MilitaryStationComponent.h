@@ -27,7 +27,7 @@ class EMERALD_MRVR_API UMilitaryStationComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	UMilitaryStationComponent();
+	UMilitaryStationComponent(const FObjectInitializer& ObjectInitializer);
 
 private:
 	UPROPERTY()

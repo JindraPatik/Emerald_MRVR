@@ -12,7 +12,7 @@ class EMERALD_MRVR_API ACooldownActor : public AActor
 	GENERATED_BODY()
 	
 public:	
-	ACooldownActor();
+	ACooldownActor(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

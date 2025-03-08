@@ -15,10 +15,10 @@
 
 class AEKGameState;
 
-UMilitaryStationComponent::UMilitaryStationComponent()
+UMilitaryStationComponent::UMilitaryStationComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	SpawnPointForMilitaryStation = CreateDefaultSubobject<ASpawnPointStation>("MilitaryStationTargetPoint");
+	SpawnPointForMilitaryStation = ObjectInitializer.CreateDefaultSubobject<ASpawnPointStation>(this,"MilitaryStationTargetPoint");
 }
 
 void UMilitaryStationComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

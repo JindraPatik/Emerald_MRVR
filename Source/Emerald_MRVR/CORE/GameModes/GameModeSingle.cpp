@@ -6,10 +6,10 @@
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 #include "GameFramework/PlayerStart.h"
 
-AGameModeSingle::AGameModeSingle()
+AGameModeSingle::AGameModeSingle(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
-	PowerUpSpawner = CreateDefaultSubobject<UPowerUpSpawner>("PowerUpSpawner");
+	CrystalSpawner = ObjectInitializer.CreateDefaultSubobject<UCrystalSpawnerComp>(this,"CrystalSpawner");
+	PowerUpSpawner = ObjectInitializer.CreateDefaultSubobject<UPowerUpSpawner>(this,"PowerUpSpawner");
 	VRPawnClass = AVRPawn::StaticClass();
 }
 

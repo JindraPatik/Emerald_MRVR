@@ -12,7 +12,7 @@ class EMERALD_MRVR_API UPowerUpSpawner : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	UPowerUpSpawner();
+	UPowerUpSpawner(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

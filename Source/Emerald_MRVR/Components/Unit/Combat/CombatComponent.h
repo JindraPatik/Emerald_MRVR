@@ -12,7 +12,7 @@ class EMERALD_MRVR_API UCombatComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	UCombatComponent();
+	UCombatComponent(const FObjectInitializer& ObjectInitializer);
 	
 	UFUNCTION()
 	void OnActorOverlapped(AActor* OverlappedActor, AActor* OtherActor );

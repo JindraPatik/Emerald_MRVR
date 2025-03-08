@@ -12,7 +12,7 @@ class EMERALD_MRVR_API UDownScaleComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	UDownScaleComponent();
+	UDownScaleComponent(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Resize")
 		float DownscaleFactor;

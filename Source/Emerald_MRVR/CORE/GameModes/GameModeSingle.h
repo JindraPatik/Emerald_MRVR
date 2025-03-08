@@ -56,7 +56,7 @@ protected:
 		bool bIsSpectator = false;
 	
 public:
-	AGameModeSingle();
+	AGameModeSingle(const FObjectInitializer& ObjectInitializer);
 	
 	virtual void BeginPlay() override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;

@@ -11,6 +11,11 @@
 #include "Kismet/GameplayStatics.h"
 
 
+AGameModeCommon::AGameModeCommon(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	
+}
+
 void AGameModeCommon::BeginPlay()
 {
 	Super::BeginPlay();

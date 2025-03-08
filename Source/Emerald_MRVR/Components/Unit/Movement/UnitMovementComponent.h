@@ -17,7 +17,7 @@ class EMERALD_MRVR_API UUnitMovementComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	UUnitMovementComponent();
+	UUnitMovementComponent(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY()
 		TObjectPtr<AUnit> Unit;

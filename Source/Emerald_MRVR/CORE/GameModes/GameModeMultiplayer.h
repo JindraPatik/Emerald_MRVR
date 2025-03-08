@@ -12,7 +12,7 @@ class UCrystalSpawnerComp;
 class AVRPawn;
 
 UCLASS()
-class EMERALD_MRVR_API AGameModeMultiplayer : public AGameModeCommon				//pb: co znamena EK? proc je tady a jinde ne? :)
+class EMERALD_MRVR_API AGameModeMultiplayer : public AGameModeCommon
 {
 	GENERATED_BODY()
 
@@ -22,7 +22,7 @@ protected:
 
 	
 public:
-	AGameModeMultiplayer();
+	AGameModeMultiplayer(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;

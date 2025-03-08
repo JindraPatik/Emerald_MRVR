@@ -19,7 +19,7 @@ enum class ECombatScenarios
 	E_Tie
 };
 
-UCombatComponent::UCombatComponent()
+UCombatComponent::UCombatComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);

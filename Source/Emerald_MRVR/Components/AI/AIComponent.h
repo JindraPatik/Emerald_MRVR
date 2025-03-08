@@ -24,7 +24,7 @@ class EMERALD_MRVR_API UAIComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	UAIComponent();
+	UAIComponent(const FObjectInitializer& ObjectInitializer);
 	void GetAvailableAttackingUnits();
 
 protected:

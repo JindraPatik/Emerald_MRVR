@@ -8,7 +8,7 @@
 #include "Net/UnrealNetwork.h"
 
 
-UUnitMovementComponent::UUnitMovementComponent()
+UUnitMovementComponent::UUnitMovementComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);

@@ -15,7 +15,7 @@ class EMERALD_MRVR_API AGameModeCommon : public AGameMode
 	GENERATED_BODY()
 
 protected:
-	
+	AGameModeCommon(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
 	void StartCountdown();
 	void DecreaseCounter();

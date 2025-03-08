@@ -9,9 +9,9 @@
 #include "Net/UnrealNetwork.h"
 
 
-AGameModeMultiplayer::AGameModeMultiplayer()
+AGameModeMultiplayer::AGameModeMultiplayer(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	CrystalSpawner = CreateDefaultSubobject<UCrystalSpawnerComp>("CrystalSpawner");
+	CrystalSpawner = ObjectInitializer.CreateDefaultSubobject<UCrystalSpawnerComp>(this,"CrystalSpawner");
 	PawnToSpawn = AVRPawn::StaticClass();
 }
 

@@ -8,7 +8,7 @@
 #include "Engine/TargetPoint.h"
 
 
-UCrystalSpawnerComp::UCrystalSpawnerComp()
+UCrystalSpawnerComp::UCrystalSpawnerComp(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	SetIsReplicatedByDefault(true);
