@@ -1,7 +1,7 @@
 ﻿#include "Vanguard.h"
 
 
-AVanguard::AVanguard()
+AVanguard::AVanguard(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

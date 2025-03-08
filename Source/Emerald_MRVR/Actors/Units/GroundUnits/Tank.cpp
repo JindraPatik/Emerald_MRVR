@@ -1,6 +1,6 @@
 ﻿#include "Tank.h"
 
-ATank::ATank()
+ATank::ATank(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

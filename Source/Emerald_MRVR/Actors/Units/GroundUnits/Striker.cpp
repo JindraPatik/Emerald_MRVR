@@ -1,7 +1,7 @@
 ﻿#include "Striker.h"
 
 
-AStriker::AStriker()
+AStriker::AStriker(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

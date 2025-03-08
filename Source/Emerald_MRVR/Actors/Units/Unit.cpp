@@ -5,15 +5,15 @@
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 #include "Net/UnrealNetwork.h"
 
-AUnit::AUnit()
+AUnit::AUnit(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	UnitRoot = CreateDefaultSubobject<USceneComponent>("UnitRoot");
+	UnitRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, "UnitRoot");
 	UnitRoot->SetIsReplicated(true);
 	SetRootComponent(UnitRoot);
 	
-	Body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
+	Body = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"Body");
 	Body->SetIsReplicated(true);
 	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
 	Body->SetupAttachment(UnitRoot);
@@ -28,7 +28,7 @@ AUnit::AUnit()
 	bReplicates = true;
 	bNetLoadOnClient = true;
 
-	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
+	DownScaleComponent = ObjectInitializer.CreateDefaultSubobject<UDownScaleComponent>(this,"DownscaleComponent");
 }
 
 void AUnit::BeginPlay()
@@ -58,7 +58,7 @@ void AUnit::KillMe_Implementation()
 
 void AUnit::DestroyOnReturn(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if (OtherActor == OwningBuilding)
+	if (Cast<ABuilding>(OtherActor) == OwningBuilding)
 	{
 		Destroy();
 		UE_LOG(LogTemp, Warning, TEXT("Returned and destroyed"));

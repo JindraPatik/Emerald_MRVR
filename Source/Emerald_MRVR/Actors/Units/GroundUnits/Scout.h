@@ -10,7 +10,7 @@ class EMERALD_MRVR_API AScout : public AUnit
 	GENERATED_BODY()
 
 public:
-	AScout();
+	AScout(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

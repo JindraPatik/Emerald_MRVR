@@ -12,7 +12,7 @@ class EMERALD_MRVR_API APicker : public AUnit
 	GENERATED_BODY()
 
 public:
-	APicker();
+	APicker(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

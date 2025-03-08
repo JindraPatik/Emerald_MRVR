@@ -10,7 +10,7 @@ class EMERALD_MRVR_API AZeppelin : public AUnit
 	GENERATED_BODY()
 
 public:
-	AZeppelin();
+	AZeppelin(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

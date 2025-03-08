@@ -6,7 +6,7 @@
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
 
-ADigger::ADigger()
+ADigger::ADigger(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

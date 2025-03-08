@@ -11,7 +11,7 @@ class EMERALD_MRVR_API ARebel : public AUnit
 	GENERATED_BODY()
 
 public:
-	ARebel();
+	ARebel(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

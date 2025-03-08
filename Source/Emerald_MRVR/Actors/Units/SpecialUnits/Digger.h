@@ -12,7 +12,7 @@ class EMERALD_MRVR_API ADigger : public AUnit
 	GENERATED_BODY()
 
 public:
-	ADigger();
+	ADigger(const FObjectInitializer& ObjectInitializer);
 	
 	UFUNCTION()
 		void OnOverlapped(AActor* OverlappedActor, AActor* OtherActor);

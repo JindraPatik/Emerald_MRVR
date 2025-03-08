@@ -8,7 +8,7 @@
 
 class UResourcesComponent;
 
-AThief::AThief()
+AThief::AThief(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

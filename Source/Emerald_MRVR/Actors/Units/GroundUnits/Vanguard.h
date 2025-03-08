@@ -10,7 +10,7 @@ class EMERALD_MRVR_API AVanguard : public AUnit
 	GENERATED_BODY()
 
 public:
-	AVanguard();
+	AVanguard(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

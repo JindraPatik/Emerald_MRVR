@@ -15,7 +15,7 @@ class EMERALD_MRVR_API ABomber : public AUnit
 	GENERATED_BODY()
 
 public:
-	ABomber();
+	ABomber(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

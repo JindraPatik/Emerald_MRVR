@@ -10,7 +10,7 @@ class EMERALD_MRVR_API AJet : public AUnit
 	GENERATED_BODY()
 
 public:
-	AJet();
+	AJet(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

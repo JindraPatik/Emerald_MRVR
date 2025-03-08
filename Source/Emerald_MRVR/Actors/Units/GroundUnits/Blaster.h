@@ -13,7 +13,7 @@ class EMERALD_MRVR_API ABlaster : public AUnit
 	GENERATED_BODY()
 
 public:
-	ABlaster();
+	ABlaster(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

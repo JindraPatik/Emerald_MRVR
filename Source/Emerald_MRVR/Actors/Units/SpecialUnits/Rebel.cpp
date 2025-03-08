@@ -4,7 +4,7 @@
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
 
-ARebel::ARebel()
+ARebel::ARebel(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

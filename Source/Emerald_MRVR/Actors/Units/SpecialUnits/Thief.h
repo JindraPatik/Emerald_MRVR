@@ -15,7 +15,7 @@ class EMERALD_MRVR_API AThief : public AUnit
 	GENERATED_BODY()
 
 public:
-	AThief();
+	AThief(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

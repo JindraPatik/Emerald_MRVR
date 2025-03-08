@@ -1,6 +1,6 @@
 ﻿#include "Jet.h"
 
-AJet::AJet()
+AJet::AJet(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

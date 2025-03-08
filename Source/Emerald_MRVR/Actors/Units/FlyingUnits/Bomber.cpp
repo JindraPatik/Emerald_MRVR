@@ -3,7 +3,7 @@
 #include "Emerald_MRVR/Actors/Projectiles/Projectile.h"
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
-ABomber::ABomber()
+ABomber::ABomber(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

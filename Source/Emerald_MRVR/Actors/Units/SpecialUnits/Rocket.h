@@ -12,7 +12,7 @@ class EMERALD_MRVR_API ARocket : public AUnit
 	GENERATED_BODY()
 
 public:
-	ARocket();
+	ARocket(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

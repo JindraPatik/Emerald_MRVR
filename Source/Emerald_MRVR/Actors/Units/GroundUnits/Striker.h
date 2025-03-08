@@ -10,7 +10,7 @@ class EMERALD_MRVR_API AStriker : public AUnit
 	GENERATED_BODY()
 
 public:
-	AStriker();
+	AStriker(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

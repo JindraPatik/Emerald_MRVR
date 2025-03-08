@@ -1,6 +1,6 @@
 ﻿#include "Zeppelin.h"
 
-AZeppelin::AZeppelin()
+AZeppelin::AZeppelin(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

@@ -3,7 +3,7 @@
 #include "Emerald_MRVR/Components/Unit/Movement/UnitMovementComponent.h"
 
 
-ABlaster::ABlaster()
+ABlaster::ABlaster(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

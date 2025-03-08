@@ -20,7 +20,7 @@ class EMERALD_MRVR_API AUnit : public APawn
 	GENERATED_BODY()
 
 public:
-	AUnit();
+	AUnit(const FObjectInitializer& ObjectInitializer);
 	virtual void Tick(float DeltaTime) override;
 
 protected:

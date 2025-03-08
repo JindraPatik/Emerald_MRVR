@@ -1,7 +1,7 @@
 ﻿#include "Scout.h"
 
 
-AScout::AScout()
+AScout::AScout(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

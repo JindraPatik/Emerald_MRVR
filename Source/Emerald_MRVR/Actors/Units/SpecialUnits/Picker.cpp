@@ -6,7 +6,7 @@
 #include "Emerald_MRVR/CORE/Pawns/AIPawn.h"
 #include "Emerald_MRVR/CORE/Pawns/VRPawn.h"
 
-APicker::APicker()
+APicker::APicker(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

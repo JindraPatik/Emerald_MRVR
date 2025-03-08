@@ -10,7 +10,7 @@ class EMERALD_MRVR_API AHelicopter : public AUnit
 	GENERATED_BODY()
 
 public:
-	AHelicopter();
+	AHelicopter(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

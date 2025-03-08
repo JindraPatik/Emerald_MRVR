@@ -2,7 +2,7 @@
 
 #include "EngineUtils.h"
 
-ARocket::ARocket()
+ARocket::ARocket(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

@@ -1,6 +1,6 @@
 ﻿#include "Helicopter.h"
 
-AHelicopter::AHelicopter()
+AHelicopter::AHelicopter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }

@@ -10,7 +10,7 @@ class EMERALD_MRVR_API ATank : public AUnit
 	GENERATED_BODY()
 
 public:
-	ATank();
+	ATank(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;
