@@ -19,7 +19,7 @@ class EMERALD_MRVR_API AMilitaryStation : public AActor
 	GENERATED_BODY()
 	
 public:	
-	AMilitaryStation();
+	AMilitaryStation(const FObjectInitializer& ObjectInitializer);
 		void SpawnResourcesWidget();
 
 	UFUNCTION(Server, Reliable)

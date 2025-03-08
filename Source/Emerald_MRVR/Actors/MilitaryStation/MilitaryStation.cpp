@@ -6,100 +6,100 @@
 
 #define DRAW_SPHERE (Location) if (GetWorld()) DrawDebugSphere()
 
-AMilitaryStation::AMilitaryStation()
+AMilitaryStation::AMilitaryStation(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	StationRoot = CreateDefaultSubobject<USceneComponent>("BaseRoot");
+	StationRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"BaseRoot");
 	SetRootComponent(StationRoot);
 
-	Body_Root = CreateDefaultSubobject<UStaticMeshComponent>("BaseBody");
+	Body_Root = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"BaseBody");
 	Body_Root->SetupAttachment(StationRoot);
 	
-	BaseBox = CreateDefaultSubobject<UBoxComponent>("BaseBox");
+	BaseBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this,"BaseBox");
 	BaseBox->SetupAttachment(Body_Root);
 	BaseBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	BaseBox->SetCollisionObjectType(ECC_WorldDynamic);
 	BaseBox->SetCollisionResponseToAllChannels(ECR_Ignore);
 	BaseBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	
-	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
+	DownScaleComponent = ObjectInitializer.CreateDefaultSubobject<UDownScaleComponent>(this,"DownscaleComponent");
 	
-	SpawnPointGround = CreateDefaultSubobject<USceneComponent>("SpawnPointGround");
+	SpawnPointGround = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"SpawnPointGround");
 	SpawnPointGround->SetupAttachment(StationRoot);
-	SpawnPointAir = CreateDefaultSubobject<USceneComponent>("SpawnPointAir");
+	SpawnPointAir = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"SpawnPointAir");
 	SpawnPointAir->SetupAttachment(StationRoot);
 
 	// Buildings Locations
-	PositionsRoot = CreateDefaultSubobject<USceneComponent>("Positions_Root");
+	PositionsRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"Positions_Root");
 	PositionsRoot->SetupAttachment(StationRoot);
 	
-	MinePosition = CreateDefaultSubobject<USceneComponent>("MinePosition");
+	MinePosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"MinePosition");
 	MinePosition->ComponentTags.Add("Mine");
 	BuildingPositions.Add(MinePosition);
 	MinePosition->SetupAttachment(PositionsRoot);
 	
-	PrisonPosition = CreateDefaultSubobject<USceneComponent>("PrisonPosition");
+	PrisonPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"PrisonPosition");
 	PrisonPosition->ComponentTags.Add("PrisonPosition");
 	BuildingPositions.Add(PrisonPosition);
 	PrisonPosition->SetupAttachment(PositionsRoot);
 	
-	BankPosition = CreateDefaultSubobject<USceneComponent>("BankPosition");
+	BankPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"BankPosition");
 	BankPosition->ComponentTags.Add("Bank");
 	BuildingPositions.Add(BankPosition);
 	BankPosition->SetupAttachment(PositionsRoot);
 
-	UVKSCPosition = CreateDefaultSubobject<USceneComponent>("UVKSCPosition");
+	UVKSCPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"UVKSCPosition");
 	UVKSCPosition->ComponentTags.Add("UVKSC");
 	BuildingPositions.Add(UVKSCPosition);
 	UVKSCPosition->SetupAttachment(PositionsRoot);
 	
-	MicrosoftPosition = CreateDefaultSubobject<USceneComponent>("Microsoft");
+	MicrosoftPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"Microsoft");
 	MicrosoftPosition->ComponentTags.Add("Microsoft");
 	BuildingPositions.Add(MicrosoftPosition);
 	MicrosoftPosition->SetupAttachment(PositionsRoot);
 
-	BarracsPosition = CreateDefaultSubobject<USceneComponent>("BarracsPosition");
+	BarracsPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"BarracsPosition");
 	BarracsPosition->ComponentTags.Add("Barracs");
 	BuildingPositions.Add(BarracsPosition);
 	BarracsPosition->SetupAttachment(PositionsRoot);
 	
-	GaragePosition = CreateDefaultSubobject<USceneComponent>("GaragePosition");
+	GaragePosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"GaragePosition");
 	GaragePosition->ComponentTags.Add("Garage");
 	BuildingPositions.Add(GaragePosition);
 	GaragePosition->SetupAttachment(PositionsRoot);
 
-	LPlatformPosition = CreateDefaultSubobject<USceneComponent>("LPlatformPosition");
+	LPlatformPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"LPlatformPosition");
 	LPlatformPosition->ComponentTags.Add("LPlatform");
 	BuildingPositions.Add(LPlatformPosition);
 	LPlatformPosition->SetupAttachment(PositionsRoot);
 
-	MinecraftPosition = CreateDefaultSubobject<USceneComponent>("MinecraftPosition");
+	MinecraftPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"MinecraftPosition");
 	MinecraftPosition->ComponentTags.Add("Minecraft");
 	BuildingPositions.Add(MinecraftPosition);
 	MinecraftPosition->SetupAttachment(PositionsRoot);
 
-	HeliportPosition = CreateDefaultSubobject<USceneComponent>("HeliportPosition");
+	HeliportPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"HeliportPosition");
 	HeliportPosition->ComponentTags.Add("Heliport");
 	BuildingPositions.Add(HeliportPosition);
 	HeliportPosition->SetupAttachment(PositionsRoot);
 	
-	RunwayPosition = CreateDefaultSubobject<USceneComponent>("Runway_Position");
+	RunwayPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"Runway_Position");
 	RunwayPosition->ComponentTags.Add("Runway");
 	BuildingPositions.Add(RunwayPosition);
 	RunwayPosition->SetupAttachment(PositionsRoot);
 	
-	AerialPosition = CreateDefaultSubobject<USceneComponent>("Aerial_Position");
+	AerialPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"Aerial_Position");
 	AerialPosition->ComponentTags.Add("Aerial");
 	BuildingPositions.Add(AerialPosition);
 	AerialPosition->SetupAttachment(PositionsRoot);
 
-	HangarPosition = CreateDefaultSubobject<USceneComponent>("Hangar_Position");
+	HangarPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"Hangar_Position");
 	HangarPosition->ComponentTags.Add("Hangar");
 	BuildingPositions.Add(HangarPosition);
 	HangarPosition->SetupAttachment(PositionsRoot);
 
-	RocketLauncherPosition = CreateDefaultSubobject<USceneComponent>("RocketLauncher_Position");
+	RocketLauncherPosition = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"RocketLauncher_Position");
 	RocketLauncherPosition->ComponentTags.Add("RocketLauncher");
 	BuildingPositions.Add(RocketLauncherPosition);
 	RocketLauncherPosition->SetupAttachment(PositionsRoot);
