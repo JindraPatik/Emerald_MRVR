@@ -27,7 +27,7 @@ class EMERALD_MRVR_API ABuilding : public AActor
 	GENERATED_BODY()
 	
 public:	
-	ABuilding();
+	ABuilding(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

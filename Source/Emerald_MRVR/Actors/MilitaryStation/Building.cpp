@@ -14,29 +14,29 @@
 #include "Interaction/IsdkRayInteractable.h"
 #include "Interaction/Surfaces/IsdkPointableBox.h"
 
-ABuilding::ABuilding()
+ABuilding::ABuilding(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
 
-	DownScaleComponent = CreateDefaultSubobject<UDownScaleComponent>("DownscaleComponent");
+	DownScaleComponent = ObjectInitializer.CreateDefaultSubobject<UDownScaleComponent>(this,"DownscaleComponent");
 
-	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
+	SceneRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"SceneRoot");
 	SetRootComponent(SceneRoot);
 	
-	BuildingMeshRoot = CreateDefaultSubobject<UStaticMeshComponent>("ModuleBody");
+	BuildingMeshRoot = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"ModuleBody");
 	BuildingMeshRoot->SetupAttachment(SceneRoot);
 
-	InfoWidgetSpawnPoint = CreateDefaultSubobject<USceneComponent>("InfowidgetSpawnPoint");
+	InfoWidgetSpawnPoint = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"InfowidgetSpawnPoint");
 	InfoWidgetSpawnPoint->SetupAttachment(RootComponent);
 
-	UnitReturnPoint = CreateDefaultSubobject<USceneComponent>("UnitReturnPoint");
+	UnitReturnPoint = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"UnitReturnPoint");
 	UnitReturnPoint->SetupAttachment(SceneRoot);
 
-	IsdkInteractable = CreateDefaultSubobject<UIsdkRayInteractable>("InteractableComponent");
+	IsdkInteractable = ObjectInitializer.CreateDefaultSubobject<UIsdkRayInteractable>(this,"InteractableComponent");
 	IsdkInteractable->SetupAttachment(SceneRoot);
 
-	IsdkPointableBox = CreateDefaultSubobject<UIsdkPointableBox>("PointableBox");
+	IsdkPointableBox = ObjectInitializer.CreateDefaultSubobject<UIsdkPointableBox>(this,"PointableBox");
 	IsdkPointableBox->SetupAttachment(SceneRoot);
 }
 
