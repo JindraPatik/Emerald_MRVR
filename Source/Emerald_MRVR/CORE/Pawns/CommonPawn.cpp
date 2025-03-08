@@ -2,7 +2,7 @@
 
 #include "Emerald_MRVR/Actors/Resources/PowerUp/PowerUp.h"
 
-ACommonPawn::ACommonPawn()
+ACommonPawn::ACommonPawn(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -16,6 +16,11 @@ void ACommonPawn::BeginPlay()
 void ACommonPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ACommonPawn::TogglePlayerInputEnabled()
+{
+	bInputIsEnabled = !bInputIsEnabled;
 }
 
 void ACommonPawn::AddPowerUp(APowerUp* InPowerUp)

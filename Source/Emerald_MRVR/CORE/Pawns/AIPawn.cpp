@@ -6,14 +6,14 @@
 #include "Emerald_MRVR/Components/MilitaryStation/MilitaryStationComponent.h"
 #include "Emerald_MRVR/Components/Resources/ResourcesComponent.h"
 
-AAIPawn::AAIPawn()
+AAIPawn::AAIPawn(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
-	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
-	MilitaryStationComponent = CreateDefaultSubobject<UMilitaryStationComponent>("MilitaryBaseComp");
-	AIComponent = CreateDefaultSubobject<UAIComponent>("AI_Component");
+	HealthComponent = ObjectInitializer.CreateDefaultSubobject<UHealthComponent>(this,"Health");
+	ResourcesComponent = ObjectInitializer.CreateDefaultSubobject<UResourcesComponent>(this,"Resources");
+	MilitaryStationComponent = ObjectInitializer.CreateDefaultSubobject<UMilitaryStationComponent>(this,"MilitaryBaseComp");
+	AIComponent = ObjectInitializer.CreateDefaultSubobject<UAIComponent>(this,"AI_Component");
 }
 
 void AAIPawn::BeginPlay()

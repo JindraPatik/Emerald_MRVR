@@ -20,7 +20,7 @@ class EMERALD_MRVR_API AAIPawn : public ACommonPawn
 	GENERATED_BODY()
 
 public:
-	AAIPawn();
+	AAIPawn(const FObjectInitializer& ObjectInitializer);
 
 protected:
 

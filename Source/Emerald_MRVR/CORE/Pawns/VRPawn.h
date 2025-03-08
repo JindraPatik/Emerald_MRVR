@@ -35,23 +35,13 @@ class EMERALD_MRVR_API AVRPawn : public APrimitiveVRPawn
 public:
 
 protected:
-	AVRPawn();
+	AVRPawn(const FObjectInitializer& ObjectInitializer);
 	
 	virtual void PostInitializeComponents() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
-	
-	void PerformSphereTrace(
-		UMotionControllerComponent* Controller,
-		UStaticMeshComponent* ImpactPointer,
-		ABuilding*& CurrentlyHoveredBuilding);
-
-	void TogglePlayerInputEnabled();
-
-	UPROPERTY(Replicated)
-		bool bInputIsEnabled = false;
 
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 		TSubclassOf<AActor> EndGameWidgetActor;
@@ -107,7 +97,6 @@ public:
 
 	UFUNCTION()
 		void OnSelectedModuleChanged();
-
 
 };
 

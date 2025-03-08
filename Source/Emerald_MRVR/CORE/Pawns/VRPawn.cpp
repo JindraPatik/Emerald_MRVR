@@ -18,19 +18,19 @@
 #include "GameFramework/GameStateBase.h"
 #include "Kismet/KismetMathLibrary.h"
 
-AVRPawn::AVRPawn()
+AVRPawn::AVRPawn(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
 
 	// COMPONENTS
-	HealthComponent = CreateDefaultSubobject<UHealthComponent>("Health");
+	HealthComponent = ObjectInitializer.CreateDefaultSubobject<UHealthComponent>(this,"Health");
 	HealthComponent->SetIsReplicated(true);
 	
-	ResourcesComponent = CreateDefaultSubobject<UResourcesComponent>("Resources");
+	ResourcesComponent = ObjectInitializer.CreateDefaultSubobject<UResourcesComponent>(this,"Resources");
 	ResourcesComponent->SetIsReplicated(true);
 	
-	MilitaryStationComp = CreateDefaultSubobject<UMilitaryStationComponent>("MilitaryBaseComp");
+	MilitaryStationComp = ObjectInitializer.CreateDefaultSubobject<UMilitaryStationComponent>(this,"MilitaryBaseComp");
 	MilitaryStationComp->SetIsReplicated(true);
 	// ~COMPONENTS
 
@@ -63,7 +63,6 @@ void AVRPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 	
 	DOREPLIFETIME(AVRPawn, MilitaryStationComp);
 	DOREPLIFETIME(AVRPawn, SelectedBuildingActor);
-	DOREPLIFETIME(AVRPawn, bInputIsEnabled);
 }
 // ~REPLICATED PROPS
 
@@ -88,12 +87,6 @@ void AVRPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-
-void AVRPawn::TogglePlayerInputEnabled()
-{
-	bInputIsEnabled = !bInputIsEnabled;
 }
 
 void AVRPawn::MovePlayerOnCircle(AActor* Player, float InDelta, float& Angle, float Speed)

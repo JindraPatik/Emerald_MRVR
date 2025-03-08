@@ -11,35 +11,35 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 
-APrimitiveVRPawn::APrimitiveVRPawn()
+APrimitiveVRPawn::APrimitiveVRPawn(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	VR_Root = CreateDefaultSubobject<UCapsuleComponent>("VR_Root");
+	VR_Root = ObjectInitializer.CreateDefaultSubobject<UCapsuleComponent>(this, "VR_Root");
 	VR_Root->SetupAttachment(Camera);
 	VR_Root->SetIsReplicated(true);
 	VR_Root->SetCollisionResponseToAllChannels(ECR_Ignore);
 	VR_Root->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
 	SetRootComponent(VR_Root);
 
-	VR_Proxy = CreateDefaultSubobject<USceneComponent>("VR_Origin");
+	VR_Proxy = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this,"VR_Origin");
 	VR_Proxy->SetIsReplicated(true);
 	VR_Proxy->SetupAttachment(VR_Root);
 	
-	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
+	Camera = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this,"Camera");
 	Camera->SetIsReplicated(true);
 	Camera->SetupAttachment(VR_Proxy);
 
-	Body = CreateDefaultSubobject<UStaticMeshComponent>("PawnBody");
+	Body = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this,"PawnBody");
 	Body->SetupAttachment(VR_Proxy);
 	Body->SetIsReplicated(true);
 	Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
-	MotionController_L = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_L");
+	MotionController_L = ObjectInitializer.CreateDefaultSubobject<UMotionControllerComponent>(this,"Motion_Controller_L");
 	MotionController_L->SetIsReplicated(true);
 	MotionController_L->SetupAttachment(VR_Proxy);
 	
-	MotionController_R = CreateDefaultSubobject<UMotionControllerComponent>("Motion_Controller_R");
+	MotionController_R = ObjectInitializer.CreateDefaultSubobject<UMotionControllerComponent>(this,"Motion_Controller_R");
 	MotionController_R->SetIsReplicated(true);
 	MotionController_R->SetupAttachment(VR_Proxy);
 

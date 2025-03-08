@@ -12,10 +12,14 @@ class EMERALD_MRVR_API ACommonPawn : public APawn
 	GENERATED_BODY()
 
 public:
-	ACommonPawn();
+	ACommonPawn(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;
+	void TogglePlayerInputEnabled();
+
+	UPROPERTY()
+		bool bInputIsEnabled = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PowerUp")
 		TArray<APowerUp*> AvailablePowerUps;

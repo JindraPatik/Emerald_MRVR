@@ -20,7 +20,7 @@ class EMERALD_MRVR_API APrimitiveVRPawn : public ACommonPawn
 	GENERATED_BODY()
 
 public:
-	APrimitiveVRPawn();
+	APrimitiveVRPawn(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;
